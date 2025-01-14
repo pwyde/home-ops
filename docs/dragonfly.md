@@ -3,9 +3,9 @@
 ## Database Index
 
 1. `null`
-2. [`authelia`](../../security/authelia/)
-3. [`immich`](../../self-hosted/immich/)
-4. [`searxng`](../../self-hosted/searxng/)
+2. [`authelia`](../kubernetes/apps/security/authelia/)
+3. [`immich`](../kubernetes/apps/self-hosted/immich/)
+4. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
 
 ## Arguments
 
