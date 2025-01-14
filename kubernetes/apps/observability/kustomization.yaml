@@ -15,7 +15,7 @@ resources:
   - ./loki/ks.yaml
   - ./promtail/ks.yaml
   # - ./silence-operator/ks.yaml
-  # - ./unpoller/ks.yaml
+  - ./unpoller/ks.yaml
 transformers:
   - |-
     apiVersion: builtin
