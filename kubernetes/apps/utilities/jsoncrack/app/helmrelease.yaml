@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app jsoncrack
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      jsoncrack:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          jsoncrack:
+            image:
+              repository: docker.io/enmanuelmoreira/jsoncrack
+              tag: v3.2.0@sha256:cfd257a13dec324fc0e29b76d778a5a02b8f3863e5c4fca6aa6f39da272d06d3
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Mi
+              limits:
+                memory: 24Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 65534
+        runAsGroup: *uid
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 80
+    ingress:
+      app:
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /var/cache/nginx
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /var/log/nginx
+      nginx-conf:
+        type: emptyDir
+        globalMounts:
+          - path: /etc/nginx/conf.d
+            subPath: default.conf
+      nginx-pid:
+        type: emptyDir
+        globalMounts:
+          - path: /var/run
+            subPath: nginx.pid

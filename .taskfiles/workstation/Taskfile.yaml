@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  WORKSTATION_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/workstation/resources"
+
+tasks:
+
+  arch-linux:
+    desc: Set up tools on Arch Linux
+    cmd: >
+      {{.PKGMGR}} -Syu --needed --noconfirm --noprogressbar
+      $(cat {{.WORKSTATION_RESOURCES_DIR}}/arch-linux | xargs)
+    vars:
+      PKGMGR:
+        sh: which paru || which yay
+    preconditions:
+      - test -f {{.WORKSTATION_RESOURCES_DIR}}/arch-linux
+      - which paru || which yay
+
+  krew:
+    desc: Set up Krew tools
+    deps: [arch-linux]
+    cmds:
+      - kubectl krew install cert-manager cnpg browse-pvc node-shell view-secret
+    preconditions:
+      - kubectl krew version
+      - which kubectl

@@ -1,0 +1,261 @@
+# Load default settings and override with settings specified below. Defaults
+# can be viewed here:
+#  - https://github.com/searxng/searxng/blob/master/searx/settings.yml
+use_default_settings:
+  engines:
+    # Specify the engines to keep.
+    keep_only:
+      # General / Translate
+      - dictzone
+      - libretranslate
+      - lingva
+      - mymemory translated
+      # General / Web
+      - brave
+      - duckduckgo
+      - google
+      - startpage
+      # General / Wikimedia
+      - wikibooks
+      - wikiquote
+      - wikisource
+      - wikispecies
+      - wikivoyage
+      # General / Without further subgrouping
+      - currency
+      - ddg definitions
+      - tineye
+      - wikidata
+      - wikipedia
+      # Images / Web
+      - brave.images
+      - duckduckgo images
+      - google images
+      # Images / Without further subgrouping
+      - deviantart
+      - findthatmeme
+      - flickr
+      - material icons
+      - openverse
+      - svgrepo
+      - unsplash
+      - wallhaven
+      - wikicommons.images
+      # Videos / Web
+      - brave.videos
+      - duckduckgo videos
+      - google videos
+      # Videos / Without further subgrouping
+      - piped
+      - rumble
+      - vimeo
+      - youtube
+      # News / Web
+      - duckduckgo news
+      # News / Without further subgrouping
+      - brave.news
+      - google news
+      # Map
+      - apple maps
+      - openstreetmap
+      - photon
+      # Music / Lyrics
+      - genius
+      # Music / Without further subgrouping
+      - bandcamp
+      - deezer
+      - mixcloud
+      - piped.music
+      - soundcloud
+      - wikicommons.audio
+      - youtube
+      # IT / Packages
+      - docker hub
+      - npm
+      - pkg.go.dev
+      - pypi
+      # IT / Q&A
+      - askubuntu
+      - stackoverflow
+      - superuser
+      # IT / Repos
+      - bitbucket
+      - gitea.com
+      - github
+      - gitlab
+      - sourcehut
+      # IT / Software Wikis
+      - arch linux wiki
+      - free software directory
+      # IT / Without further subgrouping
+      - hackernews
+      - mankier
+      - searchcode code
+      # Files / Apps
+      - fdroid
+      - google play apps
+      # Files / Without further subgrouping
+      - 1337x
+      - kickass
+      - piratebay
+      - solidtorrents
+      - wikicommons.files
+      # Social Media
+      - reddit
+      # Other / Dictionaries
+      - wiktionary
+      # Other / Movies
+      - imdb
+      - rottentomatoes
+      - tmdb
+      # Other / Without further subgrouping
+      - podcastindex
+
+# Override default engine settings.
+engines:
+  # General / Web
+  - name: startpage
+    disabled: true
+  # General / Without further subgrouping
+  - name: tineye
+    disabled: false
+  # Images / Web
+  - name: duckduckgo images
+    disabled: false
+  # Images / Without further subgrouping
+  - name: findthatmeme
+    disabled: false
+  - name: material icons
+    disabled: false
+  - name: svgrepo
+    disabled: false
+  # Videos / Web
+  - name: duckduckgo videos
+    disabled: false
+  # Videos / Without further subgrouping
+  - name: rumble
+    disabled: false
+  # Map
+  - name: apple maps
+    disabled: false
+  # Music / Without further subgrouping
+  - name: deezer
+    disabled: false
+  # IT / Repos
+  - name: gitlab
+    disabled: false
+  # IT / Software Wikis
+  - name: free software directory
+    disabled: false
+  # IT / Without further subgrouping
+  - name: hackernews
+    disabled: false
+  - name: searchcode code
+    disabled: false
+  # Files / Apps
+  - name: fdroid
+    disabled: false
+  - name: google play apps
+    disabled: false
+  # Files / Without further subgrouping
+  - name: 1337x
+    disabled: false
+  # Social Media
+  - name: reddit
+    disabled: false
+  # Other / Movies
+  - name: imdb
+    disabled: false
+  - name: rottentomatoes
+    disabled: false
+  - name: tmdb
+    disabled: false
+
+general:
+  # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}.
+  debug: false
+  # Displayed name.
+  instance_name: "SearXNG"
+  # For example: https://example.com/privacy
+  privacypolicy_url: false
+  # Use true to use own donation page written in 'searx/info/en/donate.md' and
+  # use false to disable the donation link.
+  donation_url: false
+  # For example: mailto:contact@example.com
+  contact_url: false
+  # Record various anonymous metrics available at /stats, /stats/errors and
+  # /preferences.
+  enable_metrics: true
+
+search:
+  # Filter results. 0: None, 1: Moderate, 2: Strict
+  safe_search: 0
+  # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "yandex",
+  # "mwmbl", "seznam", "startpage", "stract", "swisscows", "qwant", "wikipedia".
+  # leave blank to turn it off by default.
+  autocomplete: "duckduckgo"
+  # Minimun characters to type before autocompleter starts.
+  autocomplete_min: 2
+  # Default search language - leave blank to detect from browser information or
+  # use codes from 'languages.py'.
+  default_lang: "auto"
+  # If engine supports paging, 0 means unlimited numbers of pages.
+  max_page: 0
+  # Available languages.
+  languages:
+  #   - all
+    - en
+    - en-US
+    - en-GB
+    - sv-SE
+  # Remove format to deny access, use lower case.
+  # Formats: [html, csv, json, rss]
+  formats:
+    - html
+    - json
+
+server:
+  # Proxy image results through SearXNG. Is overwritten by
+  # ${SEARXNG_IMAGE_PROXY}.
+  image_proxy: true
+  # POST queries are more secure as they don't show up in history but may cause
+  # problems when using Firefox containers
+  method: "GET" # https://github.com/searxng/searxng/pull/3619
+
+ui:
+  # Enables cache busting of static files. Is overwritten by
+  # ${SEARXNG_STATIC_USE_HASH}.
+  static_use_hash: true
+  # When true, the result page's titles contains the query it decreases the
+  # privacy, since the browser can records the page titles.
+  query_in_title: true
+  # User interface theme.
+  default_theme: simple
+  # Open result links in a new tab by default.
+  results_on_new_tab: true
+  theme_args:
+    # Style of simple theme: auto, light, dark
+    simple_style: dark
+
+enabled_plugins:
+  - Basic Calculator
+  - Hash plugin
+  - Hostnames plugin
+  - Open Access DOI rewrite
+  - Self Informations
+  - Tracker URL remover
+  - Unit converter plugin
+
+# Configuration of the "Hostnames plugin". For more informatio, see
+# https://docs.searxng.org/src/searx.plugins.hostnames.html
+hostnames:
+  high_priority:
+    - (.*\.)?archlinux.org$
+    - (.*\.)?askubuntu.com$
+    - (.*\.)?docker.com$
+    - (.*\.)?github.com$
+    - (.*\.)?gitlab.com$
+    - (.*\.)?reddit.com$
+    - (.*\.)?stackoverflow.com$
+    - (.*\.)?superuser.com$
+    - (.*\.)?wikipedia.org$

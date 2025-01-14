@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/bootstrap/resources"
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+  TALOS_DIR: "{{.ROOT_DIR}}/talos"
+  TALHELPER_CLUSTER_DIR: "{{.TALOS_DIR}}/clusterconfig"
+  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
+  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
+  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
+
+tasks:
+
+  age-keygen:
+    desc: Bootstrap the SOPS age key and update configuration file, --force creates new key
+    cmds:
+      - |
+        # Backup existing SOPS_AGE_KEY_FILE and SOPS_CONFIG_FILE if --force flag is used.
+        {{if .CLI_FORCE}}
+          if [ -f {{.SOPS_AGE_KEY_FILE}} ]; then
+            cp {{.SOPS_AGE_KEY_FILE}} {{.SOPS_AGE_KEY_FILE}}.bak
+            rm {{.SOPS_AGE_KEY_FILE}}
+          fi
+          if [ -f {{.SOPS_CONFIG_FILE}} ]; then
+            cp {{.SOPS_CONFIG_FILE}} {{.SOPS_CONFIG_FILE}}.bak
+            rm {{.SOPS_CONFIG_FILE}}
+          fi
+        {{end}}
+      - |
+        # Copy the SOPS configuration template file to {{.ROOT_DIR}}/.sops.yaml
+        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.tmpl.yaml {{.SOPS_CONFIG_FILE}}
+      - |
+        # Generate new age key.
+        age-keygen --output {{.SOPS_AGE_KEY_FILE}}
+      - |
+        # Extract public key from the generated age key.
+        PUBLIC_KEY=$(awk '/public key:/ {print $NF}' {{.SOPS_AGE_KEY_FILE}})
+        # Inject the public key into the SOPS configuration file using yq.
+        yq eval ".creation_rules[].key_groups[].age = [\"$PUBLIC_KEY\"]" -i {{.SOPS_CONFIG_FILE}}
+    status:
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+    preconditions:
+      - which age-keygen yq
+
+  talos:
+    desc: Bootstrap the Talos cluster
+    prompt: This will bootstrap the Talos cluster... Continue?
+    cmds:
+      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
+      - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
+      - until talhelper gencommand bootstrap --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash; do sleep 10; done
+      - until talhelper gencommand kubeconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
+    preconditions:
+      - sops filestatus {{.TALHELPER_ENV_FILE}} | jq --exit-status '.encrypted'
+      - sops filestatus {{.TALHELPER_SECRET_FILE}} | jq --exit-status '.encrypted'
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - test -f {{.TALOSCONFIG}}
+      - which talhelper sops
+
+  apps:
+    desc: Bootstrap apps into the Talos cluster
+    prompt: This will install cilium, coredns, spegel, and flux... Continue?
+    vars:
+      SOPS_SECRET_EXISTS:
+        sh: kubectl --namespace flux-system get secret sops-age &>/dev/null && echo true || echo false
+    cmds:
+      - until kubectl wait --for=condition=Ready=False nodes --all --timeout=600s; do sleep 10; done
+      - kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply --server-side --filename -
+      - |
+        if [ "{{.SOPS_SECRET_EXISTS}}" = "false" ]; then
+          cat {{.SOPS_AGE_KEY_FILE}} | kubectl --namespace flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
+        fi
+      - sops exec-file {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-secrets.sops.yaml "kubectl apply --server-side --filename {}"
+      - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-settings.yaml
+      - helmfile --file {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - test -f {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - sops filestatus {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-secrets.sops.yaml | jq --exit-status '.encrypted'
+      - which helmfile kubectl sops

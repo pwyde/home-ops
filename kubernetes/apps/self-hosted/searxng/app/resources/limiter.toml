@@ -1,0 +1,17 @@
+# Configuration file for Bot Detection and rate limit. Defaults can be viewed
+# here:
+#   - https://github.com/searxng/searxng/blob/master/searx/limiter.toml
+#
+# Don’t copy all values to the local configuration, just enable what is needed
+# by overwriting the defaults.
+
+# The ip_lists method implements IP block- and pass-lists.
+[botdetection.ip_lists]
+
+# In the limiter, the ip_lists method has priority over all other methods -> if
+# an IP is in the pass_ip list, it has unrestricted access and it is also not
+# checked if e.g. the "user agent" suggests a bot (e.g. curl).
+
+pass_ip = [
+  '192.168.20.0/24'   # IPv4 private network.
+]

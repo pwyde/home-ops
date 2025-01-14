@@ -1,0 +1,80 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kubernetes-dashboard
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kubernetes-dashboard
+      version: 7.10.0
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-dashboard
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    app:
+      ingress:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
+        ingressClassName: internal
+        hosts:
+          - k8s-dashboard.${SECRET_DOMAIN}
+        tls:
+          # No need for seperate certificates. Will use ingress-nginx.
+          enabled: false
+      settings:
+        global:
+          clusterName: ${CLUSTER_NAME}
+          itemsPerPage: 50
+    api:
+      containers:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            memory: 128Mi
+    auth:
+      containers:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 24Mi
+          limits:
+            memory: 32Mi
+    kong:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 192Mi
+        limits:
+          memory: 256Mi
+    metricsScraper:
+      containers:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 24Mi
+          limits:
+            memory: 32Mi
+    web:
+      containers:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            memory: 24Mi

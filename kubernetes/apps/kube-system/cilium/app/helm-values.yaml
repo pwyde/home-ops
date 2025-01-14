@@ -1,0 +1,78 @@
+---
+autoDirectNodeRoutes: true
+bpf:
+  # masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`.
+  masquerade: true
+  # Ref: https://github.com/siderolabs/talos/issues/10002
+  hostLegacyRouting: true
+cni:
+  # Required for pairing with Multus CNI.
+  exclusive: false
+cgroup:
+  automount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+# NOTE: Devices might need to be set if more than one active NIC exists on the hosts.
+# devices: eno+ eth+
+devices: eth0
+endpointRoutes:
+  enabled: true
+envoy:
+  enabled: false
+dashboards:
+  enabled: true
+hubble:
+  enabled: false
+ipam:
+  mode: kubernetes
+# ipv4NativeRoutingCIDR: ${CLUSTER_POD_CIDR}
+ipv4NativeRoutingCIDR: 10.69.0.0/16
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+l2announcements:
+  enabled: true
+loadBalancer:
+  algorithm: maglev
+  # DSR mode has more advantages but not possible with the current setup.
+  # Ref: https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/
+  # mode: dsr
+  mode: snat # Default mode.
+localRedirectPolicy: true
+operator:
+  replicas: 1
+  rollOutPods: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: true
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+rollOutCiliumPods: true
+routingMode: native
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+socketLB:
+  hostNamespaceOnly: true

@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app pgadmin
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+  values:
+    controllers:
+      pgadmin:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          pgadmin:
+            image:
+              repository: docker.io/dpage/pgadmin4
+              tag: 8.14@sha256:8a68677a97b8c8d1427dc915672a26d2c4a04376916a68256f53d669d6171be7
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+              PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /misc/ping
+                    port: &port 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 384Mi
+    defaultPodOptions:
+      securityContext:
+        # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html#mapped-files-and-directories
+        runAsNonRoot: true
+        runAsUser: &uid 5050
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        type: configMap
+        name: pgadmin-config
+        globalMounts:
+          - path: /pgadmin4/servers.json
+            subPath: servers.json
+            readOnly: true
+      pgadmin:
+        existingClaim: ${VOLSYNC_CLAIM}
+        globalMounts:
+          - path: /var/lib/pgadmin
+

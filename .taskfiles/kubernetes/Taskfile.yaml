@@ -1,0 +1,179 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  KUBERNETES_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/kubernetes/resources"
+
+tasks:
+
+  browse-pvc:
+    desc: Browse a PersistentVolumeClaim
+    summary: |
+      Browse a PersistentVolumeClaim
+
+      NS: Namespace to browse PersistentVolumeClaims in (default: default)
+      CLAIM: PersistentVolumeClaim to browse (required)
+
+      Example:
+      task kubernetes:browse-pvc NS=media CLAIM=jellyfin
+    interactive: true
+    requires:
+      vars: [CLAIM]
+    vars:
+      NS: '{{.NS | default "default"}}'
+    cmd: kubectl browse-pvc --namespace {{.NS}} --image docker.io/library/alpine:latest {{.CLAIM}}
+    preconditions:
+      - kubectl --namespace {{.NS}} get persistentvolumeclaims {{.CLAIM}}
+      - which kubectl
+
+  delete-failed-pods:
+    desc: Delete all pods with an Evicted/Failed/Succeeded status
+    cmds:
+      - for: [Evicted, Failed, Succeeded]
+        cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
+    preconditions:
+      - which kubectl
+
+  list-resources:
+    desc: List common resources in the cluster
+    cmds:
+      - for: { var: RESOURCE }
+        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
+    vars:
+      RESOURCE: >-
+        nodes
+        gitrepositories
+        kustomizations
+        helmrepositories
+        helmreleases
+        certificates
+        certificaterequests
+        ingresses
+        pods
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which kubectl
+
+  node-shell:
+    desc: Open a shell to a node [NODE=required]
+    summary: |
+      Open a shell to a node
+
+      NODE: Name of node to open shell to (required)
+
+      Example:
+      task kubernetes:node-shell NODE=talos-1
+    interactive: true
+    requires:
+      vars: [NODE]
+    cmd: kubectl node-shell -n kube-system -x {{.NODE}}
+    preconditions:
+      - kubectl get nodes {{.NODE}}
+      - kubectl node-shell --version
+      - which kubectl
+
+  privileged-pod:
+    desc: Run a privileged pod
+    summary: |
+      Run a privileged pod
+
+      NODE: Name of node to run privileged pod on
+
+      Example:
+      task kubernetes:privileged-pod NODE=talos-1
+    env:
+      NODE: '{{.NODE}}'
+    cmd: |
+      kubectl run privileged-{{.NODE}} -i --rm --image=null \
+        --overrides="$(yq {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.tmpl.yaml -o=json | envsubst)"
+    preconditions:
+      - test -f {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.tmpl.yaml
+      - which kubectl
+
+  storage-speed-test:
+    desc: Run speed test on storage (iSCSI or NFS)
+    summary: |
+      Test the provisioning, mounting, and performance of using a specified storage class (iSCSI or NFS)
+
+      STORAGE: Storage type to perform test on (iSCSI or NFS)
+
+      Example:
+      task kubernetes:storage-speed-test STORAGE=iSCSI
+    requires:
+      vars: [STORAGE]
+    cmds:
+      - task: speed-test-apply-manifest
+      - task: speed-test-wait-for-pvc
+      - task: speed-test-wait-for-jobs
+      - task: speed-test-fetch-logs
+      - task: speed-test-cleanup
+
+  speed-test-apply-manifest:
+    desc: Apply the Kubernetes manifest for the speed test
+    vars:
+      # Map STORAGE to the corresponding manifest file.
+      MANIFEST_FILE:
+        sh: |
+          if [ "{{.STORAGE}}" = "iSCSI" ]; then
+            echo "speed-test-iscsi.tmpl.yaml"
+          elif [ "{{.STORAGE}}" = "NFS" ]; then
+            echo "speed-test-nfs.tmpl.yaml"
+          else
+            echo "Unsupported storage type: {{.STORAGE}}" >&2
+            exit 1
+          fi
+    cmds:
+      - kubectl apply -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
+    preconditions:
+      - test -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
+      - which kubectl
+
+  speed-test-wait-for-pvc:
+    internal: true
+    desc: Wait for the PVC to be fully provisioned
+    cmds:
+      - kubectl wait --for=jsonpath='{.status.phase}'=Bound pvc/test-claim --timeout=300s
+
+  speed-test-wait-for-jobs:
+    internal: true
+    desc: Wait for the read and write jobs to complete
+    cmds:
+      - kubectl wait --for=condition=complete job/write --timeout=600s
+      - kubectl wait --for=condition=complete job/read --timeout=600s
+
+  speed-test-fetch-logs:
+    internal: true
+    desc: Fetch logs from the read and write jobs
+    cmds:
+      - kubectl logs -l app=speedtest,job=write
+      - kubectl logs -l app=speedtest,job=read
+
+  speed-test-cleanup:
+    internal: true
+    desc: Clean up the Kubernetes resources created for the speed test
+    vars:
+      # Map STORAGE to the corresponding manifest file.
+      MANIFEST_FILE:
+        sh: |
+          if [ "{{.STORAGE}}" = "iSCSI" ]; then
+            echo "speed-test-iscsi.tmpl.yaml"
+          elif [ "{{.STORAGE}}" = "NFS" ]; then
+            echo "speed-test-nfs.tmpl.yaml"
+          else
+            echo "Unsupported storage type: {{.STORAGE}}" >&2
+            exit 1
+          fi
+    cmds:
+      - kubectl delete -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
+
+  sync-secrets:
+    desc: Sync all ExternalSecrets
+    vars:
+      SECRETS:
+        sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    cmds:
+      - for: { var: SECRETS, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
+    preconditions:
+      - which kubectl

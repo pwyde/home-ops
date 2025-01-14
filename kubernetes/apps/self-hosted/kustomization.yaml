@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  - ../../templates/alerts
+  # Flux-Kustomizations
+  # - ./dokuwiki/ks.yaml
+  # - ./hoarder/ks.yaml
+  # - ./immich/ks.yaml
+  # - ./immich-folder-album-creator/ks.yaml
+  # - ./searxng/ks.yaml
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-used
+      namespace: self-hosted
+    unsetOnly: true

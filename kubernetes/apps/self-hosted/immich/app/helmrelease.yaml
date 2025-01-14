@@ -1,0 +1,223 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app immich
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+  values:
+    controllers:
+      immich:
+        annotations: &annotations
+          reloader.stakater.com/auto: "true"
+        containers:
+          server:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v1.124.2
+            env: &env
+              TZ: ${CONFIG_TIMEZONE}
+              IMMICH_CONFIG_FILE: /config/immich.json
+              IMMICH_LOG_LEVEL: verbose
+              IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.self-hosted.svc.cluster.local:3003
+              IMMICH_TELEMETRY_INCLUDE: all
+              REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
+              REDIS_PORT: "6379"
+              REDIS_DBINDEX: "3"
+              UPLOAD_LOCATION: /usr/src/app/upload
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: &port 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+                nvidia.com/gpu: 1 # Request 1 GPU.
+              limits:
+                # Disable during initial import of photographs.
+                memory: 8Gi
+                nvidia.com/gpu: 1
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+          machine-learning:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v1.124.2-cuda
+            env:
+              <<: *env
+              # Pre-loading of ML model must not be enabled during initial de-
+              # ployment. Will cause crash loop otherwise.
+              MACHINE_LEARNING_PRELOAD__CLIP: "XLM-Roberta-Large-Vit-B-16Plus"
+              MPLCONFIGDIR: /tmp/matplotlib
+              NVIDIA_VISIBLE_DEVICES: "all"
+              NVIDIA_DRIVER_CAPABILITIES: "all"
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlPort 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 2Gi
+                nvidia.com/gpu: 1 # Request 1 GPU.
+              limits:
+                # Disable during initial import of photographs.
+                memory: 8Gi
+                nvidia.com/gpu: 1
+            securityContext: *securityContext
+    defaultPodOptions:
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.present
+                operator: In
+                values:
+                  - "true"
+      runtimeClassName: nvidia
+      priorityClassName: gpu-priority
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 5000
+        runAsGroup: &gid 3010
+        fsGroup: *gid
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      server:
+        controller: *app
+        ports:
+          http:
+            port: *port
+          metrics-api:
+            port: 8081
+          metrics-ms:
+            port: 8082
+      machine-learning:
+        controller: *app
+        ports:
+          http:
+            port: *mlPort
+    serviceMonitor:
+      immich:
+        serviceName: server
+        endpoints:
+          - port: metrics-api
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
+          - port: metrics-ms
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
+    ingress:
+      immich:
+        annotations:
+          # Set to 0 to remove the body limit on file uploads.
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths: &paths
+              - path: /
+                service:
+                  identifier: server
+                  port: http
+          - host: &customHost foto.${SECRET_DOMAIN}
+            paths: *paths
+        tls:
+          - hosts:
+              - *host
+              - *customHost
+    persistence:
+      cache:
+        existingClaim: *app
+        globalMounts:
+          - path: /cache
+      config:
+        type: configMap
+        name: immich-config
+        globalMounts:
+          - path: /config/immich.json
+            subPath: immich.json
+            readOnly: true
+      photos:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_PHOTOS}
+        globalMounts:
+          - path: /photos
+            readOnly: true
+      upload:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_IMMICH}
+        globalMounts:
+          - path: /usr/src/app/upload
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+

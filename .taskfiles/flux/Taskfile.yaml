@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+
+  reconcile:
+    desc: Force update Flux to pull in changes from Git repository
+    cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which flux
+
+  apply-ks:
+    desc: Apply a Flux Kustomization resource
+    summary: |
+      Apply a Flux Kustomization resource
+
+      PATH: Path to the Flux Kustomization resource (required)
+      NS: Namespace the Flux Kustomization exists in (default: flux-system)
+
+      Example:
+      task flux:apply-ks PATH=media/jellyfin
+    requires:
+      vars: [PATH]
+    vars:
+      NS: '{{.NS | default "flux-system"}}'
+      KS:
+        sh: flux --namespace {{.NS}} get kustomizations $(basename {{.PATH}}) 2>&1
+    cmd: |
+      flux build ks $(basename {{.PATH}}) \
+          --namespace {{.NS}} \
+          --kustomization-file {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml \
+          --path {{.KUBERNETES_DIR}}/apps/{{.PATH}} \
+          {{- if contains "not found" .KS }}--dry-run \{{ end }}
+      | \
+      kubectl apply --server-side \
+          --field-manager=kustomize-controller -f -
+    preconditions:
+      - test -f {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml
+
+  sync-ks:
+    desc: Sync a Flux Kustomization resource
+    summary: |
+      Sync a Flux Kustomization resource
+
+      KS: Name of the Flux Kustomization resource (optional)
+      NS: Namespace the Flux Kustomization exists in (default: flux-system)
+    vars:
+      KS: '{{.KS | default ""}}'
+      NS: '{{.NS | default "flux-system"}}'
+    cmds:
+      - |
+        {{- if eq .KS ""}}
+        kubectl get kustomization --all-namespaces --no-headers -A \
+          | awk '{print $1, $2}' \
+          | xargs --max-procs=8 -l bash -c 'flux reconcile kustomization --namespace $0 $1'
+        {{- else}}
+        flux reconcile kustomization --namespace {{.NS}} {{.KS}}
+        {{- end}}
+    preconditions:
+      - kubectl --namespace {{.NS}} get kustomization {{.KS}}

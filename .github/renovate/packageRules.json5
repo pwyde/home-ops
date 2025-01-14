@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Allowed PostgreSQL major release"],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["postgresql", "postgres-backup-local"],
+      "allowedVersions": "<17"
+    },
+    {
+      "description": ["Custom schedule for frequently updated container digests"],
+      "matchDataSources": ["docker"],
+      "matchPackagePatterns": ["postgresql"],
+      "matchUpdateTypes": ["digest"],
+      "schedule": ["on the first day of the month"]
+    },
+    {
+      "description": ["Custom versioning for MinIO"],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["minio"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$"
+    },
+    {
+      "description": ["Loose versioning for non-semver containers"],
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["searxng"],
+      "versioning": "loose"
+    }
+  ]
+}

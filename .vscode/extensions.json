@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+      "albert.TabOut",
+      "britesnow.vscode-toggle-quotes",
+      "catppuccin.catppuccin-vsc",
+      "catppuccin.catppuccin-vsc-icons",
+      "EditorConfig.editorconfig",
+      "fcrespo82.markdown-table-formatter",
+      "mikestead.dotenv",
+      "mitchdenny.ecdc",
+      "ms-kubernetes-tools.vscode-kubernetes-tools",
+      "PKief.material-icon-theme",
+      "redhat.vscode-yaml",
+      "signageos.signageos-vscode-sops",
+      "tudoudou.json5-for-vscode",
+  ]
+}

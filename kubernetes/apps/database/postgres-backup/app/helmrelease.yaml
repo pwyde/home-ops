@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app postgres-backup
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      postgres16:
+        annotations: &annotations
+          reloader.stakater.com/auto: "true"
+        type: cronjob
+        cronjob: &cronjob
+          timeZone: &tz ${CONFIG_TIMEZONE}
+          schedule: 00 23 * * *
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+        containers:
+          postgres16-backup:
+            image: &image
+              repository: docker.io/prodrigestivill/postgres-backup-local
+              tag: 16@sha256:e7182c0dac78540405e954597fcb3f4cfa67955d5df008152ab41ce166fe6014
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            env:
+              TZ: *tz
+              POSTGRES_HOST: postgres16-ro.database.svc.cluster.local
+              POSTGRES_DB: authelia,bazarr,gatus,grafana,jfstat,lidarr_log,lidarr_main,,prowlarr_log,prowlarr_main,radarr_log,radarr_main,sonarr_log,sonarr_main
+              BACKUP_KEEP_DAYS: 14
+              BACKUP_KEEP_WEEKS: 2
+              BACKUP_KEEP_MONTHS: 0
+            command: &command /backup.sh
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+      pgvectors:
+        annotations: *annotations
+        type: cronjob
+        cronjob: *cronjob
+        containers:
+          pgvectors-backup:
+            image: *image
+            envFrom: *envFrom
+            env:
+              TZ: *tz
+              POSTGRES_HOST: pgvectors-ro.database.svc.cluster.local
+              POSTGRES_DB: immich
+              BACKUP_KEEP_DAYS: 7
+              BACKUP_KEEP_WEEKS: 4
+              BACKUP_KEEP_MONTHS: 0
+            command: *command
+            securityContext: *securityContext
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 5000
+        runAsGroup: &gid 3020
+        fsGroup: *gid
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        enabled: false
+    persistence:
+      backups:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_PGBACKUPS}
+        globalMounts:
+          - path: /backups

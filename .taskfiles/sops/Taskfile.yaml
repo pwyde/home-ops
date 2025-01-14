@@ -1,0 +1,45 @@
+---
+version: "3"
+
+vars:
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+
+tasks:
+
+  encrypt-all:
+    desc: Encrypt ALL secret files in current directory with Sops
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          if sops filestatus "{{.ITEM}}" | jq --exit-status ".encrypted == false" &>/dev/null; then
+              echo "Encrypting {{ .ITEM }}"
+              sops --encrypt --in-place "{{.ITEM}}"
+          fi
+    preconditions:
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - which sops
+
+  decrypt-all:
+    desc: Decrypt ALL secret files in current directory with Sops
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          if sops filestatus "{{.ITEM}}" | jq --exit-status ".encrypted == true" &>/dev/null; then
+              echo "Decrypting {{ .ITEM }}"
+              sops --decrypt --in-place "{{.ITEM}}"
+          fi
+    preconditions:
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - which sops

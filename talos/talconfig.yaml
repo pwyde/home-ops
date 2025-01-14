@@ -1,0 +1,191 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.9.1
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.32.0
+
+clusterName: ${clusterName}
+endpoint: https://${clusterName}.${clusterDNSSuffix}:6443
+
+clusterPodNets:
+  - 10.69.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/16
+
+additionalApiServerCertSans: &sans
+  - ${clusterEndpointIP}
+  - ${clusterName}.${clusterDNSSuffix}
+  - k8s.${clusterDNSSuffix}
+  - 127.0.0.1
+
+additionalMachineCertSans: *sans
+
+# Disable built-in Flannel to use Cilium.
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: talos-1
+    ipAddress: 192.168.20.21
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:45:85:07
+        dhcp: false
+        addresses:
+          - 192.168.20.21/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+        vip: &vip
+          ip: ${clusterEndpointIP}
+      - deviceSelector:
+          hardwareAddr: bc:24:11:b2:24:ea
+        dhcp: false
+        addresses:
+          - 10.0.100.21/24
+        routes:
+          - network: 10.0.100.0/24
+            gateway: 10.0.100.1
+        mtu: 1500
+  - hostname: talos-2
+    ipAddress: 192.168.20.22
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:61:9a:bd
+        dhcp: false
+        addresses:
+          - 192.168.20.22/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+        vip: *vip
+      - deviceSelector:
+          hardwareAddr: bc:24:11:36:a6:12
+        dhcp: false
+        addresses:
+          - 10.0.100.22/24
+        routes:
+          - network: 10.0.100.0/24
+            gateway: 10.0.100.1
+        mtu: 1500
+  - hostname: talos-3
+    ipAddress: 192.168.20.23
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:17:18:1c
+        dhcp: false
+        addresses:
+          - 192.168.20.23/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+        vip: *vip
+      - deviceSelector:
+          hardwareAddr: bc:24:11:38:69:43
+        dhcp: false
+        addresses:
+          - 10.0.100.23/24
+        routes:
+          - network: 10.0.100.0/24
+            gateway: 10.0.100.1
+        mtu: 1500
+  - hostname: talos-4
+    ipAddress: 192.168.20.24
+    installDisk: /dev/sda
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:6b:de:e7
+        dhcp: false
+        addresses:
+          - 192.168.20.24/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+      - deviceSelector:
+          hardwareAddr: bc:24:11:22:15:3c
+        dhcp: false
+        addresses:
+          - 10.0.100.24/24
+        routes:
+          - network: 10.0.100.0/24
+            gateway: 10.0.100.1
+        mtu: 1500
+  - hostname: talos-5
+    ipAddress: 192.168.20.25
+    installDisk: /dev/sda
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:f3:16:57
+        dhcp: false
+        addresses:
+          - 192.168.20.25/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+      - deviceSelector:
+          hardwareAddr: bc:24:11:f4:87:0d
+        dhcp: false
+        addresses:
+          - 10.0.100.25/24
+        routes:
+          - network: 10.0.100.0/24
+            gateway: 10.0.100.1
+        mtu: 1500
+    # Node specific schematic. Overrides global worker configurations.
+    schematic:
+      customization:
+        extraKernelArgs:
+          - net.ifnames=0
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/iscsi-tools
+            - siderolabs/nonfree-kmod-nvidia-lts
+            - siderolabs/nvidia-container-toolkit-lts
+            - siderolabs/qemu-guest-agent
+            - siderolabs/util-linux-tools
+    patches:
+      - "@./patches/gpu/nvidia-gpu.yaml"
+
+# Global configurations and patches.
+patches:
+  - "@./patches/global/machine-features.yaml"
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctl.yaml"
+  - "@./patches/global/machine-time.yaml"
+
+# Controller configurations and patches.
+controlPlane:
+  schematic: &schematic
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/amd-ucode
+          - siderolabs/iscsi-tools
+          - siderolabs/qemu-guest-agent
+          - siderolabs/util-linux-tools
+  patches:
+    - "@./patches/controller/admission-controller-patch.yaml"
+    - "@./patches/controller/cluster.yaml"
+
+# Worker configurations and patches.
+worker:
+  schematic: *schematic

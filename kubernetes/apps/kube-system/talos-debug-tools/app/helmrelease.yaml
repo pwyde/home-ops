@@ -1,0 +1,155 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: talos-debug-tools
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      talos-debug-tools:
+        type: daemonset
+        containers:
+          talos-debug-tools:
+            image:
+              repository: ghcr.io/aarnaud/talos-debug-tools
+              # tag: latest-6.6.43@sha256:3ed9e526a2e62b143a3fd2c54da8ade0cffcfa3db62a784c2f61ddc55da6a63a
+              tag: latest-6.6.29
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 64Mi
+            #   limits:
+            #     memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: true
+              capabilities: { add: ["SYS_ADMIN"] }
+              privileged: true
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+    defaultPodOptions:
+      dnsPolicy: ClusterFirstWithHostNet
+      hostIPC: true
+      hostPID: true
+      hostNetwork: true
+      schedulerName: default-scheduler
+      securityContext:
+        runAsNonRoot: false
+        seccompProfile: { type: RuntimeDefault }
+      terminationGracePeriodSeconds: 30
+    persistence:
+      hostfs:
+        enabled: false
+        type: hostPath
+        hostPath: /
+        hostPathType: ""
+      run-containerd:
+        enabled: true
+        type: hostPath
+        hostPath: /run/containerd
+        hostPathType: ""
+      kubelet-plugins:
+        enabled: true
+        type: hostPath
+        hostPath: /var/lib/kubelet/plugins
+        hostPathType: Directory
+      kubelet-registration:
+        enabled: true
+        type: hostPath
+        hostPath: /var/lib/kubelet/plugins_registry
+        hostPathType: Directory
+      var-lib-kubelet:
+        enabled: true
+        type: hostPath
+        hostPath: /var/lib/kubelet
+        hostPathType: Directory
+        advancedMounts:
+          talos-debug-tools:
+            talos-debug-tools:
+              - path: /var/lib/kubelet
+                mountPropagation: Bidirectional
+      dev:
+        enabled: true
+        type: hostPath
+        hostPath: /dev
+        hostPathType: Directory
+      lib-modules:
+        enabled: true
+        type: hostPath
+        hostPath: /lib/modules
+        hostPathType: ""
+        advancedMounts:
+          talos-debug-tools:
+            talos-debug-tools:
+              - path: /lib/modules
+                readOnly: true
+      etc-localtime:
+        enabled: true
+        type: hostPath
+        hostPath: /etc/localtime
+        hostPathType: ""
+        advancedMounts:
+          talos-debug-tools:
+            talos-debug-tools:
+              - path: /etc/localtime
+                readOnly: true
+      run-udev:
+        enabled: true
+        type: hostPath
+        hostPath: /run/udev
+        hostPathType: ""
+      sys:
+        enabled: true
+        type: hostPath
+        hostPath: /sys
+        hostPathType: Directory
+      host:
+        enabled: true
+        type: hostPath
+        hostPath: /
+        hostPathType: Directory
+        advancedMounts:
+          talos-debug-tools:
+            talos-debug-tools:
+              - path: /host
+                mountPropagation: Bidirectional
+      var-log-pods:
+        enabled: true
+        type: hostPath
+        hostPath: /var/log/pods
+        hostPathType: ""
+      efivars:
+        enabled: true
+        type: hostPath
+        hostPath: /sys/firmware/efi/efivars
+        hostPathType: ""
+      ssh:
+        type: configMap
+        name: talos-debug-tools-ssh-config
+        defaultMode: 448
+        globalMounts:
+          - path: /root/.ssh/authorized_keys
+            subPath: authorized_keys

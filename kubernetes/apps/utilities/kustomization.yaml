@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  - ../../templates/alerts
+  # Flux-Kustomizations
+  - ./cyberchef/ks.yaml
+  - ./it-tools/ks.yaml
+  - ./jsoncrack/ks.yaml
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-used
+      namespace: utilities
+    unsetOnly: true

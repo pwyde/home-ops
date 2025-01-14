@@ -1,0 +1,10 @@
+# Trash
+.DS_Store
+Thumbs.db
+# Kubernetes
+kubeconfig
+.decrypted~*.yaml
+*.key
+*.key.bak
+# TrueNAS
+truenas/

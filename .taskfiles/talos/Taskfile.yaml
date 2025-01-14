@@ -1,0 +1,195 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
+  TALOS_DIR: "{{.ROOT_DIR}}/talos"
+  TALHELPER_CLUSTER_DIR: "{{.TALOS_DIR}}/clusterconfig"
+  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
+  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
+  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
+
+tasks:
+
+  generate-secret:
+    desc: Generate Talos secret, --force creates new secret
+    prompt: This will create and encrypt Talos secret... Continue?
+    dir: '{{.TALOS_DIR}}'
+    cmds:
+      - |
+        {{if .CLI_FORCE}}
+          # Backup the existing secret file if it exists.
+          if [ -f {{.TALHELPER_SECRET_FILE}} ]; then
+            cp {{.TALHELPER_SECRET_FILE}} {{.TALHELPER_SECRET_FILE}}.bak
+          fi
+        {{end}}
+      - talhelper gensecret > {{.TALHELPER_SECRET_FILE}}
+      - sops --encrypt --in-place {{.TALHELPER_SECRET_FILE}}
+    status:
+      - test -f {{.TALHELPER_SECRET_FILE}}
+    preconditions:
+      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - which talhelper sops
+
+  generate-config:
+    desc: Generate Talos config
+    prompt: This will generate Talos configuration... Continue?
+    dir: '{{.TALOS_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find "{{.TALOS_DIR}}" -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          # Enhance security by encrypting all unencrypted secrets.
+          if sops filestatus "{{.ITEM}}" | jq --exit-status ".encrypted == false" &>/dev/null; then
+              echo "Encrypting {{ .ITEM }}"
+              sops --encrypt --in-place "{{.ITEM}}"
+          fi
+      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
+    preconditions:
+      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - test -f {{.TALHELPER_ENV_FILE}}
+      - test -f {{.TALHELPER_SECRET_FILE}}
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - which talhelper sops
+
+  apply-config:
+    desc: Apply Talos configuration to ALL nodes
+    prompt: This will apply Talos configuration to ALL nodes... Continue?
+    dir: '{{.TALOS_DIR}}'
+    cmd: talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash
+    preconditions:
+      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - test -f {{.TALHELPER_ENV_FILE}}
+      - test -f {{.TALHELPER_SECRET_FILE}}
+      - which talhelper
+
+  apply-node:
+    desc: Apply Talos configuration to a node
+    prompt: Apply Talos configuration to node {{.HOSTNAME}}... Continue?
+    summary: |
+      Apply Talos configuration to a node
+
+      HOSTNAME: Node IP or hostname (required)
+      MODE: Apply mode can be auto, interactive, no-reboot, reboot, staged, try (default: auto)
+
+      Example:
+      task talos:apply-node HOSTNAME=talos-1
+    vars:
+      CLUSTER_NAME:
+        sh: kubectl config view --minify --output json | jq -r '.clusters[0].name'
+      MODE: '{{.MODE | default "auto"}}'
+    requires:
+      vars: [HOSTNAME]
+    cmds:
+      - talhelper gencommand apply --node {{.HOSTNAME}} --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--mode={{.MODE}}" | bash
+      - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
+    preconditions:
+      - talosctl config info &>/dev/null
+      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
+      - test -f {{.TALOSCONFIG}}
+      - which talhelper talosctl yq
+
+  upgrade-node:
+    desc: Upgrade Talos on a single node
+    prompt: Upgrade Talos on node {{.HOSTNAME}}... Continue?
+    summary: |
+      Upgrade Talos on a single node
+
+      HOSTNAME: Node IP or hostname (required)
+
+      Example:
+      task talos:upgrade-node HOSTNAME=talos-1
+    vars:
+      TALOS_SCHEMATIC_ID:
+        sh: kubectl get node {{.HOSTNAME}} --output=jsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}'
+      TALOS_VERSION:
+        sh: yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}}
+    requires:
+      vars: [HOSTNAME]
+    cmds:
+      - task: down
+      - talosctl --nodes {{.HOSTNAME}} upgrade --image="factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}}" --timeout=10m
+      - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
+      - task: up
+    preconditions:
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/{{.TALOS_VERSION}}
+      - talosctl --nodes {{.HOSTNAME}} get machineconfig &>/dev/null
+      - talosctl config info &>/dev/null
+      - test -f {{.TALOSCONFIG}}
+      - which kubectl talosctl yq
+
+  upgrade-k8s:
+    desc: Upgrade Kubernetes
+    vars:
+      KUBERNETES_CONTROLLER:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+      KUBERNETES_VERSION:
+        sh: yq '.kubernetesVersion' {{.TALHELPER_CONFIG_FILE}}
+    cmd: talosctl --nodes {{.KUBERNETES_CONTROLLER}} upgrade-k8s --to {{.KUBERNETES_VERSION}}
+    preconditions:
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/kubelet/releases/tag/{{.KUBERNETES_VERSION}}
+      - talosctl --nodes {{.KUBERNETES_CONTROLLER}} get machineconfig &>/dev/null
+      - talosctl config info &>/dev/null
+      - test -f {{.TALOSCONFIG}}
+      - which talosctl yq
+
+  reset-node:
+    desc: Reset a Talos node, --force wipes the entire disk
+    prompt: Reset Talos node {{.HOSTNAME}}... Continue?
+    summary: |
+      Reset a Talos node
+
+      HOSTNAME: Node IP or hostname (required)
+
+      Example:
+      task talos:reset-node HOSTNAME=talos-1
+    requires:
+      vars: [HOSTNAME]
+    cmds:
+      - |
+        {{if .CLI_FORCE}}
+          # Wipes the entire disk.
+          talosctl reset --nodes {{.HOSTNAME}} --reboot --graceful=false --wait=false
+        {{else}}
+          # Only wipe the STATE and EPHEMERAL partitions.
+          talosctl reset --nodes {{.HOSTNAME}} --reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false
+        {{end}}
+    preconditions:
+      - talosctl --nodes {{.HOSTNAME}} get machineconfig &>/dev/null
+      - talosctl config info &>/dev/null
+      - test -f {{.TALOSCONFIG}}
+
+  reset-cluster:
+    desc: Reset the Talos cluster, --force wipes the entire disk
+    prompt: This will destroy the cluster and reset ALL nodes back to maintenance mode... Continue?
+    dir: '{{.TALOS_DIR}}'
+    cmds:
+      - |
+        {{if .CLI_FORCE}}
+          # Wipes the entire disk.
+          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --graceful=false --wait=false" | bash
+        {{else}}
+          # Only wipe the STATE and EPHEMERAL partitions.
+          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+        {{end}}
+    preconditions:
+      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - which talhelper
+
+  down:
+    internal: true
+    cmd: flux --namespace flux-system suspend kustomization --all
+    preconditions:
+      - which flux
+
+  up:
+    internal: true
+    cmd: flux --namespace flux-system resume kustomization --all
+    preconditions:
+      - which flux

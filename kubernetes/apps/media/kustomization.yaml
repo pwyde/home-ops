@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  - ./priorityclass.yaml
+  - ../../templates/alerts
+  # Flux-Kustomizations
+  # - ./audiobookshelf/ks.yaml
+  # - ./bazarr/ks.yaml
+  # - ./jellyfin/ks.yaml
+  # - ./jellyseerr/ks.yaml
+  # - ./jellystat/ks.yaml
+  # - ./lidarr/ks.yaml
+  # - ./navidrome/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./unpackerr/ks.yaml
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-used
+      namespace: media
+    unsetOnly: true

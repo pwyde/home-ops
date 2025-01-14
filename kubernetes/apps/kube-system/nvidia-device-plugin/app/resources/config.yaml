@@ -1,0 +1,12 @@
+---
+version: v1
+flags:
+  migStrategy: none
+sharing:
+  # https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html#about-configuring-gpu-time-slicing
+  timeSlicing:
+    renameByDefault: false
+    failRequestsGreaterThanOne: false
+    resources:
+      - name: nvidia.com/gpu
+        replicas: 6

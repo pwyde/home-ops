@@ -1,0 +1,17 @@
+---
+keys:
+  - &home-ops age16jrnvsqz55me3ju4kl96y2tjs90gygyvk5ren7ch8mv2rxtrqvus508fpn
+
+creation_rules:
+  - path_regex: talos/.*\.sops\.ya?ml
+    mac_only_encrypted: true
+    key_groups:
+      - age:
+          - *home-ops
+
+  - path_regex: kubernetes/.*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    mac_only_encrypted: true
+    key_groups:
+      - age:
+          - *home-ops

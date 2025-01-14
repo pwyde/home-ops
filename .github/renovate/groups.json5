@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Flux Operator Group"],
+      "groupName": "Flux Operator",
+      "matchPackagePatterns": ["flux-operator", "flux-instance"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": ["Immich Group"],
+      "groupName": "Immich",
+      "matchPackagePatterns": ["immich"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}}"
+      },
+      "separateMinorPatch": true,
+      "sourceUrl": "https://github.com/immich-app/immich"
+    },
+    {
+      "description": ["Talos Group"],
+      "groupName": "Talos",
+      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    }
+  ]
+}

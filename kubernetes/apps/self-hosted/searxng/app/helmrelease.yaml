@@ -1,0 +1,188 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app searxng
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: generic-device-plugin
+      namespace: kube-system
+  values:
+    controllers:
+      searxng:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          searxng:
+            image:
+              repository: docker.io/searxng/searxng
+              tag: latest
+            env:
+              TZ: &tz ${CONFIG_TIMEZONE}
+              SEARXNG_BASE_URL: https://search.${SECRET_DOMAIN}
+              SEARXNG_URL: https://search.${SECRET_DOMAIN}
+              SEARXNG_PORT: &port 8080
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /stats
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+            securityContext: &securityContext
+              runAsNonRoot: true
+              runAsUser: &uid 65534
+              runAsGroup: *uid
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.8@sha256:025f8f5e2b20542c0e26d42771a60234cbdf3417e7bddcf6622c5dc3f3f49de2
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
+            securityContext: *securityContext
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0@sha256:8ec31c4b83e1f3173d43728f78a4a7ad45237fef366a4b5461e5aee93f517fba
+            env:
+              TZ: *tz
+              DNS_ADDRESS: "127.0.0.2"
+              # Disable DNS over TLS. Available using dnsdist instead.
+              DOT: off
+              # Ports to allow through the default interface. This is needed for Kubernetes sidecars.
+              FIREWALL_INPUT_PORTS: "8080,9999"
+              # Allow access to K8s subnets.
+              FIREWALL_OUTBOUND_SUBNETS: ${CLUSTER_POD_CIDR},${CLUSTER_SVC_CIDR}
+              # Internal health check server listening address.
+              HEALTH_SERVER_ADDRESS: ":9999"
+              VPN_SERVICE_PROVIDER: custom
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 5
+              startup: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+                # Request the /dev/net/tun device that is exposed on the node
+                # using generic-device-plugin. For more information, see:
+                # - https://www.talos.dev/v1.8/introduction/what-is-new/#accessing-devnettun-in-kubernetes-pods
+                # - https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
+                squat.ai/tun: "1"
+              limits:
+                memory: 768Mi
+                squat.ai/tun: "1"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { add: ["NET_ADMIN"] }
+    defaultPodOptions:
+      securityContext:
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths: &paths
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+          - host: &customHost search.${SECRET_DOMAIN}
+            paths: *paths
+        tls:
+          - hosts:
+              - *host
+              - *customHost
+    persistence:
+      dnsdist-config:
+        type: configMap
+        name: dnsdist-config
+        globalMounts:
+          - path: /etc/dnsdist/dnsdist.conf
+            subPath: dnsdist.conf
+            readOnly: true
+      searxng:
+        type: emptyDir
+        globalMounts:
+          - path: /etc/searxng
+      searxng-config:
+        type: configMap
+        name: searxng-config
+        globalMounts:
+          - path: /etc/searxng/limiter.toml
+            subPath: limiter.toml
+            readOnly: true
+          - path: /etc/searxng/settings.yml
+            subPath: settings.yml
+            readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

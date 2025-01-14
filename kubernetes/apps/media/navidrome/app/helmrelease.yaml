@@ -1,0 +1,127 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app navidrome
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+  values:
+    controllers:
+      navidrome:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          navidrome:
+            image:
+              repository: ghcr.io/navidrome/navidrome
+              tag: 0.54.3@sha256:f1f78eb4a144865b9c6cac58c5b06a551e1bd46e6bc38955666aee68e3a2be8e
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+              ND_LOGLEVEL: info
+              ND_DATAFOLDER: /data
+              ND_CACHEFOLDER: /data/cache
+              ND_MUSICFOLDER: /music
+              ND_AUTOIMPORTPLAYLISTS: false
+              ND_ARTISTARTPRIORITY: 'folder.*, external'
+              ND_COVERARTPRIORITY: 'folder.*, cover.*, embedded, external'
+              ND_DEFAULTTHEME: 'Spotify-ish'
+              ND_IMAGECACHESIZE: '512MB'
+              ND_PROMETHEUS_ENABLED: true
+              ND_SCANSCHEDULE: '@every 1h'
+              ND_SESSIONTIMEOUT: '72h'
+              ND_TRANSCODINGCACHESIZE: '512MB'
+              ND_ENABLEINSIGHTSCOLLECTOR: false
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 4533
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 50m
+                memory: 768Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true # Disable during database upgrade.
+        runAsUser: &uid 5000
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [4000]
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+    ingress:
+      app:
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths: &paths
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+          - host: &customHost musik.${SECRET_DOMAIN}
+            paths: *paths
+        tls:
+          - hosts:
+              - *host
+              - *customHost
+    persistence:
+      data:
+        existingClaim: ${VOLSYNC_CLAIM}
+      music:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_MUSIC}
+        globalMounts:
+          - path: /music
+            readOnly: true

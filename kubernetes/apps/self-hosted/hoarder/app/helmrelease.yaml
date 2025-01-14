@@ -1,0 +1,182 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app hoarder
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+  values:
+    controllers:
+      hoarder:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          web:
+            image:
+              repository: ghcr.io/hoarder-app/hoarder
+              tag: 0.21.0@sha256:0fa320ade5d8f93195155e6df9f73f2ebd4176fe23210723a2d940c4715088f3
+            env:
+              BROWSER_WEB_URL: http://hoarder-chrome:9222
+              DATA_DIR: /hoarder_data
+              INFERENCE_CONTEXT_LENGTH: 4096
+              MEILI_ADDR: http://hoarder-meilisearch:7700
+              NEXTAUTH_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              OCR_LANGS: eng,swe
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+            securityContext:
+              # s6-overlay-suexec: fatal: child failed with exit code 100
+              runAsUser: 0
+              runAsGroup: 0
+              fsGroup: 0
+              runAsNonRoot: false
+              allowPrivilegeEscalation: false
+              # s6-rmrf: fatal: unable to remove /run/s6: Read-only file system
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+          chrome:
+            image:
+              repository: gcr.io/zenika-hub/alpine-chrome
+              tag: 124@sha256:1a0046448e0bb6c275c88f86e01faf0de62b02ec8572901256ada0a8c08be23f
+            command:
+              - chromium-browser
+              - --headless
+              - --no-sandbox
+              - --disable-gpu
+              - --disable-dev-shm-usage
+              - --remote-debugging-address=0.0.0.0
+              - --remote-debugging-port=9222
+              - --hide-scrollbars
+              # [ERROR:zygote_host_impl_linux.cc(273)] Failed to adjust OOM score of renderer with pid 25: Permission denied (13)
+              - --no-zygote
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+          meilisearch:
+            image:
+              repository: getmeili/meilisearch
+              tag: v1.12.2@sha256:422528858432dd454d18a0c99fa501b82789a43b321551340421c14685832d6c
+            env:
+              MEILI_NO_ANALYTICS: true
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              # Error while receiving the playload. `Read-only file system (os error 30)`
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 5000
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      web:
+        controller: *app
+        ports:
+          http:
+            port: 3000
+      chrome:
+        controller: *app
+        ports:
+          http:
+            port: 9222
+      meilisearch:
+        controller: *app
+        ports:
+          http:
+            port: 7700
+    ingress:
+      hoarder:
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: web
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      cache:
+        type: emptyDir
+        advancedMounts:
+          hoarder:
+            web:
+              - path: /app/apps/web/.next/cache
+      data:
+        existingClaim: ${VOLSYNC_CLAIM}
+        advancedMounts:
+          hoarder:
+            web:
+              - path: /hoarder_data
+                subPath: hoarder_data
+            meilisearch:
+              - path: /meili_data
+                subPath: meili_data
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          hoarder:
+            chrome:
+              - path: /tmp

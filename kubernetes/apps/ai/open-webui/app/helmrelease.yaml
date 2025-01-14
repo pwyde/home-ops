@@ -1,0 +1,147 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app open-webui
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+  values:
+    controllers:
+      open-webui:
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+        containers:
+          open-webui:
+            image:
+              repository: ghcr.io/open-webui/open-webui
+              tag: v0.5.3@sha256:e5c0b17626cddb96878c589ab64b0a67572b0b8d98cf9d4a10c33d2604e3126b
+            env:
+              TZ: ${CONFIG_TIMEZONE}
+              UID: &uid 5000
+              GID: *uid
+              GLOBAL_LOG_LEVEL: INFO
+              ## General
+              # If set to false, authentication will be disabled for the Open WebUI instance.
+              # However, it's important to note that turning off authentication is only possible
+              # for fresh installations without any existing users. If there are already users
+              # registered, authenticationcannot de disabled directly.
+              WEBUI_AUTH: false
+              # Sets a default language model.
+              DEFAULT_MODELS: "llama3.2:latest"
+              # Sets the port to run Open WebUI from.
+              PORT: &port 8080
+              ## Ollama
+              OLLAMA_BASE_URL: http://ollama.ai.svc.cluster.local:11434
+              ## OpenAI
+              # Disable the use of OpenAI APIs.
+              ENABLE_OPENAI_API: false
+              ## Retrieval Augmented Generation (RAG)
+              # Selects an embedding engine to use for RAG. Possible options are:
+              # Default (SentenceTransformers), ollama and openai.
+              RAG_EMBEDDING_ENGINE: ollama
+              # Sets a model for embeddings. Default is "sentence-transformers/all-MiniLM-L6-v2"
+              RAG_EMBEDDING_MODEL: "nomic-embed-text:latest"
+              ## Web Search
+              # Enable web search toggle.
+              ENABLE_RAG_WEB_SEARCH: true
+              # Select engine for performing web searches.
+              RAG_WEB_SEARCH_ENGINE: searxng
+              # The SearXNG search API URL supporting JSON output. '<query>'' is replaced with
+              # the search query.
+              SEARXNG_QUERY_URL: http://searxng.self-hosted.svc.cluster.local:8080/search?q=<query>
+              # Maximum number of search results to crawl.
+              # RAG_WEB_SEARCH_RESULT_COUNT: 6
+              # Number of concurrent requests to crawl web pages returned from search results.
+              # RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 12
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: *uid
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        annotations:
+          # Set to 0 to remove the body limit on file uploads.
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths: &paths
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+          - host: &customHost chat.${SECRET_DOMAIN}
+            paths: *paths
+        tls:
+          - hosts:
+              - *host
+              - *customHost
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /app/backend/data
+      tmp:
+        type: emptyDir
