@@ -1,6 +1,4 @@
 ---
-grafanaDashboard:
-  enabled: true
 service:
   registry:
     hostPort: 29999
