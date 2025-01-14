@@ -9,7 +9,7 @@ resources:
   # Flux-Kustomizations
   - ./flaresolverr/ks.yaml
   - ./pinchflat/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml
 transformers:
   - |-
     apiVersion: builtin
