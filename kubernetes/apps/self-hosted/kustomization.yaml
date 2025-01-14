@@ -11,7 +11,7 @@ resources:
   # - ./hoarder/ks.yaml
   # - ./immich/ks.yaml
   # - ./immich-folder-album-creator/ks.yaml
-  # - ./searxng/ks.yaml
+  - ./searxng/ks.yaml
 transformers:
   - |-
     apiVersion: builtin
