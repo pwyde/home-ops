@@ -43,8 +43,8 @@ spec:
         maxParallel: 8
       destinationPath: s3://cloudnative-pg/
       endpointURL: https://s3.${SECRET_DOMAIN}
-      # Note: serverName version needs to be incremented when recovering from an existing 
-      # CloudNativePG cluster.
+      # Note: serverName version needs to be incremented when recovering from
+      # an existing CloudNativePG cluster.
       serverName: &currentCluster pgvectors-v2
       s3Credentials:
         accessKeyId:
@@ -53,14 +53,15 @@ spec:
         secretAccessKey:
           name: cloudnative-pg
           key: s3-secret-key
-  # Note: previousCluster needs to be set to the name of the previous cluster when recovering from
-  # an existing CloudNativePG cluster.
-  bootstrap:
-    recovery:
-      source: &previousCluster pgvectors-v1
-  # Note: externalClusters is needed when recovering from an existing CloudNativePG cluster.
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
+  # Note: previousCluster needs to be set to the name of the previous cluster
+  # when recovering from an existing CloudNativePG cluster.
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster pgvectors-v1
+  # Note: externalClusters is needed when recovering from an existing
+  # CloudNativePG cluster.
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
