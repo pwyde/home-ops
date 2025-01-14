@@ -8,7 +8,7 @@ resources:
   - ./priorityclass.yaml
   - ../../templates/alerts
   # Flux-Kustomizations
-  # - ./audiobookshelf/ks.yaml
+  - ./audiobookshelf/ks.yaml
   # - ./bazarr/ks.yaml
   # - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
