@@ -7,7 +7,7 @@ resources:
   - ./namespace.yaml
   - ../../templates/alerts
   # Flux-Kustomizations
-  # - ./flaresolverr/ks.yaml
+  - ./flaresolverr/ks.yaml
   # - ./pinchflat/ks.yaml
   # - ./qbittorrent/ks.yaml
 transformers:
