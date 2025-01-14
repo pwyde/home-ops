@@ -9,7 +9,7 @@ resources:
   # Flux-Kustomizations
   - ./dokuwiki/ks.yaml
   - ./hoarder/ks.yaml
-  # - ./immich/ks.yaml
+  - ./immich/ks.yaml
   # - ./immich-folder-album-creator/ks.yaml
   - ./searxng/ks.yaml
 transformers:
