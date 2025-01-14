@@ -7,7 +7,7 @@ resources:
   - ./namespace.yaml
   - ../../templates/alerts
   # Flux-Kustomizations
-  # - ./dokuwiki/ks.yaml
+  - ./dokuwiki/ks.yaml
   # - ./hoarder/ks.yaml
   # - ./immich/ks.yaml
   # - ./immich-folder-album-creator/ks.yaml
