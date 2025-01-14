@@ -21,6 +21,8 @@ envoy:
   enabled: false
 dashboards:
   enabled: true
+  annotations:
+    grafana_folder: Cilium
 hubble:
   enabled: false
 ipam:
