@@ -183,6 +183,7 @@ controlPlane:
           - siderolabs/qemu-guest-agent
           - siderolabs/util-linux-tools
   patches:
+    - "@./patches/controller/api-access.yaml"
     - "@./patches/controller/admission-controller-patch.yaml"
     - "@./patches/controller/cluster.yaml"
 
