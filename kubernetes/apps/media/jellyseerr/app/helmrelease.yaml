@@ -35,7 +35,7 @@ spec:
           jellyseerr:
             image:
               repository: docker.io/fallenbagel/jellyseerr
-              tag: 2.2.3@sha256:a324fa4d81cce73116801bee3c50b632f3457c0ca0ad31aa692c640e22f50dea
+              tag: 2.3.0@sha256:1f4bb237d2c5ab0e888ec7b13b89daf0fd43cf00938e7ab55c290a5751392b9f
             env:
               TZ: ${CONFIG_TIMEZONE}
               CONFIG_DIRECTORY: /config
