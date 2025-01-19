@@ -16,7 +16,7 @@ resources:
   - ./nvidia-device-plugin/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
-  - ./talos-debug-tools/ks.yaml
+  # - ./talos-debug-tools/ks.yaml
 transformers:
   - |-
     apiVersion: builtin
