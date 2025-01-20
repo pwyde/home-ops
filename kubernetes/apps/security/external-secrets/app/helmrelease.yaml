@@ -24,9 +24,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: onepassword-connect
-      namespace: security
   values:
     installCRDs: true
     replicaCount: 2
