@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: bazarr
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/observability/exporters/bazarr-exporter/app
   prune: true
   sourceRef:

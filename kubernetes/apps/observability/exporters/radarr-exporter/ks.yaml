@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: radarr
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/observability/exporters/radarr-exporter/app
   prune: true
   sourceRef:

@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: dragonfly-cluster
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/self-hosted/searxng/app
   prune: true
   sourceRef:

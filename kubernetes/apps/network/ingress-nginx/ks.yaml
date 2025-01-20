@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/network/ingress-nginx/certificates
   prune: true
   sourceRef:
@@ -35,7 +35,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: ingress-nginx-certificates
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/network/ingress-nginx/internal
   prune: true
   sourceRef:
@@ -58,7 +58,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: ingress-nginx-certificates
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
   sourceRef:

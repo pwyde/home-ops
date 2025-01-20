@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: lidarr
-    - name: external-secrets-stores
+    - name: onepassword-store
   path: ./kubernetes/apps/observability/exporters/lidarr-exporter/app
   prune: true
   sourceRef:
