@@ -149,9 +149,7 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
-          - mitigations=off         # Disable microcode mitigations to improve performance.
-          - net.ifnames=0           # Disable predictable network interface names.
-          - talos.auditd.disabled=1 # Disable Talos built-in auditd service.
+          - net.ifnames=0
         systemExtensions:
           officialExtensions:
             - siderolabs/amd-ucode
@@ -177,9 +175,7 @@ controlPlane:
   schematic: &schematic
     customization:
       extraKernelArgs:
-        - mitigations=off         # Disable microcode mitigations to improve performance.
-        - net.ifnames=0           # Disable predictable network interface names.
-        - talos.auditd.disabled=1 # Disable Talos built-in auditd service.
+        - net.ifnames=0
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
