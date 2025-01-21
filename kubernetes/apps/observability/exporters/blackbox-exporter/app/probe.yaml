@@ -12,9 +12,10 @@ spec:
   targets:
     staticConfig:
       static:
+        - nas.${SECRET_DOMAIN}
+        - pikvm.${SECRET_DOMAIN}
         - pve.${SECRET_DOMAIN}:8006
         - pve-ipmi.${SECRET_DOMAIN}
-        - nas.${SECRET_DOMAIN}
         - unifi.${SECRET_DOMAIN}
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
@@ -30,7 +31,8 @@ spec:
   targets:
     staticConfig:
       static:
-        - pve.${SECRET_DOMAIN}
-        - pve-ipmi.${SECRET_DOMAIN}
         - nas.${SECRET_DOMAIN}
+        - pikvm.${SECRET_DOMAIN}
+        - pve.${SECRET_DOMAIN}:8006
+        - pve-ipmi.${SECRET_DOMAIN}
         - unifi.${SECRET_DOMAIN}
