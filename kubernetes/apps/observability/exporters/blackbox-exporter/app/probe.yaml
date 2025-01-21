@@ -33,6 +33,6 @@ spec:
       static:
         - nas.${SECRET_DOMAIN}
         - pikvm.${SECRET_DOMAIN}
-        - pve.${SECRET_DOMAIN}:8006
+        - pve.${SECRET_DOMAIN}
         - pve-ipmi.${SECRET_DOMAIN}
         - unifi.${SECRET_DOMAIN}
