@@ -35,6 +35,32 @@ tasks:
     preconditions:
       - which kubectl
 
+  export-cert:
+    desc: Export SSL certificate and private key from secret
+    summary: |
+      Export SSL certificate and private key
+
+      NS: Namespace to export certificate from (default: default)
+      SECRET: Name of secret to export certificate from (required)
+
+      Example:
+      task kubernetes:export-cert NS=security CLAIM=hostname-tls
+    interactive: true
+    requires:
+      vars: [SECRET]
+    vars:
+      NS: '{{.NS | default "default"}}'
+    cmds:
+      - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.crt}' | base64 --decode > certificate.pem
+      - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.key}' | base64 --decode > private-key.pem
+      - cat private-key.pem certificate.pem > combined.pem
+      - openssl x509 -in certificate.pem -text -noout
+      - openssl rsa -in private-key.pem -check -noout
+    preconditions:
+      - kubectl --namespace {{.NS}} get secrets {{.SECRET}}
+      - which kubectl
+      - which openssl
+
   list-resources:
     desc: List common resources in the cluster
     cmds:
