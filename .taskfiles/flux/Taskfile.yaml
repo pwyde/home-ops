@@ -60,3 +60,35 @@ tasks:
         {{- end}}
     preconditions:
       - kubectl --namespace {{.NS}} get kustomization {{.KS}}
+
+  # Ref: https://fluxcd.io/flux/components/kustomize/kustomizations/#triggering-a-reconcile
+  annotate-ks:
+    desc: Annotate ALL Kustomizations resources to trigger reconcile
+    prompt: This will annotate ALL Kustomizations resources... Continue?
+    cmds:
+      - |
+        for KS in $(kubectl get kustomizations.kustomize.toolkit.fluxcd.io --namespace flux-system -o name); do
+          kubectl annotate --namespace flux-system --field-manager=flux-client-side-apply --overwrite $KS reconcile.fluxcd.io/requestedAt="$(date +%s)"
+        done
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which kubectl
+      - which flux
+
+  # Ref: https://fluxcd.io/flux/components/helm/helmreleases/#forcing-a-release
+  annotate-hr:
+    desc: Annotate ALL HelmRelease resources to force a release
+    prompt: This will annotate ALL HelmRelease resources... Continue?
+    cmds:
+      - |
+        TOKEN="$(date +%s)"
+        for NS in $(kubectl get namespaces -o jsonpath='{.items[*].metadata.name}'); do
+          for HR in $(kubectl get helmreleases --namespace $NS -o jsonpath='{.items[*].metadata.name}'); do
+            kubectl --namespace $NS annotate --field-manager=flux-client-side-apply --overwrite helmreleases.helm.toolkit.fluxcd.io/$HR "reconcile.fluxcd.io/requestedAt=$TOKEN" "reconcile.fluxcd.io/forceAt=$TOKEN"
+          done
+        done
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which kubectl
+      - which flux
+
