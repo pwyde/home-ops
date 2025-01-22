@@ -31,7 +31,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cert-manager
     - name: onepassword-store
   path: ./kubernetes/apps/security/cert-manager/issuers
   prune: true
@@ -55,6 +54,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
+    - name: onepassword-store
   path: ./kubernetes/apps/security/cert-manager/certificates
   prune: true
   sourceRef:

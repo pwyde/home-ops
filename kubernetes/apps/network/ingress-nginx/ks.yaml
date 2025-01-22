@@ -1,9 +1,8 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app ingress-nginx-certificates
+  name: &app ingress-nginx-external
   namespace: flux-system
 spec:
   targetNamespace: network
@@ -11,16 +10,16 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cert-manager-issuers
+    - name: cert-manager-certificates
     - name: onepassword-store
-  path: ./kubernetes/apps/network/ingress-nginx/certificates
+  path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
+  wait: false
   interval: 30m
-  timeout: 5m
+  timeout: 15m
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -34,32 +33,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: ingress-nginx-certificates
+    - name: cert-manager-certificates
     - name: onepassword-store
   path: ./kubernetes/apps/network/ingress-nginx/internal
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
-  interval: 30m
-  timeout: 15m
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app ingress-nginx-external
-  namespace: flux-system
-spec:
-  targetNamespace: network
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: ingress-nginx-certificates
-    - name: onepassword-store
-  path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
   sourceRef:
     kind: GitRepository
