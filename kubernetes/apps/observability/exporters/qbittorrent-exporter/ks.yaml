@@ -13,7 +13,7 @@ spec:
     - name: qbittorrent
   interval: 30m
   path: ./kubernetes/apps/observability/exporters/qbittorrent-exporter/app
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system

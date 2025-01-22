@@ -19,7 +19,7 @@ spec:
       PVC_ACCESSMODES: ReadWriteOnce
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 50Gi
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system

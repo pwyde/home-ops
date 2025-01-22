@@ -14,7 +14,7 @@ spec:
     - name: snapshot-controller
   interval: 30m
   path: ./kubernetes/apps/storage/democratic-csi/iscsi
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -38,7 +38,7 @@ spec:
     - name: snapshot-controller
   interval: 30m
   path: ./kubernetes/apps/storage/democratic-csi/nfs
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system

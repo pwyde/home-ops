@@ -13,7 +13,7 @@ spec:
     - name: onepassword-store
   interval: 30m
   path: ./kubernetes/apps/database/cloudnative-pg/app
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -36,7 +36,7 @@ spec:
     - name: cloudnative-pg
   interval: 30m
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system

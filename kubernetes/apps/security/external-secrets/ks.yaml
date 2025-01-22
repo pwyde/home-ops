@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/security/external-secrets/app
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/apps/security/external-secrets/onepassword
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -55,7 +55,7 @@ spec:
     - name: onepassword
   interval: 30m
   path: ./kubernetes/apps/security/external-secrets/stores
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -30,7 +30,7 @@ spec:
       VOLSYNC_CAPACITY: &capacity 1Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
       VOLSYNC_TIME: "15 3 * * *"
-  prune: true
+  prune: false # revert after merge
   sourceRef:
     kind: GitRepository
     name: flux-system
