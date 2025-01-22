@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: node-feature-discovery-features
+    - name: node-feature-discovery-rules
     - name: system-upgrade-controller
   interval: 30m
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
