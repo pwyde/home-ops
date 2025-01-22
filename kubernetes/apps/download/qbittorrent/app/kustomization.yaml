@@ -6,7 +6,6 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./resources/qbittorrent-categories.sops.yaml
-  - ../../../../templates/volsync
 configMapGenerator:
   - name: qbittorrent-loki-rules
     files:

@@ -5,13 +5,14 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  - ../../templates/alerts
   # Flux-Kustomizations
   - ./dokuwiki/ks.yaml
   - ./hoarder/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
   - ./searxng/ks.yaml
+components:
+  - ../../components/alerts
 transformers:
   - |-
     apiVersion: builtin
