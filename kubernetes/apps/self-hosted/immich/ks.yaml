@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/pvc
+    - ../../../components/pvc
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: dragonfly-cluster
