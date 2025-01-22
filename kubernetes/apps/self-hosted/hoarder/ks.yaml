@@ -6,22 +6,14 @@ metadata:
   name: &app hoarder
   namespace: flux-system
 spec:
-  targetNamespace: self-hosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: onepassword-store
     - name: volsync
-  path: ./kubernetes/apps/self-hosted/hoarder/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: false
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/self-hosted/hoarder/app
   postBuild:
     substitute:
       APP: *app
@@ -36,3 +28,11 @@ spec:
       VOLSYNC_CAPACITY: &capacity 2Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
       VOLSYNC_TIME: "30 3 * * *"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: self-hosted
+  timeout: 5m
+  wait: false

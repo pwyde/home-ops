@@ -6,21 +6,19 @@ metadata:
   name: &app system-upgrade-controller
   namespace: flux-system
 spec:
-  targetNamespace: system-upgrade
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: node-feature-discovery
+  interval: 30m
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 30m
+  targetNamespace: system-upgrade
   timeout: 5m
+  wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -29,21 +27,14 @@ metadata:
   name: &app system-upgrade-controller-plans
   namespace: flux-system
 spec:
-  targetNamespace: system-upgrade
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: node-feature-discovery-features
     - name: system-upgrade-controller
-  path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: false
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
   postBuild:
     substitute:
       # Talos schematic ID for standard (general-purpose) nodes.
@@ -54,3 +45,11 @@ spec:
       TALOS_VERSION: v1.9.2
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
       KUBERNETES_VERSION: v1.32.1
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: system-upgrade
+  timeout: 5m
+  wait: true

@@ -6,7 +6,6 @@ metadata:
   name: &app lidarr
   namespace: flux-system
 spec:
-  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -14,15 +13,8 @@ spec:
     - name: cloudnative-pg-cluster
     - name: onepassword-store
     - name: volsync
-  path: ./kubernetes/apps/media/lidarr/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: false
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/media/lidarr/app
   postBuild:
     substitute:
       APP: *app
@@ -37,3 +29,11 @@ spec:
       VOLSYNC_CAPACITY: &capacity 5Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
       VOLSYNC_TIME: "15 3 * * *"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media
+  timeout: 5m
+  wait: false
