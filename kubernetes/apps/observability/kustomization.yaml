@@ -2,13 +2,13 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
   # Flux-Kustomizations
   # - ./exporters
   # - ./gatus/ks.yaml
   # - ./grafana/ks.yaml
-  # - ./kube-prometheus-stack/ks.yaml
-  # - ./kubernetes-dashboard/ks.yaml
+  - ./kube-prometheus-stack/ks.yaml
+  - ./kubernetes-dashboard/ks.yaml
   # - ./loki/ks.yaml
   # - ./promtail/ks.yaml
   # - ./silence-operator/ks.yaml
