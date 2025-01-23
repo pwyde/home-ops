@@ -9,4 +9,4 @@ resources:
   # Flux-Kustomizations
   - ./system-upgrade-controller/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

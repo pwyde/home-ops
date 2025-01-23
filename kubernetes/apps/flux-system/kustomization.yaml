@@ -9,4 +9,4 @@ resources:
   # Flux-Kustomizations
   - ./flux-operator/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

@@ -13,4 +13,4 @@ resources:
   - ./immich-folder-album-creator/ks.yaml
   - ./searxng/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

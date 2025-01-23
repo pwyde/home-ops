@@ -18,4 +18,4 @@ resources:
   - ./spegel/ks.yaml
   # - ./talos-debug-tools/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

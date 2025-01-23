@@ -12,4 +12,4 @@ resources:
   - ./external-secrets/ks.yaml
   - ./glauth/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

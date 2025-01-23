@@ -8,4 +8,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

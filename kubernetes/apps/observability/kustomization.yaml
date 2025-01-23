@@ -17,4 +17,4 @@ resources:
   - ./silence-operator/ks.yaml
   - ./unpoller/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts

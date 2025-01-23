@@ -11,4 +11,4 @@ resources:
   - ./pinchflat/ks.yaml
   - ./qbittorrent/ks.yaml
 components:
-  - ../../components/alerts
+  - ../../flux/components/alerts
