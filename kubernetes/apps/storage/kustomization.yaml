@@ -5,10 +5,10 @@ kind: Kustomization
 resources:
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml
-  # - ./minio/ks.yaml
-  # - ./openebs/ks.yaml
+  - ./minio/ks.yaml
+  - ./openebs/ks.yaml
   - ./snapshot-controller/ks.yaml
-  # - ./volsync/ks.yaml
+  - ./volsync/ks.yaml
 components:
   # - ../../flux/components/alerts
   - ../../flux/components/namespace
