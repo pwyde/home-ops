@@ -3,8 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Pre Flux-Kustomizations
-  - ../../templates/alerts
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml
   - ./minio/ks.yaml
@@ -12,12 +10,13 @@ resources:
   - ./snapshot-controller/ks.yaml
   - ./volsync/ks.yaml
 components:
+  - ../../flux/components/alerts
   - ../../flux/components/namespace
 patches:
   - # Add the name to the namespace.
     patch: |
       - op: add
         path: /metadata/name
-        value: cert-manager
+        value: storage
     target:
       kind: Namespace

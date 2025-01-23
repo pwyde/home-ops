@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./priorityclass.yaml
-  - ../../templates/alerts
   # Flux-Kustomizations
   - ./audiobookshelf/ks.yaml
   - ./bazarr/ks.yaml
@@ -20,12 +19,13 @@ resources:
   - ./sonarr/ks.yaml
   - ./unpackerr/ks.yaml
 components:
+  - ../../flux/components/alerts
   - ../../flux/components/namespace
 patches:
   - # Add the name to the namespace.
     patch: |
       - op: add
         path: /metadata/name
-        value: cert-manager
+        value: media
     target:
       kind: Namespace
