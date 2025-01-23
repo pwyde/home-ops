@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../flux/components/volsync
+    - ../../../../flux/components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: onepassword-store
