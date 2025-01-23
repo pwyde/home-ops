@@ -7,17 +7,17 @@ resources:
   # - ./priorityclass.yaml
   # Flux-Kustomizations
   - ./audiobookshelf/ks.yaml
-  # - ./bazarr/ks.yaml
+  - ./bazarr/ks.yaml
   # - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./jellystat/ks.yaml
-  # - ./lidarr/ks.yaml
+  - ./lidarr/ks.yaml
   - ./navidrome/ks.yaml
-  # - ./prowlarr/ks.yaml
-  # - ./radarr/ks.yaml
-  # - ./recyclarr/ks.yaml
-  # - ./sonarr/ks.yaml
-  # - ./unpackerr/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./radarr/ks.yaml
+  - ./recyclarr/ks.yaml
+  - ./sonarr/ks.yaml
+  - ./unpackerr/ks.yaml
 components:
   # - ../../flux/components/alerts
   - ../../flux/components/namespace
