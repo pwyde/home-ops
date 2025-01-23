@@ -13,3 +13,4 @@ resources:
   - ./ingress-nginx/ks.yaml
 components:
   - ../../flux/components/alerts
+  - ../../flux/components/sops

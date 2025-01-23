@@ -12,3 +12,4 @@ resources:
   - ./qbittorrent/ks.yaml
 components:
   - ../../flux/components/alerts
+  - ../../flux/components/sops

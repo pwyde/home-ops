@@ -19,3 +19,4 @@ resources:
   # - ./talos-debug-tools/ks.yaml
 components:
   - ../../flux/components/alerts
+  - ../../flux/components/sops

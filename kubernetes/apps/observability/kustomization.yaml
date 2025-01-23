@@ -18,3 +18,4 @@ resources:
   - ./unpoller/ks.yaml
 components:
   - ../../flux/components/alerts
+  - ../../flux/components/sops

@@ -9,3 +9,4 @@ resources:
   # Flux-Kustomizations
 components:
   - ../../flux/components/alerts
+  - ../../flux/components/sops
