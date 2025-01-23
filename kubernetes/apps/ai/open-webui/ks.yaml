@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app open-webui
-  namespace: flux-system
+  namespace: &namespace ai
 spec:
   commonMetadata:
     labels:
@@ -13,6 +13,7 @@ spec:
     - ../../../../components/pvc
   dependsOn:
     - name: ollama
+      namespace: *namespace
   interval: 30m
   path: ./kubernetes/apps/ai/open-webui/app
   postBuild:
@@ -26,6 +27,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: ai
+  targetNamespace: *namespace
   timeout: 5m
   wait: false

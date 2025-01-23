@@ -4,14 +4,16 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app prowlarr-exporter
-  namespace: flux-system
+  namespace: &namespace observability
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: prowlarr
+      namespace: media
     - name: onepassword-store
+      namespace: security
   interval: 30m
   path: ./kubernetes/apps/observability/exporters/prowlarr-exporter/app
   prune: false # revert after merge
@@ -19,6 +21,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: observability
+  targetNamespace: *namespace
   timeout: 15m
   wait: true

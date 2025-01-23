@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app external-secrets
-  namespace: flux-system
+  namespace: &namespace security
 spec:
   commonMetadata:
     labels:
@@ -16,7 +16,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: security
+  targetNamespace: *namespace
   timeout: 5m
   wait: false
 ---
@@ -25,7 +25,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app onepassword
-  namespace: flux-system
+  namespace: &namespace security
 spec:
   commonMetadata:
     labels:
@@ -37,7 +37,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: security
+  targetNamespace: *namespace
   timeout: 5m
   wait: true
 ---
@@ -46,13 +46,14 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app onepassword-store
-  namespace: flux-system
+  namespace: &namespace security
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: onepassword
+      namespace: *namespace
   interval: 30m
   path: ./kubernetes/apps/security/external-secrets/stores
   prune: false # revert after merge
@@ -60,6 +61,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: security
+  targetNamespace: *namespace
   timeout: 5m
   wait: true

@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app immich
-  namespace: flux-system
+  namespace: &namespace self-hosted
 spec:
   commonMetadata:
     labels:
@@ -13,8 +13,11 @@ spec:
     - ../../../../components/pvc
   dependsOn:
     - name: cloudnative-pg-cluster
+      namespace: database
     - name: dragonfly-cluster
+      namespace: database
     - name: onepassword-store
+      namespace: security
   interval: 30m
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
@@ -28,6 +31,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: self-hosted
+  targetNamespace: *namespace
   timeout: 5m
   wait: false

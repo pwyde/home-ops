@@ -4,13 +4,14 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app glauth
-  namespace: flux-system
+  namespace: &namespace security
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: onepassword-store
+      namespace: *namespace
   interval: 30m
   path: ./kubernetes/apps/security/glauth/app
   prune: false # revert after merge
@@ -18,6 +19,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: security
+  targetNamespace: *namespace
   timeout: 5m
   wait: false
