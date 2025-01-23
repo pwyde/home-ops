@@ -2,13 +2,13 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
   # Pre Flux-Kustomizations
   # - ./priorityclass.yaml
   # Flux-Kustomizations
   # - ./audiobookshelf/ks.yaml
   # - ./bazarr/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./jellystat/ks.yaml
   # - ./lidarr/ks.yaml
