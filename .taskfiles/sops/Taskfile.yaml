@@ -7,7 +7,7 @@ vars:
 tasks:
 
   encrypt-all:
-    desc: Encrypt ALL secret files in current directory with Sops
+    desc: Encrypt ALL secret files in current directory with SOPS
     silent: true
     dir: '{{.USER_WORKING_DIR}}'
     vars:
@@ -26,7 +26,7 @@ tasks:
       - which sops
 
   decrypt-all:
-    desc: Decrypt ALL secret files in current directory with Sops
+    desc: Decrypt ALL secret files in current directory with SOPS
     silent: true
     dir: '{{.USER_WORKING_DIR}}'
     vars:
