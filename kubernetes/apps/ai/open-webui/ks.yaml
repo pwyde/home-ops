@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../flux/components/pvc
+    - ../../../../flux/components/pvc
   dependsOn:
     - name: ollama
   path: ./kubernetes/apps/ai/open-webui/app
