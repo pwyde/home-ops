@@ -6,7 +6,7 @@ resources:
   # Flux-Kustomizations
   - ./flux-operator/ks.yaml
 components:
-  - ../../flux/components/alerts
+  # - ../../flux/components/alerts
   - ../../flux/components/namespace
 patches:
   - # Add the name to the namespace.

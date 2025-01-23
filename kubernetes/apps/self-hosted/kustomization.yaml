@@ -10,7 +10,7 @@ resources: []
   # - ./immich-folder-album-creator/ks.yaml
   # - ./searxng/ks.yaml
 components:
-  - ../../flux/components/alerts
+  # - ../../flux/components/alerts
   - ../../flux/components/namespace
 patches:
   - # Add the name to the namespace.
