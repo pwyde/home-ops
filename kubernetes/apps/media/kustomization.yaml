@@ -6,7 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./priorityclass.yaml
   # Flux-Kustomizations
-  # - ./audiobookshelf/ks.yaml
+  - ./audiobookshelf/ks.yaml
   - ./bazarr/ks.yaml
   - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
