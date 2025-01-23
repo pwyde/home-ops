@@ -6,9 +6,9 @@ namespace: utilities
 resources:
   # Flux-Kustomizations
   - ./atuin/ks.yaml
-  # - ./cyberchef/ks.yaml
-  # - ./it-tools/ks.yaml
-  # - ./jsoncrack/ks.yaml
+  - ./cyberchef/ks.yaml
+  - ./it-tools/ks.yaml
+  - ./jsoncrack/ks.yaml
 components:
   - ../../flux/components/alerts
   - ../../flux/components/namespace
