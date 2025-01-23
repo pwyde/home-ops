@@ -5,7 +5,7 @@ kind: Kustomization
 resources: []
   # Flux-Kustomizations
 components:
-  - ../../flux/components/alerts
+  # - ../../flux/components/alerts
   - ../../flux/components/namespace
 patches:
   - # Add the name to the namespace.
