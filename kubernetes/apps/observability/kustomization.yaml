@@ -11,7 +11,7 @@ resources:
   - ./kubernetes-dashboard/ks.yaml
   - ./loki/ks.yaml
   - ./promtail/ks.yaml
-  # - ./silence-operator/ks.yaml
+  - ./silence-operator/ks.yaml
   # - ./unpoller/ks.yaml
 components:
   # - ../../flux/components/alerts
