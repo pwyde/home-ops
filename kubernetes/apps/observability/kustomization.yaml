@@ -12,7 +12,7 @@ resources:
   - ./loki/ks.yaml
   - ./promtail/ks.yaml
   - ./silence-operator/ks.yaml
-  # - ./unpoller/ks.yaml
+  - ./unpoller/ks.yaml
 components:
   # - ../../flux/components/alerts
   - ../../flux/components/namespace
