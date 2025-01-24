@@ -94,7 +94,7 @@ spec:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
               # ployment. Will cause crash loop otherwise.
-              MACHINE_LEARNING_PRELOAD__CLIP: "XLM-Roberta-Large-Vit-B-16Plus"
+              # MACHINE_LEARNING_PRELOAD__CLIP: "XLM-Roberta-Large-Vit-B-16Plus"
               MPLCONFIGDIR: /tmp/matplotlib
               NVIDIA_VISIBLE_DEVICES: "all"
               NVIDIA_DRIVER_CAPABILITIES: "all"
