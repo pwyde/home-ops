@@ -35,7 +35,7 @@ spec:
           server:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.125.3
+              tag: v1.125.5
             env: &env
               TZ: ${CONFIG_TIMEZONE}
               IMMICH_CONFIG_FILE: /config/immich.json
@@ -89,7 +89,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.125.3-cuda
+              tag: v1.125.5-cuda
             env:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
