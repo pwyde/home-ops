@@ -95,7 +95,6 @@ spec:
         - pods=[*]
         - deployments=[*]
         - persistentvolumeclaims=[*]
-      prometheusScrape: true
       prometheus:
         monitor:
           enabled: true
