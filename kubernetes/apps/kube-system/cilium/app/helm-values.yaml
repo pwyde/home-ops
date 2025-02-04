@@ -1,17 +1,22 @@
 ---
 autoDirectNodeRoutes: true
 bpf:
-  # masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`.
-  masquerade: true
+  datapathMode: netkit
   # Ref: https://github.com/siderolabs/talos/issues/10002
   hostLegacyRouting: true
-cni:
-  # Required for pairing with Multus CNI.
-  exclusive: false
+  # masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`.
+  masquerade: true
+  tproxy: true
 cgroup:
   automount:
     enabled: false
   hostRoot: /sys/fs/cgroup
+cluster:
+  name: talos
+  id: 1
+cni:
+  # Required for pairing with Multus CNI.
+  exclusive: false
 # NOTE: Devices might need to be set if more than one active NIC exists on the hosts.
 # devices: eno+ eth+
 devices: eth0
@@ -43,7 +48,7 @@ loadBalancer:
   mode: snat # Default mode.
 localRedirectPolicy: true
 operator:
-  replicas: 1
+  replicas: 2
   rollOutPods: true
   prometheus:
     enabled: true
@@ -70,6 +75,8 @@ securityContext:
       - IPC_LOCK
       - SYS_ADMIN
       - SYS_RESOURCE
+      - PERFMON
+      - BPF
       - DAC_OVERRIDE
       - FOWNER
       - SETGID
