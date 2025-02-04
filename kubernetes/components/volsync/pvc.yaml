@@ -7,9 +7,9 @@ spec:
   accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
   storageClassName: "${VOLSYNC_STORAGECLASS:-truenas-ssd-iscsi}"
   dataSourceRef:
+    name: "${APP}-rdst"
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: "${APP}-rdst"
   resources:
     requests:
       storage: "${VOLSYNC_CAPACITY:-1Gi}"

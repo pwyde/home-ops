@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination # Cluster resource used for restores.
+metadata:
+  name: "${APP}-rdst"
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: "${APP}-volsync"
+    copyMethod: Snapshot
+    accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
+    storageClassName: "${VOLSYNC_STORAGECLASS:-truenas-ssd-iscsi}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
+    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
+    capacity: "${VOLSYNC_CAPACITY:-1Gi}"
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
+    moverSecurityContext:
+      runAsUser: "${APP_UID:-5000}"
+      runAsGroup: "${APP_GID:-5000}"
+      fsGroup: "${APP_GID:-5000}"
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
