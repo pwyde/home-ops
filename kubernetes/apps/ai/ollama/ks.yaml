@@ -4,25 +4,27 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app ollama
-  namespace: flux-system
+  namespace: &namespace ai
 spec:
-  targetNamespace: ai
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../flux/components/volsync
-  path: ./kubernetes/apps/ai/ollama/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
+    - ../../../../components/volsync
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/ai/ollama/app
   postBuild:
     substitute:
       APP: *app
       PVC_ACCESSMODES: ReadWriteOnce
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 50Gi
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
+
