@@ -86,8 +86,6 @@ spec:
                   curl "$url/api/pull" -d "{\"name\": \"$model\"}"
                 done
     defaultPodOptions:
-      nodeSelector:
-        nvidia.com/gpu.present: "true"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -97,8 +95,10 @@ spec:
                 operator: In
                 values:
                   - "true"
-      runtimeClassName: nvidia
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
       priorityClassName: gpu-priority
+      runtimeClassName: nvidia
       securityContext:
         runAsNonRoot: true
         runAsUser: &uid 5000
