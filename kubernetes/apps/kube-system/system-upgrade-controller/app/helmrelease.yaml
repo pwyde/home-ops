@@ -54,11 +54,6 @@ spec:
               seccompProfile:
                 type: RuntimeDefault
     defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: &uid 65534
-        runAsGroup: *uid
-        seccompProfile: { type: RuntimeDefault }
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -66,6 +61,11 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 65534
+        runAsGroup: *uid
+        seccompProfile: { type: RuntimeDefault }
       tolerations:
         - key: CriticalAddonsOnly
           operator: Exists
@@ -77,7 +77,7 @@ spec:
           effect: NoSchedule
     serviceAccount:
       create: true
-      name: system-upgrade
+      name: *app
     persistence:
       tmp:
         type: emptyDir
