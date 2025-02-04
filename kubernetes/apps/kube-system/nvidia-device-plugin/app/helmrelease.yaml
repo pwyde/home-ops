@@ -28,10 +28,6 @@ spec:
     - name: node-feature-discovery
       namespace: kube-system
   values:
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: &configMap nvidia-device-plugin-config
-    nodeSelector:
-        nvidia.com/gpu.present: "true"
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,10 +37,14 @@ spec:
               operator: In
               values:
                 - "true"
-    runtimeClassName: nvidia
     config:
       name: *configMap
     gfd:
       enabled: true
     nfd:
       enabled: false
+    nodeSelector:
+        nvidia.com/gpu.present: "true"
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: &configMap nvidia-device-plugin-config
+    runtimeClassName: nvidia
