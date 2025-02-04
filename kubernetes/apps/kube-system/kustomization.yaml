@@ -2,6 +2,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: kube-system
+components:
+  - ../../components/alerts
+  - ../../components/global-vars
+  - ../../components/namespace
+  - ../../components/sops
 resources:
   # Flux-Kustomizations
   - ./cilium/ks.yaml
@@ -10,18 +16,5 @@ resources:
   - ./metrics-server/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./node-problem-detector/ks.yaml
-  - ./nvidia-device-plugin/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
-  # - ./talos-debug-tools/ks.yaml
-components:
-  # - ../../flux/components/alerts
-  - ../../flux/components/namespace
-patches:
-  - # Add the name to the namespace.
-    patch: |
-      - op: add
-        path: /metadata/name
-        value: kube-system
-    target:
-      kind: Namespace
