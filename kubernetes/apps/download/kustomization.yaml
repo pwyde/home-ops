@@ -2,7 +2,15 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+<<<<<<< HEAD
 namespace: download
+=======
+resources: []
+  # Flux-Kustomizations
+  # - ./flaresolverr/ks.yaml
+  # - ./pinchflat/ks.yaml
+  # - ./qbittorrent/ks.yaml
+>>>>>>> main
 components:
   - ../../components/alerts
   - ../../components/namespace
