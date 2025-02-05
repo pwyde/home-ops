@@ -38,7 +38,7 @@ spec:
               values:
                 - "true"
     config:
-      name: *configMap
+      name: &configMap nvidia-device-plugin-config
     gfd:
       enabled: true
     nfd:
@@ -46,5 +46,5 @@ spec:
     nodeSelector:
         nvidia.com/gpu.present: "true"
     podAnnotations:
-      configmap.reloader.stakater.com/reload: &configMap nvidia-device-plugin-config
+      configmap.reloader.stakater.com/reload: *configMap
     runtimeClassName: nvidia
