@@ -15,8 +15,9 @@ spec:
       - receiver: "null"
         matchers:
           - name: alertname
-            value: InfoInhibitor
-            matchType: =
+            value: InfoInhibitor|Watchdog
+            matchType: =~
+        continue: false
       - receiver: pushover
         matchers:
           - name: severity
