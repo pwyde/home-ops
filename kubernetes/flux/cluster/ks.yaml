@@ -41,7 +41,7 @@ spec:
   interval: 30m
   path: ./kubernetes/apps
   patches:
-    # Add SOPS decryption and enable substituteFrom to child Kustomizations.
+    # Add SOPS decryption and postBuild substitutions to child Kustomizations.
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
         kind: Kustomization
