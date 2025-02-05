@@ -28,7 +28,7 @@ envoy:
 dashboards:
   enabled: true
   annotations:
-    grafana_folder: Cilium
+    grafana_folder: Network
 hubble:
   enabled: false
 ipam:
@@ -58,7 +58,7 @@ operator:
   dashboards:
     enabled: true
     annotations:
-      grafana_folder: Cilium
+      grafana_folder: Network
 prometheus:
   enabled: true
   serviceMonitor:
