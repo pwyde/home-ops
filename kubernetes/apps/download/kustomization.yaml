@@ -11,5 +11,5 @@ components:
 resources:
   # Flux-Kustomizations
   - ./flaresolverr/ks.yaml
-  # - ./pinchflat/ks.yaml
+  - ./pinchflat/ks.yaml
   - ./qbittorrent/ks.yaml
