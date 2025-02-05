@@ -35,6 +35,7 @@
     "self-hosted": "folder_public",
     "storage": "folder_content",
     "system-upgrade": "folder_components",
+    "system-upgrade-controller": "folder_components",
     "utilities": "folder_utils",
     // folders
     "cert-manager": "folder_coverage",
@@ -95,6 +96,7 @@
     "self-hosted": "home",
     "storage": "dump",
     "system-upgrade": "update",
+    "system-upgrade-controller": "update",
     "utilities": "utils",
     // folders
     "cert-manager": "guard",
