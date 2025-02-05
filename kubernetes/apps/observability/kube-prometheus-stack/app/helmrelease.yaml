@@ -88,7 +88,7 @@ spec:
         selector:
           k8s-app: kube-scheduler
     kubeProxy:
-      enabled: false # Replced with Cilium.
+      enabled: false # Replaced with Cilium.
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:

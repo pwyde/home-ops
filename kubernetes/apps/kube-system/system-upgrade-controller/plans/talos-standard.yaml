@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/upgrade.cattle.io/plan_v1.json
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: talos-standard
+spec:
+  version: ${TALOS_VERSION}
+  concurrency: 1
+  exclusive: true
+  serviceAccountName: system-upgrade-controller
+  secrets:
+    - name: system-upgrade-controller
+      path: /var/run/secrets/talos.dev
+      ignoreUpdates: true
+  nodeSelector:
+    matchExpressions:
+      - key: feature.node.kubernetes.io/system-os_release.ID
+        operator: In
+        values: ["talos"]
+      - key: feature.node.kubernetes.io/system-os_release.VERSION_ID
+        operator: NotIn
+        values: ["${TALOS_VERSION}"]
+      - key: nvidia.com/gpu.present
+        operator: NotIn
+        values: ["true"]
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  prepare: &prepare
+    image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
+    envs:
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+    args:
+      - --nodes=$(NODE_IP)
+      - health
+      - --server=false
+  upgrade:
+    <<: *prepare
+    args:
+      - --nodes=$(NODE_IP)
+      - upgrade
+      - --image=factory.talos.dev/installer/${TALOS_SCHEMATIC_ID_STANDARD}:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --preserve=true
+      - --wait=false

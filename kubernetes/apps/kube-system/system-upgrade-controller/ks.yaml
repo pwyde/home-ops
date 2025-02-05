@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app system-upgrade-controller
+  namespace: &namespace kube-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 30m
+  path: ./kubernetes/apps/kube-system/system-upgrade-controller/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app system-upgrade-plans
+  namespace: &namespace kube-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: system-upgrade-controller
+      namespace: kube-system
+  interval: 30m
+  path: ./kubernetes/apps/kube-system/system-upgrade-controller/plans
+  postBuild:
+    substitute:
+      # Talos schematic ID for standard (general-purpose) nodes.
+      TALOS_SCHEMATIC_ID_STANDARD: 8b583b5320ff41bf40bd1aea9287923ada45e32a1e2ba0045cb3f6758920ef4a
+      # Talos schematic ID for nodes with NVIDIA GPU present.
+      TALOS_SCHEMATIC_ID_GPU: 469f1d8d549c51d8f94afea6f5f6eb9b850fe5876b65c761c3164bc82fab12a6
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+      TALOS_VERSION: v1.9.2
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+      KUBERNETES_VERSION: v1.32.1
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

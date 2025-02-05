@@ -198,7 +198,7 @@ search:
   autocomplete_min: 2
   # Default search language - leave blank to detect from browser information or
   # use codes from 'languages.py'.
-  default_lang: "auto"
+  default_lang: "sv-SE"
   # If engine supports paging, 0 means unlimited numbers of pages.
   max_page: 0
   # Available languages.

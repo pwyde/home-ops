@@ -4,27 +4,29 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app open-webui
-  namespace: flux-system
+  namespace: &namespace ai
 spec:
-  targetNamespace: ai
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../flux/components/pvc
+    - ../../../../components/pvc
   dependsOn:
     - name: ollama
-  path: ./kubernetes/apps/ai/open-webui/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
+      namespace: ai
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/ai/open-webui/app
   postBuild:
     substitute:
       APP: *app
       PVC_ACCESSMODES: ReadWriteOnce
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 1Gi
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false

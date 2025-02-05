@@ -48,7 +48,7 @@ tasks:
 
   talos:
     desc: Bootstrap the Talos cluster
-    prompt: This will bootstrap the Talos cluster... Continue?
+    prompt: Bootstrap the Talos cluster... Continue?
     cmds:
       - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
       - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
@@ -65,23 +65,18 @@ tasks:
 
   apps:
     desc: Bootstrap apps into the Talos cluster
-    prompt: This will install cilium, coredns, spegel, and flux... Continue?
-    vars:
-      SOPS_SECRET_EXISTS:
-        sh: kubectl --namespace flux-system get secret sops-age &>/dev/null && echo true || echo false
+    prompt: Bootstrap apps into Talos cluster... Continue?
     cmds:
-      - until kubectl wait --for=condition=Ready=False nodes --all --timeout=600s; do sleep 10; done
-      - kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply --server-side --filename -
-      - |
-        if [ "{{.SOPS_SECRET_EXISTS}}" = "false" ]; then
-          cat {{.SOPS_AGE_KEY_FILE}} | kubectl --namespace flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
-        fi
-      - sops exec-file {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-secrets.sops.yaml "kubectl apply --server-side --filename {}"
-      - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-settings.yaml
+      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=600s; do sleep 10; done
+      - op inject --in-file {{.KUBERNETES_DIR}}/bootstrap/templates/resources.tmpl.yaml | kubectl apply --server-side --filename -
       - helmfile --file {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+    env:
+      VAULT: Kubernetes
     preconditions:
+      - op user get --me
+      - talosctl config info
       - test -f {{.KUBECONFIG}}
+      - test -f {{.TALOSCONFIG}}
       - test -f {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - sops filestatus {{.KUBERNETES_DIR}}/flux/meta/settings/cluster-secrets.sops.yaml | jq --exit-status '.encrypted'
-      - which helmfile kubectl sops
+      - test -f {{.KUBERNETES_DIR}}/bootstrap/templates/resources.tmpl.yaml
+      - which helmfile kubectl op talosctl

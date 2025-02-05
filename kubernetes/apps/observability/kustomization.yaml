@@ -2,6 +2,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: observability
+components:
+  - ../../components/alerts
+  - ../../components/namespace
+  - ../../components/sops
+  - ../../components/substitutions
 resources:
   # Flux-Kustomizations
   # - ./exporters
@@ -13,6 +19,8 @@ resources:
   # - ./promtail/ks.yaml
   # - ./silence-operator/ks.yaml
   # - ./unpoller/ks.yaml
+<<<<<<< HEAD
+=======
 components:
   # - ../../flux/components/alerts
   - ../../flux/components/namespace
@@ -24,3 +32,4 @@ patches:
         value: observability
     target:
       kind: Namespace
+>>>>>>> main

@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://crd.movishell.pl/talos.dev/serviceaccount_v1alpha1.json
 apiVersion: v1
 kind: ServiceAccount
 metadata:

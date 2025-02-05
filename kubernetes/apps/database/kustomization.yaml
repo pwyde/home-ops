@@ -2,20 +2,24 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+<<<<<<< HEAD
+namespace: database
+=======
 resources: []
   # Flux-Kustomizations
   # - ./cloudnative-pg/ks.yaml
   # - ./dragonfly/ks.yaml
   # - ./pgadmin/ks.yaml
   # - ./postgres-backup/ks.yaml
+>>>>>>> main
 components:
-  # - ../../flux/components/alerts
-  - ../../flux/components/namespace
-patches:
-  - # Add the name to the namespace.
-    patch: |
-      - op: add
-        path: /metadata/name
-        value: database
-    target:
-      kind: Namespace
+  - ../../components/alerts
+  - ../../components/namespace
+  - ../../components/sops
+  - ../../components/substitutions
+resources: []
+  # Flux-Kustomizations
+  # - ./cloudnative-pg/ks.yaml
+  # - ./dragonfly/ks.yaml
+  # - ./pgadmin/ks.yaml
+  # - ./postgres-backup/ks.yaml

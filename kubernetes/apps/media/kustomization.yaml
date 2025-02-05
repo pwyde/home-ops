@@ -2,6 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+<<<<<<< HEAD
+namespace: media
+=======
 resources: []
   # Pre Flux-Kustomizations
   # - ./priorityclass.yaml
@@ -18,14 +21,25 @@ resources: []
   # - ./recyclarr/ks.yaml
   # - ./sonarr/ks.yaml
   # - ./unpackerr/ks.yaml
+>>>>>>> main
 components:
-  # - ../../flux/components/alerts
-  - ../../flux/components/namespace
-patches:
-  - # Add the name to the namespace.
-    patch: |
-      - op: add
-        path: /metadata/name
-        value: media
-    target:
-      kind: Namespace
+  - ../../components/alerts
+  - ../../components/namespace
+  - ../../components/sops
+  - ../../components/substitutions
+resources: []
+  # Pre Flux-Kustomizations
+  # - ./priorityclass.yaml
+  # Flux-Kustomizations
+  # - ./audiobookshelf/ks.yaml
+  # - ./bazarr/ks.yaml
+  # - ./jellyfin/ks.yaml
+  # - ./jellyseerr/ks.yaml
+  # - ./jellystat/ks.yaml
+  # - ./lidarr/ks.yaml
+  # - ./navidrome/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./unpackerr/ks.yaml

@@ -4,29 +4,33 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app immich
-  namespace: flux-system
+  namespace: &namespace self-hosted
 spec:
-  targetNamespace: self-hosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../flux/components/pvc
+    - ../../../../components/pvc
   dependsOn:
     - name: cloudnative-pg-cluster
+      namespace: database
     - name: dragonfly-cluster
+      namespace: database
     - name: onepassword-store
-  path: ./kubernetes/apps/self-hosted/immich/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
+      namespace: security
   interval: 30m
-  timeout: 5m
+  path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
     substitute:
       APP: *app
       PVC_ACCESSMODES: ReadWriteOnce
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 10Gi
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
