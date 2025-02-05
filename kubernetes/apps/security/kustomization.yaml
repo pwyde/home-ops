@@ -10,7 +10,7 @@ components:
   - ../../components/substitutions
 resources:
   # Flux-Kustomizations
-  # - ./authelia/ks.yaml
+  - ./authelia/ks.yaml
   - ./cert-manager/ks.yaml
   - ./external-secrets/ks.yaml
-  # - ./glauth/ks.yaml
+  - ./glauth/ks.yaml
