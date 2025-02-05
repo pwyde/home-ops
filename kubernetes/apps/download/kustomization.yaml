@@ -8,8 +8,8 @@ components:
   - ../../components/namespace
   - ../../components/sops
   - ../../components/substitutions
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./flaresolverr/ks.yaml
-  - ./pinchflat/ks.yaml
-  - ./qbittorrent/ks.yaml
+  # - ./flaresolverr/ks.yaml
+  # - ./pinchflat/ks.yaml
+  # - ./qbittorrent/ks.yaml

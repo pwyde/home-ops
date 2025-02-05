@@ -8,9 +8,9 @@ components:
   - ../../components/namespace
   - ../../components/sops
   - ../../components/substitutions
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./cloudnative-pg/ks.yaml
-  - ./dragonfly/ks.yaml
-  - ./pgadmin/ks.yaml
-  - ./postgres-backup/ks.yaml
+  # - ./cloudnative-pg/ks.yaml
+  # - ./dragonfly/ks.yaml
+  # - ./pgadmin/ks.yaml
+  # - ./postgres-backup/ks.yaml

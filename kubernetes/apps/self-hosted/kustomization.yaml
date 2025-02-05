@@ -8,10 +8,10 @@ components:
   - ../../components/namespace
   - ../../components/sops
   - ../../components/substitutions
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./dokuwiki/ks.yaml
-  - ./hoarder/ks.yaml
-  - ./immich/ks.yaml
-  - ./immich-folder-album-creator/ks.yaml
-  - ./searxng/ks.yaml
+  # - ./dokuwiki/ks.yaml
+  # - ./hoarder/ks.yaml
+  # - ./immich/ks.yaml
+  # - ./immich-folder-album-creator/ks.yaml
+  # - ./searxng/ks.yaml
