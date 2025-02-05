@@ -14,17 +14,3 @@ resources:
   - ./cert-manager/ks.yaml
   - ./external-secrets/ks.yaml
   # - ./glauth/ks.yaml
-<<<<<<< HEAD
-=======
-components:
-  # - ../../flux/components/alerts
-  - ../../flux/components/namespace
-patches:
-  - # Add the name to the namespace.
-    patch: |
-      - op: add
-        path: /metadata/name
-        value: security
-    target:
-      kind: Namespace
->>>>>>> main

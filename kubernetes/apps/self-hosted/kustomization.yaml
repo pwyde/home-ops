@@ -2,17 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-<<<<<<< HEAD
 namespace: self-hosted
-=======
-resources: []
-  # Flux-Kustomizations
-  # - ./dokuwiki/ks.yaml
-  # - ./hoarder/ks.yaml
-  # - ./immich/ks.yaml
-  # - ./immich-folder-album-creator/ks.yaml
-  # - ./searxng/ks.yaml
->>>>>>> main
 components:
   - ../../components/alerts
   - ../../components/namespace
