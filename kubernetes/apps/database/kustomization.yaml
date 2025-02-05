@@ -5,9 +5,9 @@ kind: Kustomization
 namespace: database
 components:
   - ../../components/alerts
-  - ../../components/global-vars
   - ../../components/namespace
   - ../../components/sops
+  - ../../components/substitutions
 resources:
   # Flux-Kustomizations
   - ./cloudnative-pg/ks.yaml

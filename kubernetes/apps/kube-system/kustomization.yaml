@@ -5,9 +5,9 @@ kind: Kustomization
 namespace: kube-system
 components:
   - ../../components/alerts
-  - ../../components/global-vars
   - ../../components/namespace
   - ../../components/sops
+  - ../../components/substitutions
 resources:
   # Flux-Kustomizations
   - ./cilium/ks.yaml

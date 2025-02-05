@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/alerts
-  - ../../components/global-vars
   - ../../components/namespace
   - ../../components/sops
+  - ../../components/substitutions
 resources: []
   # Flux-Kustomizations
