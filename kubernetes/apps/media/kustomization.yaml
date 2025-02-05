@@ -15,7 +15,7 @@ resources:
   - ./audiobookshelf/ks.yaml
   - ./bazarr/ks.yaml
   - ./jellyfin/ks.yaml
-  # - ./jellyseerr/ks.yaml
+  - ./jellyseerr/ks.yaml
   # - ./jellystat/ks.yaml
   - ./lidarr/ks.yaml
   - ./navidrome/ks.yaml
