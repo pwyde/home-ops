@@ -37,10 +37,6 @@ spec:
   path: ./kubernetes/apps/kube-system/system-upgrade-controller/plans
   postBuild:
     substitute:
-      # Talos schematic ID for standard (general-purpose) nodes.
-      TALOS_SCHEMATIC_ID_STANDARD: 8b583b5320ff41bf40bd1aea9287923ada45e32a1e2ba0045cb3f6758920ef4a
-      # Talos schematic ID for nodes with NVIDIA GPU present.
-      TALOS_SCHEMATIC_ID_GPU: 469f1d8d549c51d8f94afea6f5f6eb9b850fe5876b65c761c3164bc82fab12a6
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
       TALOS_VERSION: v1.9.2
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet

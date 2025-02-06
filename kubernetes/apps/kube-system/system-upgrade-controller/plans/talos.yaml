@@ -3,9 +3,9 @@
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: kubernetes
+  name: talos
 spec:
-  version: ${KUBERNETES_VERSION}
+  version: ${TALOS_VERSION}
   concurrency: 1
   exclusive: true
   serviceAccountName: system-upgrade-controller
@@ -15,20 +15,21 @@ spec:
       ignoreUpdates: true
   nodeSelector:
     matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
+      - key: kubernetes.io/os
+        operator: In
+        values: ["linux"]
   tolerations:
     - effect: NoSchedule
       key: node-role.kubernetes.io/control-plane
       operator: Exists
   upgrade:
-    image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
+    image: ghcr.io/jfroy/tnu:0.3.0
     envs:
       - name: NODE
         valueFrom:
           fieldRef:
-            fieldPath: status.hostIP
+            fieldPath: spec.nodeName
     args:
-      - --nodes=$(NODE)
-      - upgrade-k8s
-      - --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --node=$(NODE)
+      - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --powercycle

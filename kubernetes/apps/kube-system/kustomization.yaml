@@ -19,5 +19,5 @@ resources:
   - ./nvidia-device-plugin/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
-  # - ./system-upgrade-controller/ks.yaml
+  - ./system-upgrade-controller/ks.yaml
   # - ./talos-debug-tools/ks.yaml
