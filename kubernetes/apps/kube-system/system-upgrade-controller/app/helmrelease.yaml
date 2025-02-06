@@ -73,24 +73,3 @@ spec:
     serviceAccount:
       create: true
       name: *app
-    persistence:
-      tmp:
-        type: emptyDir
-      ssl:
-        type: hostPath
-        hostPath: /etc/ssl
-        hostPathType: DirectoryOrCreate
-        globalMounts:
-          - readOnly: true
-      pki:
-        type: hostPath
-        hostPath: /etc/pki
-        hostPathType: DirectoryOrCreate
-        globalMounts:
-          - readOnly: true
-      ca-certificates:
-        type: hostPath
-        hostPath: /etc/ca-certificates
-        hostPathType: DirectoryOrCreate
-        globalMounts:
-          - readOnly: true
