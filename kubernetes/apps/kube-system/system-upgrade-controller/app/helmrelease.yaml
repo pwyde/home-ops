@@ -51,8 +51,6 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-              seccompProfile:
-                type: RuntimeDefault
     defaultPodOptions:
       affinity:
         nodeAffinity:
