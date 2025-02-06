@@ -5,14 +5,6 @@ kind: Dragonfly
 metadata:
   name: &app dragonfly
 spec:
-  image: ghcr.io/dragonflydb/dragonfly:v1.26.2
-  replicas: 3
-  env:
-    - name: MAX_MEMORY
-      valueFrom:
-        resourceFieldRef:
-          resource: limits.memory
-          divisor: 1Mi
   args:
     - --maxmemory=$(MAX_MEMORY)Mi
     - --proactor_threads=2
@@ -23,6 +15,22 @@ spec:
     passwordFromSecret:
       name: *app
       key: password
+  env:
+    - name: MAX_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.memory
+          divisor: 1Mi
+  image: ghcr.io/dragonflydb/dragonfly:v1.26.2
+  labels:
+    dragonflydb.io/cluster: dragonfly
+  replicas: 3
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
@@ -30,9 +38,3 @@ spec:
       labelSelector:
         matchLabels:
           app.kubernetes.io/part-of: *app
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      memory: 512Mi
