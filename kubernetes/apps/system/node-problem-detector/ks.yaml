@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app talos-debug-tools
-  namespace: &namespace kube-system
+  name: &app node-problem-detector
+  namespace: &namespace system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/kube-system/talos-debug-tools/app
+  path: ./kubernetes/apps/system/node-problem-detector/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -18,4 +18,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true

@@ -10,7 +10,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: *app
-    namespace: kube-system
+    namespace: system
 ---
 # yaml-language-server: $schema=https://crd.movishell.pl/talos.dev/serviceaccount_v1alpha1.json
 apiVersion: talos.dev/v1alpha1

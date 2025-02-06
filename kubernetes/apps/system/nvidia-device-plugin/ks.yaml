@@ -3,14 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app spegel
-  namespace: &namespace kube-system
+  name: &app nvidia-device-plugin
+  namespace: &namespace system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: node-feature-discovery
+      namespace: system
   interval: 30m
-  path: ./kubernetes/apps/kube-system/spegel/app
+  path: ./kubernetes/apps/system/nvidia-device-plugin/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -18,4 +21,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true

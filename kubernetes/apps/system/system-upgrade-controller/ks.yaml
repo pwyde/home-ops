@@ -4,13 +4,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app system-upgrade-controller
-  namespace: &namespace kube-system
+  namespace: &namespace system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/apps/kube-system/system-upgrade-controller/app
+  path: ./kubernetes/apps/system/system-upgrade-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,16 +25,16 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app system-upgrade-plans
-  namespace: &namespace kube-system
+  namespace: &namespace system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: system-upgrade-controller
-      namespace: kube-system
+      namespace: system
   interval: 30m
-  path: ./kubernetes/apps/kube-system/system-upgrade-controller/plans
+  path: ./kubernetes/apps/system/system-upgrade-controller/plans
   postBuild:
     substitute:
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
