@@ -25,7 +25,7 @@ spec:
       retries: 3
   dependsOn:
     - name: generic-device-plugin
-      namespace: kube-system
+      namespace: system
   values:
     controllers:
       searxng:

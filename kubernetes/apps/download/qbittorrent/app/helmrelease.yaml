@@ -27,7 +27,7 @@ spec:
     - name: democratic-csi-nfs
       namespace: storage
     - name: generic-device-plugin
-      namespace: kube-system
+      namespace: system
   values:
     controllers:
       qbittorrent:
