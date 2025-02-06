@@ -193,9 +193,6 @@ spec:
               implementation: prometheus
     dashboards:
       database:
-        dragonfly:
-          url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dragonfly.json
-          datasource: Prometheus
       default:
       download:
         flaresolverr:
