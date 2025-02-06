@@ -61,7 +61,7 @@ spec:
                     operator: Exists
       securityContext:
         runAsNonRoot: true
-        runAsUser: &uid 1000
+        runAsUser: &uid 65534
         runAsGroup: *uid
         seccompProfile: { type: RuntimeDefault }
       tolerations:
