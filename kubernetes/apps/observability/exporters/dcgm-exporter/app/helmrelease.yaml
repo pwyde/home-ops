@@ -23,9 +23,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: nvidia-device-plugin
-      namespace: kube-system
   values:
     image:
       repository: nvcr.io/nvidia/k8s/dcgm-exporter
