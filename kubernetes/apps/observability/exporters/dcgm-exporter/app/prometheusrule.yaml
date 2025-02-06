@@ -1,12 +1,15 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: gpu.rules
-  namespace: monitoring
+  name: dcgm-exporter-rules
+  labels:
+    prometheus: k8s
+    role: alert-rules
 spec:
   groups:
-    - name: dcgm-exporter
+    - name: dcgm-exporter.rules
       rules:
         - alert: HighGpuUsage
           expr: |

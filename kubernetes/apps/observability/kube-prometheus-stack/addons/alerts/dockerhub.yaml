@@ -3,10 +3,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: dockerhub-alert
+  name: dockerhub-rules
 spec:
   groups:
-    - name: dockerhub
+    - name: dockerhub.rules
       rules:
         - alert: BootstrapRateLimitRisk
           annotations:
