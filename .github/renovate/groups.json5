@@ -2,6 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": ["1Password Connect Group"],
+      "groupName": "1Password Connnect",
+      "matchPackagePatterns": ["1password/connect"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
       "description": ["Flux Operator Group"],
       "groupName": "Flux Operator",
       "matchPackagePatterns": ["flux-operator", "flux-instance"],
@@ -16,7 +25,7 @@
       "matchPackagePatterns": ["immich"],
       "matchDatasources": ["docker"],
       "group": {
-        "commitMessageTopic": "{{{groupName}}}"
+        "commitMessageTopic": "{{{groupName}}} group"
       },
       "separateMinorPatch": true,
       "sourceUrl": "https://github.com/immich-app/immich"
