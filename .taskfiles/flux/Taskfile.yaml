@@ -10,8 +10,10 @@ tasks:
     prompt: This will annotate ALL Kustomizations resources... Continue?
     cmds:
       - |
-        for KS in $(kubectl get kustomizations.kustomize.toolkit.fluxcd.io --namespace flux-system -o name); do
-          kubectl annotate --namespace flux-system --field-manager=flux-client-side-apply --overwrite $KS reconcile.fluxcd.io/requestedAt="$(date +%s)"
+        for NS in $(kubectl get namespaces -o jsonpath='{.items[*].metadata.name}'); do
+          for KS in $(kubectl get kustomizations.kustomize.toolkit.fluxcd.io --namespace $NS -o name); do
+            kubectl annotate --namespace $NS --field-manager=flux-client-side-apply --overwrite $KS reconcile.fluxcd.io/requestedAt="$(date +%s)"
+          done
         done
     preconditions:
       - test -f {{.KUBECONFIG}}
@@ -51,24 +53,51 @@ tasks:
       NS: '{{.NS | default "flux-system"}}'
       KS:
         sh: flux --namespace {{.NS}} get kustomizations $(basename {{.PATH}}) 2>&1
-    cmd: |
-      flux build ks $(basename {{.PATH}}) \
-          --namespace {{.NS}} \
-          --kustomization-file {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml \
-          --path {{.KUBERNETES_DIR}}/apps/{{.PATH}} \
-          {{- if contains "not found" .KS }}--dry-run \{{ end }}
-      | \
-      kubectl apply --server-side \
-          --field-manager=kustomize-controller -f -
+    cmd: >
+      flux build --namespace {{.NS}} ks $(basename {{.PATH}})
+      --kustomization-file {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml
+      --path {{.KUBERNETES_DIR}}/apps/{{.PATH}}
+      {{- if contains "not found" .KS }}--dry-run \{{ end }}
+      | yq 'with(select(.apiVersion == "kustomize.toolkit.fluxcd.io/v1" and .kind == "Kustomization"); .metadata.namespace = "{{.NS}}")' -
+      | kubectl apply --server-side --field-manager=kustomize-controller --filename -
     preconditions:
       - test -f {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml
 
   reconcile:
     desc: Force update Flux to pull in changes from Git repository
-    cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
+    cmds:
+      - flux get ks --no-header --namespace flux-system | awk '{print $1, $2}' | xargs -L1 bash -c 'flux reconcile ks --namespace flux-system $0'
+      - flux get ks --all-namespaces --no-header | awk '{print $1, $2}' | xargs -L1 bash -c 'flux reconcile ks --namespace $0 $1'
     preconditions:
       - test -f {{.KUBECONFIG}}
       - which flux
+
+  hr-restart:
+    desc: Restart all failed HelmRelease resources
+    cmds:
+      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux suspend hr ks --namespace $0 $1'
+      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux resume hr ks --namespace $0 $1'
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which kubectl
+      - which flux
+
+  ks-*:
+    desc: Suspend or resume ALL Kustomization resources
+    prompt: This will suspend/resume ALL ALL Kustomization resources... Continue?
+    summary: |
+      Suspend or resume ALL Kustomization resources
+
+      Example:
+      task flux:ks-suspend
+      task flux:ks-resume
+    vars:
+      STATE: '{{index .MATCH 0}}'
+    cmds:
+      - kubectl get ns -o jsonpath='{.items[*].metadata.name}' | xargs -n1 flux {{.STATE}} ks --all --namespace
+    preconditions:
+      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
+      - which flux kubectl
 
   sync-ks:
     desc: Sync a Flux Kustomization resource
