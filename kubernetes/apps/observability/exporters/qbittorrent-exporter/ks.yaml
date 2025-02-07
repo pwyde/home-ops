@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: qbittorrent
-      namespace: download
+      namespace: downloads
   interval: 30m
   path: ./kubernetes/apps/observability/exporters/qbittorrent-exporter/app
   prune: true

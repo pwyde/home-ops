@@ -3,8 +3,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app qbittorrent
-  namespace: &namespace download
+  name: &app pinchflat
+  namespace: &namespace downloads
 spec:
   commonMetadata:
     labels:
@@ -17,7 +17,7 @@ spec:
     - name: volsync
       namespace: storage
   interval: 30m
-  path: ./kubernetes/apps/download/qbittorrent/app
+  path: ./kubernetes/apps/downloads/pinchflat/app
   postBuild:
     substitute:
       APP: *app
@@ -25,7 +25,7 @@ spec:
       APP_GID: *uid
       VOLSYNC_CLAIM: *app
       VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
-      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_NFS}
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
       VOLSYNC_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
       VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
