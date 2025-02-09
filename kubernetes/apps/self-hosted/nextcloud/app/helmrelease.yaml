@@ -80,6 +80,8 @@ spec:
         runAsNonRoot: true
         runAsUser: &uid 5000
         runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
       defaultConfigs:
         redis.config.php: false
         s3.config.php: false
@@ -235,3 +237,9 @@ spec:
         enabled: false
     cronjob:
       enabled: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: *uid
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
