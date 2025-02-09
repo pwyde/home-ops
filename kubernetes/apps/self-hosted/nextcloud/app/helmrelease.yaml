@@ -85,22 +85,6 @@ spec:
         redis.config.php: false
         s3.config.php: false
       configs:
-        local.config.php: |-
-          <?php
-          $CONFIG = array (
-            'trusted_proxies' =>
-            array (
-              0 => '127.0.0.1',
-              1 => '${CLUSTER_POD_CIDR}',
-            ),
-            'forwarded_for_headers' =>
-            array (
-              0 => 'HTTP_X_FORWARDED_FOR',
-            ),
-            'default_phone_region' => 'SE',
-            'trashbin_retention_obligation' => 'auto, 30',
-            'auth.bruteforce.protection.enabled' => true,
-          );
         # log levels: 0=debug, 1=info, 2=warn, 3=error, 4=fatal
         logging.config.php: |-
           <?php
@@ -109,6 +93,22 @@ spec:
             'logfile' => 'nextcloud.log',
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
+          );
+        misc.config.php: |-
+          <?php
+          $CONFIG = array (
+            'default_phone_region' => 'SE',
+            'trashbin_retention_obligation' => 'auto, 30',
+            'auth.bruteforce.protection.enabled' => true,
+          );
+        proxy.config.php: |-
+          <?php
+          $CONFIG = array (
+            'trusted_proxies' => array(
+              0 => '127.0.0.1',
+              1 => '${CLUSTER_POD_CIDR}',
+            ),
+            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
           );
         redis.config.php: |-
           <?php
@@ -224,9 +224,6 @@ spec:
             - *host
     nginx:
       enabled: true
-      config:
-        headers:
-          "Strict-Transport-Security": "max-age=15768000; includeSubDomains;"
       resources:
         requests:
           cpu: 50m
