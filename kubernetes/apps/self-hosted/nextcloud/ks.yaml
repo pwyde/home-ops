@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app nextcloud
+  namespace: &namespace self-hosted
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: cloudnative-pg-cluster
+      namespace: database
+    - name: dragonfly-cluster
+      namespace: database
+    - name: onepassword-store
+      namespace: security
+    - name: volsync
+      namespace: storage
+  interval: 30m
+  path: ./kubernetes/apps/self-hosted/nextcloud/app
+  postBuild:
+    substitute:
+      APP: *app
+      APP_UID: &uid ${CONFIG_APP_UID}
+      APP_GID: *uid
+      VOLSYNC_CLAIM: *app
+      VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_NFS}
+      VOLSYNC_SNAPSHOTCLASS: *storageClass
+      VOLSYNC_CACHE_ACCESSMODES: *accessModes
+      VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
+      VOLSYNC_CAPACITY: &capacity 5Gi
+      VOLSYNC_CACHE_CAPACITY: *capacity
+      VOLSYNC_TIME: "30 4 * * *"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false

@@ -1,0 +1,237 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app nextcloud
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: nextcloud
+      version: 6.6.3
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: democratic-csi-nfs
+      namespace: storage
+  values:
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
+    image:
+      flavor: fpm
+    nextcloud:
+      host: nextcloud.${SECRET_DOMAIN}
+      extraInitContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16
+          envFrom:
+            - secretRef:
+                name: *app
+      extraEnv:
+        - name: REDIS_HOST
+          value: dragonfly.database.svc.cluster.local
+        - name: REDIS_HOST_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: *app
+              key: REDIS_PASSWORD
+        - name: S3_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: *app
+              key: S3_ACCESS_KEY
+        - name: S3_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: *app
+              key: S3_SECRET_KEY
+      existingSecret:
+        enabled: true
+        secretName: *app
+        usernameKey: ADMIN_USER
+        passwordKey: ADMIN_PASS
+        tokenKey: METRICS_TOKEN
+        smtpHostKey: SMTP_HOST
+        smtpUsernameKey: SMTP_USERNAME
+        smtpPasswordKey: SMTP_PASSWORD
+      mail:
+        enabled: true
+        fromAddress: *app
+        domain: "${SECRET_DOMAIN}"
+        smtp:
+          secure: ssl
+          port: 465
+          authtype: LOGIN
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 5000
+        runAsGroup: *uid
+      defaultConfigs:
+        redis.config.php: false
+        s3.config.php: false
+      configs:
+        local.config.php: |-
+          <?php
+          $CONFIG = array (
+            'trusted_proxies' =>
+            array (
+              0 => '127.0.0.1',
+              1 => '${CLUSTER_POD_CIDR}',
+            ),
+            'forwarded_for_headers' =>
+            array (
+              0 => 'HTTP_X_FORWARDED_FOR',
+            ),
+            'default_phone_region' => 'SE',
+            'trashbin_retention_obligation' => 'auto, 30',
+            'auth.bruteforce.protection.enabled' => true,
+          );
+        redis.config.php: |-
+          <?php
+            $CONFIG = array (
+              'memcache.distributed' => '\OC\Memcache\Redis',
+              'memcache.locking' => '\OC\Memcache\Redis',
+              'redis' => array(
+                'host' => getenv('REDIS_HOST'),
+                'port' => getenv('REDIS_HOST_PORT') ?: 6379,
+                'password' => getenv('REDIS_PASSWORD'),
+                'dbindex' => 5,
+              )
+            );
+        s3.config.php: |-
+          <?php
+          $CONFIG = array (
+            'objectstore' => array(
+              'class' => '\\OC\\Files\\ObjectStore\\S3',
+              'arguments' => array(
+                'hostname'       => 's3.${SECRET_DOMAIN}',
+                'port'           => 443,
+                'bucket'         => 'nextcloud'',
+                'autocreate'     => false,
+                'key'            => getenv('S3_ACCESS_KEY'),
+                'secret'         => getenv('S3_SECRET_KEY'),
+              ),
+            ),
+          );
+      phpConfigs:
+        uploadLimit.ini: |
+          upload_max_filesize = 10G
+          post_max_size = 10G
+          max_input_time = 3600
+          max_execution_time = 3600
+        www.conf: |
+          [www]
+          user = www-data
+          group = www-data
+          listen = 127.0.0.1:9000
+          pm = dynamic
+          pm.max_children = 57
+          pm.start_servers = 14
+          pm.min_spare_servers = 14
+          pm.max_spare_servers = 42
+          pm.max_requests = 500
+          pm.process_idle_timeout = 10s
+    persistence:
+      enabled: true
+      existingClaim: ${VOLSYNC_CLAIM}
+    resources:
+      requests:
+        cpu: 200m
+        memory: 384Mi
+      limits:
+        memory: 2Gi
+    # This seems to be required for Nextcloud initialization which takes a long time.
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 360
+      successThreshold: 1
+    livenessProbe: &probes
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+    readinessProbe: *probes
+    ingress:
+      enabled: true
+      className: internal
+      annotations:
+        nginx.ingress.kubernetes.io/affinity: cookie
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/proxy-body-size: "10G"
+        nginx.ingress.kubernetes.io/proxy-buffering: "off"
+        nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+        nginx.ingress.kubernetes.io/server-snippet: |-
+          server_tokens off;
+          proxy_hide_header X-Powered-By;
+          rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
+          rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
+          rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
+          rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
+          location = /.well-known/carddav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /.well-known/caldav {
+            return 301 $scheme://$host/remote.php/dav;
+          }
+          location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+          }
+          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+            deny all;
+          }
+          location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+            deny all;
+          }
+    nginx:
+      enabled: true
+      config:
+        headers:
+          "Strict-Transport-Security": "max-age=15768000; includeSubDomains;"
+      resources:
+        requests:
+          cpu: 50m
+          memory: 24Mi
+        limits:
+          memory: 128Mi
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      database: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: *app
+        hostKey: POSTGRES_HOST
+        databaseKey: POSTGRES_DB
+        usernameKey: POSTGRES_USER
+        passwordKey: POSTGRES_PASSWORD
+    metrics:
+      enabled: false
+      https: true
+      serviceMonitor:
+        enabled: false
+    cronjob:
+      enabled: true

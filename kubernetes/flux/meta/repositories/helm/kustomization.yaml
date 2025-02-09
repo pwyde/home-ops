@@ -20,6 +20,7 @@ resources:
   - ./jetstack.yaml
   - ./kubernetes-dashboard.yaml
   - ./metrics-server.yaml
+  - ./nextcloud.yaml
   - ./node-feature-discovery.yaml
   - ./nvidia-dcgm.yaml
   - ./nvidia-device-plugin.yaml
