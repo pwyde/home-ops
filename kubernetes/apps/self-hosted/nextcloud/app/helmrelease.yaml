@@ -108,6 +108,10 @@ spec:
               0 => '127.0.0.1',
               1 => '${CLUSTER_POD_CIDR}',
             ),
+            'trusted_domains' => array(
+              0 => '127.0.0.1',
+              1 => 'nextcloud.${SECRET_DOMAIN}',
+            ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
           );
         redis.config.php: |-
