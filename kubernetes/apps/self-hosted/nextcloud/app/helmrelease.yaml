@@ -30,7 +30,7 @@ spec:
     deploymentAnnotations:
       reloader.stakater.com/auto: "true"
     image:
-      flavor: fpm
+      flavor: fpm-alpine
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       extraInitContainers:
