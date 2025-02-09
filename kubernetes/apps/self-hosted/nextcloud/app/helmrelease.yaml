@@ -76,10 +76,6 @@ spec:
           secure: ssl
           port: 465
           authtype: LOGIN
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: &uid 5000
-        runAsGroup: *uid
       defaultConfigs:
         redis.config.php: false
         s3.config.php: false
