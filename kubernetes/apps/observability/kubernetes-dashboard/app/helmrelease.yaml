@@ -29,6 +29,11 @@ spec:
         global:
           clusterName: ${CLUSTER_NAME}
           itemsPerPage: 50
+    extraArgs:
+      - --disable-settings-authorizer
+      - --enable-insecure-login
+      - --enable-skip-login
+      - --insecure-bind-address=0.0.0.0
     ingress:
       enabled: true
       className: internal
