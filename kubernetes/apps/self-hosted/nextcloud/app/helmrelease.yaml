@@ -80,6 +80,7 @@ spec:
         runAsNonRoot: true
         runAsUser: &uid 5000
         runAsGroup: *uid
+        readOnlyRootFilesystem: false
       defaultConfigs:
         redis.config.php: false
         s3.config.php: false
