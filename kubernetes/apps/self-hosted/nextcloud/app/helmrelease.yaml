@@ -122,8 +122,8 @@ spec:
               'arguments' => array(
                 'hostname'       => 's3.${SECRET_DOMAIN}',
                 'port'           => 443,
-                'bucket'         => 'nextcloud'',
-                'autocreate'     => 'false',
+                'bucket'         => 'nextcloud',
+                'autocreate'     => false,
                 'key'            => getenv('S3_ACCESS_KEY'),
                 'secret'         => getenv('S3_SECRET_KEY'),
               ),
