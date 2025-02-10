@@ -118,8 +118,8 @@ spec:
       #   readOnlyRootFilesystem: false
       phpConfigs:
         uploadLimit.ini: |
-          upload_max_filesize = 10G
-          post_max_size = 10G
+          upload_max_filesize = 16G
+          post_max_size = 16G
           max_input_time = 3600
           max_execution_time = 3600
         www.conf: |
@@ -163,14 +163,14 @@ spec:
       enabled: true
       className: internal
       annotations:
-        nginx.ingress.kubernetes.io/proxy-body-size: "10G"
-        nginx.ingress.kubernetes.io/proxy-buffering: "off"
-        nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/custom-http-errors: "502,503"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
-
-          rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
+          rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
+          rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
           rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
           rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
           location = /.well-known/carddav {
@@ -190,10 +190,13 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
-      path: /
-      pathType: Prefix
+      tls:
+        - hosts:
+            - *host
     nginx:
       enabled: true
+      config:
+        default: true
       resources:
         requests:
           cpu: 50m
@@ -215,6 +218,8 @@ spec:
         databaseKey: POSTGRES_DB
         usernameKey: POSTGRES_USER
         passwordKey: POSTGRES_PASSWORD
+    redis:
+      enabled: false
     metrics:
       enabled: false
       https: true
