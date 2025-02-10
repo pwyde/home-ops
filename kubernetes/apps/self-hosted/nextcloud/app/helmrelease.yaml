@@ -96,6 +96,7 @@ spec:
         misc.config.php: |-
           <?php
           $CONFIG = array (
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
             'default_phone_region' => 'SE',
             'trashbin_retention_obligation' => 'auto, 30',
             'auth.bruteforce.protection.enabled' => true,
