@@ -143,11 +143,11 @@ spec:
               ),
             ),
           );
-      securityContext:
-        runAsUser: 82
-        runAsGroup: 82
-        runAsNonRoot: true
-        readOnlyRootFilesystem: false
+      # securityContext:
+      #   runAsUser: 82
+      #   runAsGroup: 82
+      #   runAsNonRoot: true
+      #   readOnlyRootFilesystem: false
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 10G
@@ -236,8 +236,8 @@ spec:
           memory: 24Mi
         limits:
           memory: 128Mi
-      securityContext:
-        runAsGroup: 82
+      # securityContext:
+      #   runAsGroup: 82
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -258,7 +258,7 @@ spec:
         enabled: false
     cronjob:
       enabled: true
-      securityContext:
-        runAsGroup: 82
-    securityContext:
-      fsGroupChangePolicy: OnRootMismatch
+      # securityContext:
+      #   runAsGroup: 82
+    # securityContext:
+    #   fsGroupChangePolicy: OnRootMismatch
