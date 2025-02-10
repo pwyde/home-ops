@@ -27,11 +27,11 @@ spec:
     - name: democratic-csi-nfs
       namespace: storage
   values:
-    deploymentAnnotations:
-      secret.reloader.stakater.com/reload: *app
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     image:
       repository: public.ecr.aws/docker/library/nextcloud
-      flavor: fpm-alpine
+      flavor: apache
     phpClientHttpsFix:
       enabled: true
     nextcloud:
@@ -72,9 +72,19 @@ spec:
           port: 465
           authtype: LOGIN
       defaultConfigs:
-        redis.config.php: false
+        .htaccess: true                         # Default .htaccess to protect /var/www/html/config.
+        apache-pretty-urls.config.php: true     # Default Apache configuration for rewrite URLs.
+        apcu.config.php: true                   # Default configuration to define APCu as local cache.
+        apps.config.php: true                   # Default configuration for apps.
+        autoconfig.php: false                   # Default auto-configuration for databases. Set to false, use CNPG instead.
+        redis.config.php: false                 # Default Redis configuration. Set to false, use Dragonfly instead.
+        reverse-proxy.config.php: true          # Default reverse proxy configuration.
+        s3.config.php: false                    # Default configuration for S3 as primary Object Storage. Set to false, not in use.
+        smtp.config.php: true                   # Default configuration for SMTP.
+        swift.config.php: false                 # Default configuration for Swift as primary Object Storage. Set to false, not in use.
+        upgrade-disable-web.config.php: true    # Default config to disable the web-based updater as the default docker image does not suppor it.
       configs:
-        # log levels: 0=debug, 1=info, 2=warn, 3=error, 4=fatal
+        # Log levels: 0=debug, 1=info, 2=warn, 3=error, 4=fatal
         logging.config.php: |-
           <?php
           $CONFIG = array (
@@ -94,8 +104,8 @@ spec:
           <?php
           $CONFIG = array (
             'trusted_proxies' => array(
-              '127.0.0.1',
-              '10.0.0.0/8',
+              0 => '127.0.0.1',
+              1 => '${CLUSTER_POD_CIDR}',
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
           );
@@ -111,29 +121,12 @@ spec:
                 'password' => getenv('REDIS_PASSWORD'),
               )
             );
-      # securityContext:
-      #   runAsUser: 82
-      #   runAsGroup: 82
-      #   runAsNonRoot: true
-      #   readOnlyRootFilesystem: false
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 16G
           post_max_size = 16G
           max_input_time = 3600
           max_execution_time = 3600
-        www.conf: |
-          [www]
-          user = www-data
-          group = www-data
-          listen = 127.0.0.1:9000
-          pm = dynamic
-          pm.max_children = 57
-          pm.start_servers = 14
-          pm.min_spare_servers = 14
-          pm.max_spare_servers = 42
-          pm.max_requests = 500
-          pm.process_idle_timeout = 10s
     persistence:
       enabled: true
       existingClaim: ${VOLSYNC_CLAIM}
@@ -163,8 +156,9 @@ spec:
       enabled: true
       className: internal
       annotations:
-        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/affinity: cookie
         nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
@@ -192,18 +186,6 @@ spec:
       tls:
         - hosts:
             - *host
-    nginx:
-      enabled: true
-      config:
-        default: true
-      resources:
-        requests:
-          cpu: 50m
-          memory: 24Mi
-        limits:
-          memory: 128Mi
-      # securityContext:
-      #   runAsGroup: 82
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -226,7 +208,3 @@ spec:
         enabled: false
     cronjob:
       enabled: true
-      # securityContext:
-      #   runAsGroup: 82
-    # securityContext:
-    #   fsGroupChangePolicy: OnRootMismatch
