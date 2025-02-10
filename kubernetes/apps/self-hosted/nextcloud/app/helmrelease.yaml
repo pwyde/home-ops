@@ -184,9 +184,8 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
-      tls:
-        - hosts:
-            - *host
+      path: /
+      pathType: Prefix
     internalDatabase:
       enabled: false
     externalDatabase:
