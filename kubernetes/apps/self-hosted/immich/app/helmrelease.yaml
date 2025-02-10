@@ -29,7 +29,7 @@ spec:
   values:
     controllers:
       immich:
-        annotations: &annotations
+        annotations:
           reloader.stakater.com/auto: "true"
         containers:
           server:
