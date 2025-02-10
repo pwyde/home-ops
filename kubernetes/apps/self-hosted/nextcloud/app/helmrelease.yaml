@@ -223,6 +223,8 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
+      hosts:
+          - *host
       tls:
         - hosts:
             - *host
