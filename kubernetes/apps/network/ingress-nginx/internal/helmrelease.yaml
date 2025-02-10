@@ -26,7 +26,6 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      allowSnippetAnnotations: true
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
