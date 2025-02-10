@@ -25,8 +25,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      # APP_UID: &uid "82"
-      # APP_GID: *uid
+      APP_UID: &uid "82"
+      APP_GID: *uid
       VOLSYNC_CLAIM: *app
       VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
       VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
