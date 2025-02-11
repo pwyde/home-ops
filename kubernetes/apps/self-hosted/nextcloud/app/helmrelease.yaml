@@ -94,6 +94,7 @@ spec:
           $CONFIG = array (
             'auth.bruteforce.protection.enabled' => true,
             'default_phone_region' => 'SE',
+            'maintenance_window_start' => 1,
             'trashbin_retention_obligation' => 'auto, 30',
           );
         proxy.config.php: |-
