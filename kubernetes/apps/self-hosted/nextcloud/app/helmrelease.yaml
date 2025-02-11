@@ -31,12 +31,12 @@ spec:
     deploymentAnnotations:
       secret.reloader.stakater.com/reload: *app
     image:
-      repository: public.ecr.aws/docker/library/nextcloud
-      tag: 30.0.5-fpm-alpine
-      flavor: fpm-alpine
+      # repository: public.ecr.aws/docker/library/nextcloud
+      # tag: 30.0.5-fpm-alpine
+      # flavor: fpm-alpine
+      flavor: fpm
     nextcloud:
       host: &host nc.${SECRET_DOMAIN}
-      containerPort: 80
       extraInitContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16
@@ -82,25 +82,42 @@ spec:
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
           );
-        custom.config.php: |-
+        local.config.php: |-
           <?php
           $CONFIG = array (
-            'overwriteprotocol' => 'https',
-            'overwrite.cli.url' => 'https://nc.${SECRET_DOMAIN}',
-            'overewritehost' => 'nc.${SECRET_DOMAIN}',
-            'filelocking.enabled' => 'true',
-            'default_phone_region' => 'SE',
-            'enable_previews' => true,
-            'maintenance_window_start' => 1,
             'trusted_proxies' =>
-              array (
-                0 => '127.0.0.1',
-                1 => '10.69.0.0/16',
-                2 => '10.96.0.0/16',
-                3 => '192.168.20.0/24',
-              ),
-              'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+            array (
+              0 => '127.0.0.1',
+              1 => '10.69.0.0/16',
+              2 => '10.96.0.0/16',
+            ),
+            'forwarded_for_headers' =>
+            array (
+              0 => 'HTTP_X_FORWARDED_FOR',
+            ),
+            'default_phone_region' => 'SE',
+            'trashbin_retention_obligation' => 'auto, 30',
+            'auth.bruteforce.protection.enabled' => true,
           );
+        # custom.config.php: |-
+        #   <?php
+        #   $CONFIG = array (
+        #     'overwriteprotocol' => 'https',
+        #     'overwrite.cli.url' => 'https://nc.${SECRET_DOMAIN}',
+        #     'overewritehost' => 'nc.${SECRET_DOMAIN}',
+        #     'filelocking.enabled' => 'true',
+        #     'default_phone_region' => 'SE',
+        #     'enable_previews' => true,
+        #     'maintenance_window_start' => 1,
+        #     'trusted_proxies' =>
+        #       array (
+        #         0 => '127.0.0.1',
+        #         1 => '10.69.0.0/16',
+        #         2 => '10.96.0.0/16',
+        #         3 => '192.168.20.0/24',
+        #       ),
+        #       'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+        #   );
         # misc.config.php: |-
         #   <?php
         #   $CONFIG = array (
@@ -183,8 +200,9 @@ spec:
       enabled: true
       className: internal
       annotations:
-        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/affinity: cookie
         nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
@@ -209,16 +227,11 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
-      tls:
-        - hosts:
-            - *host
     nginx:
       enabled: true
-      image:
-        repository: public.ecr.aws/nginx/nginx
-        tag: "1.27.4"
       config:
-        default: true
+        headers:
+          "Strict-Transport-Security": "max-age=15768000; includeSubDomains;"
       resources:
         requests:
           cpu: 50m
