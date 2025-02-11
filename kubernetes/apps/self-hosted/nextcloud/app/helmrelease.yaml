@@ -106,18 +106,18 @@ spec:
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
           );
-        # redis.config.php: |-
-        #   <?php
-        #     $CONFIG = array (
-        #       'memcache.distributed' => '\OC\Memcache\Redis',
-        #       'memcache.locking' => '\OC\Memcache\Redis',
-        #       'redis' => array(
-        #         'host' => getenv('REDIS_HOST'),
-        #         'port' => getenv('REDIS_HOST_PORT') ?: 6379,
-        #         'dbindex' => getenv('REDIS_DATABASE') ?: 0,
-        #         'password' => getenv('REDIS_PASSWORD'),
-        #       )
-        #     );
+        redis.config.php: |-
+          <?php
+            $CONFIG = array (
+              'memcache.distributed' => '\OC\Memcache\Redis',
+              'memcache.locking' => '\OC\Memcache\Redis',
+              'redis' => array(
+                'host' => getenv('REDIS_HOST'),
+                'port' => getenv('REDIS_HOST_PORT') ?: 6379,
+                'dbindex' => getenv('REDIS_DATABASE') ?: 0,
+                'password' => getenv('REDIS_PASSWORD'),
+              )
+            );
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 16G
