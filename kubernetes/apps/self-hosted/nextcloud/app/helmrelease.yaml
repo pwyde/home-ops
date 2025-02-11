@@ -207,8 +207,6 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
-      path: /
-      pathType: Prefix
       tls:
         - hosts:
             - *host
@@ -240,8 +238,6 @@ spec:
         passwordKey: POSTGRES_PASSWORD
     redis:
       enabled: false
-    service:
-        type: LoadBalancer
     metrics:
       enabled: false
       https: true
