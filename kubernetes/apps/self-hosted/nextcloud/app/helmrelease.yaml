@@ -36,6 +36,7 @@ spec:
       flavor: fpm-alpine
     nextcloud:
       host: &host nc.${SECRET_DOMAIN}
+      containerPort: 80
       extraInitContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16
