@@ -72,11 +72,11 @@ spec:
           secure: ssl
           port: 465
           authtype: LOGIN
-      # securityContext:
-      #   runAsNonRoot: true
-      #   runAsUser: 82
-      #   runAsGroup: 82
-      #   readOnlyRootFilesystem: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 82
+        runAsGroup: 82
+        readOnlyRootFilesystem: false
       defaultConfigs:
         redis.config.php: false
       configs:
