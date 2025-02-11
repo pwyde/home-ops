@@ -93,23 +93,49 @@ spec:
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
           );
-        misc.config.php: |-
+        custom.config.php: |-
           <?php
           $CONFIG = array (
+            'overwriteprotocol' => 'https',
             'overwrite.cli.url' => 'https://nc.${SECRET_DOMAIN}',
+            'filelocking.enabled' => 'true',
+            'loglevel' => '2',
+            'enable_previews' => true,
+            'trusted_domains' =>
+              [
+                'nextcloud',
+                'nc.${SECRET_DOMAIN}'
+              ],
+            'trusted_proxies' =>
+              [
+                '10.69.0.0/16',
+              ],
+            'forwarded_for_headers' =>
+              [
+                0 => 'X-Forwarded-For',
+                1 => 'HTTP_X_FORWARDED_FOR'
+              ],
             'default_phone_region' => 'SE',
-            'trashbin_retention_obligation' => 'auto, 30',
-            'auth.bruteforce.protection.enabled' => true,
+            'allow_local_remote_servers' => true,
+            'bulkupload.enabled' => true,
           );
-        proxy.config.php: |-
-          <?php
-          $CONFIG = array (
-            'trusted_proxies' => array(
-              0 => '127.0.0.1',
-              1 => '${CLUSTER_POD_CIDR}',
-            ),
-            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
-          );
+        # misc.config.php: |-
+        #   <?php
+        #   $CONFIG = array (
+        #     'overwrite.cli.url' => 'https://nc.${SECRET_DOMAIN}',
+        #     'default_phone_region' => 'SE',
+        #     'trashbin_retention_obligation' => 'auto, 30',
+        #     'auth.bruteforce.protection.enabled' => true,
+        #   );
+        # proxy.config.php: |-
+        #   <?php
+        #   $CONFIG = array (
+        #     'trusted_proxies' => array(
+        #       0 => '127.0.0.1',
+        #       1 => '${CLUSTER_POD_CIDR}',
+        #     ),
+        #     'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+        #   );
         redis.config.php: |-
           <?php
             $CONFIG = array (

@@ -27,7 +27,7 @@ spec:
     controller:
       replicaCount: 2
       allowSnippetAnnotations: true
-      enableAnnotationValidations: true
+      # enableAnnotationValidations: true
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
