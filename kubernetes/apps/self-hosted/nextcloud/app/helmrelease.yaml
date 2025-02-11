@@ -239,6 +239,8 @@ spec:
         passwordKey: POSTGRES_PASSWORD
     redis:
       enabled: false
+    service:
+        type: LoadBalancer
     metrics:
       enabled: false
       https: true
