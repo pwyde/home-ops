@@ -93,6 +93,7 @@ spec:
           <?php
           $CONFIG = array (
             'auth.bruteforce.protection.enabled' => true,
+            'check_data_directory_permissions' => false,
             'default_phone_region' => 'SE',
             'maintenance_window_start' => 1,
             'trashbin_retention_obligation' => 'auto, 30',
@@ -123,7 +124,6 @@ spec:
           $CONFIG = array (
             'default_timezone' => 'Europe/Stockholm',
           );
-
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 16G
