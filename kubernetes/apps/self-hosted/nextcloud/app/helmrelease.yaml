@@ -137,7 +137,10 @@ spec:
           pm.process_idle_timeout = 10s
     persistence:
       enabled: true
-      existingClaim: ${VOLSYNC_CLAIM}
+      existingClaim: nextcloud-config
+      nextcloudData:
+        enabled: true
+        existingClaim: nextcloud-data
     resources:
       requests:
         cpu: 200m
