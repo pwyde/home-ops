@@ -26,8 +26,6 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      allowSnippetAnnotations: true
-      # enableAnnotationValidations: true
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
@@ -42,16 +40,19 @@ spec:
             - key: ingress-class
               operator: In
               values: ["internal"]
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
       config:
         annotations-risk-level: Critical
-        # block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
+        block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
         client-body-buffer-size: 100M
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
+        enable-ocsp: "true"
         enable-real-ip: "true"
-        # force-ssl-redirect: "true"
-        # hide-headers: Server,X-Powered-By
+        force-ssl-redirect: "true"
+        hide-headers: Server,X-Powered-By
         hsts-max-age: 31449600
         keep-alive-requests: 10000
         keep-alive: 120
@@ -65,6 +66,7 @@ spec:
         proxy-body-size: 0
         proxy-buffer-size: 16k
         ssl-protocols: TLSv1.3 TLSv1.2
+        use-geoip2: false
       metrics:
         enabled: true
         serviceMonitor:
@@ -73,7 +75,7 @@ spec:
             any: true
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      # terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname

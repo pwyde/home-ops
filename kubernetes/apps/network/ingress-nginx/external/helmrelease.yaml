@@ -33,8 +33,6 @@ spec:
       replicaCount: 2
       annotations:
         configmap.reloader.stakater.com/reload: *secret
-      allowSnippetAnnotations: true
-      enableAnnotationValidations: true
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
@@ -50,6 +48,8 @@ spec:
             - key: ingress-class
               operator: In
               values: ["external"]
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
       config:
         annotations-risk-level: Critical
         block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
@@ -57,6 +57,7 @@ spec:
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
+        enable-ocsp: "true"
         enable-real-ip: "true"
         force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
