@@ -118,6 +118,12 @@ spec:
                 'password' => getenv('REDIS_PASSWORD'),
               )
             );
+        timezone.config.php: |-
+          <?php
+          $CONFIG = array (
+            'default_timezone' => 'Europe/Stockholm',
+          );
+
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 16G
