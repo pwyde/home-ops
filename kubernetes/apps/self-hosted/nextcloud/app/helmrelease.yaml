@@ -194,6 +194,8 @@ spec:
       config:
         headers:
           "Strict-Transport-Security": "max-age=15768000; includeSubDomains;"
+      securityContext:
+        runAsGroup: 82
       resources:
         requests:
           cpu: 50m
@@ -220,3 +222,5 @@ spec:
         enabled: false
     cronjob:
       enabled: true
+      securityContext:
+        runAsGroup: 82
