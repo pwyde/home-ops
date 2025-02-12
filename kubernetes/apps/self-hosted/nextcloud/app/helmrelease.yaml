@@ -245,15 +245,15 @@ spec:
         passwordKey: COLLABORA_PASSWORD
       aliasgroups:
         - host: "https://nextcloud.${SECRET_DOMAIN}:443"
-      extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=documents.${SECRET_DOMAIN}
-      server_name: &host documents.${SECRET_DOMAIN}
+      extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=nextcloud.${SECRET_DOMAIN}
+      server_name: &host nextcloud-collabora
       securityContext:
         runAsNonRoot: true
         runAsUser: 100
         runAsGroup: 101
         capabilities: { add: ["MKNOD"] }
       ingress:
-        enabled: true
+        enabled: false
         className: internal
         annotations:
           nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
