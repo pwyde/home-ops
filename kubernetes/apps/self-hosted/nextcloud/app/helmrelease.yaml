@@ -88,7 +88,6 @@ spec:
             'logfile' => '/var/www/html/data/nextcloud.log',
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
-            'log_rotate_size' => '10485760',
           );
         misc.config.php: |-
           <?php
