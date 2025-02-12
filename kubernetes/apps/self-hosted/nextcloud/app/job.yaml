@@ -14,7 +14,6 @@ spec:
         volumeMounts:
         - name: &volMount nextcloud-main
           mountPath: /var/www/html
-          subPath: config
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
@@ -40,7 +39,6 @@ spec:
         volumeMounts:
         - name: &volMount nextcloud-main
           mountPath: /var/www/html
-          subPath: config
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
@@ -80,7 +78,6 @@ spec:
         volumeMounts:
         - name: &volMount nextcloud-main
           mountPath: /var/www/html
-          subPath: config
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
