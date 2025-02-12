@@ -24,7 +24,7 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: democratic-csi-nfs
+    - name: democratic-csi-iscsi
       namespace: storage
   values:
     fullnameOverride: *app
@@ -34,7 +34,6 @@ spec:
       repository: public.ecr.aws/docker/library/nextcloud
       tag: 30.0.5-fpm-alpine
       flavor: fpm-alpine
-      # flavor: fpm
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       extraInitContainers:
@@ -78,6 +77,7 @@ spec:
         runAsGroup: 82
         readOnlyRootFilesystem: false
       defaultConfigs:
+        imaginary.config.php: true
         redis.config.php: false
       configs:
         # Log levels: 0=debug, 1=info, 2=warn, 3=error, 4=fatal
@@ -98,21 +98,42 @@ spec:
             'maintenance_window_start' => 1,
             'trashbin_retention_obligation' => 'auto, 30',
           );
+        previews.config.php: |-
+          <?php
+          $CONFIG = array (
+            'enable_previews' => true,
+            'preview_max_x' => '2048',
+            'preview_max_y' => '2048',
+            'jpeg_quality' => '60',
+            'enabledPreviewProviders' => array (
+              0 => 'OC\\Preview\\Imaginary',
+              1 => 'OC\\Preview\\Image',
+              2 => 'OC\\Preview\\ImaginaryPDF',
+              3 => 'OC\\Preview\\Krita',
+              4 => 'OC\\Preview\\MarkDown',
+              5 => 'OC\\Preview\\Movie',
+              6 => 'OC\\Preview\\MP3',
+              7 => 'OC\\Preview\\OpenDocument',
+              8 => 'OC\\Preview\\TXT',
+            ),
+          );
         proxy.config.php: |-
           <?php
           $CONFIG = array (
-            'trusted_proxies' => array(
+            'trusted_proxies' => array (
               0 => '127.0.0.1',
               1 => '${CLUSTER_POD_CIDR}',
             ),
-            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+            'forwarded_for_headers' => array (
+              'HTTP_X_FORWARDED_FOR'
+            ),
           );
         redis.config.php: |-
           <?php
             $CONFIG = array (
               'memcache.distributed' => '\OC\Memcache\Redis',
               'memcache.locking' => '\OC\Memcache\Redis',
-              'redis' => array(
+              'redis' => array (
                 'host' => getenv('REDIS_HOST'),
                 'port' => getenv('REDIS_HOST_PORT') ?: 6379,
                 'dbindex' => getenv('REDIS_DATABASE') ?: 0,
@@ -144,10 +165,7 @@ spec:
           pm.process_idle_timeout = 10s
     persistence:
       enabled: true
-      existingClaim: nextcloud-config
-      nextcloudData:
-        enabled: true
-        existingClaim: nextcloud-data
+      existingClaim: *app
     resources:
       requests:
         cpu: 200m
@@ -222,6 +240,8 @@ spec:
           memory: 24Mi
         limits:
           memory: 128Mi
+    imaginary:
+      enabled: true
     internalDatabase:
       enabled: false
     externalDatabase:
