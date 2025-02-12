@@ -26,6 +26,8 @@ spec:
   values:
     controllers:
       collabora:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           collabora:
             image:
@@ -43,7 +45,7 @@ spec:
                     name: *app
                     key: COLLABORA_PASSWORD
               - name: extra_params
-                value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=collabora.${SECRET_DOMAIN"
+                value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=collabora.${SECRET_DOMAIN}"
               - name: dictionaries
                 value: "de_DE en_GB en_US es_ES fr_FR"
               - name: server_name
@@ -74,7 +76,6 @@ spec:
         className: internal
         annotations:
           nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
-          nginx.ingress.kubernetes.io/enable-global-auth: "false"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
