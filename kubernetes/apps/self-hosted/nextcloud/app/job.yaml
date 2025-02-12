@@ -13,8 +13,8 @@ spec:
         args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && php /var/www/html/occ upgrade && php /var/www/html/occ db:add-missing-indices && php /var/www/html/occ db:add-missing-columns && php /var/www/html/occ db:add-missing-primary-keys && php /var/www/html/occ db:convert-filecache-bigint && php /var/www/html/occ maintenance:repair --include-expensive"]
         volumeMounts:
           - name: &volMount nextcloud-main
-            mountPath: /var/www/html
-            subPath: config
+            mountPath: /var/www
+            subPath: html
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
@@ -24,69 +24,69 @@ spec:
       - name: *volMount
         persistentVolumeClaim:
           claimName: nextcloud
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: nextcloud-job-config-addapps
-spec:
-  template:
-    spec:
-      containers:
-      - name: nextcloud-job-config-addapps
-        image: docker.io/library/nextcloud:30.0.5-fpm-alpine
-        command: ["/bin/sh", "-c"]
-        args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && php /var/www/html/occ app:disable firstrunwizard && php /var/www/html/occ app:disable support && php /var/www/html/occ app:enable admin_audit && php /var/www/html/occ app:enable files_pdfviewer && php /var/www/html/occ app:enable groupfolders && php /var/www/html/occ app:install notes && php /var/www/html/occ app:install richdocuments && php /var/www/html/occ app:install deck && php /var/www/html/occ app:install tables && php /var/www/html/occ app:install forms && php /var/www/html/occ app:install quota_warning"]
-        volumeMounts:
-          - name: &volMount nextcloud-main
-            mountPath: /var/www/html
-            subPath: config
-      restartPolicy: OnFailure
-      securityContext:
-        runAsUser: &uid 82
-        runAsGroup: *uid
-      ttlSecondsAfterFinished: 3600
-      volumes:
-      - name: *volMount
-        persistentVolumeClaim:
-          claimName: nextcloud
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: nextcloud-job-config-richdocuments
-spec:
-  template:
-    spec:
-      containers:
-      - name: nextcloud-job-config-richdocuments
-        image: docker.io/library/nextcloud:30.0.5-fpm-alpine
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            until php /var/www/html/occ status --output json | grep -q '"installed":true'; do
-              echo "Waiting for Nextcloud installation...";
-              sleep 10;
-            done;
-            echo "Nextcloud is installed. Waiting for Nextcloud Office..."
-            until php /var/www/html/occ app:list | grep -q 'richdocuments'; do
-              echo "Waiting for Nextcloud Office installation..."
-              sleep 10;
-            done;
-            echo "Nextcloud Office is installed. Configuring...";
-            php /var/www/html/occ config:app:set --value ${CLUSTER_POD_CIDR} richdocuments wopi_url
-            php /var/www/html/occ richdocuments:activate-config
-            echo "Nextcloud Office configuration completed.";
-        volumeMounts:
-          - name: &volMount nextcloud-main
-            mountPath: /var/www/html
-            subPath: config
-      restartPolicy: OnFailure
-      securityContext:
-        runAsUser: &uid 82
-        runAsGroup: *uid
-      ttlSecondsAfterFinished: 7200
-      volumes:
-      - name: *volMount
-        persistentVolumeClaim:
-          claimName: nextcloud
+# ---
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: nextcloud-job-config-addapps
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: nextcloud-job-config-addapps
+#         image: docker.io/library/nextcloud:30.0.5-fpm-alpine
+#         command: ["/bin/sh", "-c"]
+#         args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && php /var/www/html/occ app:disable firstrunwizard && php /var/www/html/occ app:disable support && php /var/www/html/occ app:enable admin_audit && php /var/www/html/occ app:enable files_pdfviewer && php /var/www/html/occ app:enable groupfolders && php /var/www/html/occ app:install notes && php /var/www/html/occ app:install richdocuments && php /var/www/html/occ app:install deck && php /var/www/html/occ app:install tables && php /var/www/html/occ app:install forms && php /var/www/html/occ app:install quota_warning"]
+#         volumeMounts:
+#           - name: &volMount nextcloud-main
+#             mountPath: /var/www/html
+#             subPath: config
+#       restartPolicy: OnFailure
+#       securityContext:
+#         runAsUser: &uid 82
+#         runAsGroup: *uid
+#       ttlSecondsAfterFinished: 3600
+#       volumes:
+#       - name: *volMount
+#         persistentVolumeClaim:
+#           claimName: nextcloud
+# ---
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: nextcloud-job-config-richdocuments
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: nextcloud-job-config-richdocuments
+#         image: docker.io/library/nextcloud:30.0.5-fpm-alpine
+#         command: ["/bin/sh", "-c"]
+#         args:
+#           - |
+#             until php /var/www/html/occ status --output json | grep -q '"installed":true'; do
+#               echo "Waiting for Nextcloud installation...";
+#               sleep 10;
+#             done;
+#             echo "Nextcloud is installed. Waiting for Nextcloud Office..."
+#             until php /var/www/html/occ app:list | grep -q 'richdocuments'; do
+#               echo "Waiting for Nextcloud Office installation..."
+#               sleep 10;
+#             done;
+#             echo "Nextcloud Office is installed. Configuring...";
+#             php /var/www/html/occ config:app:set --value ${CLUSTER_POD_CIDR} richdocuments wopi_url
+#             php /var/www/html/occ richdocuments:activate-config
+#             echo "Nextcloud Office configuration completed.";
+#         volumeMounts:
+#           - name: &volMount nextcloud-main
+#             mountPath: /var/www/html
+#             subPath: config
+#       restartPolicy: OnFailure
+#       securityContext:
+#         runAsUser: &uid 82
+#         runAsGroup: *uid
+#       ttlSecondsAfterFinished: 7200
+#       volumes:
+#       - name: *volMount
+#         persistentVolumeClaim:
+#           claimName: nextcloud
