@@ -56,11 +56,11 @@ spec:
               liveness: *probes
               readiness: *probes
             securityContext:
-              allowPrivilegeEscalation: false
+              # allowPrivilegeEscalation: false
               capabilities: { add: ["MKNOD"] }
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
+        # runAsNonRoot: true
         runAsUser: 100
         runAsGroup: 101
         fsGroup: 3000
