@@ -97,6 +97,7 @@ spec:
             'default_language' => 'en',
             'default_locale' => 'sv_SE',
             'default_phone_region' => 'SE',
+            'default_timezone' => 'Europe/Stockholm',
             'maintenance_window_start' => 1,
             'trashbin_retention_obligation' => 'auto, 30',
           );
@@ -108,15 +109,25 @@ spec:
             'preview_max_y' => '2048',
             'jpeg_quality' => '60',
             'enabledPreviewProviders' => array (
-              0 => 'OC\\Preview\\Imaginary',
-              1 => 'OC\\Preview\\Image',
-              2 => 'OC\\Preview\\ImaginaryPDF',
-              3 => 'OC\\Preview\\Krita',
-              4 => 'OC\\Preview\\MarkDown',
-              5 => 'OC\\Preview\\Movie',
-              6 => 'OC\\Preview\\MP3',
-              7 => 'OC\\Preview\\OpenDocument',
-              8 => 'OC\\Preview\\TXT',
+              0 => 'OC\\Preview\\AVI',
+              1 => 'OC\\Preview\\BMP',
+              2 => 'OC\\Preview\\GIF',
+              3 => 'OC\\Preview\\HEIC',
+              4 => 'OC\\Preview\\Imaginary',
+              5 => 'OC\\Preview\\Image',
+              6 => 'OC\\Preview\\ImaginaryPDF',
+              7 => 'OC\\Preview\\JPEG',
+              8 => 'OC\\Preview\\Krita',
+              9 => 'OC\\Preview\\MarkDown',
+              10 => 'OC\\Preview\\Movie',
+              11 => 'OC\\Preview\\MKV',
+              12 => 'OC\\Preview\\MP3',
+              13 => 'OC\\Preview\\MP4',
+              14 => 'OC\\Preview\\OpenDocument',
+              15 => 'OC\\Preview\\PDF',
+              16 => 'OC\\Preview\\PNG',
+              17 => 'OC\\Preview\\TXT',
+              18 => 'OC\\Preview\\XBitmap',
             ),
           );
         proxy.config.php: |-
@@ -142,11 +153,6 @@ spec:
                 'password' => getenv('REDIS_PASSWORD'),
               )
             );
-        timezone.config.php: |-
-          <?php
-          $CONFIG = array (
-            'default_timezone' => 'Europe/Stockholm',
-          );
       phpConfigs:
         uploadLimit.ini: |
           upload_max_filesize = 16G
