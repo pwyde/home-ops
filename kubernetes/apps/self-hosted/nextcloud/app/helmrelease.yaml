@@ -254,6 +254,7 @@ spec:
           - host: *host
             paths:
               - path: /
+                pathType: ImplementationSpecific
     redis:
       enabled: false
     nginx:
