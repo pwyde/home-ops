@@ -25,7 +25,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      PVC_ACCESSMODES: ReadWriteOnce
+      PVC_ACCESSMODES: ReadWriteMany
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_NFS}
       PVC_CAPACITY: 5Gi
   prune: true
