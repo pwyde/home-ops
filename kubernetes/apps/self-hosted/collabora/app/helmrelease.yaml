@@ -56,8 +56,10 @@ spec:
               liveness: *probes
               readiness: *probes
             securityContext:
-              # allowPrivilegeEscalation: false
-              capabilities: { add: ["MKNOD"] }
+              allowPrivilegeEscalation: false
+              capabilities:
+                add: ["SYS_ADMIN", "MKNOD"]
+                drop: ["NET_RAW"]
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
