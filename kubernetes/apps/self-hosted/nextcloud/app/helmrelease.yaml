@@ -244,7 +244,7 @@ spec:
         usernameKey: COLLABORA_USERNAME
         passwordKey: COLLABORA_PASSWORD
       aliasgroups:
-        - host: "https://nextcloud.domain:443"
+        - host: "https://nextcloud.${SECRET_DOMAIN}:443"
       extra_params: --o:ssl.enable=false --o:ssl.ssl_verification=false --o:ssl.termination=true --o:welcome.enable=false --o:net.frame_ancestors=documents.${SECRET_DOMAIN}
       server_name: &host documents.${SECRET_DOMAIN}
       ingress:
