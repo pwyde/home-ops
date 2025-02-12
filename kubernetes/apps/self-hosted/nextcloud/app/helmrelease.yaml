@@ -252,6 +252,8 @@ spec:
           nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
         hosts:
           - host: *host
+            paths:
+              - path: /
     redis:
       enabled: false
     nginx:
