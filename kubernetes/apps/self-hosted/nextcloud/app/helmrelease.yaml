@@ -173,7 +173,6 @@ spec:
           pm.process_idle_timeout = 10s
     extraSidecarContainers:
       - name: nextcloud-job-config-postinstall
-        type: job
         image: docker.io/library/nextcloud:30.0.5-fpm-alpine
         command: ["/bin/sh", "-c"]
         args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && echo 'Installed !!!'"]
@@ -182,8 +181,8 @@ spec:
           mountPath: /var/www/html
         restartPolicy: OnFailure
         securityContext:
-        runAsUser: &uid 82
-        runAsGroup: *uid
+          runAsUser: &uid 82
+          runAsGroup: *uid
         ttlSecondsAfterFinished: 3600
     persistence:
       enabled: true
