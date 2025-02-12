@@ -13,8 +13,8 @@ spec:
         args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && php /var/www/html/occ upgrade && php /var/www/html/occ db:add-missing-indices && php /var/www/html/occ db:add-missing-columns && php /var/www/html/occ db:add-missing-primary-keys && php /var/www/html/occ db:convert-filecache-bigint && php /var/www/html/occ maintenance:repair --include-expensive"]
         volumeMounts:
         - name: &volMount nextcloud-main
-          mountPath: /var/www/html
-          subPath: config
+          mountPath: /var/www
+          subPath: html
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
@@ -39,8 +39,8 @@ spec:
         args: ["until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do sleep 10; done && php /var/www/html/occ app:disable firstrunwizard && php /var/www/html/occ app:disable support && php /var/www/html/occ app:enable admin_audit && php /var/www/html/occ app:enable files_pdfviewer && php /var/www/html/occ app:enable groupfolders && php /var/www/html/occ app:install notes && php /var/www/html/occ app:install richdocuments && php /var/www/html/occ app:install deck && php /var/www/html/occ app:install tables && php /var/www/html/occ app:install forms && php /var/www/html/occ app:install quota_warning"]
         volumeMounts:
         - name: &volMount nextcloud-main
-          mountPath: /var/www/html
-          subPath: config
+          mountPath: /var/www
+          subPath: html
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
@@ -79,8 +79,8 @@ spec:
             echo "Nextcloud Office configuration completed.";
         volumeMounts:
         - name: &volMount nextcloud-main
-          mountPath: /var/www/html
-          subPath: config
+          mountPath: /var/www
+          subPath: html
       restartPolicy: OnFailure
       securityContext:
         runAsUser: &uid 82
