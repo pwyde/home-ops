@@ -233,6 +233,13 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
+    collabora:
+      enabled: true
+      existingSecret:
+        enabled: true
+        secretName: *app
+        usernameKey: COLLABORA_USERNAME
+        passwordKey: COLLABORA_PASSWORD
     redis:
       enabled: false
     nginx:
