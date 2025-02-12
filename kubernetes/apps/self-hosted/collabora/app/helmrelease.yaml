@@ -60,10 +60,9 @@ spec:
               capabilities: { add: ["MKNOD"] }
     defaultPodOptions:
       securityContext:
-        # runAsNonRoot: true
+        runAsNonRoot: true
         runAsUser: 100
         runAsGroup: 101
-        fsGroup: 3000
     service:
       app:
         controller: *app
