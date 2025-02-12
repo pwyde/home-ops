@@ -244,6 +244,14 @@ spec:
         usernameKey: COLLABORA_USERNAME
         passwordKey: COLLABORA_PASSWORD
       extra_params: --o:ssl.enable=false --o:ssl.ssl_verification=false --o:ssl.termination=true --o:welcome.enable=false
+      server_name: &host documents.${SECRET_DOMAIN}
+      ingress:
+        enabled: true
+        className: internal
+        annotations:
+          nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+        hosts:
+          - host: *host
     redis:
       enabled: false
     nginx:
