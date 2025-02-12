@@ -85,15 +85,18 @@ spec:
           <?php
           $CONFIG = array (
             'log_type' => 'file',
-            'logfile' => 'nextcloud.log',
+            'logfile' => '/var/www/html/data/nextcloud.log',
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
+            'log_rotate_size' => '10485760',
           );
         misc.config.php: |-
           <?php
           $CONFIG = array (
             'auth.bruteforce.protection.enabled' => true,
             'check_data_directory_permissions' => false,
+            'default_language' => 'en',
+            'default_locale' => 'sv_SE',
             'default_phone_region' => 'SE',
             'maintenance_window_start' => 1,
             'trashbin_retention_obligation' => 'auto, 30',
