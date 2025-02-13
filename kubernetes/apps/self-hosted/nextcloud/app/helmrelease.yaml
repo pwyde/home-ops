@@ -621,7 +621,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php/conf.d
+              - path: /usr/local/etc/php/conf.d/opcache-recommended.ini
                 subPath: opcache-recommended.ini
                 readOnly: true
       redis-session-ini:
@@ -630,7 +630,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php/conf.d
+              - path: /usr/local/etc/php/conf.d/redis-session.ini
                 subPath: redis-session.ini
                 readOnly: true
       uploadlimit-ini:
