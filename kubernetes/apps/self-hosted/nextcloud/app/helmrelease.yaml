@@ -162,16 +162,16 @@ spec:
           #     runAsUser: &uidNobody 65534
           #     runAsGroup: *uidNobody
           #     fsGroup: *uidNobody
-        # initContainers:
-        #   init-chmod-pvc:
-        #     image:
-        #       repository: docker.io/library/alpine
-        #       tag: 3.21.2
-        #     command: ["/bin/sh"]
-        #     args: ["-c", "mkdir -p /var/www/html/config && chmod 0770 /var/www/html/config && chown 5000:5000 /var/www/html/config && mkdir -p /usr/local/etc/php/conf.d && chmod 0770 /usr/local/etc/php/conf.d && chown 5000:5000 /usr/local/etc/php/conf.d"]
-        #     securityContext:
-        #       runAsUser: 0
-        #       runAsGroup: 0
+        initContainers:
+          init-chmod-pvc:
+            image:
+              repository: docker.io/library/alpine
+              tag: 3.21.2
+            command: ["/bin/sh"]
+            args: ["-c", "mkdir -p /var/www/html/config && chmod 0770 /var/www/html/config && chown 5000:5000 /var/www/html/config && mkdir -p /usr/local/etc/php/conf.d && chmod 0770 /usr/local/etc/php/conf.d && chown 5000:5000 /usr/local/etc/php/conf.d"]
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
     service:
       nginx:
         controller: *app
@@ -206,14 +206,14 @@ spec:
           - hosts:
               - *host
     persistence:
-      config:
-        existingClaim: nextcloud-config
+      app-data:
+        existingClaim: nextcloud-app-data
         advancedMounts:
           nextcloud:
-            # init-chmod-pvc:
-            #   - path: /var/www/html
-            #     subPath: config
-            #     readOnly: false
+            init-chmod-pvc:
+              - path: /var/www/html
+                subPath: config
+                readOnly: false
             nextcloud:
               - path: /var/www/html
                 subPath: config
@@ -222,14 +222,6 @@ spec:
               - path: /var/www/html
                 subPath: config
                 readOnly: true
-      data:
-        existingClaim: nextcloud-data
-        advancedMounts:
-          nextcloud:
-            data:
-              - path: /data
-                subPath: data
-                readOnly: false
       # collabora:
       #   existingClaim: collabora
       #   advancedMounts:
@@ -267,3 +259,11 @@ spec:
           - path: /etc/nginx/nginx.conf
             subPath: nginx.conf
             readOnly: true
+      user-data:
+        existingClaim: nextcloud-user-data
+        advancedMounts:
+          nextcloud:
+            nextcloud:
+              - path: /data
+                subPath: data
+                readOnly: false
