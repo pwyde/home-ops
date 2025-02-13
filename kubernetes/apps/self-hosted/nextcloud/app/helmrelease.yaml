@@ -133,7 +133,7 @@ spec:
                     name: *app
                     key: COLLABORA_PASSWORD
               - name: extra_params
-                value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=nextcloud.${SECRET_DOMAIN"
+                value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=nextcloud.${SECRET_DOMAIN}"
               - name: dictionaries
                 value: "de_DE en_GB en_US es_ES fr_FR"
               - name: server_name
