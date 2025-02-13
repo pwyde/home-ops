@@ -71,4 +71,3 @@ spec:
         runAsNonRoot: true
         runAsUser: &uid 65534
         runAsGroup: *uid
-        seccompProfile: { type: RuntimeDefault }

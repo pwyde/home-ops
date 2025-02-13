@@ -135,9 +135,6 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { add: ["NET_ADMIN"] }
-    defaultPodOptions:
-      securityContext:
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app

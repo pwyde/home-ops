@@ -101,7 +101,6 @@ spec:
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [4000]
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         type: LoadBalancer

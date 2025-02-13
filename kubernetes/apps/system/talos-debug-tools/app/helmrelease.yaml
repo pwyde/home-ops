@@ -58,7 +58,6 @@ spec:
       schedulerName: default-scheduler
       securityContext:
         runAsNonRoot: false
-        seccompProfile: { type: RuntimeDefault }
       terminationGracePeriodSeconds: 30
     persistence:
       hostfs:

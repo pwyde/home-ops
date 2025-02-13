@@ -59,7 +59,6 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     persistence:
       config:
         existingClaim: ${VOLSYNC_CLAIM}

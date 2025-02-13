@@ -142,7 +142,6 @@ spec:
         runAsGroup: &gid 3010
         fsGroup: *gid
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     service:
       server:
         controller: *app
