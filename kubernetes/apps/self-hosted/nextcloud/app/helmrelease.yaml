@@ -210,10 +210,10 @@ spec:
         existingClaim: nextcloud-config
         advancedMounts:
           nextcloud:
-            init-chmod-pvc:
-              - path: /var/www/html
-                subPath: config
-                readOnly: false
+            # init-chmod-pvc:
+            #   - path: /var/www/html
+            #     subPath: config
+            #     readOnly: false
             nextcloud:
               - path: /var/www/html
                 subPath: config
