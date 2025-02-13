@@ -257,15 +257,9 @@ spec:
           - path: /usr/local/etc/php/conf.d/uploadLimit.ini
             subPath: uploadLimit.ini
             readOnly: true
-      # uploadlimit-ini:
-      #   type: configMap
-      #   name: *configMap
-      #   advancedMounts:
-      #     nextcloud:
-      #       nextcloud:
-      #         - path: /usr/local/etc/php-fpm.d/uploadLimit.ini
-      #           subPath: uploadLimit.ini
-      #           readOnly: true
+          - path: /usr/local/etc/php-fpm.d/www.conf
+            subPath: www.conf
+            readOnly: true
       # www-conf:
       #   type: configMap
       #   name: *configMap

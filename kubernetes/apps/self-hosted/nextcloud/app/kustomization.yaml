@@ -14,6 +14,7 @@ configMapGenerator:
       - opcache-recommended.ini=./resources/opcache-recommended.ini
       - redis-session.ini=./resources/redis-session.ini
       - uploadLimit.ini=./resources/uploadLimit.ini
+      - www.conf=./resources/www.conf
   - name: nextcloud-nginx-config
     files:
       - nginx.conf=./resources/nginx.conf
