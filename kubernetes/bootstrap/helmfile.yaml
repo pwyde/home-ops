@@ -45,7 +45,7 @@ releases:
   - name: cert-manager
     namespace: security
     chart: jetstack/cert-manager
-    version: v1.17.0
+    version: v1.17.1
     values:
       - ../apps/security/cert-manager/app/helm-values.yaml
     needs:
