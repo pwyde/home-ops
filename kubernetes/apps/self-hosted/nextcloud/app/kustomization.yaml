@@ -11,5 +11,8 @@ configMapGenerator:
   - name: nextcloud-app-config
     files:
       - extra.config.php=./resources/extra.config.php
+  - name: nextcloud-nginx-config
+    files:
+      - nginx.conf=./resources/nginx.conf
 generatorOptions:
   disableNameSuffixHash: true
