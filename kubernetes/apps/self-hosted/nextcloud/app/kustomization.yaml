@@ -7,3 +7,9 @@ resources:
   - ./helmrelease.yaml
   # - ./job.yaml
   - ./pvc.yaml
+configMapGenerator:
+  - name: nextcloud-app-config
+    files:
+      - extra.config.php=./resources/extra.config.php
+generatorOptions:
+  disableNameSuffixHash: true
