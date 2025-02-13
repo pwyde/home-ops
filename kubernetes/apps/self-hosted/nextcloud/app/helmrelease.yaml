@@ -648,7 +648,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php-fpm.d/www.conf
+              - path: /usr/local/etc/php-fpm.d/zz-www.conf
                 subPath: www.conf
                 readOnly: true
       nginx-config:
