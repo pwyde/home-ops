@@ -12,6 +12,7 @@ configMapGenerator:
     files:
       - extra.config.php=./resources/extra.config.php
       - opcache-recommended.ini=./resources/opcache-recommended.ini
+      - redis-session.ini=./resources/redis-session.ini
   - name: nextcloud-nginx-config
     files:
       - nginx.conf=./resources/nginx.conf

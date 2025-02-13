@@ -243,7 +243,7 @@ spec:
       #           readOnly: false
       nextcloud-app-config:
         type: configMap
-        name: &configMap nextcloud-app-config
+        name: nextcloud-app-config
         globalMounts:
           - path: /var/www/html/config/extra.config.php
             subPath: extra.config.php
@@ -251,15 +251,9 @@ spec:
           - path: /usr/local/etc/php/conf.d/opcache-recommended.ini
             subPath: opcache-recommended.ini
             readOnly: true
-      # opcache-recommended-ini:
-      #   type: configMap
-      #   name: *configMap
-      #   advancedMounts:
-      #     nextcloud:
-      #       nextcloud:
-      #         - path: /usr/local/etc/php/conf.d/opcache-recommended.ini
-      #           subPath: opcache-recommended.ini
-      #           readOnly: true
+          - path: /usr/local/etc/php/conf.d/redis-session.ini
+            subPath: redis-session.ini
+            readOnly: true
       # redis-session-ini:
       #   type: configMap
       #   name: *configMap
