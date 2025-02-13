@@ -11,6 +11,7 @@ configMapGenerator:
   - name: nextcloud-app-config
     files:
       - extra.config.php=./resources/extra.config.php
+      - opcache-recommended.ini=./resources/opcache-recommended.ini
   - name: nextcloud-nginx-config
     files:
       - nginx.conf=./resources/nginx.conf
