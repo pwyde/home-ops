@@ -106,11 +106,11 @@ spec:
                 value: dragonfly.database.svc.cluster.local
               - name: REDIS_HOST_PORT
                 value: "6379"
-              - name: REDIS_PASSWORD
+              - name: REDIS_HOST_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: *app
-                    key: REDIS_PASSWORD
+                    key: REDIS_HOST_PASSWORD
               - name: NEXTCLOUD_DATA_DIR
                 value: /data
           nginx:
@@ -157,7 +157,7 @@ spec:
           #     - name: STORAGE_STRATEGY
           #       value: "redis"
           #     - name: REDIS_URL
-          #       value: "redis://:${REDIS_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
+          #       value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
           #   securityContext:
           #     runAsUser: &uidNobody 65534
           #     runAsGroup: *uidNobody
@@ -241,7 +241,7 @@ spec:
       #         - path: /opt/cool
       #           subPath: cool
       #           readOnly: false
-      nextcloud-app-config:
+      app-config:
         type: configMap
         name: nextcloud-app-config
         globalMounts:
@@ -260,18 +260,9 @@ spec:
           - path: /usr/local/etc/php-fpm.d/www.conf
             subPath: www.conf
             readOnly: true
-      # www-conf:
-      #   type: configMap
-      #   name: *configMap
-      #   advancedMounts:
-      #     nextcloud:
-      #       nextcloud:
-      #         - path: /usr/local/etc/php-fpm.d/www.conf
-      #           subPath: www.conf
-      #           readOnly: true
-      nextcloud-nginx-config:
+      nginx-config:
         type: configMap
-        name: &configMap nextcloud-nginx-config
+        name: nextcloud-nginx-config
         globalMounts:
           - path: /etc/nginx/nginx.conf
             subPath: nginx.conf
