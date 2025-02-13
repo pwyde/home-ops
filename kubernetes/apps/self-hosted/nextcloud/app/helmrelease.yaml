@@ -51,12 +51,12 @@ spec:
             env:
               - name: TZ
                 value: "${CONFIG_TIMEZONE}"
-              - name: ADMIN_USER
+              - name: NEXTCLOUD_ADMIN_USER
                 valueFrom:
                   secretKeyRef:
                     name: *app
                     key: NEXTCLOUD_ADMIN_USER
-              - name: ADMIN_PASSWORD
+              - name: NEXTCLOUD_ADMIN_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: *app
@@ -111,6 +111,8 @@ spec:
                   secretKeyRef:
                     name: *app
                     key: REDIS_HOST_PASSWORD
+              - name: REDIS_DB_INDEX
+                value: "5"
               - name: NEXTCLOUD_DATA_DIR
                 value: /data
           nginx:
