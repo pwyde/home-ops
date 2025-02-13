@@ -173,15 +173,6 @@ spec:
                   secretKeyRef:
                     name: *app
                     key: WHITEBOARD_JWT_SECRET_KEY
-              - name: STORAGE_STRATEGY
-                value: "redis"
-              - name: REDIS_HOST_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: *app
-                    key: REDIS_HOST_PASSWORD
-              - name: REDIS_URL
-                value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
             securityContext:
               runAsUser: &uidNobody 65534
               runAsGroup: *uidNobody
