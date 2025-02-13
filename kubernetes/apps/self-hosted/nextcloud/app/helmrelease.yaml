@@ -340,7 +340,7 @@ spec:
             redis.session.locking_enabled = 1
             redis.session.lock_retries = -1
             redis.session.lock_wait_time = 10000
-          uploadLimit-ini: |
+          uploadlimit-ini: |
             upload_max_filesize = 16G
             post_max_size = 16G
             max_input_time = 3600
@@ -615,7 +615,7 @@ spec:
               - path: /etc/nginx/nginx.conf
                 subPath: nginx.conf
                 readOnly: true
-      uploadLimit-ini:
+      uploadlimit-ini:
         type: configMap
         name: nextcloud-config
         advancedMounts:
