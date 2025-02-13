@@ -639,7 +639,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php-fpm.d
+              - path: /usr/local/etc/php-fpm.d/uploadLimit.ini
                 subPath: uploadLimit.ini
                 readOnly: true
       www-conf:
@@ -648,7 +648,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php-fpm.d
+              - path: /usr/local/etc/php-fpm.d/www.conf
                 subPath: www.conf
                 readOnly: true
       nginx-config:
