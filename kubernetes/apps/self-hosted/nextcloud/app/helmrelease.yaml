@@ -571,7 +571,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /var/www/html/config
+              - path: /var/www/html/config/extra.config.php
                 subPath: extra.config.php
                 readOnly: true
       # opcache-recommended-ini:
