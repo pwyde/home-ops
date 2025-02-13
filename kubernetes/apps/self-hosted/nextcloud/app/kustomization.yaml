@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  # - ./job.yaml
+  - ./job.yaml
   - ./pvc.yaml
 configMapGenerator:
   - name: nextcloud-app-config
