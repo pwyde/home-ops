@@ -254,15 +254,9 @@ spec:
           - path: /usr/local/etc/php/conf.d/redis-session.ini
             subPath: redis-session.ini
             readOnly: true
-      # redis-session-ini:
-      #   type: configMap
-      #   name: *configMap
-      #   advancedMounts:
-      #     nextcloud:
-      #       nextcloud:
-      #         - path: /usr/local/etc/php/conf.d/redis-session.ini
-      #           subPath: redis-session.ini
-      #           readOnly: true
+          - path: /usr/local/etc/php/conf.d/uploadLimit.ini
+            subPath: uploadLimit.ini
+            readOnly: true
       # uploadlimit-ini:
       #   type: configMap
       #   name: *configMap
