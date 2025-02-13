@@ -119,51 +119,51 @@ spec:
             image:
               repository: nginxinc/nginx-unprivileged
               tag: 1.27-alpine
-          # collabora:
-          #   image:
-          #     repository: collabora/code
-          #     tag: 24.04.12.2.1@sha256:46f799f6f5d4b985dbfdaacabbdcb6ecb90c4e3659d28a4b66757f6946c07829
-          #   env:
-          #     - name: username
-          #       valueFrom:
-          #         secretKeyRef:
-          #           name: *app
-          #           key: COLLABORA_USERNAME
-          #     - name: password
-          #       valueFrom:
-          #         secretKeyRef:
-          #           name: *app
-          #           key: COLLABORA_PASSWORD
-          #     - name: extra_params
-          #       value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=nextcloud.${SECRET_DOMAIN}"
-          #     - name: dictionaries
-          #       value: "de_DE en_GB en_US es_ES fr_FR"
-          #     - name: server_name
-          #       value: "nextcloud.${SECRET_DOMAIN}"
-          #   securityContext:
-          #     runAsUser: 100
-          #     runAsGroup: 101
-          #     fsGroup: *uid
-          # whiteboard:
-          #   image:
-          #     repository: ghcr.io/nextcloud-releases/whiteboard
-          #     tag: v1.0.5
-          #   env:
-          #     - name: NEXTCLOUD_URL
-          #       value: "nextcloud.${SECRET_DOMAIN}"
-          #     - name: JWT_SECRET_KEY
-          #       valueFrom:
-          #         secretKeyRef:
-          #           name: *app
-          #           key: WHITEBOARD_JWT_SECRET_KEY
-          #     - name: STORAGE_STRATEGY
-          #       value: "redis"
-          #     - name: REDIS_URL
-          #       value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
-          #   securityContext:
-          #     runAsUser: &uidNobody 65534
-          #     runAsGroup: *uidNobody
-          #     fsGroup: *uidNobody
+          collabora:
+            image:
+              repository: collabora/code
+              tag: 24.04.12.2.1@sha256:46f799f6f5d4b985dbfdaacabbdcb6ecb90c4e3659d28a4b66757f6946c07829
+            env:
+              - name: username
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: COLLABORA_USERNAME
+              - name: password
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: COLLABORA_PASSWORD
+              - name: extra_params
+                value: "--o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:net.frame_ancestors=nextcloud.${SECRET_DOMAIN}"
+              - name: dictionaries
+                value: "de_DE en_GB en_US es_ES fr_FR"
+              - name: server_name
+                value: "nextcloud.${SECRET_DOMAIN}"
+            securityContext:
+              runAsUser: 100
+              runAsGroup: 101
+              fsGroup: *uid
+          whiteboard:
+            image:
+              repository: ghcr.io/nextcloud-releases/whiteboard
+              tag: v1.0.5
+            env:
+              - name: NEXTCLOUD_URL
+                value: "nextcloud.${SECRET_DOMAIN}"
+              - name: JWT_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: WHITEBOARD_JWT_SECRET_KEY
+              - name: STORAGE_STRATEGY
+                value: "redis"
+              - name: REDIS_URL
+                value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
+            securityContext:
+              runAsUser: &uidNobody 65534
+              runAsGroup: *uidNobody
+              fsGroup: *uidNobody
         initContainers:
           init-chmod-pvc:
             image:
@@ -180,16 +180,16 @@ spec:
         ports:
           http:
             port: 8080
-      # collabora:
-      #   controller: *app
-      #   ports:
-      #     http:
-      #       port: 9980
-      # whiteboard:
-      #   controller: *app
-      #   ports:
-      #     http:
-      #       port: 3002
+      collabora:
+        controller: *app
+        ports:
+          http:
+            port: 9980
+      whiteboard:
+        controller: *app
+        ports:
+          http:
+            port: 3002
     ingress:
       nextcloud:
         className: internal
@@ -224,17 +224,17 @@ spec:
               - path: /var/www/html
                 subPath: config
                 readOnly: true
-      # collabora:
-      #   existingClaim: collabora
-      #   advancedMounts:
-      #     nextcloud:
-      #       collabora:
-      #         - path: /var/cache/coolwsd
-      #           subPath: coolwsd
-      #           readOnly: false
-      #         - path: /opt/cool
-      #           subPath: cool
-      #           readOnly: false
+      collabora:
+        existingClaim: collabora
+        advancedMounts:
+          nextcloud:
+            collabora:
+              - path: /var/cache/coolwsd
+                subPath: coolwsd
+                readOnly: false
+              - path: /opt/cool
+                subPath: cool
+                readOnly: false
       app-config:
         type: configMap
         name: nextcloud-app-config
