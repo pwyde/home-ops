@@ -206,7 +206,7 @@ spec:
           - hosts:
               - *host
     configMaps:
-      nextcloud-config:
+      app-config:
         enabled: true
         data:
           extra-config-php: |
@@ -565,18 +565,18 @@ spec:
       #         - path: /opt/cool
       #           subPath: cool
       #           readOnly: false
-      # extra-config-php:
-      #   type: configMap
-      #   name: &onfigMap nextcloud-nextcloud-config
-      #   advancedMounts:
-      #     nextcloud:
-      #       nextcloud:
-      #         - path: /var/www/html/config
-      #           subPath: extra.config.php
-      #           readOnly: true
+      extra-config-php:
+        type: configMap
+        name: &configMap nextcloud-app-config
+        advancedMounts:
+          nextcloud:
+            nextcloud:
+              - path: /var/www/html/config
+                subPath: extra.config.php
+                readOnly: true
       # opcache-recommended-ini:
       #   type: configMap
-      #   name: *onfigMap
+      #   name: *configMap
       #   advancedMounts:
       #     nextcloud:
       #       nextcloud:
@@ -585,7 +585,7 @@ spec:
       #           readOnly: true
       # redis-session-ini:
       #   type: configMap
-      #   name: *onfigMap
+      #   name: *configMap
       #   advancedMounts:
       #     nextcloud:
       #       nextcloud:
@@ -594,7 +594,7 @@ spec:
       #           readOnly: true
       # uploadlimit-ini:
       #   type: configMap
-      #   name: *onfigMap
+      #   name: *configMap
       #   advancedMounts:
       #     nextcloud:
       #       nextcloud:
@@ -603,7 +603,7 @@ spec:
       #           readOnly: true
       # www-conf:
       #   type: configMap
-      #   name: *onfigMap
+      #   name: *configMap
       #   advancedMounts:
       #     nextcloud:
       #       nextcloud:
