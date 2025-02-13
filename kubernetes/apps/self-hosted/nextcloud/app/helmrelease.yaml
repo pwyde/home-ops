@@ -612,7 +612,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /var/www/html/config/extra.config.php
+              - path: /var/www/html/config/extra-config-php
                 subPath: extra.config.php
                 readOnly: true
       opcache-recommended-ini:
@@ -621,7 +621,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php/conf.d/opcache-recommended.ini
+              - path: /usr/local/etc/php/conf.d/opcache-recommended-ini
                 subPath: opcache-recommended.ini
                 readOnly: true
       redis-session-ini:
@@ -630,7 +630,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php/conf.d/redis-session.ini
+              - path: /usr/local/etc/php/conf.d/redis-session-ini
                 subPath: redis-session.ini
                 readOnly: true
       uploadlimit-ini:
@@ -639,7 +639,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php-fpm.d/uploadLimit.ini
+              - path: /usr/local/etc/php-fpm.d/uploadLimit-ini
                 subPath: uploadLimit.ini
                 readOnly: true
       www-conf:
@@ -648,7 +648,7 @@ spec:
         advancedMounts:
           nextcloud:
             nextcloud:
-              - path: /usr/local/etc/php-fpm.d/zz-www.conf
+              - path: /usr/local/etc/php-fpm.d/www-conf
                 subPath: www.conf
                 readOnly: true
       nginx-config:
