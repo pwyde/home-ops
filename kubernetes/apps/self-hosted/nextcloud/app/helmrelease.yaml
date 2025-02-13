@@ -161,26 +161,26 @@ spec:
               runAsUser: 100
               runAsGroup: 101
               fsGroup: *uid
-          # whiteboard:
-          #   image:
-          #     repository: ghcr.io/nextcloud-releases/whiteboard
-          #     tag: v1.0.5
-          #   env:
-          #     - name: NEXTCLOUD_URL
-          #       value: "https://nextcloud.${SECRET_DOMAIN}"
-          #     - name: JWT_SECRET_KEY
-          #       valueFrom:
-          #         secretKeyRef:
-          #           name: *app
-          #           key: WHITEBOARD_JWT_SECRET_KEY
-          #     - name: STORAGE_STRATEGY
-          #       value: "redis"
-          #     - name: REDIS_URL
-          #       value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
-          #   securityContext:
-          #     runAsUser: &uidNobody 65534
-          #     runAsGroup: *uidNobody
-          #     fsGroup: *uidNobody
+          whiteboard:
+            image:
+              repository: ghcr.io/nextcloud-releases/whiteboard
+              tag: v1.0.5
+            env:
+              - name: NEXTCLOUD_URL
+                value: "https://nextcloud.${SECRET_DOMAIN}"
+              - name: JWT_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: WHITEBOARD_JWT_SECRET_KEY
+              - name: STORAGE_STRATEGY
+                value: "redis"
+              - name: REDIS_URL
+                value: "redis://:${REDIS_HOST_PASSWORD}@dragonfly.database.svc.cluster.local:6379/6"
+            securityContext:
+              runAsUser: &uidNobody 65534
+              runAsGroup: *uidNobody
+              fsGroup: *uidNobody
     service:
       nginx:
         controller: *app
