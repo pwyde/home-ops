@@ -42,7 +42,7 @@
       'host' => getenv('REDIS_HOST'),
       'port' => getenv('REDIS_HOST_PORT') ?: 6379,
       'password' => getenv('REDIS_HOST_PASSWORD'),
-      'dbindex' => getenv('REDIS_DB_INDEX'),
+      'dbindex' => getenv('REDIS_DB_INDEX') ?: 0,
       'timeout'       => 1.5,
       'read_timeout'  => 1.5,
     ),
