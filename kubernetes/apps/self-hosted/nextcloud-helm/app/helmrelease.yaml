@@ -223,7 +223,6 @@ spec:
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
-          add_header Strict-Transport-Security "max-age=15768000; includeSubDomains;" always;
           rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
           rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
           rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
@@ -249,7 +248,7 @@ spec:
       enabled: true
       config:
         headers:
-          "Strict-Transport-Security": "max-age=15768000; includeSubDomains;"
+          "Strict-Transport-Security": "max-age=15768000; includeSubDomains; always;"
       securityContext:
         runAsGroup: 82
       resources:
