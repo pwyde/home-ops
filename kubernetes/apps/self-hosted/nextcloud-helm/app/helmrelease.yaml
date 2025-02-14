@@ -289,15 +289,15 @@ spec:
       collabora:
         extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN}
         extraEnv:
-        - name: dictionaries
-          value: "de_DE en_GB en_US es_ES fr_FR sv_SE"
-        - name: server_name
-          value: "collabora.${SECRET_DOMAIN}"
-      existingSecret:
-        enabled: true
-        secretName: *app
-        usernameKey: COLLABORA_USERNAME
-        passwordKey: COLLABORA_PASSWORD
+          - name: dictionaries
+            value: "de_DE en_GB en_US es_ES fr_FR sv_SE"
+          - name: server_name
+            value: "collabora.${SECRET_DOMAIN}"
+        existingSecret:
+          enabled: true
+          secretName: *app
+          usernameKey: COLLABORA_USERNAME
+          passwordKey: COLLABORA_PASSWORD
       ingress:
         enabled: true
         className: internal
