@@ -212,6 +212,12 @@ spec:
           secretName: *app
           usernameKey: COLLABORA_USERNAME
           passwordKey: COLLABORA_PASSWORD
+      grafana:
+        dashboards:
+          enabled: true
+      prometheus:
+        servicemonitor:
+          enabled: true
       probes:
         liveness: &probes
           enabled: true
