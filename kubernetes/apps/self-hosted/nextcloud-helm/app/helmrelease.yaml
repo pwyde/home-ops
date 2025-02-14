@@ -114,6 +114,8 @@ spec:
             ),
             'knowledgebaseenabled' => false,
             'maintenance_window_start' => 1,
+            'overwriteprotocol' => 'https',
+            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
             'skeletondirectory' => '',
             'trashbin_retention_obligation' => 'auto, 7',
           );
@@ -173,6 +175,15 @@ spec:
                 'read_timeout'  => 1.5,
               ),
             );
+      phpConfigs:
+        www.conf: |
+          pm = dynamic
+          pm.max_children = 57
+          pm.start_servers = 14
+          pm.min_spare_servers = 14
+          pm.max_spare_servers = 42
+          pm.max_requests = 500
+          pm.process_idle_timeout = 10s
     persistence:
       enabled: true
       existingClaim: *app
