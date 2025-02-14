@@ -57,7 +57,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: *app
-              key: REDIS_PASSWORD
+              key: REDIS_HOST_PASSWORD
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       existingSecret:
