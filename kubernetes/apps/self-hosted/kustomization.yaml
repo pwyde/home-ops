@@ -10,10 +10,11 @@ components:
   - ../../components/substitutions
 resources:
   # Flux-Kustomizations
-  - ./collabora/ks.yaml
+  # - ./collabora/ks.yaml
   - ./dokuwiki/ks.yaml
   - ./hoarder/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
-  - ./nextcloud/ks.yaml
+  # - ./nextcloud/ks.yaml
+  # - ./nextcloud-helm/ks.yaml
   - ./searxng/ks.yaml
