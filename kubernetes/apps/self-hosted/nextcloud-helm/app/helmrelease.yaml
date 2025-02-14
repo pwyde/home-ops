@@ -230,10 +230,9 @@ spec:
           successThreshold: 1
       resources:
         requests:
-          cpu: 4000m
+          cpu: 200m
           memory: 2Gi
         limits:
-          cpu: 8000m
           memory: 8Gi
       ingress:
         enabled: true
