@@ -114,8 +114,6 @@ spec:
             ),
             'knowledgebaseenabled' => false,
             'maintenance_window_start' => 1,
-            'overwriteprotocol' => 'https',
-            'overwrite.cli.url' => 'https://nextcloud.${SECRET_DOMAIN}',
             'skeletondirectory' => '',
             'trashbin_retention_obligation' => 'auto, 7',
           );
@@ -225,6 +223,7 @@ spec:
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
+          add_header Strict-Transport-Security "max-age=15768000; includeSubDomains;" always;
           rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
           rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
           rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
