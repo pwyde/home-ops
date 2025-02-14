@@ -302,7 +302,7 @@ spec:
           memory: 128Mi
     metrics:
       enabled: true
-      https: true
+      https: false # Will use http://nextcloud.self-hosted.svc.cluster.local:8080 during scrape.
       token: ${NEXTCLOUD_METRICS_TOKEN}
       serviceMonitor:
         enabled: true
