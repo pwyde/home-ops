@@ -21,7 +21,7 @@ spec:
     - name: volsync
       namespace: storage
   interval: 30m
-  path: ./kubernetes/apps/self-hosted/nextcloud/app
+  path: ./kubernetes/apps/self-hosted/nextcloud-helm/app
   postBuild:
     substitute:
       APP: *app
