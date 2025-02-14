@@ -248,7 +248,7 @@ spec:
       enabled: true
       config:
         headers:
-          "Strict-Transport-Security": "max-age=15768000; includeSubDomains; always;"
+          "Strict-Transport-Security": "max-age=15552000; includeSubDomains;"
       securityContext:
         runAsGroup: 82
       resources:
