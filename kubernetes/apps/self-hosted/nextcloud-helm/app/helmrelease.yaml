@@ -34,14 +34,21 @@ spec:
       repository: public.ecr.aws/docker/library/nextcloud
       tag: 30.0.5-fpm-alpine
       flavor: fpm-alpine
+    internalDatabase:
+      enabled: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      database: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: *app
+        hostKey: POSTGRES_HOST
+        databaseKey: POSTGRES_DB
+        usernameKey: POSTGRES_USER
+        passwordKey: POSTGRES_PASSWORD
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
-      extraInitContainers:
-        - name: init-db
-          image: ghcr.io/onedr0p/postgres-init:16
-          envFrom:
-            - secretRef:
-                name: *app
       extraEnv:
         - name: PHP_UPLOAD_LIMIT
           value: "16G"
@@ -60,6 +67,12 @@ spec:
               key: REDIS_HOST_PASSWORD
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
+      extraInitContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16
+          envFrom:
+            - secretRef:
+                name: *app
       existingSecret:
         enabled: true
         secretName: *app
@@ -69,19 +82,6 @@ spec:
         smtpHostKey: SMTP_HOST
         smtpUsernameKey: SMTP_USERNAME
         smtpPasswordKey: SMTP_PASSWORD
-      mail:
-        enabled: true
-        fromAddress: *app
-        domain: "${SECRET_DOMAIN}"
-        smtp:
-          secure: ssl
-          port: 465
-          authtype: LOGIN
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 82
-        runAsGroup: 82
-        readOnlyRootFilesystem: false
       defaultConfigs:
         imaginary.config.php: true
         redis.config.php: false
@@ -173,6 +173,14 @@ spec:
                 'read_timeout'  => 1.5,
               ),
             );
+      mail:
+        enabled: true
+        fromAddress: *app
+        domain: "${SECRET_DOMAIN}"
+        smtp:
+          secure: ssl
+          port: 465
+          authtype: LOGIN
       phpConfigs:
         www.conf: |
           pm = dynamic
@@ -182,44 +190,80 @@ spec:
           pm.max_spare_servers = 42
           pm.max_requests = 500
           pm.process_idle_timeout = 10s
-    persistence:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 82
+        runAsGroup: 82
+        readOnlyRootFilesystem: false
+    collabora:
       enabled: true
-      existingClaim: *app
-    resources:
-      requests:
-        cpu: 200m
-        memory: 384Mi
-      limits:
-        memory: 2Gi
-    # This seems to be required for Nextcloud initialization which takes a long time.
-    startupProbe:
-      enabled: false
-      initialDelaySeconds: 60
-      periodSeconds: 120
-      timeoutSeconds: 20
-      failureThreshold: 60
-      successThreshold: 1
-    livenessProbe:
-      enabled: false
-      initialDelaySeconds: 10
-      periodSeconds: 30
-      timeoutSeconds: 10
-      failureThreshold: 3
-      successThreshold: 1
-    readinessProbe:
-      enabled: false
-      initialDelaySeconds: 60
-      periodSeconds: 60
-      timeoutSeconds: 5
-      failureThreshold: 10
-      successThreshold: 1
+      image:
+        repository: docker.io/collabora/code
+        tag: 24.04.12.3.1@sha256:76d50a50c39210ae85ce20e422f4241a2080f10e0fcee65733f22eba8a00ec73
+      collabora:
+        extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN} --o:num_prespawn_children=4
+        env:
+          - name: dictionaries
+            value: "en_GB en_US sv_SE"
+          - name: server_name
+            value: "collabora.${SECRET_DOMAIN}"
+        existingSecret:
+          enabled: true
+          secretName: *app
+          usernameKey: COLLABORA_USERNAME
+          passwordKey: COLLABORA_PASSWORD
+      probes:
+        liveness: &probes
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        readiness: *probes
+        startup: &startupProbe
+          enabled: true
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+          successThreshold: 1
+      resources:
+        requests:
+          cpu: 4000m
+          memory: 2Gi
+        limits:
+          cpu: 8000m
+          memory: 8Gi
+      ingress:
+        enabled: true
+        className: internal
+        annotations:
+          nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+        hosts:
+          - host: &host collabora.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
+        tls:
+          - hosts:
+              - *host
+    cronjob:
+      enabled: true
+      securityContext:
+        runAsGroup: 82
+    imaginary:
+      enabled: true
     ingress:
       enabled: true
       className: internal
       annotations:
         nginx.ingress.kubernetes.io/affinity: cookie
-        nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
@@ -257,60 +301,20 @@ spec:
           memory: 24Mi
         limits:
           memory: 128Mi
-    imaginary:
-      enabled: true
-    internalDatabase:
-      enabled: false
-    externalDatabase:
-      enabled: true
-      type: postgresql
-      database: nextcloud
-      existingSecret:
-        enabled: true
-        secretName: *app
-        hostKey: POSTGRES_HOST
-        databaseKey: POSTGRES_DB
-        usernameKey: POSTGRES_USER
-        passwordKey: POSTGRES_PASSWORD
     metrics:
       enabled: false
       https: true
       serviceMonitor:
         enabled: false
-    cronjob:
+    livenessProbe: *probes
+    readinessProbe: *probes
+    startupProbe: *startupProbe
+    persistence:
       enabled: true
-      securityContext:
-        runAsGroup: 82
-    collabora:
-      enabled: true
-      image:
-        repository: docker.io/collabora/code
-        tag: 24.04.12.3.1@sha256:76d50a50c39210ae85ce20e422f4241a2080f10e0fcee65733f22eba8a00ec73
-      collabora:
-        extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN}
-        env:
-          - name: dictionaries
-            value: "de_DE en_GB en_US es_ES fr_FR sv_SE"
-          - name: server_name
-            value: "collabora.${SECRET_DOMAIN}"
-        existingSecret:
-          enabled: true
-          secretName: *app
-          usernameKey: COLLABORA_USERNAME
-          passwordKey: COLLABORA_PASSWORD
-      ingress:
-        enabled: true
-        className: internal
-        annotations:
-          nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-        hosts:
-          - host: &host collabora.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: ImplementationSpecific
-        tls:
-          - hosts:
-              - *host
+      existingClaim: *app
+    resources:
+      requests:
+        cpu: 200m
+        memory: 384Mi
+      limits:
+        memory: 2Gi
