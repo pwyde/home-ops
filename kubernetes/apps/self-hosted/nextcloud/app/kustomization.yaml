@@ -5,18 +5,3 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./job.yaml
-  - ./pvc.yaml
-configMapGenerator:
-  - name: nextcloud-app-config
-    files:
-      - extra.config.php=./resources/extra.config.php
-      - opcache-recommended.ini=./resources/opcache-recommended.ini
-      - redis-session.ini=./resources/redis-session.ini
-      - uploadLimit.ini=./resources/uploadLimit.ini
-      - www.conf=./resources/www.conf
-  - name: nextcloud-nginx-config
-    files:
-      - nginx.conf=./resources/nginx.conf
-generatorOptions:
-  disableNameSuffixHash: true
