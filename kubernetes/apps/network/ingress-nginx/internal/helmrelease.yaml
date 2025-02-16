@@ -26,26 +26,24 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      terminationGracePeriodSeconds: 120
-      kind: Deployment
       electionID: "ingress-internal-leader"
-      allowSnippetAnnotations: true
-      enableAnnotationValidations: true
       ingressClassByName: true
       ingressClassResource:
+        controllerValue: k8s.io/internal
         default: true
         enabled: true
         name: internal
-        controllerValue: k8s.io/internal
+      kind: Deployment
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
-        externalTrafficPolicy: Cluster
         type: LoadBalancer
       admissionWebhooks:
         objectSelector:
@@ -93,6 +91,7 @@ spec:
           memory: 256Mi
         limits:
           memory: 512Mi
+      terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -100,12 +99,5 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
-              app.kubernetes.io/component: controller
               app.kubernetes.io/instance: nginx-internal
-    # controller:
-    #   service:
-    #     annotations:
-    #       lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
-    #     externalTrafficPolicy: Cluster
-    # defaultBackend:
-    #   enabled: false
+              app.kubernetes.io/component: controller

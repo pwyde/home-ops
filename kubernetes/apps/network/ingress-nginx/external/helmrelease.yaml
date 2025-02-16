@@ -25,31 +25,38 @@ spec:
   valuesFrom:
     - targetPath: controller.maxmindLicenseKey
       kind: Secret
-      name: &secret ingress-nginx-external
+      name: ingress-nginx-external
       valuesKey: MAXMIND_LICENSE_KEY
   values:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      annotations:
-        configmap.reloader.stakater.com/reload: *secret
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
+      extraEnvs:
+        - name: TZ
+          value: "${CONFIG_TIMEZONE}"
+      extraArgs:
+        default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
+      electionID: "ingress-external-leader"
+      ingressClassByName: true
+      ingressClassResource:
+        controllerValue: k8s.io/external
+        default: false
+        enabled: true
+        name: external
+      kind: Deployment
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
           lbipam.cilium.io/ips: ${SVC_NGINX_EXTERNAL_IP}
-        externalTrafficPolicy: Cluster
-      ingressClassResource:
-        name: external
-        default: false
-        controllerValue: k8s.io/external
+        type: LoadBalancer
       admissionWebhooks:
         objectSelector:
           matchExpressions:
             - key: ingress-class
               operator: In
               values: ["external"]
-      allowSnippetAnnotations: true
-      enableAnnotationValidations: true
       config:
         annotations-risk-level: Critical
         block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
@@ -74,16 +81,23 @@ spec:
           "city_name": "$geoip2_city", "lat": "$geoip2_latitude", "lon": "$geoip2_longitude", "postal_code": "$geoip2_postal_code"}
         proxy-body-size: 0
         proxy-buffer-size: 16k
+        proxy-read-timeout: 120
+        proxy-send-timeout: 120
         ssl-protocols: TLSv1.3 TLSv1.2
         use-geoip2: true
       metrics:
         enabled: true
         serviceMonitor:
           enabled: true
+          namespace: network
           namespaceSelector:
             any: true
-      extraArgs:
-        default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
@@ -94,11 +108,3 @@ spec:
               app.kubernetes.io/name: ingress-nginx
               app.kubernetes.io/instance: nginx-external
               app.kubernetes.io/component: controller
-      resources:
-        requests:
-          cpu: 10m
-          memory: 128Mi
-        limits:
-          memory: 256Mi
-    defaultBackend:
-      enabled: false
