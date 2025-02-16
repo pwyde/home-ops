@@ -23,6 +23,7 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    fullnameOverride: *app
     controller:
       replicaCount: 2
       extraEnvs:
@@ -58,6 +59,7 @@ spec:
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
+        enable-ocsp: "true"
         enable-real-ip: "true"
         hide-headers: Server,X-Powered-By
         hsts-max-age: 31449600
@@ -91,32 +93,12 @@ spec:
               app.kubernetes.io/name: ingress-nginx
               app.kubernetes.io/component: controller
               app.kubernetes.io/instance: nginx-internal
-    # fullnameOverride: *app
     # controller:
-    #   replicaCount: 2
     #   service:
     #     annotations:
     #       lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
     #     externalTrafficPolicy: Cluster
-    #   ingressClassResource:
-    #     name: internal
-    #     default: true
-    #     controllerValue: k8s.io/internal
-    #   admissionWebhooks:
-    #     objectSelector:
-    #       matchExpressions:
-    #         - key: ingress-class
-    #           operator: In
-    #           values: ["internal"]
-    #   allowSnippetAnnotations: true
-    #   enableAnnotationValidations: true
     #   config:
-    #     annotations-risk-level: Critical
-    #     block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
-    #     client-body-buffer-size: 100M
-    #     client-body-timeout: 120
-    #     client-header-timeout: 120
-    #     enable-brotli: "true"
     #     enable-ocsp: "true"
     #     enable-real-ip: "true"
     #     force-ssl-redirect: "true"
