@@ -43,9 +43,10 @@ spec:
         name: internal
         controllerValue: k8s.io/internal
       service:
-        type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
+        externalTrafficPolicy: Cluster
+        type: LoadBalancer
       admissionWebhooks:
         objectSelector:
           matchExpressions:
@@ -106,21 +107,5 @@ spec:
     #     annotations:
     #       lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
     #     externalTrafficPolicy: Cluster
-    #   terminationGracePeriodSeconds: 120
-    #   topologySpreadConstraints:
-    #     - maxSkew: 1
-    #       topologyKey: kubernetes.io/hostname
-    #       whenUnsatisfiable: DoNotSchedule
-    #       labelSelector:
-    #         matchLabels:
-    #           app.kubernetes.io/name: ingress-nginx
-    #           app.kubernetes.io/instance: nginx-internal
-    #           app.kubernetes.io/component: controller
-    #   resources:
-    #     requests:
-    #       cpu: 20m
-    #       memory: 256Mi
-    #     limits:
-    #       memory: 512Mi
     # defaultBackend:
     #   enabled: false
