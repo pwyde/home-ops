@@ -6,6 +6,7 @@
 2. [`authelia`](../kubernetes/apps/security/authelia/)
 3. [`immich`](../kubernetes/apps/self-hosted/immich/)
 4. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
+4. [`nextcloud`](../kubernetes/apps/self-hosted/nextcloud/)
 
 ## Arguments
 
