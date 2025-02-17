@@ -6,5 +6,6 @@ metadata:
   name: dcgm-exporter
   namespace: flux-system
 spec:
-  interval: 12h
+  interval: 1h
+  timeout: 3m
   url: https://nvidia.github.io/dcgm-exporter/helm-charts
