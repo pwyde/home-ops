@@ -23,28 +23,28 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    fullnameOverride: *app
     controller:
       replicaCount: 2
+      allowSnippetAnnotations: true
+      enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      terminationGracePeriodSeconds: 120
-      kind: Deployment
       electionID: "ingress-internal-leader"
-      allowSnippetAnnotations: true
-      enableAnnotationValidations: true
       ingressClassByName: true
       ingressClassResource:
+        controllerValue: k8s.io/internal
         default: true
         enabled: true
         name: internal
-        controllerValue: k8s.io/internal
+      kind: Deployment
       service:
-        type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
+        type: LoadBalancer
       admissionWebhooks:
         objectSelector:
           matchExpressions:
@@ -58,16 +58,25 @@ spec:
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
+        # enable-ocsp: "true"
         enable-real-ip: "true"
+        # force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
         hsts-max-age: 31449600
         keep-alive-requests: 10000
         keep-alive: 120
-        ssl-protocols: "TLSv1.3 TLSv1.2"
+        # log-format-escape-json: "true"
+        # log-format-upstream: >
+        #   {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for",
+        #   "request_id": "$req_id", "remote_user": "$remote_user", "bytes_sent": $bytes_sent, "request_time": $request_time,
+        #   "status": $status, "vhost": "$host", "request_proto": "$server_protocol", "path": "$uri", "request_query": "$args",
+        #   "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer",
+        #   "http_user_agent": "$http_user_agent"}
         proxy-body-size: 0
         proxy-buffer-size: 16k
         proxy-read-timeout: 120
         proxy-send-timeout: 120
+        ssl-protocols: "TLSv1.3 TLSv1.2"
         use-geoip2: false
       metrics:
         enabled: true
@@ -78,10 +87,11 @@ spec:
             any: true
       resources:
         requests:
-          cpu: 50m
-          memory: 250Mi
+          cpu: 20m
+          memory: 256Mi
         limits:
-          memory: 1000Mi
+          memory: 512Mi
+      terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -89,75 +99,5 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
-              app.kubernetes.io/component: controller
               app.kubernetes.io/instance: nginx-internal
-    # fullnameOverride: *app
-    # controller:
-    #   replicaCount: 2
-    #   service:
-    #     annotations:
-    #       lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
-    #     externalTrafficPolicy: Cluster
-    #   ingressClassResource:
-    #     name: internal
-    #     default: true
-    #     controllerValue: k8s.io/internal
-    #   admissionWebhooks:
-    #     objectSelector:
-    #       matchExpressions:
-    #         - key: ingress-class
-    #           operator: In
-    #           values: ["internal"]
-    #   allowSnippetAnnotations: true
-    #   enableAnnotationValidations: true
-    #   config:
-    #     annotations-risk-level: Critical
-    #     block-user-agents: "AdsBot-Google,Amazonbot,anthropic-ai,Applebot-Extended,Bytespider,CCBot,ChatGPT-User,ClaudeBot,Claude-Web,cohere-ai,Diffbot,FacebookBot,FriendlyCrawler,Google-Extended,GoogleOther,GPTBot,img2dataset,omgili,omgilibot,peer39_crawler,peer39_crawler/1.0,PerplexityBot,YouBot," # Taken from https://github.com/ai-robots-txt/ai.robots.txt
-    #     client-body-buffer-size: 100M
-    #     client-body-timeout: 120
-    #     client-header-timeout: 120
-    #     enable-brotli: "true"
-    #     enable-ocsp: "true"
-    #     enable-real-ip: "true"
-    #     force-ssl-redirect: "true"
-    #     hide-headers: Server,X-Powered-By
-    #     hsts-max-age: 31449600
-    #     keep-alive-requests: 10000
-    #     keep-alive: 120
-    #     log-format-escape-json: "true"
-    #     log-format-upstream: >
-    #       {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for",
-    #       "request_id": "$req_id", "remote_user": "$remote_user", "bytes_sent": $bytes_sent, "request_time": $request_time,
-    #       "status": $status, "vhost": "$host", "request_proto": "$server_protocol", "path": "$uri", "request_query": "$args",
-    #       "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer",
-    #       "http_user_agent": "$http_user_agent"}
-    #     proxy-body-size: 0
-    #     proxy-buffer-size: 16k
-    #     ssl-protocols: TLSv1.3 TLSv1.2
-    #     use-geoip2: false
-    #   metrics:
-    #     enabled: true
-    #     serviceMonitor:
-    #       enabled: true
-    #       namespaceSelector:
-    #         any: true
-    #   extraArgs:
-    #     default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-    #   terminationGracePeriodSeconds: 120
-    #   topologySpreadConstraints:
-    #     - maxSkew: 1
-    #       topologyKey: kubernetes.io/hostname
-    #       whenUnsatisfiable: DoNotSchedule
-    #       labelSelector:
-    #         matchLabels:
-    #           app.kubernetes.io/name: ingress-nginx
-    #           app.kubernetes.io/instance: nginx-internal
-    #           app.kubernetes.io/component: controller
-    #   resources:
-    #     requests:
-    #       cpu: 20m
-    #       memory: 256Mi
-    #     limits:
-    #       memory: 512Mi
-    # defaultBackend:
-    #   enabled: false
+              app.kubernetes.io/component: controller
