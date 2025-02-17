@@ -58,7 +58,7 @@ spec:
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
-        enable-ocsp: "true"
+        # enable-ocsp: "true"
         enable-real-ip: "true"
         force-ssl-redirect: "true"
         hide-headers: Server,X-Powered-By
