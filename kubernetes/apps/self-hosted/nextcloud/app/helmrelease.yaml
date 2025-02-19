@@ -51,7 +51,7 @@ spec:
       host: nextcloud.${SECRET_DOMAIN}
       extraEnv:
         - name: PHP_MEMORY_LIMIT
-          value: "1024M"
+          value: "512M"
         - name: PHP_UPLOAD_LIMIT
           value: "10G"
         - name: PHP_OPCACHE_MEMORY_CONSUMPTION
@@ -94,6 +94,7 @@ spec:
           $CONFIG = array (
             'log_type' => 'file',
             'logfile' => '/var/www/html/data/nextcloud.log',
+            'logtimezone' => 'Europe/Stockholm',
             'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
           );
@@ -156,7 +157,6 @@ spec:
             'trusted_proxies' => array(
               0 => '127.0.0.1',
               1 => '${CLUSTER_POD_CIDR}',
-              2 => '192.168.0.0/16',
             ),
             'forwarded_for_headers' => array(
               0 => 'HTTP_X_FORWARDED_FOR',
@@ -188,10 +188,10 @@ spec:
       phpConfigs:
         www.conf: |
           pm = dynamic
-          pm.max_children = 57
-          pm.start_servers = 14
-          pm.min_spare_servers = 14
-          pm.max_spare_servers = 42
+          pm.max_children = 10
+          pm.start_servers = 3
+          pm.min_spare_servers = 2
+          pm.max_spare_servers = 5
           pm.max_requests = 500
           pm.process_idle_timeout = 10s
       securityContext:
@@ -249,9 +249,10 @@ spec:
         className: internal
         annotations:
           nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+          nginx.ingress.kubernetes.io/proxy-body-size: "10G"
+          nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         hosts:
           - host: &host collabora.${SECRET_DOMAIN}
             paths:
@@ -272,22 +273,14 @@ spec:
       annotations:
         # Enable ingress sticky-sessions to loadbalance over multiple pods.
         nginx.ingress.kubernetes.io/affinity: cookie
-        # Enable service discovery (CalDAV, CardDAV, webfinger, nodeinfo).
-        # Ref: https://github.com/nextcloud/helm/issues/410#issuecomment-2089224786
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-methods: "GET HEAD POST OPTIONS PUT PATCH DELETE PROPFIND MKCOL REPORT"
-        nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,X-Forwarded-For"
-        nginx.ingress.kubernetes.io/connection-proxy-header: keep-alive
-        nginx.ingress.kubernetes.io/proxy-body-size: '10G'
-        nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 10485760m
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "86400"
-        nginx.ingress.kubernetes.io/proxy-connect-timeout: "120s"
-        nginx.ingress.kubernetes.io/client-body-buffer-size: '10G'
+        nginx.ingress.kubernetes.io/enable-cors: "false"
+        nginx.ingress.kubernetes.io/proxy-body-size: "10G"
+        nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
-          proxy_intercept_errors off;
           rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
           rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
           rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
