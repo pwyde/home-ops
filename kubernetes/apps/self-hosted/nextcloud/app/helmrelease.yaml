@@ -95,7 +95,7 @@ spec:
             'log_type' => 'file',
             'logfile' => '/var/www/html/data/nextcloud.log',
             'logtimezone' => 'Europe/Stockholm',
-            'loglevel' => 0,
+            'loglevel' => 2,
             'logdateformat' => 'F d, Y H:i:s'
           );
         misc.config.php: |-
@@ -273,13 +273,12 @@ spec:
       annotations:
         # Enable ingress sticky-sessions to loadbalance over multiple pods.
         nginx.ingress.kubernetes.io/affinity: cookie
-        # nginx.ingress.kubernetes.io/enable-cors: "false"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-        nginx.ingress.kubernetes.io/cors-allow-methods: "GET HEAD POST OPTIONS PUT PATCH DELETE PROPFIND MKCOL REPORT"
-        nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,X-Forwarded-For"
-        nginx.ingress.kubernetes.io/cors-expose-headers: "Content-Length,Content-Range"
-        nginx.ingress.kubernetes.io/cors-max-age: "86400"
+        # Disable CORS. Service discovery (CalDAV, CardDAV, webfinger,
+        # nodeinfo) is not functioning properly with CORS enabled.
+        # Ref: https://github.com/nextcloud/helm/issues/562
+        # This weakens security if Nextcloud if exposed to the internet.
+        # Ref: https://github.com/nextcloud/helm/issues/410
+        nginx.ingress.kubernetes.io/enable-cors: "false"
         nginx.ingress.kubernetes.io/proxy-body-size: "10G"
         nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
