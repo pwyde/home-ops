@@ -100,6 +100,7 @@ spec:
         misc.config.php: |-
           <?php
           $CONFIG = array (
+            'allow_local_remote_servers' => true,
             'appstoreenabled' => true,
             'auth.bruteforce.protection.enabled' => true,
             // Circumvention for client freezes. See https://github.com/nextcloud/desktop/issues/5094
