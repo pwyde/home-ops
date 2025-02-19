@@ -266,9 +266,20 @@ spec:
       enabled: true
       className: internal
       annotations:
+        # Enable ingress sticky-sessions to loadbalance over multiple pods.
         nginx.ingress.kubernetes.io/affinity: cookie
-        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        # Enable service discovery (CalDAV, CardDAV, webfinger, nodeinfo).
+        # Ref: https://github.com/nextcloud/helm/issues/410#issuecomment-2089224786
         nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "GET HEAD POST OPTIONS PUT PATCH DELETE PROPFIND MKCOL REPORT"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,X-Forwarded-For"
+        nginx.ingress.kubernetes.io/connection-proxy-header: keep-alive
+        nginx.ingress.kubernetes.io/proxy-body-size: '10G'
+        nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 10485760m
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "86400"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "120s"
+        nginx.ingress.kubernetes.io/client-body-buffer-size: '10G'
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
           proxy_hide_header X-Powered-By;
