@@ -92,7 +92,7 @@ spec:
           $CONFIG = array (
             'log_type' => 'file',
             'logfile' => '/var/www/html/data/nextcloud.log',
-            'loglevel' => 2,
+            'loglevel' => 0,
             'logdateformat' => 'F d, Y H:i:s'
           );
         misc.config.php: |-
