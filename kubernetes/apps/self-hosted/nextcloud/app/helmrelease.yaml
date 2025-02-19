@@ -50,8 +50,10 @@ spec:
     nextcloud:
       host: nextcloud.${SECRET_DOMAIN}
       extraEnv:
+        - name: PHP_MEMORY_LIMIT
+          value: "1024M"
         - name: PHP_UPLOAD_LIMIT
-          value: "16G"
+          value: "10G"
         - name: PHP_OPCACHE_MEMORY_CONSUMPTION
           value: "256"
         - name: REDIS_HOST
@@ -335,6 +337,9 @@ spec:
     livenessProbe: *probes
     readinessProbe: *probes
     startupProbe: *startupProbe
+    phpClientHttpsFix:
+      enabled: true
+      protocol: https
     persistence:
       enabled: true
       existingClaim: *app
