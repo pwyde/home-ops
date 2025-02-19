@@ -18,7 +18,7 @@ cluster:
 cni:
   # Required for pairing with Multus CNI.
   exclusive: false
-# NOTE: Devices might need to be set if more than one active NIC exists on the hosts.
+# Note: Devices might need to be set if more than one active NIC exists on the hosts.
 # devices: eno+ eth+
 devices: eth0
 endpointRoutes:
