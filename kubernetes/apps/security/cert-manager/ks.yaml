@@ -35,6 +35,11 @@ spec:
       namespace: security
     - name: onepassword-store
       namespace: security
+  healthCheckExprs:
+    - apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 30m
   path: ./kubernetes/apps/security/cert-manager/issuers
   prune: true
@@ -61,6 +66,11 @@ spec:
       namespace: security
     - name: onepassword-store
       namespace: security
+  healthCheckExprs:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 30m
   path: ./kubernetes/apps/security/cert-manager/certificates
   prune: true
