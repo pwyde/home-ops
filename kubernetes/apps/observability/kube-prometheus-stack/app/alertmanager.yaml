@@ -17,7 +17,6 @@ spec:
           - name: alertname
             value: InfoInhibitor|Watchdog
             matchType: =~
-        continue: false
       - receiver: pushover
         matchers:
           - name: severity
