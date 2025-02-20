@@ -3,22 +3,37 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
-  name: alertmanager
+  name: &name alertmanager
 spec:
   route:
-    groupBy:
-      - alertname
-      - job
+    groupBy: ["alertname", "job"]
     groupInterval: 10m
     groupWait: 1m
+    receiver: pushover
     repeatInterval: 12h
     routes:
-      - matchers:
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            value: InfoInhibitor
+            matchType: =
+      - receiver: pushover
+        matchers:
           - name: severity
-            value: warning|critical
-            matchType: "=~"  # Regular expression match
-        receiver: pushover
+            value: critical
+            matchType: =
+  inhibitRules:
+    - equal: ["alertname", "namespace"]
+      sourceMatch:
+        - name: severity
+          value: critical
+          matchType: =
+      targetMatch:
+        - name: severity
+          value: warning
+          matchType: =
   receivers:
+    - name: "null"
     - name: pushover
       pushoverConfigs:
         - html: true
@@ -50,9 +65,9 @@ spec:
             {{ .CommonLabels.alertname }}
           ttl: 86400s
           token:
-            name: alertmanager
+            name: *name
             key: ALERTMANAGER_PUSHOVER_TOKEN
           userKey:
-            name: alertmanager
+            name: *name
             key: PUSHOVER_USER_KEY
           urlTitle: View in Alertmanager
