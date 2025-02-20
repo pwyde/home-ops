@@ -16,7 +16,7 @@ spec:
         matchers:
           - name: severity
             value: warning|critical
-            matchType: "="  # Matching exactly to "warning" or "critical"
+            matchType: "=~"  # Regular expression match
       - receiver: pushover  # Fallback for other unmatched alerts
   receivers:
     - name: pushover
