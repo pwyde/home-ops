@@ -21,8 +21,8 @@ spec:
       - receiver: pushover
         matchers:
           - name: severity
-            value: critical
-            matchType: =
+            value: warning|critical
+            matchType: =~
   inhibitRules:
     - equal: ["alertname", "namespace"]
       sourceMatch:
