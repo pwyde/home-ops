@@ -12,11 +12,11 @@ spec:
     receiver: pushover
     repeatInterval: 12h
     routes:
-      - receiver: "null"
-        matchers:
-          - name: alertname
-            value: InfoInhibitor|Watchdog
-            matchType: =~
+      # - receiver: "null"
+      #   matchers:
+      #     - name: alertname
+      #       value: InfoInhibitor|Watchdog
+      #       matchType: =~
       - receiver: pushover
         matchers:
           - name: severity
