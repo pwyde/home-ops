@@ -45,7 +45,7 @@ spec:
             env:
               TZ: *tz
               POSTGRES_HOST: postgres16-ro.database.svc.cluster.local
-              POSTGRES_DB: authelia,bazarr,gatus,grafana,jfstat,lidarr_log,lidarr_main,,prowlarr_log,prowlarr_main,radarr_log,radarr_main,sonarr_log,sonarr_main
+              POSTGRES_DB: atuin,authelia,bazarr,gatus,grafana,jfstat,lidarr_log,lidarr_main,nextcloud,prowlarr_log,prowlarr_main,radarr_log,radarr_main,sonarr_log,sonarr_main
               BACKUP_KEEP_DAYS: 14
               BACKUP_KEEP_WEEKS: 2
               BACKUP_KEEP_MONTHS: 0
