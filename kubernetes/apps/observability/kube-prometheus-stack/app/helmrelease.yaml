@@ -46,8 +46,10 @@ spec:
           - hosts:
               - *host
       alertmanagerSpec:
-        useExistingSecret: true
-        configSecret: alertmanager
+        alertmanagerConfiguration:
+          name: alertmanager
+          global:
+            resolveTimeout: 5m
         resources:
           requests:
             cpu: 10m
