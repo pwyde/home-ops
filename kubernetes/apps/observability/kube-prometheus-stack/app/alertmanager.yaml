@@ -17,6 +17,7 @@ spec:
           - name: severity
             value: warning|critical
             matchType: "="  # Matching exactly to "warning" or "critical"
+      - receiver: pushover  # Fallback for other unmatched alerts
   receivers:
     - name: pushover
       pushoverConfigs:
