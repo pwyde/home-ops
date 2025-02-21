@@ -139,11 +139,42 @@ tasks:
       - test -f {{.TALOSCONFIG}}
       - which talosctl yq
 
+  reboot-node:
+    desc: Reboot a single Talos node
+    prompt: Reboot Talos node {{.HOSTNAME}}... Continue?
+    summary: |
+      Reboot a single Talos node
+
+      HOSTNAME: Node IP or hostname (required)
+      MODE: Reboot mode, default "powercycle"
+
+      Example:
+      task talos:reboot-node HOSTNAME=talos-1
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+    requires:
+      vars: [HOSTNAME]
+    cmd: talosctl --nodes {{.HOSTNAME}} reboot --mode={{.MODE}}
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - which talosctl
+
+  shutdown-cluster:
+    desc: Shutdown the whole Talos cluster
+    prompt: Shutdown the Talos cluster... Continue?
+    vars:
+      NODES:
+        sh: talosctl config info --output json | jq --exit-status --join-output '[.nodes[]] | join(",")'
+    cmd: talosctl shutdown --nodes {{.NODES}} --force
+    preconditions:
+      - talosctl --nodes {{.NODES}} get machineconfig
+      - which jq talosctl
+
   reset-node:
-    desc: Reset a Talos node, --force wipes the entire disk
+    desc: Reset a single Talos node, --force wipes the entire disk
     prompt: Reset Talos node {{.HOSTNAME}}... Continue?
     summary: |
-      Reset a Talos node
+      Reset a single Talos node
 
       HOSTNAME: Node IP or hostname (required)
 
@@ -166,7 +197,7 @@ tasks:
       - test -f {{.TALOSCONFIG}}
 
   reset-cluster:
-    desc: Reset the Talos cluster, --force wipes the entire disk
+    desc: Reset the whole Talos cluster, --force wipes the entire disk
     prompt: This will destroy the cluster and reset ALL nodes back to maintenance mode... Continue?
     dir: '{{.TALOS_DIR}}'
     cmds:
