@@ -31,10 +31,10 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         ingressClassName: internal
         hosts:
-          - k8s-dashboard.${SECRET_DOMAIN}
+          - &host k8s-dashboard.${SECRET_DOMAIN}
         tls:
-          # No need for seperate certificates. Will use ingress-nginx.
-          enabled: false
+        - hosts:
+            - *host
     #   settings:
     #     global:
     #       clusterName: ${CLUSTER_NAME}
