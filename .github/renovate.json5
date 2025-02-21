@@ -8,7 +8,6 @@
     ":dependencyDashboard",
     ":gitSignOff",
     ":semanticCommits",
-    ":separatePatchReleases",
     ":skipStatusChecks",
     ":timezone(Europe/Stockholm)",
     "github>pwyde/home-ops//.github/renovate/autoMerge.json5",
