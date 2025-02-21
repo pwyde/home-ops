@@ -32,9 +32,9 @@ spec:
         ingressClassName: internal
         hosts:
           - &host k8s-dashboard.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *host
+    #     tls:
+    #       # No need for seperate certificates. Will use ingress-nginx.
+    #       enabled: false
     #   settings:
     #     global:
     #       clusterName: ${CLUSTER_NAME}
