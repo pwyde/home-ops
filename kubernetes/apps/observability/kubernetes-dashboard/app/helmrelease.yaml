@@ -35,46 +35,46 @@ spec:
         tls:
           # No need for seperate certificates. Will use ingress-nginx.
           enabled: false
-      settings:
-        global:
-          clusterName: ${CLUSTER_NAME}
-          itemsPerPage: 50
-    api:
-      containers:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 32Mi
-          limits:
-            memory: 128Mi
-    auth:
-      containers:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 24Mi
-          limits:
-            memory: 32Mi
-    kong:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 192Mi
-        limits:
-          memory: 256Mi
-    metricsScraper:
-      containers:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 24Mi
-          limits:
-            memory: 32Mi
-    web:
-      containers:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 16Mi
-          limits:
-            memory: 24Mi
+    #   settings:
+    #     global:
+    #       clusterName: ${CLUSTER_NAME}
+    #       itemsPerPage: 50
+    # api:
+    #   containers:
+    #     resources:
+    #       requests:
+    #         cpu: 10m
+    #         memory: 32Mi
+    #       limits:
+    #         memory: 128Mi
+    # auth:
+    #   containers:
+    #     resources:
+    #       requests:
+    #         cpu: 10m
+    #         memory: 24Mi
+    #       limits:
+    #         memory: 32Mi
+    # kong:
+    #   resources:
+    #     requests:
+    #       cpu: 10m
+    #       memory: 192Mi
+    #     limits:
+    #       memory: 256Mi
+    # metricsScraper:
+    #   containers:
+    #     resources:
+    #       requests:
+    #         cpu: 10m
+    #         memory: 24Mi
+    #       limits:
+    #         memory: 32Mi
+    # web:
+    #   containers:
+    #     resources:
+    #       requests:
+    #         cpu: 10m
+    #         memory: 16Mi
+    #       limits:
+    #         memory: 24Mi
