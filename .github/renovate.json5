@@ -22,7 +22,6 @@
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "commitBodyTable": true,
   "onboarding": false,
-  "requireConfig": "ignored",
   "assigneesFromCodeOwners": true,
   "reviewersFromCodeOwners": true,
   "ignorePaths": ["**/*.sops.*", "**/resources/**"],
