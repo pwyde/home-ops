@@ -90,7 +90,7 @@ spec:
           cpu: 20m
           memory: 256Mi
         limits:
-          memory: 512Mi
+          memory: 768Mi
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
