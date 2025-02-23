@@ -49,16 +49,16 @@ loadBalancer:
   mode: snat # Default mode.
 localRedirectPolicy: true
 operator:
-  replicas: 2
-  rollOutPods: true
+  dashboards:
+    annotations:
+      grafana_folder: Network
+    enabled: true
   prometheus:
     enabled: true
     serviceMonitor:
       enabled: true
-  dashboards:
-    enabled: true
-    annotations:
-      grafana_folder: Network
+  replicas: 2
+  rollOutPods: true
 prometheus:
   enabled: true
   serviceMonitor:
