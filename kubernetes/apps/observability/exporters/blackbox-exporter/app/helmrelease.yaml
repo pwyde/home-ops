@@ -55,23 +55,6 @@ spec:
       tls:
           - hosts:
               - *host
-    resources:
-      requests:
-        cpu: 10m
-        memory: 64Mi
-      limits:
-        memory: 96Mi
-    securityContext:
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      capabilities:
-        # Add NET_RAW to enable ICMP.
-        add: ["NET_RAW"]
-    serviceMonitor:
-      enabled: true
-      defaults:
-        interval: 1m
-        scrapeTimeout: 10s
     prometheusRule:
       enabled: true
       additionalLabels:
@@ -102,3 +85,31 @@ spec:
           annotations:
             summary: |-
               The host {{ $labels.instance }} is currently unreachable
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 96Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        # Add NET_RAW to enable ICMP.
+        add: ["NET_RAW"]
+    serviceMonitor:
+      enabled: true
+      defaults:
+        interval: 1m
+        labels:
+          release: prometheus
+        scrapeTimeout: 30s
+      targets:
+        # PiKVM
+        - module: http_2xx
+          name: pikvm-http
+          url: "http://pikvm.${SECRET_DOMAIN}"
+        - module: icmp
+          name: pikvm-icmp
+          url: pikvm.${SECRET_DOMAIN}
+
