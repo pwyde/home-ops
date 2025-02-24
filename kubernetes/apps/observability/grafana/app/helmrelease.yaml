@@ -204,10 +204,6 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        qbittorrent-exporter:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/qbittorrent-dashboard.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
@@ -259,21 +255,7 @@ spec:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr-dashboard.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        unpackerr:
-          # renovate: depName="Unpackerr"
-          # gnetId: 18817
-          # revision: 1
-          # datasource:
-          #   - { name: DS_PROMETHEUS, value: Prometheus }
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/unpackerr-dashboard.json
-          datasource: Prometheus
       network:
-        blackbox-exporter-http:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/blackbox-exporter-http-dashboard.json
-          datasource: Prometheus
-        blackbox-exporter-icmp:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/blackbox-exporter-icmp-dashboard.json
-          datasource: Prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -298,11 +280,6 @@ spec:
           revision: 7
           datasource: Prometheus
       security:
-        cert-manager:
-          # Missing data legends, see https://github.com/monitoring-mixins/website/issues/37
-          # url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/cert-manager-dashboard.json
-          datasource: Prometheus
         external-secrets:
           # renovate: depName="External Secrets"
           gnetId: 21640
