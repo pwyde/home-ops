@@ -10,6 +10,43 @@ metadata:
 data:
   dcgm-exporter.json: |-
     {
+      "__inputs": [
+        {
+          "name": "DS_PROMETHEUS",
+          "label": "Prometheus",
+          "description": "",
+          "type": "datasource",
+          "pluginId": "prometheus",
+          "pluginName": "Prometheus"
+        }
+      ],
+      "__elements": {},
+      "__requires": [
+        {
+          "type": "panel",
+          "id": "gauge",
+          "name": "Gauge",
+          "version": ""
+        },
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "11.5.2"
+        },
+        {
+          "type": "datasource",
+          "id": "prometheus",
+          "name": "Prometheus",
+          "version": "1.0.0"
+        },
+        {
+          "type": "panel",
+          "id": "timeseries",
+          "name": "Time series",
+          "version": ""
+        }
+      ],
       "annotations": {
         "list": [
           {
@@ -31,13 +68,13 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 249,
+      "id": null,
       "links": [],
       "panels": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -125,7 +162,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_DEV_GPU_TEMP{Hostname=~\"${Hostname}\"})",
@@ -141,7 +178,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -199,7 +236,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -217,7 +254,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -305,7 +342,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_DEV_POWER_USAGE{Hostname=~\"${Hostname}\"})",
@@ -321,7 +358,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -379,7 +416,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -397,7 +434,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -485,7 +522,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_DEV_SM_CLOCK{Hostname=~\"${Hostname}\"}) * 1000000",
@@ -503,7 +540,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -593,7 +630,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_DEV_GPU_UTIL{Hostname=~\"${Hostname}\"})",
@@ -609,7 +646,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -699,7 +736,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_PROF_PIPE_TENSOR_ACTIVE{Hostname=~\"${Hostname}\"})",
@@ -715,7 +752,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -802,7 +839,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "avg(DCGM_FI_DEV_FB_USED{Hostname=~\"${Hostname}\"})",
@@ -816,20 +853,16 @@ data:
           "type": "timeseries"
         }
       ],
-      "preload": false,
       "refresh": "30s",
       "schemaVersion": 40,
       "tags": [],
       "templating": {
         "list": [
           {
-            "current": {
-              "text": "talos-5",
-              "value": "talos-5"
-            },
+            "current": {},
             "datasource": {
               "type": "prometheus",
-              "uid": "prometheus"
+              "uid": "${DS_PROMETHEUS}"
             },
             "definition": "label_values(DCGM_FI_DEV_GPU_TEMP,Hostname)",
             "includeAll": false,
@@ -845,17 +878,10 @@ data:
             "type": "query"
           },
           {
-            "current": {
-              "text": [
-                "All"
-              ],
-              "value": [
-                "$__all"
-              ]
-            },
+            "current": {},
             "datasource": {
               "type": "prometheus",
-              "uid": "prometheus"
+              "uid": "${DS_PROMETHEUS}"
             },
             "definition": "label_values(gpu)",
             "includeAll": true,

@@ -10,6 +10,55 @@ metadata:
 data:
   qbittorrent-exporter.json: |-
     {
+      "__inputs": [
+        {
+          "name": "DS_PROMETHEUS",
+          "label": "Prometheus",
+          "description": "",
+          "type": "datasource",
+          "pluginId": "prometheus",
+          "pluginName": "Prometheus"
+        }
+      ],
+      "__elements": {},
+      "__requires": [
+        {
+          "type": "panel",
+          "id": "gauge",
+          "name": "Gauge",
+          "version": ""
+        },
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "11.5.2"
+        },
+        {
+          "type": "panel",
+          "id": "piechart",
+          "name": "Pie chart",
+          "version": ""
+        },
+        {
+          "type": "datasource",
+          "id": "prometheus",
+          "name": "Prometheus",
+          "version": "1.0.0"
+        },
+        {
+          "type": "panel",
+          "id": "stat",
+          "name": "Stat",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "timeseries",
+          "name": "Time series",
+          "version": ""
+        }
+      ],
       "annotations": {
         "list": [
           {
@@ -35,13 +84,13 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 250,
+      "id": null,
       "links": [],
       "panels": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -116,7 +165,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -135,7 +184,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -204,7 +253,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "qbittorrent_connected{server=\"$server\"} - qbittorrent_firewalled{server=\"$server\"}",
@@ -221,7 +270,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -287,7 +336,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "qbittorrent_dht_nodes{server=\"$server\"}",
@@ -303,7 +352,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -350,7 +399,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (app) (qbittorrent_up_info_data_total{server=\"$server\"})",
@@ -362,7 +411,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (app) (qbittorrent_alltime_ul_total{server=\"$server\"})",
@@ -379,7 +428,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -426,7 +475,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (app) (qbittorrent_dl_info_data_total{server=\"$server\"})",
@@ -438,7 +487,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (app) (qbittorrent_alltime_dl_total{server=\"$server\"})",
@@ -455,7 +504,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -502,7 +551,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "(sum by (app) (qbittorrent_alltime_ul_total{server=\"$server\"})) / (sum by (app) (qbittorrent_alltime_dl_total{server=\"$server\"}))",
@@ -518,7 +567,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -570,7 +619,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "rate(qbittorrent_dl_info_data_total{server=\"$server\"}[2m])",
@@ -586,7 +635,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -638,7 +687,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "rate(qbittorrent_up_info_data_total{server=\"$server\"}[2m])",
@@ -655,7 +704,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -738,7 +787,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "rate(qbittorrent_dl_info_data_total{server=\"$server\"}[2m])",
@@ -750,7 +799,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "rate(qbittorrent_up_info_data_total{server=\"$server\"}[2m])",
@@ -766,7 +815,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -849,7 +898,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum(qbittorrent_torrents_count{category=~\"${categories}\", status!=\"complete\", server=\"$server\"}) by (status)",
@@ -865,7 +914,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -915,7 +964,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "prometheus"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum(qbittorrent_torrents_count{category=~\"${categories}\",status!=\"complete\",server=\"$server\"}) by (category)",
@@ -929,17 +978,13 @@ data:
           "type": "piechart"
         }
       ],
-      "preload": false,
       "refresh": "10s",
       "schemaVersion": 40,
       "tags": [],
       "templating": {
         "list": [
           {
-            "current": {
-              "text": "Prometheus",
-              "value": "prometheus"
-            },
+            "current": {},
             "includeAll": false,
             "label": "Data Source",
             "name": "data_source",
@@ -951,13 +996,10 @@ data:
           },
           {
             "allValue": ".*",
-            "current": {
-              "text": "qbittorrent.downloads.svc.cluster.local:80",
-              "value": "qbittorrent.downloads.svc.cluster.local:80"
-            },
+            "current": {},
             "datasource": {
               "type": "prometheus",
-              "uid": "prometheus"
+              "uid": "${DS_PROMETHEUS}"
             },
             "definition": "label_values(qbittorrent_up,server)",
             "includeAll": false,
@@ -975,17 +1017,10 @@ data:
           },
           {
             "allValue": ".*",
-            "current": {
-              "text": [
-                "All"
-              ],
-              "value": [
-                "$__all"
-              ]
-            },
+            "current": {},
             "datasource": {
               "type": "prometheus",
-              "uid": "prometheus"
+              "uid": "${DS_PROMETHEUS}"
             },
             "definition": "label_values(qbittorrent_torrents_count{server=\"$server\"},category)",
             "includeAll": true,
