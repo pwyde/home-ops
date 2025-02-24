@@ -309,12 +309,6 @@ spec:
             - {name: DS_PROMETHEUS, value: Prometheus}
             - {name: VAR_REPLICATIONDESTNAME, value: ".*-rdst"}
       system:
-        dcgm-exporter:
-          # renovate: depName="NVIDIA DCGM Exporter Dashboard"
-          gnetId: 21362
-          revision: 1
-          datasource:
-            - { name: DS_VICTORIAMETRICS, value: Prometheus }
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
