@@ -105,6 +105,13 @@ spec:
           release: prometheus
         scrapeTimeout: 30s
       targets:
+        # TrueNAS
+        - module: http_2xx
+          name: nas-http
+          url: "http://nas.${SECRET_DOMAIN}"
+        - module: icmp
+          name: nas-icmp
+          url: nas.${SECRET_DOMAIN}
         # PiKVM
         - module: http_2xx
           name: pikvm-http
