@@ -108,15 +108,22 @@ spec:
         # TrueNAS
         - module: http_2xx
           name: nas-http
-          url: "http://nas.${SECRET_DOMAIN}"
+          url: "https://nas.${SECRET_DOMAIN}"
         - module: icmp
           name: nas-icmp
           url: nas.${SECRET_DOMAIN}
         # PiKVM
         - module: http_2xx
           name: pikvm-http
-          url: "http://pikvm.${SECRET_DOMAIN}"
+          url: "https://pikvm.${SECRET_DOMAIN}"
         - module: icmp
           name: pikvm-icmp
           url: pikvm.${SECRET_DOMAIN}
+        # ProxmoxVE
+        - module: http_2xx
+          name: pve-http
+          url: "https://pve.${SECRET_DOMAIN}:8006"
+        - module: icmp
+          name: pve-icmp
+          url: pve.${SECRET_DOMAIN}
 
