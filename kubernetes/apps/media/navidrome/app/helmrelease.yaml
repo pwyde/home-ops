@@ -35,7 +35,7 @@ spec:
           navidrome:
             image:
               repository: ghcr.io/navidrome/navidrome
-              tag: 0.54.5@sha256:0648e9772404e29138fe76d1a9dfaebba9c12f7cc20b5ed1bfb3469b0da2c3d3
+              tag: 0.54.5@sha256:2a4deb64be3d42f245947b4330988bb8b48b99271f6afdaf68384ed3c3de9d51
             env:
               TZ: ${CONFIG_TIMEZONE}
               ND_LOGLEVEL: info
