@@ -22,6 +22,8 @@
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "commitBodyTable": true,
   "onboarding": false,
+  "assigneesFromCodeOwners": true,
+  "reviewersFromCodeOwners": true,
   "ignorePaths": ["**/*.sops.*", "**/resources/**"],
   "flux": {
     "fileMatch": [
