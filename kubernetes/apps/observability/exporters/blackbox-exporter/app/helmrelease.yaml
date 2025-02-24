@@ -126,4 +126,17 @@ spec:
         - module: icmp
           name: pve-icmp
           url: pve.${SECRET_DOMAIN}
+        - module: http_2xx
+          name: pve-ipmi-http
+          url: "https://pve-ipmi.${SECRET_DOMAIN}"
+        - module: icmp
+          name: pve-ipmi-icmp
+          url: pve-ipmi.${SECRET_DOMAIN}
+        # UniFi Controller
+        - module: http_2xx
+          name: unifi-http
+          url: "https://unifi.${SECRET_DOMAIN}"
+        - module: icmp
+          name: unifi-icmp
+          url: unifi.${SECRET_DOMAIN}
 
