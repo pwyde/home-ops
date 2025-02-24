@@ -25,5 +25,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    grafanaDashboard:
+      enabled: true
+      folder: Database
+      annotations:
+        name: grafana_folder
     serviceMonitor:
       enabled: false
