@@ -64,7 +64,7 @@ spec:
               TZ: ${CONFIG_TIMEZONE}
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
-              GATUS_WEB_PORT: &port 80
+              WEB_PORT: &port 80
             envFrom: *envFrom
             probes:
               liveness: &probes

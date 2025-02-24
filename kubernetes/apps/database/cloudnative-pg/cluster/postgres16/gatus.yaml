@@ -12,10 +12,8 @@ data:
         group: infrastructure
         url: tcp://postgres16-rw.database.svc.cluster.local:5432
         interval: 1m
+        conditions:
+          - "[CONNECTED] == true"
         ui:
           hide-url: true
           hide-hostname: true
-        conditions:
-          - "[CONNECTED] == true"
-        alerts:
-          - type: pushover

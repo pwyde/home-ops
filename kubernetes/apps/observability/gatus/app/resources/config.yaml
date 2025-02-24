@@ -1,23 +1,9 @@
 ---
 # Note: Gatus variables should be escaped with $${VAR_NAME} to avoid interpolation by Flux.
-alerting:
-  pushover:
-    title: Gatus
-    application-token: $${PUSHOVER_TOKEN}
-    user-key: $${PUSHOVER_USER_KEY}
-    priority: 1
-    resolved-priority: 0
-    default-alert:
-      description: health-check failed
-      send-on-resolved: true
-      failure-threshold: 3
-      success-threshold: 3
-
 connectivity:
   checker:
     target: 1.1.1.1:53
     interval: 1m
-
 endpoints:
   - name: flux-webhook
     group: external
@@ -27,16 +13,11 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
-    alerts:
-      - type: pushover
-
 metrics: true
-
 storage:
   type: postgres
   path: postgres://$${INIT_POSTGRES_USER}:$${INIT_POSTGRES_PASS}@$${INIT_POSTGRES_HOST}:5432/$${INIT_POSTGRES_DBNAME}?sslmode=disable
   caching: true
-
 ui:
   title: Status | Gatus
   header: Status
@@ -45,6 +26,5 @@ ui:
       link: https://github.com/pwyde
     - name: Homelab
       link: https://github.com/pwyde/home-ops
-
 web:
-  port: $${GATUS_WEB_PORT}
+  port: $${WEB_PORT}
