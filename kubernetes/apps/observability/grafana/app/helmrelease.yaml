@@ -201,6 +201,10 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        qbittorrent-exporter:
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/qbittorrent.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
@@ -249,9 +253,12 @@ spec:
           datasource: Prometheus
       media:
         exportarr:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr-dashboard.json
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        unpackerr:
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/unpackerr.json
+          datasource: Prometheus
       network:
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
@@ -282,6 +289,9 @@ spec:
           revision: 7
           datasource: Prometheus
       security:
+        cert-manager:
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/cert-manager.json
+          datasource: Prometheus
         external-secrets:
           # renovate: depName="External Secrets"
           gnetId: 21640
@@ -306,6 +316,14 @@ spec:
             - {name: DS_PROMETHEUS, value: Prometheus}
             - {name: VAR_REPLICATIONDESTNAME, value: ".*-rdst"}
       system:
+        dcgm-exporter:
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/dcgm-exporter.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        gatus:
+          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/gatus.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
