@@ -31,7 +31,7 @@ spec:
         type: cronjob
         cronjob: &cronjob
           timeZone: &tz ${CONFIG_TIMEZONE}
-          schedule: 00 23 * * *
+          schedule: 00 2 * * *
           successfulJobsHistory: 1
           failedJobsHistory: 1
         containers:
