@@ -258,7 +258,8 @@ spec:
             - { name: DS_PROMETHEUS, value: Prometheus }
         unpackerr:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/unpackerr.json
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
       network:
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
