@@ -1,0 +1,10 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: tailscale-subnet-router
+spec:
+  hostname: home-k8s-router
+  subnetRouter:
+    advertiseRoutes:
+      - ${SVC_NGINX_INTERNAL_IP}/32
