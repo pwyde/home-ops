@@ -276,7 +276,7 @@ spec:
         # Disable CORS. Service discovery (CalDAV, CardDAV, webfinger,
         # nodeinfo) is not functioning properly with CORS enabled.
         # Ref: https://github.com/nextcloud/helm/issues/562
-        # This weakens security if Nextcloud if exposed to the internet.
+        # This weakens security if Nextcloud is exposed to the internet.
         # Ref: https://github.com/nextcloud/helm/issues/410
         nginx.ingress.kubernetes.io/enable-cors: "false"
         nginx.ingress.kubernetes.io/proxy-body-size: "10G"
