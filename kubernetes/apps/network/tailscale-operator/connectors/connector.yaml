@@ -2,7 +2,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: tailscale-subnet-router
+  name: subnet-router
 spec:
   hostname: home-k8s-router
   subnetRouter:
