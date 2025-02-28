@@ -9,8 +9,6 @@ components:
   - ../../components/sops
   - ../../components/substitutions
 resources:
-  # Pre Flux-Kustomizations
-  - ./priorityclass.yaml
   # Flux-Kustomizations
   - ./audiobookshelf/ks.yaml
   - ./bazarr/ks.yaml
