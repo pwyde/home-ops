@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: nextcloud
-      version: 6.6.5
+      version: 6.6.6
       sourceRef:
         kind: HelmRepository
         name: nextcloud
@@ -95,7 +95,7 @@ spec:
             'log_type' => 'file',
             'logfile' => '/var/www/html/data/nextcloud.log',
             'logtimezone' => 'Europe/Stockholm',
-            'loglevel' => 2,
+            'loglevel' => 1,
             'logdateformat' => 'F d, Y H:i:s'
           );
         misc.config.php: |-
