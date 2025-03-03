@@ -14,7 +14,7 @@ spec:
       namespace: storage
     - name: kube-prometheus-stack-crds
       namespace: observability
-    - name: onepassword-store
+    - name: onepassword
       namespace: security
   interval: 30m
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
