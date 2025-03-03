@@ -1,5 +1,8 @@
 ---
 # Areas
+area/bootstrap:
+  - changed-files:
+      - any-glob-to-any-file: "bootstrap/**/*"
 area/docs:
   - changed-files:
       - any-glob-to-any-file:

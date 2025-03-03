@@ -68,10 +68,10 @@ tasks:
     prompt: Bootstrap apps into Talos cluster... Continue?
     cmds:
       - until kubectl wait nodes --for=condition=Ready=False --all --timeout=600s; do sleep 10; done
-      - op inject --in-file {{.KUBERNETES_DIR}}/bootstrap/templates/resources.tmpl.yaml | kubectl apply --server-side --filename -
-      - helmfile --file {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - op inject --in-file {{.BOOTSTRAP_DIR}/templates/resources.tmpl.yaml | kubectl apply --server-side --filename -
+      - helmfile --file {{.BOOTSTRAP_DIR}}/helmfile.yaml apply --skip-diff-on-install --suppress-diff
       - for: ['prometheus-operator-crds']
-        cmd: helmfile --quiet --file {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml destroy --selector name={{.ITEM}}
+        cmd: helmfile --quiet --file {{.BOOTSTRAP_DIR}}/helmfile.yaml destroy --selector name={{.ITEM}}
     env:
       VAULT: Kubernetes
     preconditions:
@@ -79,6 +79,6 @@ tasks:
       - talosctl config info
       - test -f {{.KUBECONFIG}}
       - test -f {{.TALOSCONFIG}}
-      - test -f {{.KUBERNETES_DIR}}/bootstrap/helmfile.yaml
-      - test -f {{.KUBERNETES_DIR}}/bootstrap/templates/resources.tmpl.yaml
+      - test -f {{.BOOTSTRAP_DIR}}/helmfile.yaml
+      - test -f {{.BOOTSTRAP_DIR}}/templates/resources.tmpl.yaml
       - which helmfile kubectl op talosctl
