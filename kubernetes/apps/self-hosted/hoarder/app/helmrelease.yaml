@@ -37,10 +37,16 @@ spec:
               repository: ghcr.io/hoarder-app/hoarder
               tag: 0.22.0@sha256:e2156f3de4a1eafc53afb6e682f20857be4449d7e9d24240afe6d9ccd280ed3b
             env:
-              BROWSER_WEB_URL: http://hoarder-chrome:9222
+              BROWSER_WEB_URL: http://hoarder-chrome.self-hosted.svc.cluster.local:9222
+              COREPACK_INTEGRITY_KEYS: 0
+              CRAWLER_DOWNLOAD_BANNER_IMAGE: true
+              CRAWLER_ENABLE_ADBLOCKER: true
+              CRAWLER_STORE_SCREENSHOT: true
               DATA_DIR: /hoarder_data
+              DISABLE_NEW_RELEASE_CHECK: true
+              DISABLE_SIGNUPS: true
               INFERENCE_CONTEXT_LENGTH: 4096
-              MEILI_ADDR: http://hoarder-meilisearch:7700
+              MEILI_ADDR: http://hoarder-meilisearch.self-hosted.svc.cluster.local:7700
               NEXTAUTH_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               OCR_LANGS: eng,swe
             envFrom: &envFrom
@@ -73,6 +79,7 @@ spec:
               tag: 124@sha256:1a0046448e0bb6c275c88f86e01faf0de62b02ec8572901256ada0a8c08be23f
             command:
               - chromium-browser
+            args:
               - --headless
               - --no-sandbox
               - --disable-gpu
@@ -114,7 +121,7 @@ spec:
                 cpu: 10m
                 memory: 256Mi
               limits:
-                memory: 1Gi
+                memory: 4Gi
             securityContext:
               allowPrivilegeEscalation: false
               # Error while receiving the playload. `Read-only file system (os error 30)`
