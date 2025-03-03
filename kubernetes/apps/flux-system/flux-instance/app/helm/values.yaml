@@ -22,7 +22,7 @@ instance:
   kustomize:
     kustomize:
     patches:
-      # Add SOPS decryption to Kustomizations.
+      # Add SOPS decryption to 'flux-system' Kustomizations.
       - patch: |
           - op: add
             path: /spec/decryption
