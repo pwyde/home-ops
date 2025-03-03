@@ -1,6 +1,6 @@
 ---
 # Areas
-- { name: "area/kubernetes",            color: "326be5", description: "Changes made in the bootstrap directory." }
+- { name: "area/bootstrap",            color: "326be5", description: "Changes made in the bootstrap directory." }
 - { name: "area/docs",                  color: "0e8a16", description: "Changes made in the docs directory."       }
 - { name: "area/github",                color: "141a22", description: "Changes made in the github directory."     }
 - { name: "area/kubernetes",            color: "326be5", description: "Changes made in the kubernetes directory." }
