@@ -14,3 +14,4 @@ resources:
   - ./cert-manager/ks.yaml
   - ./external-secrets/ks.yaml
   - ./glauth/ks.yaml
+  - ./onepassword/ks.yaml
