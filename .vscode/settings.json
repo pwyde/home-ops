@@ -7,14 +7,17 @@
   },
   "catppuccin-icons.associations.folders": {
     // top level
+    ".archive": "folder_dist",
     ".github": "folder_github",
     ".taskfiles": "folder_mocks",
     ".vscode": "folder_vscode",
+    "bootstrap": "folder_composables",
     "docs": "folder_docs",
     "kubernetes": "folder_kubernetes",
     "talos": "folder_core",
     "truenas": "folder_server",
     // .github
+    ".github/renovate": "folder_circle-ci",
     ".github/workflows": "folder_workflows",
     // Docker
     "truenas/stacks": "folder_docker",
@@ -43,6 +46,7 @@
     "cert-manager": "folder_coverage",
     "democratic-csi": "folder_content",
     "external-secrets": "folder_admin",
+    "flux": "folder_controllers",
     "openebs": "folder_content",
     "resources": "folder_middleware",
     "rook-ceph": "folder_content",
@@ -73,14 +77,20 @@
   },
   "material-icon-theme.folders.associations": {
     // top level
+    ".archive": "archive",
     ".github": "github",
     ".taskfiles": "taskfile",
     ".vscode": "vscode",
+    "bootstrap": "seeders",
     "docs": "docs",
     "kubernetes": "kubernetes",
     "talos": "core",
+    "truenas": "server",
     // .github
+    ".github/renovate": "robot",
     ".github/workflows": "gh-workflows",
+    // Docker
+    "truenas/stacks": "docker",
     // namespaces
     "ai": "robot",
     "database": "database",
@@ -106,6 +116,7 @@
     "cert-manager": "guard",
     "democratic-csi": "dump",
     "external-secrets": "secure",
+    "flux": "pipe",
     "openebs": "dump",
     "resources": "resource",
     "rook-ceph": "dump",
