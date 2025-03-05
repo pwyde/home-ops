@@ -10,3 +10,5 @@ serviceMonitor:
   enabled: true
 grafanaDashboard:
   enabled: true
+  annotations:
+    grafana_folder: Kubernetes
