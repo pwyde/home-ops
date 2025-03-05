@@ -52,13 +52,21 @@ releases:
     values: ["../kubernetes/apps/kube-system/coredns/app/helm/values.yaml"]
     needs: ["kube-system/cilium"]
 
+  - name: spegel
+    namespace: kube-system
+    atomic: true
+    chart: spegel/spegel
+    version: v0.0.30
+    values: ["../kubernetes/apps/kube-system/spegel/app/helm/values.yaml"]
+    needs: ["kube-system/coredns"]
+
   - name: cert-manager
     namespace: security
     atomic: true
     chart: jetstack/cert-manager
     version: v1.17.1
     values: ["../kubernetes/apps/security/cert-manager/app/helm/values.yaml"]
-    needs: ["kube-system/coredns"]
+    needs: ["kube-system/spegel"]
 
   - name: external-secrets
     namespace: security
