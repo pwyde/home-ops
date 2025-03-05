@@ -9,7 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: reloader
-    namespace: system
+    namespace: kube-system
   install:
     remediation:
       retries: 3
@@ -21,8 +21,8 @@ spec:
   values:
     fullnameOverride: *app
     reloader:
-      readOnlyRootFileSystem: true
       deployment:
+        replicas: 1
         resources:
           requests:
             cpu: 10m
@@ -32,3 +32,4 @@ spec:
       podMonitor:
         enabled: true
         namespace: "{{ .Release.Namespace }}"
+      readOnlyRootFileSystem: true
