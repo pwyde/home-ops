@@ -9,7 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: spegel
-    namespace: kube-system
+    namespace: system
   install:
     remediation:
       retries: 3

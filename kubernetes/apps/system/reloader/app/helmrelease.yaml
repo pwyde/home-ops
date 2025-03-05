@@ -9,7 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: reloader
-    namespace: kube-system
+    namespace: system
   install:
     remediation:
       retries: 3
