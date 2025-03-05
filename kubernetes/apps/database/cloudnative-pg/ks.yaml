@@ -37,6 +37,11 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
