@@ -12,7 +12,7 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
-      name: onepassword
+      name: *app
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: external-secrets.io/v1beta1
