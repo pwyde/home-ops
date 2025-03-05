@@ -16,7 +16,7 @@ spec:
       namespace: security
     - name: volsync
       namespace: storage
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/downloads/qbittorrent/app
   postBuild:
     substitute:
@@ -33,6 +33,7 @@ spec:
       VOLSYNC_CACHE_CAPACITY: *capacity
       VOLSYNC_TIME: "15 3 * * *"
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

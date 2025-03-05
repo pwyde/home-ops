@@ -14,7 +14,7 @@ spec:
   dependsOn:
     - name: ollama
       namespace: ai
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/ai/open-webui/app
   postBuild:
     substitute:
@@ -23,6 +23,7 @@ spec:
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 1Gi
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

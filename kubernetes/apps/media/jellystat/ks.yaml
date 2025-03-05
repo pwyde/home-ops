@@ -14,9 +14,10 @@ spec:
       namespace: database
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/media/jellystat/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

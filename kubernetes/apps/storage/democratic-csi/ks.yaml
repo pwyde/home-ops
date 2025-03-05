@@ -14,9 +14,10 @@ spec:
       namespace: security
     - name: snapshot-controller
       namespace: storage
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/storage/democratic-csi/iscsi
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -40,9 +41,10 @@ spec:
       namespace: security
     - name: snapshot-controller
       namespace: storage
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/storage/democratic-csi/nfs
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

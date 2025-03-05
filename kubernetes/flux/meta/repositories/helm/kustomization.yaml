@@ -5,17 +5,13 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ./backube.yaml
-  - ./bjw-s.yaml
   - ./cilium.yaml
   - ./cloudnative-pg.yaml
-  - ./controlplaneio.yaml
-  - ./coredns.yaml
   - ./deliveryhero.yaml
   - ./democratic-csi.yaml
   - ./descheduler.yaml
   - ./dragonfly.yaml
   - ./external-dns.yaml
-  - ./external-secrets.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
@@ -27,8 +23,5 @@ resources:
   - ./nvidia-device-plugin.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
-  - ./prometheus-community.yaml
-  - ./spegel.yaml
-  - ./stakater.yaml
   - ./tailscale.yaml
   - ./wiremind.yaml

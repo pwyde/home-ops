@@ -12,9 +12,10 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -36,9 +37,10 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

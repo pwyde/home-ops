@@ -9,9 +9,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/system/system-upgrade-controller/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -33,7 +34,7 @@ spec:
   dependsOn:
     - name: system-upgrade-controller
       namespace: system
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/system/system-upgrade-controller/plans
   postBuild:
     substitute:
@@ -42,6 +43,7 @@ spec:
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
       KUBERNETES_VERSION: v1.32.2
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

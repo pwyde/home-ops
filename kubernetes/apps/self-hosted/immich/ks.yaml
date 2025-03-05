@@ -18,7 +18,7 @@ spec:
       namespace: database
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
     substitute:
@@ -27,6 +27,7 @@ spec:
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
       PVC_CAPACITY: 10Gi
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

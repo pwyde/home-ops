@@ -13,9 +13,10 @@ spec:
       namespace: security
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -39,9 +40,10 @@ spec:
       namespace: security
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/network/ingress-nginx/internal
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

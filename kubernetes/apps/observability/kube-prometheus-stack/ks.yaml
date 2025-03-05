@@ -16,9 +16,10 @@ spec:
       namespace: observability
     - name: onepassword
       namespace: security
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -40,9 +41,10 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: observability
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/addons
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -61,9 +63,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/crds
   prune: false # Should never be deleted.
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
