@@ -40,6 +40,10 @@ spec:
       GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
     envFromSecrets:
       - name: *app
+    admin:
+      existingSecret: *app
+      userKey: adminUser
+      passwordKey: adminPass
     grafana.ini:
       analytics:
         check_for_updates: false
