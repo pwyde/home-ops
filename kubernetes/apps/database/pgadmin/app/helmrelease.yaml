@@ -92,6 +92,13 @@ spec:
           - path: /pgadmin4/servers.json
             subPath: servers.json
             readOnly: true
+      oauth:
+        type: configMap
+        name: pgadmin-oauth
+        globalMounts:
+          - path: /pgadmin4/config_local.py
+            subPath: config_local.py
+            readOnly: true
       pgadmin:
         existingClaim: ${VOLSYNC_CLAIM}
         globalMounts:
