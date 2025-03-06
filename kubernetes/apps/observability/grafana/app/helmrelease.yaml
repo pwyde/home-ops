@@ -62,10 +62,9 @@ spec:
         api_url: https://authentik.${SECRET_DOMAIN}/application/o/userinfo/
         scopes: openid email profile
         use_pkce: true
-        skip_org_role_sync: true
       auth.generic_oauth.group_mapping:
         role_attribute_path: |
-          contains(groups[*], 'infrastructure') && 'Admin' || 'Viewer'
+          contains(groups, 'infrastructure') && 'Admin' || 'Viewer'
         org_id: 1
       news:
         news_feed_enabled: false
