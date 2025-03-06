@@ -64,11 +64,11 @@ spec:
         auth_url: https://authentik.${SECRET_DOMAIN}/application/o/authorize/
         token_url: https://authentik.${SECRET_DOMAIN}/application/o/token/
         api_url: https://authentik.${SECRET_DOMAIN}/application/o/userinfo/
-        scopes: openid email profile
+        scopes: openid profile email
         use_pkce: true
       auth.generic_oauth.group_mapping:
         role_attribute_path: |
-          contains(groups, 'infrastructure') && 'Admin' || 'Viewer'
+          contains(groups[*], 'Infrastructure') && 'Admin' || 'Viewer'
         org_id: 1
       news:
         news_feed_enabled: false
