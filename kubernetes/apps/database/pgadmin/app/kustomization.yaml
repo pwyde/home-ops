@@ -12,5 +12,5 @@ configMapGenerator:
   - name: pgadmin-oauth
     files:
       - config_local.py=./resources/config_local.py
-generatorOptions:
-  disableNameSuffixHash: true
+# generatorOptions:
+#   disableNameSuffixHash: true
