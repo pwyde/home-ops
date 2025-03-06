@@ -36,7 +36,7 @@ spec:
     authentik:
       log_level: info
       redis:
-        host: dragonfly.database.svc.cluster.localf
+        host: dragonfly.database.svc.cluster.local
       error_reporting:
         enabled: false
         send_pii: false
