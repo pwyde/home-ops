@@ -7,8 +7,7 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  - ./authelia/ks.yaml
+  - ./authentik/ks.yaml
   - ./cert-manager/ks.yaml
   - ./external-secrets/ks.yaml
-  - ./glauth/ks.yaml
   - ./onepassword/ks.yaml

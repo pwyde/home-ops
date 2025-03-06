@@ -1,9 +1,9 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://crd.movishell.pl/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app authelia
+  name: &app authentik
   namespace: &namespace security
 spec:
   commonMetadata:
@@ -17,7 +17,7 @@ spec:
     - name: onepassword
       namespace: security
   interval: 1h
-  path: ./kubernetes/apps/security/authelia/app
+  path: ./kubernetes/apps/security/authentik/app
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -26,4 +26,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true

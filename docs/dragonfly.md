@@ -3,7 +3,7 @@
 ## Database Index
 
 1. `null`
-2. [`authelia`](../kubernetes/apps/security/authelia/)
+2. [`authentik`](../kubernetes/apps/security/authentik/)
 3. [`immich`](../kubernetes/apps/self-hosted/immich/)
 4. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
 5. [`nextcloud`](../kubernetes/apps/self-hosted/nextcloud/)
