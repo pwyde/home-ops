@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: grafana
+  name: &app grafana
 spec:
   interval: 1h
   chartRef:
@@ -24,39 +24,53 @@ spec:
     - name: loki
       namespace: observability
   values:
+    annotations:
+      secret.reloader.stakater.com/reload: *app
     extraInitContainers:
       - name: 01-init-db
         image: ghcr.io/onedr0p/postgres-init:16
         envFrom:
           - secretRef:
-              name: &secret grafana
-    podAnnotations:
-      secret.reloader.stakater.com/reload: *secret
-    admin:
-      existingSecret: *secret
-      userKey: adminUser
-      passwordKey: adminPass
-    deploymentStrategy:
-      type: Recreate
+              name: *app
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
-      GF_SERVER_ROOT_URL: https://grafana.${SECRET_DOMAIN}
+      GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
     envFromSecrets:
-      - name: *secret
+      - name: *app
     grafana.ini:
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
+      auth:
+        oauth_auto_login: true
+        signout_redirect_url: https://authentik.${SECRET_DOMAIN}/application/o/grafana/end-session/
+        oauth_allow_insecure_email_lookup: true
       auth.basic:
         enabled: false
       auth.anonymous:
         enabled: false
+      auth.generic_oauth:
+        enabled: true
+        name: ${SECRET_DOMAIN}
+        icon: signin
+        auth_url: https://authentik.${SECRET_DOMAIN}/application/o/authorize/
+        token_url: https://authentik.${SECRET_DOMAIN}/application/o/token/
+        api_url: https://authentik.${SECRET_DOMAIN}/application/o/userinfo/
+        scopes: openid email profile
+        use_pkce: true
+        skip_org_role_sync: true
+      auth.generic_oauth.group_mapping:
+        role_attribute_path: |
+          contains(groups[*], 'infrastructure') && 'Admin' || 'Viewer'
+        org_id: 1
       news:
         news_feed_enabled: false
+      server:
+        root_url: https://grafana.${SECRET_DOMAIN}
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
