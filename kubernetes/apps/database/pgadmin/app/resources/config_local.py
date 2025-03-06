@@ -2,9 +2,9 @@ AUTHENTICATION_SOURCES = ['oauth2', 'internal']
 OAUTH2_AUTO_CREATE_USER = True
 OAUTH2_CONFIG = [{
     'OAUTH2_NAME': '${SECRET_DOMAIN}',
-    'OAUTH2_DISPLAY_NAME': 'authentik',
-    'OAUTH2_CLIENT_ID': '<Client ID from authentik>',
-    'OAUTH2_CLIENT_SECRET': '<Client secret from authentik>',
+    'OAUTH2_DISPLAY_NAME': 'Authentik',
+    'OAUTH2_CLIENT_ID': '${OAUTH2_CLIENT_ID}',
+    'OAUTH2_CLIENT_SECRET': '${OAUTH2_CLIENT_SECRET}',
     'OAUTH2_TOKEN_URL': 'https://authentik.${SECRET_DOMAIN}/application/o/token/',
     'OAUTH2_AUTHORIZATION_URL': 'https://authentik.${SECRET_DOMAIN}/application/o/authorize/',
     'OAUTH2_API_BASE_URL': 'https://authentik.${SECRET_DOMAIN}/',
