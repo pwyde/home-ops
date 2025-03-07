@@ -9,7 +9,8 @@ vars:
   TALOS_DIR: "{{.ROOT_DIR}}/talos"
   TALHELPER_CLUSTER_DIR: "{{.TALOS_DIR}}/clusterconfig"
   TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
-  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
+  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.yaml"
+  TALHELPER_ENV_SOPS_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
   TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
 
 tasks:
@@ -50,10 +51,10 @@ tasks:
     desc: Bootstrap the Talos cluster
     prompt: Bootstrap the Talos cluster... Continue?
     cmds:
-      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
-      - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
-      - until talhelper gencommand bootstrap --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash; do sleep 10; done
-      - until talhelper gencommand kubeconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
+      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
+      - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
+      - until talhelper gencommand bootstrap --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash; do sleep 10; done
+      - until talhelper gencommand kubeconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
     preconditions:
       - sops filestatus {{.TALHELPER_ENV_FILE}} | jq --exit-status '.encrypted'
       - sops filestatus {{.TALHELPER_SECRET_FILE}} | jq --exit-status '.encrypted'

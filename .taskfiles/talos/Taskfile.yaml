@@ -7,7 +7,8 @@ vars:
   TALOS_DIR: "{{.ROOT_DIR}}/talos"
   TALHELPER_CLUSTER_DIR: "{{.TALOS_DIR}}/clusterconfig"
   TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
-  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
+  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.yaml"
+  TALHELPER_ENV_SOPS_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
   TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
 
 tasks:
@@ -49,10 +50,11 @@ tasks:
               echo "Encrypting {{ .ITEM }}"
               sops --encrypt --in-place "{{.ITEM}}"
           fi
-      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
+      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
     preconditions:
       - test -f {{.TALHELPER_CONFIG_FILE}}
       - test -f {{.TALHELPER_ENV_FILE}}
+      - test -f {{.TALHELPER_ENV_SOPS_FILE}}
       - test -f {{.TALHELPER_SECRET_FILE}}
       - test -f {{.SOPS_AGE_KEY_FILE}}
       - test -f {{.SOPS_CONFIG_FILE}}
@@ -62,11 +64,9 @@ tasks:
     desc: Apply Talos configuration to ALL nodes
     prompt: This will apply Talos configuration to ALL nodes... Continue?
     dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash
+    cmd: talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash
     preconditions:
       - test -f {{.TALHELPER_CONFIG_FILE}}
-      - test -f {{.TALHELPER_ENV_FILE}}
-      - test -f {{.TALHELPER_SECRET_FILE}}
       - which talhelper
 
   apply-node:
@@ -87,7 +87,7 @@ tasks:
     requires:
       vars: [HOSTNAME]
     cmds:
-      - talhelper gencommand apply --node {{.HOSTNAME}} --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--mode={{.MODE}}" | bash
+      - talhelper gencommand apply --node {{.HOSTNAME}} --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--mode={{.MODE}}" | bash
       - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
     preconditions:
       - talosctl config info &>/dev/null
@@ -157,6 +157,7 @@ tasks:
     cmd: talosctl --nodes {{.HOSTNAME}} reboot --mode={{.MODE}}
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
+      - test -f {{.TALOSCONFIG}}
       - which talosctl
 
   shutdown-cluster:
@@ -168,6 +169,7 @@ tasks:
     cmd: talosctl shutdown --nodes {{.NODES}} --force
     preconditions:
       - talosctl --nodes {{.NODES}} get machineconfig
+      - test -f {{.TALOSCONFIG}}
       - which jq talosctl
 
   reset-node:
@@ -204,10 +206,10 @@ tasks:
       - |
         {{if .CLI_FORCE}}
           # Wipes the entire disk.
-          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --graceful=false --wait=false" | bash
+          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --graceful=false --wait=false" | bash
         {{else}}
           # Only wipe the STATE and EPHEMERAL partitions.
-          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+          talhelper gencommand reset --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
         {{end}}
     preconditions:
       - test -f {{.TALHELPER_CONFIG_FILE}}
