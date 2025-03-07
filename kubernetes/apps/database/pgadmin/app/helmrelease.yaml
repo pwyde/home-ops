@@ -93,8 +93,8 @@ spec:
             subPath: servers.json
             readOnly: true
       oauth:
-        type: configMap
-        name: pgadmin-oauth
+        type: secret
+        name: *app
         globalMounts:
           - path: /pgadmin4/config_local.py
             subPath: config_local.py
