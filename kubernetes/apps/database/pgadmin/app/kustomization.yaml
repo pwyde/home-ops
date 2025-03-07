@@ -9,8 +9,5 @@ configMapGenerator:
   - name: pgadmin-config
     files:
       - servers.json=./resources/config.json
-  - name: pgadmin-oauth
-    files:
-      - config_local.py=./resources/config_local.py
 generatorOptions:
   disableNameSuffixHash: true
