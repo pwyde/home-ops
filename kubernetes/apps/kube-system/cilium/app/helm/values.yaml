@@ -88,3 +88,6 @@ securityContext:
       - SYS_RESOURCE
 socketLB:
   hostNamespaceOnly: true
+tls:
+  secretsNamespace:
+    create: false
