@@ -15,12 +15,9 @@
     "docs": "folder_docs",
     "kubernetes": "folder_kubernetes",
     "talos": "folder_core",
-    "truenas": "folder_server",
     // .github
     ".github/renovate": "folder_circle-ci",
     ".github/workflows": "folder_workflows",
-    // Docker
-    "truenas/stacks": "folder_docker",
     // namespaces
     "ai": "folder_client",
     "database": "folder_database",
@@ -87,12 +84,9 @@
     "docs": "docs",
     "kubernetes": "kubernetes",
     "talos": "core",
-    "truenas": "server",
     // .github
     ".github/renovate": "robot",
     ".github/workflows": "gh-workflows",
-    // Docker
-    "truenas/stacks": "docker",
     // namespaces
     "ai": "robot",
     "database": "database",
