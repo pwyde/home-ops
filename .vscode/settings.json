@@ -1,6 +1,7 @@
 {
   "catppuccin.accentColor": "blue",
   "catppuccin-icons.associations.files": {
+    ".renovaterc.json5": "renovate",
     ".sops.yaml": "yaml",
     "*.sops.env": "key",
     "*.sops.yaml": "key"
@@ -9,6 +10,7 @@
     // top level
     ".archive": "folder_dist",
     ".github": "folder_github",
+    ".renovate": "folder_circle-ci",
     ".taskfiles": "folder_mocks",
     ".vscode": "folder_vscode",
     "bootstrap": "folder_composables",
@@ -16,7 +18,6 @@
     "kubernetes": "folder_kubernetes",
     "talos": "folder_core",
     // .github
-    ".github/renovate": "folder_circle-ci",
     ".github/workflows": "folder_workflows",
     // namespaces
     "ai": "folder_client",
@@ -79,13 +80,13 @@
     ".archive": "archive",
     ".github": "github",
     ".taskfiles": "taskfile",
+    ".renovate": "robot",
     ".vscode": "vscode",
     "bootstrap": "seeders",
     "docs": "docs",
     "kubernetes": "kubernetes",
     "talos": "core",
     // .github
-    ".github/renovate": "robot",
     ".github/workflows": "gh-workflows",
     // namespaces
     "ai": "robot",

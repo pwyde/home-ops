@@ -5,9 +5,7 @@
       "customType": "regex",
       "description": ["Process annotated dependencies"],
       "fileMatch": [
-        "(^|/).taskfiles/.+\\.ya?ml$",
-        "(^|/)talos/.+\\.ya?ml$",
-        "(^|/)kubernetes/.+\\.ya?ml$",
+        "(^|/).+\\.ya?ml$"
       ],
       "matchStrings": [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
