@@ -8,5 +8,3 @@ kubeconfig
 .decrypted~*.yaml
 *.key
 *.key.bak
-# TrueNAS
-truenas/
