@@ -13,11 +13,15 @@ cgroup:
     enabled: false
   hostRoot: /sys/fs/cgroup
 cluster:
-  name: talos
   id: 1
+  name: talos
 cni:
   # Required for pairing with Multus CNI.
   exclusive: false
+dashboards:
+  enabled: true
+  annotations:
+    grafana_folder: Network
 # Note: Devices might need to be set if more than one active NIC exists on the hosts.
 # devices: eno+ eth+
 devices: eth0
@@ -25,10 +29,6 @@ endpointRoutes:
   enabled: true
 envoy:
   enabled: false
-dashboards:
-  enabled: true
-  annotations:
-    grafana_folder: Network
 hubble:
   enabled: false
 ipam:
