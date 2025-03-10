@@ -69,7 +69,7 @@
   },
   "machineLearning": {
     "enabled": true,
-    "url": "http://immich-machine-learning.self-hosted.svc.cluster.local:3003",
+    "urls": ["http://immich-machine-learning.self-hosted.svc.cluster.local:3003"],
     "clip": {
       "enabled": true,
       "modelName": "XLM-Roberta-Large-Vit-B-16Plus"
