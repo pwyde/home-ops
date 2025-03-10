@@ -6,9 +6,10 @@ on:
     types: ["labeled", "unlabeled", "opened", "edited", "synchronize"]
 
 jobs:
-  enforce-label:
+  enforce-labels:
     name: Enforce PR Labels
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1

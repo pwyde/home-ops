@@ -1,16 +1,16 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Renovate
+name: "Renovate"
 
 on:
   workflow_dispatch:
     inputs:
       dryRun:
-        description: Dry Run
+        description: Dry run
         default: "false"
         required: false
       logLevel:
-        description: Log Level
+        description: Log level
         default: debug
         required: false
       version:
@@ -39,7 +39,7 @@ env:
   WORKFLOW_RENOVATE_VERSION: "${{ inputs.version || 'latest' }}"
 
 jobs:
-  main:
+  renovate:
     name: Renovate
     runs-on: ubuntu-latest
     steps:

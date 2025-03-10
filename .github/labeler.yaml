@@ -14,10 +14,15 @@ area/github:
 area/kubernetes:
   - changed-files:
       - any-glob-to-any-file: kubernetes/**/*
+area/renovate:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".renovate/**/*"
+          - ".renovaterc.json5"
 area/talos:
   - changed-files:
       - any-glob-to-any-file: talos/**/*
-area/taskfiles:
+area/taskfile:
   - changed-files:
       - any-glob-to-any-file:
           - .taskfiles/**/*

@@ -3,6 +3,7 @@
 name: "Meta: Label Size"
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:  ["main"]
 
@@ -10,6 +11,7 @@ jobs:
   label-size:
     name: Label Size
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
