@@ -8,23 +8,12 @@
   },
   "ffmpeg": {
     "crf": 23,
-    "threads": 0,
-    "preset": "ultrafast",
-    "targetVideoCodec": "h264",
-    "acceptedVideoCodecs": [
-      "h264"
-    ],
+    "threads": 2,
+    "preset": "veryfast",
+    "targetVideoCodec": "hevc",
+    "acceptedVideoCodecs": ["h264", "hevc"],
     "targetAudioCodec": "aac",
-    "acceptedAudioCodecs": [
-      "aac",
-      "mp3",
-      "libopus"
-    ],
-    "acceptedContainers": [
-      "mov",
-      "ogg",
-      "webm"
-    ],
+    "acceptedAudioCodecs": ["aac", "mp3"],
     "targetResolution": "720",
     "maxBitrate": "0",
     "bframes": -1,
@@ -138,7 +127,7 @@
   "image": {
     "thumbnail": {
       "format": "webp",
-      "size": 250,
+      "size": 480,
       "quality": 80
     },
     "preview": {
