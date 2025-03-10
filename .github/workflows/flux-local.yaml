@@ -111,9 +111,9 @@ jobs:
             ${{ steps.diff.outputs.diff }}
             ```
 
-  status:
+  success:
     if: ${{ always() }}
-    name: Flux Local - Status
+    name: Flux Local - success
     needs: ["test", "diff"]
     runs-on: ubuntu-latest
     steps:
