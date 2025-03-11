@@ -11,10 +11,37 @@
       }
     },
     {
+      "description": ["Actions Runner Controller Group"],
+      "groupName": "Actions Runner Controller",
+      "matchDatasources": ["docker", "helm"],
+      "matchPackageNames": ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": ["CoreDNS Group"],
+      "groupName": "CoreDNS",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/coredns/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": ["External Secrets Operator Group"],
+      "groupName": "External Secrets Operator",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/external-secrets/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
       "description": ["Flux Operator Group"],
       "groupName": "Flux Operator",
-      "matchPackagePatterns": ["flux-operator", "flux-instance"],
       "matchDatasources": ["docker"],
+      "matchPackageNames": ["/flux-operator/", "/flux-instance/"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       }
@@ -29,6 +56,15 @@
       },
       "separateMinorPatch": true,
       "sourceUrl": "https://github.com/immich-app/immich"
+    },
+    {
+      "description": ["Spegel Group"],
+      "groupName": "Spegel",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/spegel/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     },
     {
       "description": ["Talos Group"],
