@@ -4,11 +4,11 @@
     {
       "description": ["1Password Connect Group"],
       "groupName": "1Password Connnect",
-      "matchPackagePatterns": ["1password/connect"],
       "matchDatasources": ["docker"],
+      "matchPackageNames": ["/1password/"],
       "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      }
+        "commitMessageTopic": "{{{groupName}}} group",
+      },
     },
     {
       "description": ["Actions Runner Controller Group"],
@@ -49,13 +49,22 @@
     {
       "description": ["Immich Group"],
       "groupName": "Immich",
-      "matchPackagePatterns": ["immich"],
       "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["immich"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "separateMinorPatch": true,
       "sourceUrl": "https://github.com/immich-app/immich"
+    },
+    {
+      "description": "silence-operator image and CRD",
+      "groupName": "silence-operator",
+      "matchDatasources": ["docker", "github-releases"],
+      "matchPackagePatterns": ["silence-operator"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
     },
     {
       "description": ["Spegel Group"],
@@ -69,8 +78,8 @@
     {
       "description": ["Talos Group"],
       "groupName": "Talos",
-      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
       "matchDatasources": ["docker"],
+      "matchPackageNames": ["/siderolabs/installer", "/siderolabs/talosctl"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       }
