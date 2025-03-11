@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: system
 components:
   - ../../components/common
+  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./generic-device-plugin/ks.yaml

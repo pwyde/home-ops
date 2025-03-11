@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: database
 components:
   - ../../components/common
+  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./cloudnative-pg/ks.yaml

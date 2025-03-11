@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: network
 components:
   - ../../components/common
+  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./cloudflared/ks.yaml

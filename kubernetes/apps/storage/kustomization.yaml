@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: storage
 components:
   - ../../components/common
+  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml

@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: security
 components:
   - ../../components/common
+  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./authentik/ks.yaml
