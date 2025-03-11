@@ -25,7 +25,6 @@ spec:
         kind: HelmRepository
         name: authentik
         namespace: security
-  maxHistory: 2
   install:
     remediation:
       retries: 3

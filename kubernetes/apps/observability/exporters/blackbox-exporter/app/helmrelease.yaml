@@ -23,7 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: blackbox-exporter
-  maxHistory: 2
   install:
     remediation:
       retries: 3

@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  maxHistory: 2
   install:
     remediation:
       retries: 3
@@ -33,12 +32,6 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
-            # resources:
-            #   requests:
-            #     cpu: 10m
-            #     memory: 64Mi
-            #   limits:
-            #     memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: true
               capabilities: { add: ["SYS_ADMIN"] }
