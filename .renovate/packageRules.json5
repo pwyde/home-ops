@@ -4,7 +4,7 @@
     {
       "description": ["Allowed PostgreSQL major release"],
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["/cloudnative-pg/postgresql", "/postgres-backup-local"],
+      "matchPackageNames": ["ghcr.io/cloudnative-pg/postgresql", "/postgres-backup-local"],
       "allowedVersions": "<17"
     },
     {
