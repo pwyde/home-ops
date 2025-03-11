@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: dragonfly
+  name: dragonfly-operator
 spec:
   interval: 1h
   layerSelector:
@@ -22,7 +22,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: dragonfly
+    name: dragonfly-operator
   install:
     crds: CreateReplace
     remediation:
