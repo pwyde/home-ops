@@ -20,6 +20,7 @@
     // .github
     ".github/workflows": "folder_workflows",
     // namespaces
+    "actions-runner-system": "folder_github",
     "ai": "folder_client",
     "database": "folder_database",
     "default": "folder_packages",
@@ -89,6 +90,7 @@
     // .github
     ".github/workflows": "gh-workflows",
     // namespaces
+    "actions-runner-system": "github",
     "ai": "robot",
     "database": "database",
     "default": "home",
