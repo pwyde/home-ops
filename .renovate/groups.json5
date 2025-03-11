@@ -50,7 +50,7 @@
       "description": ["Immich Group"],
       "groupName": "Immich",
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["immich"],
+      "matchPackageNames": ["/immich-app/immich-server", "/immich-app/immich-machine-learning"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
@@ -61,7 +61,7 @@
       "description": "silence-operator image and CRD",
       "groupName": "silence-operator",
       "matchDatasources": ["docker", "github-releases"],
-      "matchPackagePatterns": ["silence-operator"],
+      "matchPackageNames": ["silence-operator", "silence-operator-crds"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
