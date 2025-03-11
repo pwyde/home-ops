@@ -4,7 +4,7 @@
     {
       "description": ["Allowed PostgreSQL major release"],
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["postgresql", "postgres-backup-local"],
+      "matchPackageNames": ["/postgresql/", "/postgres-backup-local/"],
       "allowedVersions": "<17"
     },
     {
@@ -21,9 +21,9 @@
       "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$"
     },
     {
-      "description": ["Loose versioning for non-semver containers"],
+      "description": ["Loose versioning for non-semver packages"],
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["searxng"],
+      "matchPackageNames": ["/searxng/"],
       "versioning": "loose"
     }
   ]
