@@ -11,7 +11,7 @@ spec:
     operation: copy
   ref:
     tag: v1.1.10
-  url: oci://ghcr.io/dragonflydb/dragonfly-operator
+  url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
   verify:
     provider: cosign
 ---
