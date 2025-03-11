@@ -4,25 +4,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: flux-system
 resources:
-  - ./authentik.yaml
-  - ./backube.yaml
-  - ./cilium.yaml
-  - ./cloudnative-pg.yaml
-  - ./deliveryhero.yaml
-  - ./democratic-csi.yaml
-  - ./descheduler.yaml
   - ./dragonfly.yaml
-  - ./external-dns.yaml
-  - ./grafana.yaml
-  - ./ingress-nginx.yaml
-  - ./jetstack.yaml
-  - ./kubernetes-dashboard.yaml
-  - ./metrics-server.yaml
-  - ./nextcloud.yaml
-  - ./node-feature-discovery.yaml
-  - ./nvidia-dcgm.yaml
-  - ./nvidia-device-plugin.yaml
-  - ./openebs.yaml
-  - ./piraeus.yaml
-  - ./tailscale.yaml
-  - ./wiremind.yaml

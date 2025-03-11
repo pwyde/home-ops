@@ -1,4 +1,15 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/helmrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: deliveryhero
+  namespace: system # Required for Renovate lookups.
+spec:
+  interval: 1h
+  timeout: 3m
+  url: https://charts.deliveryhero.io
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -13,7 +24,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: deliveryhero
-        namespace: flux-system
+        namespace: system
   maxHistory: 2
   install:
     remediation:
