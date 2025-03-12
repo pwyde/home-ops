@@ -146,7 +146,13 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
-          - net.ifnames=0
+          - net.ifnames=0           # Legacy NIC names.
+          - apparmor=0              # Less security, more performance.
+          - init_on_alloc=0         # Less security, more performance.
+          - init_on_free=0          # Less security, more performance.
+          - mitigations=off         # Less security, more performance.
+          - security=none           # Less security, more performance.
+          - talos.auditd.disabled=1 # Less security, more performance.
         systemExtensions:
           officialExtensions:
             - siderolabs/amd-ucode
@@ -172,7 +178,13 @@ controlPlane:
   schematic: &schematic
     customization:
       extraKernelArgs:
-        - net.ifnames=0
+        - net.ifnames=0           # Legacy NIC names.
+        - apparmor=0              # Less security, more performance.
+        - init_on_alloc=0         # Less security, more performance.
+        - init_on_free=0          # Less security, more performance.
+        - mitigations=off         # Less security, more performance.
+        - security=none           # Less security, more performance.
+        - talos.auditd.disabled=1 # Less security, more performance.
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
@@ -180,8 +192,8 @@ controlPlane:
           - siderolabs/qemu-guest-agent
           - siderolabs/util-linux-tools
   patches:
-    - "@./patches/controller/api-access.yaml"
     - "@./patches/controller/admission-controller-patch.yaml"
+    - "@./patches/controller/api-access.yaml"
     - "@./patches/controller/cluster.yaml"
 
 # Worker configurations and patches.
