@@ -43,7 +43,7 @@ releases:
         command: bash
         args:
           - -c
-          - until kubectl get crd ciliumbgppeeringpolicies.cilium.io ciliuml2announcementpolicies.cilium.io ciliumloadbalancerippools.cilium.io &>/dev/null; do sleep 10; done
+          - until kubectl get crd ciliuml2announcementpolicies.cilium.io ciliumloadbalancerippools.cilium.io &>/dev/null; do sleep 10; done
         showlogs: true
       - # Apply cilium network configuration.
         events: ['postsync']
