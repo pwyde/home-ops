@@ -1,10 +1,14 @@
 # Archived deployments
 .archive
-# Trash
-.DS_Store
-Thumbs.db
-# Kubernetes
-kubeconfig
-.decrypted~*.yaml
+# Secrets
+*.pub
 *.key
 *.key.bak
+*.decrypted~*.yaml
+# Kubernetes
+kubeconfig
+talosconfig
+# Miscellaneous
+.private/
+.DS_Store
+Thumbs.db
