@@ -8,7 +8,7 @@ vars:
 tasks:
 
   arch-linux:
-    desc: Set up tools on Arch Linux
+    desc: Install tools on Arch Linux
     cmd: >
       {{.PKGMGR}} -Syu --needed --noconfirm --noprogressbar
       $(cat {{.WORKSTATION_RESOURCES_DIR}}/arch-linux | xargs)
@@ -20,7 +20,7 @@ tasks:
       - which paru || which yay
 
   krew:
-    desc: Set up Krew tools
+    desc: Install Krew tools
     deps: [arch-linux]
     cmds:
       - kubectl krew install cert-manager cnpg browse-pvc node-shell view-secret
