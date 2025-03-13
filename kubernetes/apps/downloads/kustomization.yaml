@@ -6,8 +6,8 @@ namespace: downloads
 components:
   - ../../components/common
   - ../../components/repos
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./flaresolverr/ks.yaml
-  # - ./pinchflat/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./flaresolverr/ks.yaml
+  - ./pinchflat/ks.yaml
+  - ./qbittorrent/ks.yaml
