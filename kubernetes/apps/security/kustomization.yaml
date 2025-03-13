@@ -8,7 +8,7 @@ components:
   - ../../components/repos
 resources:
   # Flux-Kustomizations
-  - ./authentik/ks.yaml
+  # - ./authentik/ks.yaml
   - ./cert-manager/ks.yaml
   - ./external-secrets/ks.yaml
   - ./onepassword/ks.yaml

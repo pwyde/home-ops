@@ -6,11 +6,11 @@ namespace: self-hosted
 components:
   - ../../components/common
   - ../../components/repos
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./dokuwiki/ks.yaml
-  - ./hoarder/ks.yaml
-  - ./immich/ks.yaml
-  - ./immich-folder-album-creator/ks.yaml
-  - ./nextcloud/ks.yaml
-  - ./searxng/ks.yaml
+  # - ./dokuwiki/ks.yaml
+  # - ./hoarder/ks.yaml
+  # - ./immich/ks.yaml
+  # - ./immich-folder-album-creator/ks.yaml
+  # - ./nextcloud/ks.yaml
+  # - ./searxng/ks.yaml
