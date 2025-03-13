@@ -53,6 +53,35 @@ function apply_namespaces() {
     done
 }
 
+# ConfigMaps to be applied before the helmfile charts are installed
+function apply_configmaps() {
+    log debug "Applying ConfigMaps"
+
+    local -r configmaps=(
+        "${ROOT_DIR}/kubernetes/components/common/substitutions/cluster-settings.yaml"
+    )
+
+    for configmap in "${configmaps[@]}"; do
+        if [ ! -f "${configmap}" ]; then
+            log warn "File does not exist" "file=${configmap}"
+            continue
+        fi
+
+        # Check if the configmap resources are up-to-date
+        if kubectl --namespace flux-system diff --filename "${configmap}" &>/dev/null; then
+            log info "ConfigMap resource is up-to-date" "resource=$(basename "${configmap}" ".yaml")"
+            continue
+        fi
+
+        # Apply configmap resources
+        if kubectl --namespace flux-system apply --server-side --filename "${configmap}" &>/dev/null; then
+            log info "ConfigMap resource applied successfully" "resource=$(basename "${configmap}" ".yaml")"
+        else
+            log error "Failed to apply ConfigMap resource" "resource=$(basename "${configmap}" ".yaml")"
+        fi
+    done
+}
+
 # SOPS secrets to be applied before the helmfile charts are installed
 function apply_sops_secrets() {
     log debug "Applying secrets"
@@ -151,10 +180,11 @@ function main() {
     # Apply resources and Helm releases
     wait_for_nodes
     apply_namespaces
+    apply_configmaps
     apply_sops_secrets
     apply_crds
     apply_resources
-    apply_helm_releases
+    # apply_helm_releases
 
     log info "Congrats! The cluster is bootstrapped and Flux is syncing the Git repository"
 }
