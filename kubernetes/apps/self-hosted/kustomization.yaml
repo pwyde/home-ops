@@ -8,8 +8,8 @@ components:
   - ../../components/repos
 resources:
   # Flux-Kustomizations
-  - ./dokuwiki/ks.yaml
-  - ./hoarder/ks.yaml
+  # - ./dokuwiki/ks.yaml
+  # - ./hoarder/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
   # - ./nextcloud/ks.yaml
