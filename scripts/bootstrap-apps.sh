@@ -59,7 +59,6 @@ function apply_sops_secrets() {
 
     local -r secrets=(
         "${ROOT_DIR}/kubernetes/components/common/substitutions/cluster-secrets.sops.yaml"
-        "${ROOT_DIR}/kubernetes/components/common/substitutions/sops-age.sops.yaml"
     )
 
     for secret in "${secrets[@]}"; do
@@ -139,7 +138,7 @@ function apply_helm_releases() {
         log error "File does not exist" "file=${helmfile_file}"
     fi
 
-    if ! helmfile --file "${helmfile_file}" apply --hide-notes --skip-diff-on-install --suppress-diff --suppress-secrets; then
+    if ! helmfile --file "${helmfile_file}" apply --skip-diff-on-install --suppress-diff --suppress-secrets; then
         log error "Failed to apply Helm releases"
     fi
 
