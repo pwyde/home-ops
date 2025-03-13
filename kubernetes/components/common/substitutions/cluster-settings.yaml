@@ -14,8 +14,8 @@ data:
   CONFIG_APP_GROUP: "appdata"
   # K8s Cluster
   CLUSTER_NAME: "home-k8s"
-  CLUSTER_POD_CIDR: "10.69.0.0/16"
-  CLUSTER_SVC_CIDR: "10.96.0.0/16"
+  CLUSTER_POD_CIDR: "10.42.0.0/16"
+  CLUSTER_SVC_CIDR: "10.43.0.0/16"
   # K8s Cluster Storage
   CLUSTER_STORAGE_BLOCK: "truenas-ssd-iscsi"
   CLUSTER_SNAPSHOT_BLOCK: "truenas-ssd-iscsi"
