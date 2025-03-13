@@ -13,7 +13,7 @@ resources:
   - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./jellystat/ks.yaml
-  # - ./lidarr/ks.yaml
+  - ./lidarr/ks.yaml
   - ./navidrome/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
