@@ -1,5 +1,7 @@
 # Archived deployments
 .archive
+# Backup
+.backup
 # Secrets
 *.pub
 *.key
