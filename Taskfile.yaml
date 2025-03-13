@@ -6,13 +6,16 @@ set: [pipefail]
 shopt: [globstar]
 
 vars:
-  BOOTSTRAP_DIR: "{{.ROOT_DIR}}/bootstrap"
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  TALOS_DIR: "{{.ROOT_DIR}}/talos"
+  BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
+  KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
+  SCRIPTS_DIR: '{{.ROOT_DIR}}/scripts'
+  TALOS_DIR: '{{.ROOT_DIR}}/talos'
+  TALOSCONFIG: '{{.ROOT_DIR}}/talos/clusterconfig/talosconfig'
 
 env:
-  KUBECONFIG: "{{.ROOT_DIR}}/kubernetes/kubeconfig"
-  TALOSCONFIG: "{{.ROOT_DIR}}/talos/clusterconfig/talosconfig"
+  KUBECONFIG: '{{.KUBERNETES_DIR}}/kubeconfig'
+  SOPS_AGE_KEY_FILE: '{{.XDG_CONFIG_HOME}}/sops/age/home-ops.txt'
+  TALOSCONFIG: '{{.TALOSCONFIG}}'
 
 includes:
   bootstrap: .taskfiles/bootstrap

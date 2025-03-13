@@ -4,35 +4,27 @@ version: '3'
 
 vars:
   BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/bootstrap/resources"
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
-  TALOS_DIR: "{{.ROOT_DIR}}/talos"
-  TALHELPER_CLUSTER_DIR: "{{.TALOS_DIR}}/clusterconfig"
-  TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
-  TALHELPER_ENV_FILE: "{{.TALOS_DIR}}/talenv.yaml"
-  TALHELPER_ENV_SOPS_FILE: "{{.TALOS_DIR}}/talenv.sops.yaml"
-  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
 
 tasks:
 
   age-keygen:
-    desc: Bootstrap the SOPS age key and update configuration file, --force creates new key
+    desc: Bootstrap the SOPS age key and update configuration file, '--force' creates new key
     cmds:
       - |
-        # Backup existing SOPS_AGE_KEY_FILE and SOPS_CONFIG_FILE if --force flag is used.
+        # Backup existing SOPS_AGE_KEY_FILE and {{.ROOT_DIR}}/.sops.yaml if '--force' flag is used.
         {{if .CLI_FORCE}}
           if [ -f {{.SOPS_AGE_KEY_FILE}} ]; then
             cp {{.SOPS_AGE_KEY_FILE}} {{.SOPS_AGE_KEY_FILE}}.bak
             rm {{.SOPS_AGE_KEY_FILE}}
           fi
-          if [ -f {{.SOPS_CONFIG_FILE}} ]; then
-            cp {{.SOPS_CONFIG_FILE}} {{.SOPS_CONFIG_FILE}}.bak
-            rm {{.SOPS_CONFIG_FILE}}
+          if [ -f {{.ROOT_DIR}}/.sops.yaml ]; then
+            cp {{.ROOT_DIR}}/.sops.yaml {{.ROOT_DIR}}/.sops.yaml.bak
+            rm {{.ROOT_DIR}}/.sops.yaml
           fi
         {{end}}
       - |
         # Copy the SOPS configuration template file to {{.ROOT_DIR}}/.sops.yaml
-        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.tmpl.yaml {{.SOPS_CONFIG_FILE}}
+        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.tmpl.yaml {{.ROOT_DIR}}/.sops.yaml
       - |
         # Generate new age key.
         age-keygen --output {{.SOPS_AGE_KEY_FILE}}
@@ -40,46 +32,35 @@ tasks:
         # Extract public key from the generated age key.
         PUBLIC_KEY=$(awk '/public key:/ {print $NF}' {{.SOPS_AGE_KEY_FILE}})
         # Inject the public key into the SOPS configuration file using yq.
-        yq eval ".creation_rules[].key_groups[].age = [\"$PUBLIC_KEY\"]" -i {{.SOPS_CONFIG_FILE}}
+        yq eval ".creation_rules[].key_groups[].age = [\"$PUBLIC_KEY\"]" -i {{.ROOT_DIR}}/.sops.yaml
     status:
+      - test -f {{.ROOT_DIR}}/.sops.yaml
       - test -f {{.SOPS_AGE_KEY_FILE}}
-      - test -f {{.SOPS_CONFIG_FILE}}
     preconditions:
       - which age-keygen yq
 
   talos:
     desc: Bootstrap the Talos cluster
+    dir: '{{.TALOS_DIR}}'
     prompt: Bootstrap the Talos cluster... Continue?
     cmds:
-      - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
-      - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
-      - until talhelper gencommand bootstrap --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash; do sleep 10; done
-      - until talhelper gencommand kubeconfig --config-file {{.TALHELPER_CONFIG_FILE}} --env-file {{.TALHELPER_ENV_FILE}},{{.TALHELPER_ENV_SOPS_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
+      - '[ -f talsecret.sops.yaml ] || talhelper gensecret | sops --filename-override talos/talsecret.sops.yaml --encrypt /dev/stdin > talsecret.sops.yaml'
+      - talhelper genconfig
+      - talhelper gencommand apply --extra-flags="--insecure" | bash
+      - until talhelper gencommand bootstrap | bash; do sleep 10; done
+      - until talhelper gencommand kubeconfig --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
     preconditions:
-      - sops filestatus {{.TALHELPER_ENV_FILE}} | jq --exit-status '.encrypted'
-      - sops filestatus {{.TALHELPER_SECRET_FILE}} | jq --exit-status '.encrypted'
-      - test -f {{.SOPS_CONFIG_FILE}}
+      - test -f {{.ROOT_DIR}}/.sops.yaml
       - test -f {{.SOPS_AGE_KEY_FILE}}
-      - test -f {{.TALHELPER_CONFIG_FILE}}
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper sops
+      - test -f {{.TALOS_DIR}}/talconfig.yaml
+      - which talhelper talosctl sops
 
   apps:
     desc: Bootstrap apps into the Talos cluster
     prompt: Bootstrap apps into Talos cluster... Continue?
-    cmds:
-      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=600s; do sleep 10; done
-      - op inject --in-file {{.BOOTSTRAP_DIR}/templates/resources.tmpl.yaml | kubectl apply --server-side --filename -
-      - helmfile --file {{.BOOTSTRAP_DIR}}/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - for: ['prometheus-operator-crds']
-        cmd: helmfile --quiet --file {{.BOOTSTRAP_DIR}}/helmfile.yaml destroy --selector name={{.ITEM}}
-    env:
-      VAULT: Kubernetes
+    cmd: bash {{.SCRIPTS_DIR}}/bootstrap-apps.sh
     preconditions:
-      - op user get --me
-      - talosctl config info
       - test -f {{.KUBECONFIG}}
-      - test -f {{.TALOSCONFIG}}
-      - test -f {{.BOOTSTRAP_DIR}}/helmfile.yaml
-      - test -f {{.BOOTSTRAP_DIR}}/templates/resources.tmpl.yaml
-      - which helmfile kubectl op talosctl
+      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - test -f {{.SCRIPTS_DIR}}/bootstrap-apps.sh
+      - test -f {{.SOPS_AGE_KEY_FILE}}
