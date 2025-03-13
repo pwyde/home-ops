@@ -8,9 +8,9 @@ components:
   - ../../components/repos
 resources:
   # Flux-Kustomizations
-  # - ./audiobookshelf/ks.yaml
+  - ./audiobookshelf/ks.yaml
   # - ./bazarr/ks.yaml
-  - ./jellyfin/ks.yaml
+  # - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./jellystat/ks.yaml
   # - ./lidarr/ks.yaml
