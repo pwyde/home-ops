@@ -33,7 +33,7 @@ spec:
       retries: 3
   values:
     githubConfigUrl: https://github.com/pwyde/home-ops
-    githubConfigSecret: *name
+    githubConfigSecret: home-ops-runner-secret
     minRunners: 1
     maxRunners: 3
     containerMode:
