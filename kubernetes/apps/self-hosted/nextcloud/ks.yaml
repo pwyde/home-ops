@@ -34,7 +34,7 @@ spec:
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
       VOLSYNC_CACHE_SNAPSHOTCLASS: "openebs-hostpath"
       VOLSYNC_CAPACITY: &capacity 10Gi
-      VOLSYNC_CACHE_CAPACITY: *capacity
+      VOLSYNC_CACHE_CAPACITY: 20Gi
       VOLSYNC_TIME: "45 3 * * *"
   prune: true
   retryInterval: 2m
