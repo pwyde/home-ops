@@ -1,30 +1,30 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
     {
-      "description": ["Allowed PostgreSQL major release"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["**/cloudnative-pg/postgresql", "**/postgres-backup-local"],
-      "allowedVersions": "<17"
+      description: "Allowed PostgreSQL major release",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["**/cloudnative-pg/postgresql", "**/postgres-backup-local"],
+      allowedVersions: "<17",
     },
     {
-      "description": ["Custom schedule for frequently updated container digests"],
-      "matchDataSources": ["docker"],
-      "matchPackageNames": ["**/cloudnative-pg/postgresql"],
-      "matchUpdateTypes": ["digest"],
-      "schedule": ["on the first day of the month"]
+      description: "Custom schedule for frequently updated container digests",
+      matchDataSources: ["docker"],
+      matchPackageNames: ["**/cloudnative-pg/postgresql"],
+      matchUpdateTypes: ["digest"],
+      schedule: "on the first day of the month",
     },
     {
-      "description": ["Custom versioning for MinIO"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["**/minio/"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$"
+      description: "Custom versioning for MinIO",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["**/minio/"],
+      versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
     },
     {
-      "description": ["Loose versioning for non-semver packages"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["**/searxng/"],
-      "versioning": "loose"
-    }
-  ]
+      description: "Loose versioning for non-semver packages",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["**/searxng/"],
+      versioning: "loose",
+    },
+  ],
 }
