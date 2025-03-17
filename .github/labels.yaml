@@ -1,10 +1,11 @@
 ---
 # Areas
-- { name: "area/bootstrap",             color: "326be5", description: "Changes made in the bootstrap directory." }
+- { name: "area/bootstrap",             color: "326be5", description: "Changes made in the bootstrap directory."  }
 - { name: "area/docs",                  color: "0e8a16", description: "Changes made in the docs directory."       }
 - { name: "area/github",                color: "141a22", description: "Changes made in the github directory."     }
 - { name: "area/kubernetes",            color: "326be5", description: "Changes made in the kubernetes directory." }
-- { name: "area/renovate",              color: "027fa0", description: "Changes made in the renovate directory." }
+- { name: "area/renovate",              color: "027fa0", description: "Changes made in the renovate directory."   }
+- { name: "area/scripts",               color: "bfd4f2", description: "Changes made in the scripts directory."    }
 - { name: "area/talos",                 color: "382d56", description: "Changes made in the talos directory."      }
 - { name: "area/taskfile",              color: "28bdaf", description: "Changes made in the taskfiles directory."  }
 # Renovate Types
@@ -18,13 +19,5 @@
 - { name: "type/patch",                 color: "ffec19" }
 - { name: "type/minor",                 color: "ff9800" }
 - { name: "type/major",                 color: "f6412d" }
-# Size
-- { name: "size/XS",                    color: "009900", description: "Denotes a PR that changes 0-9 lines, ignoring generated files."     }
-- { name: "size/S",                     color: "77bb00", description: "Denotes a PR that changes 10-29 lines, ignoring generated files."   }
-- { name: "size/M",                     color: "eebb00", description: "Denotes a PR that changes 30-99 lines, ignoring generated files."   }
-- { name: "size/L",                     color: "ee9900", description: "Denotes a PR that changes 100-499 lines, ignoring generated files." }
-- { name: "size/XL",                    color: "ee5500", description: "Denotes a PR that changes 500-999 lines, ignoring generated files." }
-- { name: "size/XXL",                   color: "ee0000", description: "Denotes a PR that changes 1000+ lines, ignoring generated files."   }
 # Uncategorized
-- { name: "do-not-merge",               color: "ee0701" }
 - { name: "hold",                       color: "ee0701" }
