@@ -38,14 +38,14 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: dragonfly
-      namespace: database
+      namespace: *namespace
     - name: onepassword
       namespace: security
   healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
-      failed: status.phase != 'ready'
       current: status.phase == 'ready'
+      failed: status.phase != 'ready'
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true
