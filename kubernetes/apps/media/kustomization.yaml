@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: media
 components:
   - ../../components/common
-  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./audiobookshelf/ks.yaml

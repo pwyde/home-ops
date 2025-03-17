@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: self-hosted
 components:
   - ../../components/common
-  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./dokuwiki/ks.yaml

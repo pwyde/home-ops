@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: observability
 components:
   - ../../components/common
-  - ../../components/repos
 resources:
   # Flux-Kustomizations
   - ./exporters
