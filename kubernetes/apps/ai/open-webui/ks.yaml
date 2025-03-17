@@ -12,12 +12,12 @@ spec:
   components:
     - ../../../../components/pvc
   dependsOn:
-    - name: ollama
-      namespace: ai
+    - name: cloudnative-pg-cluster
+      namespace: database
     - name: democratic-csi-iscsi
       namespace: storage
-    - name: volsync
-      namespace: storage
+    - name: onepassword
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/ai/open-webui/app
   postBuild:
