@@ -12,12 +12,12 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: onepassword
-      namespace: security
     - name: democratic-csi-nfs
       namespace: storage
     - name: generic-device-plugin
       namespace: system
+    - name: onepassword
+      namespace: security
     - name: volsync
       namespace: storage
   interval: 1h

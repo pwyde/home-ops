@@ -15,12 +15,16 @@ spec:
     - name: dragonfly-cluster
       namespace: database
     - name: onepassword
-      namespace: security
+      namespace: *namespace
   healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
-      failed: status.phase != 'ready'
       current: status.phase == 'ready'
+      failed: status.phase != 'ready'
   interval: 1h
   path: ./kubernetes/apps/security/authentik/app
   prune: true

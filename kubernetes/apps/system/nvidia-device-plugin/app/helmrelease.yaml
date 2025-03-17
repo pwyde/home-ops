@@ -35,9 +35,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: node-feature-discovery
-      namespace: system
   values:
     affinity:
       nodeAffinity:

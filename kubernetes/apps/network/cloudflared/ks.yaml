@@ -10,10 +10,10 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: ingress-nginx-external
+      namespace: *namespace
     - name: onepassword
       namespace: security
-    - name: ingress-nginx-external
-      namespace: network
   interval: 1h
   path: ./kubernetes/apps/network/cloudflared/app
   prune: true
