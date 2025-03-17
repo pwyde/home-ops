@@ -33,7 +33,7 @@ spec:
         containers:
           lidarr:
             image:
-              repository: ghcr.io/szinn/lidarr
+              repository: ghcr.io/home-operations/lidarr
               tag: 2.10.1.4589@sha256:917681ec7a1dd1de3c83c410e87ee7a119417a794b09fa8fba24f4ad554e985e
             env:
               TZ: ${CONFIG_TIMEZONE}
