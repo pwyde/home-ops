@@ -13,6 +13,11 @@ spec:
       namespace: security
     - name: onepassword
       namespace: security
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: *app
+      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/network/ingress-nginx/external
   prune: true
@@ -38,6 +43,11 @@ spec:
   dependsOn:
     - name: cert-manager-certificates
       namespace: security
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: *app
+      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/network/ingress-nginx/internal
   prune: true

@@ -6,14 +6,9 @@ metadata:
   name: &app ingress-nginx-internal
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: ingress-nginx
-      version: 4.12.0
-      sourceRef:
-        kind: HelmRepository
-        name: ingress-nginx
-        namespace: network
+  chartRef:
+    kind: OCIRepository
+    name: ingress-nginx
   install:
     remediation:
       retries: 3
