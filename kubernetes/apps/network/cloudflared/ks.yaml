@@ -10,8 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-dns
-      namespace: network
     - name: onepassword
       namespace: security
   interval: 1h
