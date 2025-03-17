@@ -16,6 +16,8 @@ spec:
       namespace: database
     - name: onepassword
       namespace: security
+    - name: democratic-csi-nfs
+      namespace: storage
     - name: volsync
       namespace: storage
   interval: 1h

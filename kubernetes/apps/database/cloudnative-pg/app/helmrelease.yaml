@@ -33,11 +33,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: minio
-      namespace: storage
-    - name: democratic-csi-iscsi
-      namespace: storage
   values:
     crds:
       create: true

@@ -12,6 +12,8 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: security
+    - name: ingress-nginx-external
+      namespace: network
   interval: 1h
   path: ./kubernetes/apps/network/cloudflared/app
   prune: true

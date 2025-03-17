@@ -17,11 +17,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: democratic-csi-nfs
-      namespace: storage
-    - name: generic-device-plugin
-      namespace: system
   values:
     controllers:
       qbittorrent:

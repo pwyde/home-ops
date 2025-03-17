@@ -32,7 +32,6 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -46,8 +45,6 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager
-      namespace: security
-    - name: onepassword
       namespace: security
   healthCheckExprs:
     - apiVersion: cert-manager.io/v1

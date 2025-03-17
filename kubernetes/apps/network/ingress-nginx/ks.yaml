@@ -38,8 +38,6 @@ spec:
   dependsOn:
     - name: cert-manager-certificates
       namespace: security
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/network/ingress-nginx/internal
   prune: true

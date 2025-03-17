@@ -11,6 +11,11 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+    - name: volsync
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/ai/ollama/app
   postBuild:

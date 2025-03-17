@@ -17,9 +17,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: immich
-      namespace: self-hosted
   values:
     controllers:
       immich-folder-album-creator:

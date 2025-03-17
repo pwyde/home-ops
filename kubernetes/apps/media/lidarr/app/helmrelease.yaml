@@ -17,9 +17,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: democratic-csi-nfs
-      namespace: storage
   values:
     controllers:
       lidarr:
@@ -36,8 +33,8 @@ spec:
         containers:
           lidarr:
             image:
-              repository: ghcr.io/szinn/lidarr-develop
-              tag: 2.10.1.4589@sha256:c60a512ae329c4fb24fc7ce22aa8df9456eaae6de7fc980b3c2fa820b2eea81c
+              repository: ghcr.io/szinn/lidarr
+              tag: 2.10.1.4589@sha256:917681ec7a1dd1de3c83c410e87ee7a119417a794b09fa8fba24f4ad554e985e
             env:
               TZ: ${CONFIG_TIMEZONE}
               LIDARR__APP__INSTANCENAME: Lidarr

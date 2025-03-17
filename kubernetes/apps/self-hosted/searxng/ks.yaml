@@ -14,6 +14,8 @@ spec:
       namespace: database
     - name: onepassword
       namespace: security
+    - name: generic-device-plugin
+      namespace: system
   interval: 1h
   path: ./kubernetes/apps/self-hosted/searxng/app
   prune: true

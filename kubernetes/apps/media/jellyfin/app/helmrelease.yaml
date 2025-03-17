@@ -19,9 +19,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: democratic-csi-iscsi
-      namespace: storage
   values:
     controllers:
       jellyfin:

@@ -14,6 +14,10 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: security
+    - name: democratic-csi-nfs
+      namespace: storage
+    - name: generic-device-plugin
+      namespace: system
     - name: volsync
       namespace: storage
   interval: 1h

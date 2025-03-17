@@ -9,6 +9,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: *app
+      namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/app
   prune: true
@@ -39,6 +44,7 @@ spec:
   healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
+      failed: status.phase != 'ready'
       current: status.phase == 'ready'
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
