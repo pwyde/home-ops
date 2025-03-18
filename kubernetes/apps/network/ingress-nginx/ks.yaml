@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cert-manager-certificates
+    - name: cert-manager-tls
       namespace: security
     - name: onepassword
       namespace: security
@@ -41,7 +41,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cert-manager-certificates
+    - name: cert-manager-tls
       namespace: security
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
