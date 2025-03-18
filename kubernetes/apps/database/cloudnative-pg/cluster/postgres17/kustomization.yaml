@@ -6,3 +6,4 @@ resources:
   - ./gatus.yaml
   - ./postgres17.yaml
   - ./scheduledbackup.yaml
+  - ./service.yaml
