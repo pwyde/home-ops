@@ -1,6 +1,22 @@
 {
   "Servers": {
     "1": {
+      "Name": "pgvectors",
+      "Group": "Servers",
+      "Host": "pgvectors-rw.database.svc.cluster.local",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "SSLCert": "<STORAGE_DIR>/.postgresql/postgresql.crt",
+      "SSLKey": "<STORAGE_DIR>/.postgresql/postgresql.key",
+      "SSLCompression": 0,
+      "Timeout": 10,
+      "UseSSHTunnel": 0,
+      "TunnelPort": "22",
+      "TunnelAuthentication": 0
+    },
+    "2": {
       "Name": "postgres16",
       "Group": "Servers",
       "Host": "postgres16-rw.database.svc.cluster.local",
@@ -16,10 +32,10 @@
       "TunnelPort": "22",
       "TunnelAuthentication": 0
     },
-    "2": {
-      "Name": "pgvectors",
+    "3": {
+      "Name": "postgres17",
       "Group": "Servers",
-      "Host": "pgvectors-rw.database.svc.cluster.local",
+      "Host": "postgres17-rw.database.svc.cluster.local",
       "Port": 5432,
       "MaintenanceDB": "postgres",
       "Username": "postgres",
