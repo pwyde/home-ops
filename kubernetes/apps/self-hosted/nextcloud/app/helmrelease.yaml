@@ -204,9 +204,9 @@ spec:
       securityContext:
         runAsNonRoot: true
         # runAsUser: 82
-        runAsUser: "${CONFIG_APP_UID}"
+        runAsUser: 5000
         # runAsGroup: 82
-        runAsGroup: "${CONFIG_APP_GID}"
+        runAsGroup: 5000
         readOnlyRootFilesystem: false
     collabora:
       enabled: true
@@ -274,7 +274,7 @@ spec:
       enabled: true
       securityContext:
         # runAsGroup: 82
-        runAsGroup: "${CONFIG_APP_GID}"
+        runAsGroup: 5000
     imaginary:
       enabled: true
     ingress:
@@ -324,7 +324,7 @@ spec:
           "Strict-Transport-Security": "max-age=15552000; includeSubDomains;"
       securityContext:
         # runAsGroup: 82
-        runAsGroup: "${CONFIG_APP_GID}"
+        runAsGroup: 5000
       resources:
         requests:
           cpu: 50m
