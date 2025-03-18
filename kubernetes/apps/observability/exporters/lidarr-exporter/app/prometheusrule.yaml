@@ -3,19 +3,17 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: lidarr-rules
-  labels:
-    prometheus: k8s
-    role: alert-rules
+  name: lidarr
 spec:
   groups:
     - name: lidarr.rules
       rules:
         - alert: LidarrQueueItems
-          expr: lidarr_queue_total AND changes(lidarr_queue_total[1h]) == 0
+          expr: |
+            lidarr_queue_total AND changes(lidarr_queue_total[1h]) == 0
           for: 4h
+          annotations:
+            summary: >-
+              Lidarr may have items stuck in the queue (instance {{ $labels.instance }})
           labels:
             severity: warning
-          annotations:
-            summary: "Lidarr may have items stuck in the queue (instance {{ $labels.instance }})"
-            description: "Lidarr queue hasn't changed for more than 1 hour\n  VALUE = {{ $value }}\n"
