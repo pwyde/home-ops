@@ -3,10 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: dcgm-exporter-rules
-  labels:
-    prometheus: k8s
-    role: alert-rules
+  name: dcgm-exporter
 spec:
   groups:
     - name: dcgm-exporter.rules
@@ -15,8 +12,8 @@ spec:
           expr: |
             rate(DCGM_FI_DEV_GPU_UTIL[15m]) > 0.85
           for: 15m
+          annotations:
+            summary: >-
+              High GPU usage on node {{ $labels.Hostname }}
           labels:
             severity: warning
-          annotations:
-            summary: "High GPU usage on node {{ $labels.Hostname }} for 15 minutes"
-            description: "GPU usage on node {{ $labels.Hostname }} for gpu: {{ $labels.modelName }} has passed 85% for over 15 minutes"

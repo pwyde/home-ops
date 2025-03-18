@@ -1,0 +1,38 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: blackbox-exporter
+spec:
+  groups:
+    - name: blackbox-exporter.rules
+      rules:
+        - alert: BlackboxInstanceDown
+          expr: |
+            probe_success == 0
+          for: 5m
+          annotations:
+            summary: >-
+              The host {{ $labels.instance }} is down
+          labels:
+            severity: critical
+
+        - alert: BlackboxSslCertificateWillExpireSoon
+          expr: |
+            probe_ssl_earliest_cert_expiry - time() < 86400 * 3
+          for: 15m
+          annotations:
+            summary: |-
+              The SSL certificate for {{ $labels.target }} will expire in less than 3 days
+          labels:
+            severity: critical
+
+        - alert: BlackboxSslCertificateExpired
+          expr: |
+            probe_ssl_earliest_cert_expiry - time() <= 0
+          for: 15m
+          annotations:
+            summary: |-
+              The SSL certificate for {{ $labels.target }} has expired
+          labels:
+            severity: critical
