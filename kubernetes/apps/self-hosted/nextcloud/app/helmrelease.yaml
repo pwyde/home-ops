@@ -203,8 +203,10 @@ spec:
           pm.process_idle_timeout = 10s
       securityContext:
         runAsNonRoot: true
-        runAsUser: 82
-        runAsGroup: 82
+        # runAsUser: 82
+        runAsUser: ${CONFIG_APP_UID}
+        # runAsGroup: 82
+        runAsGroup: ${CONFIG_APP_GID}
         readOnlyRootFilesystem: false
     collabora:
       enabled: true
@@ -271,7 +273,8 @@ spec:
     cronjob:
       enabled: true
       securityContext:
-        runAsGroup: 82
+        # runAsGroup: 82
+        runAsGroup: ${CONFIG_APP_GID}
     imaginary:
       enabled: true
     ingress:
@@ -320,7 +323,8 @@ spec:
         headers:
           "Strict-Transport-Security": "max-age=15552000; includeSubDomains;"
       securityContext:
-        runAsGroup: 82
+        # runAsGroup: 82
+        runAsGroup: ${CONFIG_APP_GID}
       resources:
         requests:
           cpu: 50m
