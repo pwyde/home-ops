@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./pgvectors
   - ./postgres16
-  # - ./postgres17
+  - ./postgres17
