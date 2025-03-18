@@ -53,6 +53,10 @@ spec:
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
+  postBuild:
+    substitute:
+      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+      POSTGRESQL_VERSION: 17.4-bookworm
   prune: true
   retryInterval: 2m
   sourceRef:
