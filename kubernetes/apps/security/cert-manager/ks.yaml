@@ -38,7 +38,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager-certificates
+  name: &app cert-manager-tls
   namespace: &namespace security
 spec:
   commonMetadata:
@@ -53,7 +53,7 @@ spec:
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
   interval: 1h
-  path: ./kubernetes/apps/security/cert-manager/certificates
+  path: ./kubernetes/apps/security/cert-manager/tls
   prune: true
   retryInterval: 2m
   sourceRef:
