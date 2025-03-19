@@ -35,7 +35,7 @@ spec:
       VOLSYNC_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
       VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
-      VOLSYNC_CAPACITY: &capacity 1Gi
+      VOLSYNC_CAPACITY: &capacity 2Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
       VOLSYNC_TIME: "45 3 * * *"
   prune: true

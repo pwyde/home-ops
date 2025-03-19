@@ -22,7 +22,7 @@ done && php /var/www/html/occ app:disable firstrunwizard \
 && php /var/www/html/occ app:enable files_pdfviewer \
 && php /var/www/html/occ app:enable groupfolders \
 && php /var/www/html/occ app:enable notes \
-&& php /var/www/html/occ app:install contacts\
+&& php /var/www/html/occ app:install contacts \
 && php /var/www/html/occ app:install deck \
 && php /var/www/html/occ app:install forms \
 && php /var/www/html/occ app:install richdocuments \
