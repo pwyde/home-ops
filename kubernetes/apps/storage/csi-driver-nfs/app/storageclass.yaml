@@ -1,0 +1,13 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: trunas-ssd-nfs-nc
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: ${SECRET_NAS_IP}
+  share: /mnt/ssd-data/Nextcloud
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+# Note: The first two options are strictly for NFSv4.2
+mountOptions: ["nfsvers=4.2", "nconnect=16", "hard", "noatime"]
