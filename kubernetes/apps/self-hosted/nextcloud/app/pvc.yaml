@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: &name nextcloud-data
+  name: &name nextcloud
 spec:
   storageClassName: *name
   capacity:
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: &name nextcloud-data
+  name: &name nextcloud
   namespace: self-hosted
 spec:
   storageClassName: *name
