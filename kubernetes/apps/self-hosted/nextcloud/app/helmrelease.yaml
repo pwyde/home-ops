@@ -240,7 +240,7 @@ spec:
         readiness: *probes
         startup: &startupProbe
           enabled: true
-          initialDelaySeconds: 120
+          initialDelaySeconds: 300
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 30
