@@ -272,9 +272,9 @@ spec:
               - *host
     cronjob:
       enabled: true
-      securityContext:
-        # runAsGroup: 82
-        runAsGroup: 5000
+      # securityContext:
+      #   # runAsGroup: 82
+      #   runAsGroup: 5000
     imaginary:
       enabled: true
     ingress:
@@ -322,9 +322,9 @@ spec:
       config:
         headers:
           "Strict-Transport-Security": "max-age=15552000; includeSubDomains;"
-      securityContext:
-        # runAsGroup: 82
-        runAsGroup: 5000
+      # securityContext:
+      #   # runAsGroup: 82
+      #   runAsGroup: 5000
       resources:
         requests:
           cpu: 50m
