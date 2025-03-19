@@ -350,7 +350,10 @@ spec:
       protocol: https
     persistence:
       enabled: true
-      existingClaim: *app
+      existingClaim: nextcloud-config
+      nextcloudData:
+        enabled: true
+        existingClaim: nextcloud-data
     resources:
       requests:
         cpu: 200m
