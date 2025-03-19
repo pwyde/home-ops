@@ -1,32 +1,12 @@
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: &name nextcloud
-spec:
-  storageClassName: *name
-  capacity:
-    storage: 1Mi
-  accessModes: ["ReadWriteMany"]
-  nfs:
-    server: ${SECRET_NAS_IP}
-    path: /mnt/ssd-data/Nextcloud
-  mountOptions:
-    - nfsvers=4.2
-    - nconnect=8
-    - hard
-    - noatime
-    - rsize=131072
-    - wsize=131072
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: &name nextcloud
+  name: nextcloud
   namespace: self-hosted
 spec:
-  storageClassName: *name
   accessModes: ["ReadWriteMany"]
   resources:
     requests:
-      storage: 1Mi
+      storage: 10Gi
+  storageClassName: truenas-ssd-nfs-nc
