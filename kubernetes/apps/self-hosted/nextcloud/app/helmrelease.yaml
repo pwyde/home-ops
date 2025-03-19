@@ -46,7 +46,7 @@ spec:
     externalDatabase:
       enabled: true
       type: postgresql
-      database: nextcloud-test
+      database: nextcloud
       existingSecret:
         enabled: true
         secretName: *app

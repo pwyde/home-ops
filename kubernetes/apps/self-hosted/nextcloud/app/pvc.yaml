@@ -7,8 +7,8 @@ spec:
   capacity:
     storage: 1Mi
   accessModes: ["ReadWriteMany"]
+  storageClassName: nfs-nextcloud
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: nextcloud-nfs
   nfs:
     server: ${SECRET_NAS_IP}
     path: /mnt/ssd-data/Nextcloud
@@ -22,7 +22,7 @@ metadata:
   namespace: self-hosted
 spec:
   accessModes: ["ReadWriteMany"]
+  storageClassName: nfs-nextcloud
   resources:
     requests:
       storage: 1Mi
-  storageClassName: nextcloud-nfs
