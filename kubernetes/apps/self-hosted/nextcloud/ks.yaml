@@ -26,7 +26,7 @@ spec:
   path: ./kubernetes/apps/self-hosted/nextcloud/app
   postBuild:
     substitute:
-      APP: *app
+      APP: nextcloud-test
       APP_UID: &uid "82"
       APP_GID: *uid
       VOLSYNC_CLAIM: nextcloud-config
