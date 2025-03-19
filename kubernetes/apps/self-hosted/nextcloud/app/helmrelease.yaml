@@ -351,9 +351,6 @@ spec:
     persistence:
       enabled: true
       existingClaim: *app
-      # nextcloudData:
-      #   enabled: true
-      #   existingClaim: nextcloud-data
     resources:
       requests:
         cpu: 200m
