@@ -10,7 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/volsync
+    - ../../../../components/pvc
+    # - ../../../../components/volsync
   dependsOn:
     - name: democratic-csi-iscsi
       namespace: storage
@@ -23,16 +24,20 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: &uid ${CONFIG_APP_UID}
-      APP_GID: *uid
-      VOLSYNC_CLAIM: *app
-      VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
-      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
-      VOLSYNC_SNAPSHOTCLASS: *storageClass
-      VOLSYNC_CACHE_ACCESSMODES: *accessModes
-      VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
-      VOLSYNC_CAPACITY: &capacity 8Gi
-      VOLSYNC_CACHE_CAPACITY: *capacity
+      PVC_ACCESSMODES: ReadWriteOnce
+      PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
+      PVC_CAPACITY: 10Gi
+      # APP: *app
+      # APP_UID: &uid ${CONFIG_APP_UID}
+      # APP_GID: *uid
+      # VOLSYNC_CLAIM: *app
+      # VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
+      # VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
+      # VOLSYNC_SNAPSHOTCLASS: *storageClass
+      # VOLSYNC_CACHE_ACCESSMODES: *accessModes
+      # VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
+      # VOLSYNC_CAPACITY: &capacity 8Gi
+      # VOLSYNC_CACHE_CAPACITY: *capacity
   prune: true
   retryInterval: 2m
   sourceRef:
