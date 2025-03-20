@@ -32,7 +32,7 @@ spec:
       VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
       VOLSYNC_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
-      VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
+      VOLSYNC_CACHE_SNAPSHOTCLASS: openebs-hostpath
       VOLSYNC_CAPACITY: &capacity 1Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
   prune: true
