@@ -3,26 +3,25 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource # The backup policy: target, frequency and retention.
 metadata:
-  name: "${APP}-rsrc"
+  name: "${APP}"
 spec:
   sourcePVC: "${VOLSYNC_CLAIM:-${APP}}"
   trigger:
-    schedule: "${VOLSYNC_TIME:-0 0 * * *}"
+    schedule: "${VOLSYNC_TIME:-0 2 * * *}"
   restic:
-    repository: "${APP}-volsync"
-    copyMethod: Snapshot
     accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
-    storageClassName: "${VOLSYNC_STORAGECLASS:-truenas-ssd-iscsi}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
-    capacity: "${VOLSYNC_CAPACITY:-1Gi}"
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
+    copyMethod: Snapshot
     moverSecurityContext:
       runAsUser: "${APP_UID:-5000}"
       runAsGroup: "${APP_GID:-5000}"
       fsGroup: "${APP_GID:-5000}"
     pruneIntervalDays: 7
+    repository: "${APP}-volsync-minio"
     retain:
       daily: 7
       within: 3d
+    storageClassName: "${VOLSYNC_STORAGECLASS:-truenas-ssd-iscsi}"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-truenas-ssd-iscsi}"
