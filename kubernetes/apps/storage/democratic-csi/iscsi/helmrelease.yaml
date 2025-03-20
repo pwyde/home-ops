@@ -120,8 +120,6 @@ spec:
           detachedSnapshots: false
       - name: truenas-ssd-iscsi-test
         driver: org.democratic-csi.ssd-iscsi
-        annotations:
-          snapshot.storage.kubernetes.io/is-default-class: "false"
         deletionPolicy: Delete
         parameters:
           detachedSnapshots: false
