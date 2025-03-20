@@ -93,7 +93,7 @@ spec:
         deletionPolicy: Delete
         parameters:
           detachedSnapshots: false
-      - name: truenas-ssd-nfs
+      - name: truenas-ssd-nfs-test
         driver: org.democratic-csi.ssd-nfs
         deletionPolicy: Delete
         parameters:
