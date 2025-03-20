@@ -35,7 +35,6 @@ spec:
       VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CAPACITY: &capacity 2Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
-      VOLSYNC_TIME: "15 3 * * *"
   prune: true
   retryInterval: 2m
   sourceRef:
