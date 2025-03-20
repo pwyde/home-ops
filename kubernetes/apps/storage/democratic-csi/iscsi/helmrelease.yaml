@@ -19,7 +19,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: democratic-csi-iscsi
+  name: democratic-csi-ssd-iscsi
 spec:
   interval: 1h
   chartRef:
@@ -65,7 +65,7 @@ spec:
     csiProxy:
       image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.6
     csiDriver:
-      name: org.democratic-csi.iscsi
+      name: org.democratic-csi.ssd-iscsi
     storageClasses:
       - name: truenas-ssd-iscsi
         defaultClass: true
@@ -74,8 +74,8 @@ spec:
         allowVolumeExpansion: true
         parameters:
           fsType: ext4
-          detachedVolumesFromSnapshots: false
-          detachedVolumesFromVolumes: false
+          detachedVolumesFromSnapshots: true
+          detachedVolumesFromVolumes: true
         mountOptions: []
         secrets:
           provisioner-secret:
@@ -85,7 +85,7 @@ spec:
           controller-expand-secret:
     volumeSnapshotClasses:
       - name: truenas-ssd-iscsi
-        driver: org.democratic-csi.iscsi
+        driver: org.democratic-csi.ssd-iscsi
         annotations:
           snapshot.storage.kubernetes.io/is-default-class: "true"
         deletionPolicy: Delete
