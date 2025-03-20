@@ -39,6 +39,7 @@ spec:
         secret.reloader.stakater.com/reload: &secret democratic-csi-iscsi
       driver:
         image: ghcr.io/democratic-csi/democratic-csi:v1.9.3
+        logLevel: debug
       tolerations:
         - effect: NoSchedule
           key: node-role.kubernetes.io/control-plane
@@ -46,6 +47,14 @@ spec:
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
       priorityClassName: system-cluster-critical
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: "DoNotSchedule"
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/csi-role: controller
+              app.kubernetes.io/instance: democratic-csi-ssd-iscsi
     node:
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
@@ -54,6 +63,7 @@ spec:
         image: public.ecr.aws/docker/library/busybox:1.37.0
       driver:
         image: ghcr.io/democratic-csi/democratic-csi:v1.9.3
+        logLevel: debug
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -83,11 +93,35 @@ spec:
           node-stage-secret:
           node-publish-secret:
           controller-expand-secret:
+      - name: truenas-ssd-iscsi-test
+        defaultClass: false
+        reclaimPolicy: Delete
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+          # Detached volumes must be enabled for encrypted datasets.
+          detachedVolumesFromSnapshots: false
+          detachedVolumesFromVolumes: false
+        mountOptions: []
+        secrets:
+          provisioner-secret:
+          controller-publish-secret:
+          node-stage-secret:
+          node-publish-secret:
+          controller-expand-secret:
     volumeSnapshotClasses:
       - name: truenas-ssd-iscsi
         driver: org.democratic-csi.ssd-iscsi
         annotations:
           snapshot.storage.kubernetes.io/is-default-class: "true"
+        deletionPolicy: Delete
+        parameters:
+          detachedSnapshots: false
+      - name: truenas-ssd-iscsi-test
+        driver: org.democratic-csi.ssd-iscsi
+        annotations:
+          snapshot.storage.kubernetes.io/is-default-class: "false"
         deletionPolicy: Delete
         parameters:
           detachedSnapshots: false

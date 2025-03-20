@@ -46,5 +46,3 @@ spec:
           memory: 128Mi
       serviceMonitor:
         create: true
-    webhook:
-      enabled: false
