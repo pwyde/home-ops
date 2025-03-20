@@ -9,10 +9,10 @@ resources:
   # Flux-Kustomizations
   # - ./exporters
   # - ./gatus/ks.yaml
-  - ./grafana/ks.yaml
+  # - ./grafana/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
-  - ./loki/ks.yaml
-  - ./promtail/ks.yaml
-  - ./silence-operator/ks.yaml
-  - ./unpoller/ks.yaml
+  # - ./loki/ks.yaml
+  # - ./promtail/ks.yaml
+  # - ./silence-operator/ks.yaml
+  # - ./unpoller/ks.yaml
