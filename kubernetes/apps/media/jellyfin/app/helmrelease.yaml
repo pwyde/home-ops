@@ -119,8 +119,7 @@ spec:
               - *host
     persistence:
       config:
-        # existingClaim: ${VOLSYNC_CLAIM}
-        existingClaim: *app
+        existingClaim: ${VOLSYNC_CLAIM}
       media:
         type: nfs
         server: ${SECRET_NAS_IP}

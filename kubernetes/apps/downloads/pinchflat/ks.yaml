@@ -27,10 +27,9 @@ spec:
       APP_GID: *uid
       VOLSYNC_CLAIM: *app
       VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
-      VOLSYNC_STORAGECLASS: &storageClass truenas-ssd-iscsi-test
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
       VOLSYNC_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
-      VOLSYNC_CACHE_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CAPACITY: &capacity 1Gi
       VOLSYNC_CACHE_CAPACITY: *capacity
   prune: true
