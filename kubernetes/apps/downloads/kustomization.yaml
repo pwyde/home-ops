@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: downloads
 components:
   - ../../components/common
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./flaresolverr/ks.yaml
+  - ./flaresolverr/ks.yaml
   # - ./pinchflat/ks.yaml
   # - ./qbittorrent/ks.yaml
