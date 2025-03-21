@@ -59,24 +59,7 @@ spec:
         allowVolumeExpansion: true
         parameters:
           fsType: nfs
-          detachedVolumesFromSnapshots: true
-          detachedVolumesFromVolumes: true
-        mountOptions:
-          ["nfsvers=4.2", "nconnect=8", "hard", "noatime", "nodiratime"]
-        secrets:
-          provisioner-secret:
-          controller-publish-secret:
-          node-stage-secret:
-          node-publish-secret:
-          controller-expand-secret:
-      - name: truenas-ssd-nfs-test
-        defaultClass: false
-        reclaimPolicy: Delete
-        volumeBindingMode: Immediate
-        allowVolumeExpansion: true
-        parameters:
-          fsType: nfs
-          # Detached volumes must be enabled for encrypted datasets.
+          # Detached volumes must be disabled for encrypted datasets.
           detachedVolumesFromSnapshots: false
           detachedVolumesFromVolumes: false
         mountOptions:
@@ -89,11 +72,6 @@ spec:
           controller-expand-secret:
     volumeSnapshotClasses:
       - name: truenas-ssd-nfs
-        driver: org.democratic-csi.ssd-nfs
-        deletionPolicy: Delete
-        parameters:
-          detachedSnapshots: false
-      - name: truenas-ssd-nfs-test
         driver: org.democratic-csi.ssd-nfs
         deletionPolicy: Delete
         parameters:

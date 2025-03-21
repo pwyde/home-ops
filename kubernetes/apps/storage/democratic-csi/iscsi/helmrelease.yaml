@@ -78,29 +78,13 @@ spec:
       name: org.democratic-csi.ssd-iscsi
     storageClasses:
       - name: truenas-ssd-iscsi
-        defaultClass: true
-        reclaimPolicy: Delete
-        volumeBindingMode: Immediate
-        allowVolumeExpansion: true
-        parameters:
-          fsType: ext4
-          detachedVolumesFromSnapshots: true
-          detachedVolumesFromVolumes: true
-        mountOptions: []
-        secrets:
-          provisioner-secret:
-          controller-publish-secret:
-          node-stage-secret:
-          node-publish-secret:
-          controller-expand-secret:
-      - name: truenas-ssd-iscsi-test
         defaultClass: false
         reclaimPolicy: Delete
         volumeBindingMode: Immediate
         allowVolumeExpansion: true
         parameters:
           fsType: ext4
-          # Detached volumes must be enabled for encrypted datasets.
+          # Detached volumes must be disabled for encrypted datasets.
           detachedVolumesFromSnapshots: false
           detachedVolumesFromVolumes: false
         mountOptions: []
@@ -115,11 +99,6 @@ spec:
         driver: org.democratic-csi.ssd-iscsi
         annotations:
           snapshot.storage.kubernetes.io/is-default-class: "true"
-        deletionPolicy: Delete
-        parameters:
-          detachedSnapshots: false
-      - name: truenas-ssd-iscsi-test
-        driver: org.democratic-csi.ssd-iscsi
         deletionPolicy: Delete
         parameters:
           detachedSnapshots: false
