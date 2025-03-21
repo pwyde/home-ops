@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
@@ -16,8 +18,22 @@ spec:
       namespace: database
     - name: onepassword
       namespace: security
+    - name: volsync
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/self-hosted/nextcloud/app
+  postBuild:
+    substitute:
+      APP: *app
+      APP_UID: &uid "82"
+      APP_GID: *uid
+      VOLSYNC_CLAIM: *app
+      VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
+      VOLSYNC_SNAPSHOTCLASS: *storageClass
+      VOLSYNC_CACHE_ACCESSMODES: *accessModes
+      VOLSYNC_CAPACITY: &capacity 10Gi
+      VOLSYNC_CACHE_CAPACITY: *capacity
   prune: true
   retryInterval: 2m
   sourceRef:
