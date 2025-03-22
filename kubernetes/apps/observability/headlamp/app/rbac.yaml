@@ -7,6 +7,8 @@ metadata:
   namespace: observability
 automountServiceAccountToken: true
 ---
+# Create authentication token:
+# kubectl create token headlamp-admin -n observability
 apiVersion: v1
 kind: Secret
 metadata:

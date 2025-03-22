@@ -61,9 +61,9 @@ spec:
       reloader.stakater.com/auto: "true"
     persistentVolumeClaim:
       enabled: true
-      accessModes: ["ReadWriteOnce"]
-      size: 100Mi
-      storageClassName: openebs-hostpath
+      accessModes: ${PVC_ACCESSMODES}
+      size: ${PVC_CAPACITY}
+      storageClassName: ${PVC_STORAGECLASS}
     resources:
       requests:
         cpu: 100m
