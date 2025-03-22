@@ -1,17 +1,16 @@
 ---
-# yaml-language-server: $schema=https://crd.movishell.pl/talos.dev/serviceaccount_v1alpha1.json
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kubernetes-dashboard
-  namespace: observability
+  name: &name kubernetes-dashboard
+  namespace: &namespace observability
   labels:
     app.kubernetes.io/managed-by: Helm
   annotations:
-    meta.helm.sh/release-name: kubernetes-dashboard
-    meta.helm.sh/release-namespace: observability
+    meta.helm.sh/release-name: *name
+    meta.helm.sh/release-namespace: *namespace
 secrets:
-  - name: kubernetes-dashboard
+  - name: *name
 ---
 # Get token for dashboard login:
 # kubectl get secret kubernetes-dashboard-sa-token -n observability -o jsonpath={".data.token"} | base64 -d
@@ -20,13 +19,13 @@ kind: Secret
 type: kubernetes.io/service-account-token
 metadata:
   name: kubernetes-dashboard-sa-token
-  namespace: observability
+  namespace: &namespace observability
   labels:
     app.kubernetes.io/managed-by: Helm
   annotations:
-    meta.helm.sh/release-name: kubernetes-dashboard
-    meta.helm.sh/release-namespace: observability
-    kubernetes.io/service-account.name: kubernetes-dashboard
+    meta.helm.sh/release-name: &name kubernetes-dashboard
+    meta.helm.sh/release-namespace: *namespace
+    kubernetes.io/service-account.name: *name
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
