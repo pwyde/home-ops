@@ -109,7 +109,7 @@ jobs:
               gh attestation verify --owner home-operations oci://${{ matrix.images }}
               ;;
           esac
-      
+
       - name: Install talosctl
         run: curl -fsSL https://talos.dev/install | sh
 
