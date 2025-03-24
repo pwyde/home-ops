@@ -10,7 +10,7 @@ spec:
       rules:
         - alert: DockerhubRateLimitRisk
           expr: |
-            count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
+            count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 25
           annotations:
             summary: Kubernetes cluster Dockerhub rate limit risk
           labels:
