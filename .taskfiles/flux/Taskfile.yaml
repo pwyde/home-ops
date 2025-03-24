@@ -17,8 +17,7 @@ tasks:
         done
     preconditions:
       - test -f {{.KUBECONFIG}}
-      - which kubectl
-      - which flux
+      - which flux kubectl
 
   # Ref: https://fluxcd.io/flux/components/helm/helmreleases/#forcing-a-release
   annotate-hr:
@@ -34,89 +33,39 @@ tasks:
         done
     preconditions:
       - test -f {{.KUBECONFIG}}
-      - which kubectl
-      - which flux
+      - which flux kubectl
 
-  apply-ks:
-    desc: Apply a Flux Kustomization resource
-    summary: |
-      Apply a Flux Kustomization resource
-
-      PATH: Path to the Flux Kustomization resource (required)
-      NS: Namespace the Flux Kustomization exists in (default: flux-system)
-
-      Example:
-      task flux:apply-ks PATH=media/jellyfin
-    requires:
-      vars: [PATH]
-    vars:
-      NS: '{{.NS | default "flux-system"}}'
-      KS:
-        sh: flux --namespace {{.NS}} get kustomizations $(basename {{.PATH}}) 2>&1
-    cmd: >
-      flux build --namespace {{.NS}} ks $(basename {{.PATH}})
-      --kustomization-file {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml
-      --path {{.KUBERNETES_DIR}}/apps/{{.PATH}}
-      {{- if contains "not found" .KS }}--dry-run \{{ end }}
-      | yq 'with(select(.apiVersion == "kustomize.toolkit.fluxcd.io/v1" and .kind == "Kustomization"); .metadata.namespace = "{{.NS}}")' -
-      | kubectl apply --server-side --field-manager=kustomize-controller --filename -
-    preconditions:
-      - test -f {{.KUBERNETES_DIR}}/apps/{{.PATH}}/ks.yaml
-
-  reconcile:
-    desc: Force update Flux to pull in changes from Git repository
-    cmds:
-      - flux get ks --no-header --namespace flux-system | awk '{print $1, $2}' | xargs -L1 bash -c 'flux reconcile ks --namespace flux-system $0'
-      - flux get ks --all-namespaces --no-header | awk '{print $1, $2}' | xargs -L1 bash -c 'flux reconcile ks --namespace $0 $1'
-    preconditions:
-      - test -f {{.KUBECONFIG}}
-      - which flux
-
-  hr-restart:
-    desc: Restart all failed HelmRelease resources
-    cmds:
-      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux suspend hr ks --namespace $0 $1'
-      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux resume hr ks --namespace $0 $1'
-    preconditions:
-      - test -f {{.KUBECONFIG}}
-      - which kubectl
-      - which flux
-
-  ks-*:
-    desc: Suspend or resume ALL Kustomization resources
-    prompt: This will suspend/resume ALL ALL Kustomization resources... Continue?
-    summary: |
-      Suspend or resume ALL Kustomization resources
-
-      Example:
-      task flux:ks-suspend
-      task flux:ks-resume
+  "*-all-ks":
+    desc: Suspend or resume all Flux Kustomizations
     vars:
       STATE: '{{index .MATCH 0}}'
+      NAMESPACES:
+        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     cmds:
-      - kubectl get ns -o jsonpath='{.items[*].metadata.name}' | xargs -n1 flux {{.STATE}} ks --all --namespace
+      - for:
+          var: NAMESPACES
+        cmd: flux {{.STATE}} ks -n "{{.ITEM}}" --all || true
     preconditions:
       - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
       - which flux kubectl
 
-  sync-ks:
-    desc: Sync a Flux Kustomization resource
-    summary: |
-      Sync a Flux Kustomization resource
-
-      KS: Name of the Flux Kustomization resource (optional)
-      NS: Namespace the Flux Kustomization exists in (default: flux-system)
+  "*-all-hr":
+    desc: Suspend or resume all Flux HelmReleases
     vars:
-      KS: '{{.KS | default ""}}'
-      NS: '{{.NS | default "flux-system"}}'
+      STATE: '{{index .MATCH 0}}'
+      NAMESPACES:
+        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     cmds:
-      - |
-        {{- if eq .KS ""}}
-        kubectl get kustomization --all-namespaces --no-headers -A \
-          | awk '{print $1, $2}' \
-          | xargs --max-procs=8 -l bash -c 'flux reconcile kustomization --namespace $0 $1'
-        {{- else}}
-        flux reconcile kustomization --namespace {{.NS}} {{.KS}}
-        {{- end}}
+      - for:
+          var: NAMESPACES
+        cmd: flux {{.STATE}} hr -n "{{.ITEM}}" --all || true
     preconditions:
-      - kubectl --namespace {{.NS}} get kustomization {{.KS}}
+      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
+      - which flux kubectl
+
+  reconcile:
+    desc: Force Flux to pull in changes from the Git repository
+    cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which flux

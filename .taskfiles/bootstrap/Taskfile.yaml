@@ -24,7 +24,7 @@ tasks:
         {{end}}
       - |
         # Copy the SOPS configuration template file to {{.ROOT_DIR}}/.sops.yaml
-        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.tmpl.yaml {{.ROOT_DIR}}/.sops.yaml
+        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.yaml.j2 {{.ROOT_DIR}}/.sops.yaml
       - |
         # Generate new age key.
         age-keygen --output {{.SOPS_AGE_KEY_FILE}}

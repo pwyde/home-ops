@@ -12,16 +12,16 @@ tasks:
     summary: |
       Browse a PersistentVolumeClaim
 
-      NS: Namespace to browse PersistentVolumeClaims in (default: default)
+      NS: Browse PersistentVolumeClaim in namespace (default: default)
       CLAIM: PersistentVolumeClaim to browse (required)
 
       Example:
       task kubernetes:browse-pvc NS=media CLAIM=jellyfin
     interactive: true
-    requires:
-      vars: [CLAIM]
     vars:
       NS: '{{.NS | default "default"}}'
+    requires:
+      vars: [CLAIM]
     cmd: kubectl browse-pvc --namespace {{.NS}} --image docker.io/library/alpine:latest {{.CLAIM}}
     preconditions:
       - kubectl --namespace {{.NS}} get persistentvolumeclaims {{.CLAIM}}
@@ -40,16 +40,16 @@ tasks:
     summary: |
       Export SSL certificate and private key
 
-      NS: Namespace to export certificate from (default: default)
+      NS: Export certificate from namespace (default: default)
       SECRET: Name of secret to export certificate from (required)
 
       Example:
       task kubernetes:export-cert NS=security CLAIM=hostname-tls
     interactive: true
-    requires:
-      vars: [SECRET]
     vars:
       NS: '{{.NS | default "default"}}'
+    requires:
+      vars: [SECRET]
     cmds:
       - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.crt}' | base64 --decode > certificate.pem
       - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.key}' | base64 --decode > private-key.pem
@@ -58,14 +58,10 @@ tasks:
       - openssl rsa -in private-key.pem -check -noout
     preconditions:
       - kubectl --namespace {{.NS}} get secrets {{.SECRET}}
-      - which kubectl
-      - which openssl
+      - which kubectl openssl
 
   list-resources:
     desc: List common resources in the cluster
-    cmds:
-      - for: { var: RESOURCE }
-        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
     vars:
       RESOURCE: >-
         nodes
@@ -78,16 +74,19 @@ tasks:
         certificaterequests
         ingresses
         pods
+    cmds:
+      - for: { var: RESOURCE }
+        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
     preconditions:
       - test -f {{.KUBECONFIG}}
       - which kubectl
 
   node-shell:
-    desc: Open a shell to a node [NODE=required]
+    desc: Open a shell to a Talos node
     summary: |
-      Open a shell to a node
+      Open a shell to a Talos node
 
-      NODE: Name of node to open shell to (required)
+      NODE: Name of Talos node to open shell to (required)
 
       Example:
       task kubernetes:node-shell NODE=talos-1
@@ -105,7 +104,7 @@ tasks:
     summary: |
       Run a privileged pod
 
-      NODE: Name of node to run privileged pod on
+      NODE: Name of Talos node to run privileged pod on
 
       Example:
       task kubernetes:privileged-pod NODE=talos-1
@@ -113,9 +112,9 @@ tasks:
       NODE: '{{.NODE}}'
     cmd: |
       kubectl run privileged-{{.NODE}} -i --rm --image=null \
-        --overrides="$(yq {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.tmpl.yaml -o=json | envsubst)"
+        --overrides="$(yq {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.yaml.j2 -o=json | envsubst)"
     preconditions:
-      - test -f {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.tmpl.yaml
+      - test -f {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.yaml.j2
       - which kubectl
 
   storage-speed-test:
@@ -143,9 +142,9 @@ tasks:
       MANIFEST_FILE:
         sh: |
           if [ "{{.STORAGE}}" = "iSCSI" ]; then
-            echo "speed-test-iscsi.tmpl.yaml"
+            echo "speed-test-iscsi.yaml.j2"
           elif [ "{{.STORAGE}}" = "NFS" ]; then
-            echo "speed-test-nfs.tmpl.yaml"
+            echo "speed-test-nfs.yaml.j2"
           else
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
@@ -184,9 +183,9 @@ tasks:
       MANIFEST_FILE:
         sh: |
           if [ "{{.STORAGE}}" = "iSCSI" ]; then
-            echo "speed-test-iscsi.tmpl.yaml"
+            echo "speed-test-iscsi.yaml.j2"
           elif [ "{{.STORAGE}}" = "NFS" ]; then
-            echo "speed-test-nfs.tmpl.yaml"
+            echo "speed-test-nfs.yaml.j2"
           else
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
