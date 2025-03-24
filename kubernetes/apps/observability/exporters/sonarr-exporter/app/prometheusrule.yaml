@@ -9,11 +9,11 @@ spec:
     - name: sonarr.rules
       rules:
         - alert: SonarrQueueItems
-          expr: |
-            sonarr_queue_total AND changes(sonarr_queue_total[1h]) == 0
-          for: 4h
           annotations:
             summary: >-
               Sonarr may have items stuck in the queue (instance {{ $labels.instance }})
+          expr: |
+            sonarr_queue_total AND changes(sonarr_queue_total[1h]) == 0
+          for: 4h
           labels:
             severity: warning

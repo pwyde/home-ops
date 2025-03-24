@@ -9,11 +9,11 @@ spec:
     - name: dcgm-exporter.rules
       rules:
         - alert: HighGpuUsage
-          expr: |
-            rate(DCGM_FI_DEV_GPU_UTIL[15m]) > 0.85
-          for: 15m
           annotations:
             summary: >-
               High GPU usage on node {{ $labels.Hostname }}
+          expr: |
+            rate(DCGM_FI_DEV_GPU_UTIL[15m]) > 0.85
+          for: 15m
           labels:
             severity: warning

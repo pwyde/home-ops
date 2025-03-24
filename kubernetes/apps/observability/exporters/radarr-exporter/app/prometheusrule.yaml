@@ -10,11 +10,11 @@ spec:
     - name: radarr.rules
       rules:
         - alert: RadarrQueueItems
-          expr: |
-            radarr_queue_total AND changes(radarr_queue_total[1h]) == 0
-          for: 4h
           annotations:
             summary: >-
               Radarr may have items stuck in the queue (instance {{ $labels.instance }})
+          expr: |
+            radarr_queue_total AND changes(radarr_queue_total[1h]) == 0
+          for: 4h
           labels:
             severity: warning
