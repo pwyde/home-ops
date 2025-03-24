@@ -6,5 +6,5 @@ metadata:
 description: "Priority class for GPU-enabled workloads that require access to
   the node GPU resources. Ensures high-priority scheduling on the specified
   node for critical GPU-bound tasks."
-value: 1000
 globalDefault: false
+value: 1000
