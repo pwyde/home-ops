@@ -68,7 +68,7 @@
       description: "Immich Group",
       groupName: "Immich",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/immich-app/immich-server", "/immich-app/immich-machine-learning"],
+      matchPackageNames: ["**/immich-app/immich-server", "**/immich-app/immich-machine-learning"],
       group: {
         commitMessageTopic: "{{{groupName}}} group"
       },
