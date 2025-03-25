@@ -35,9 +35,9 @@ spec:
       retries: 3
   values:
     grafanaDashboard:
-      enabled: true
-      folder: Database
       annotations:
         name: grafana_folder
+      enabled: true
+      folder: Database
     serviceMonitor:
       enabled: false

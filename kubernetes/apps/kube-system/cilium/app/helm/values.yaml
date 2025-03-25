@@ -19,9 +19,9 @@ cni:
   # Required for pairing with Multus CNI.
   exclusive: false
 dashboards:
-  enabled: true
   annotations:
     grafana_folder: Network
+  enabled: true
 # Note: Devices might need to be set if more than one active NIC exists on the hosts.
 # devices: eno+ eth+
 devices: eth0

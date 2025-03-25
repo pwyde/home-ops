@@ -252,14 +252,14 @@ spec:
         limits:
           memory: 8Gi
       ingress:
-        enabled: true
-        className: internal
         annotations:
           nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
           nginx.ingress.kubernetes.io/proxy-body-size: "10G"
           nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
           nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        className: internal
+        enabled: true
         hosts:
           - host: &host collabora.${SECRET_DOMAIN}
             paths:
@@ -275,8 +275,6 @@ spec:
     imaginary:
       enabled: true
     ingress:
-      enabled: true
-      className: internal
       annotations:
         # Enable ingress sticky-sessions to loadbalance over multiple pods.
         nginx.ingress.kubernetes.io/affinity: cookie
@@ -314,6 +312,8 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
+      className: internal
+      enabled: true
     nginx:
       enabled: true
       config:
