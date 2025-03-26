@@ -27,19 +27,19 @@ spec:
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      electionID: "ingress-internal-leader"
-      ingressClassByName: true
+      # electionID: "ingress-internal-leader"
+      # ingressClassByName: true
       ingressClassResource:
         controllerValue: k8s.io/internal
         default: true
-        enabled: true
+        # enabled: true
         name: internal
-      kind: Deployment
+      # kind: Deployment
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
         externalTrafficPolicy: Cluster
-        type: LoadBalancer
+        # type: LoadBalancer
       admissionWebhooks:
         objectSelector:
           matchExpressions:
@@ -49,7 +49,7 @@ spec:
       config:
         allow-snippet-annotations: true
         annotations-risk-level: Critical
-        client-body-buffer-size: "100M"
+        client-body-buffer-size: 100M
         client-body-timeout: 120
         client-header-timeout: 120
         enable-brotli: "true"
