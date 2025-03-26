@@ -21,7 +21,7 @@ spec:
     controller:
       replicaCount: 2
       # allowSnippetAnnotations: true
-      enableAnnotationValidations: true
+      # enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
