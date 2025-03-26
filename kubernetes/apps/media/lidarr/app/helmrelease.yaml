@@ -84,6 +84,10 @@ spec:
             port: *port
     ingress:
       app:
+        annotations:
+          authentik.home.arpa/enabled: "true"
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://{{ .Release.Name }}.${SECRET_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
