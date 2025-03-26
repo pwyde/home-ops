@@ -38,6 +38,7 @@ spec:
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
+        externalTrafficPolicy: Cluster
         type: LoadBalancer
       admissionWebhooks:
         objectSelector:
