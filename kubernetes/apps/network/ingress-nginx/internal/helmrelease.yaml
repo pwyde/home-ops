@@ -20,7 +20,7 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      allowSnippetAnnotations: true
+      # allowSnippetAnnotations: true
       enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
