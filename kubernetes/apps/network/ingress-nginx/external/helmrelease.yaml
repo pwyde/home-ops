@@ -44,26 +44,20 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      allowSnippetAnnotations: true
-      enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      electionID: "ingress-external-leader"
-      ingressClassByName: true
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
-        enabled: true
         name: external
-      kind: Deployment
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
           lbipam.cilium.io/ips: ${SVC_NGINX_EXTERNAL_IP}
-        type: LoadBalancer
+        externalTrafficPolicy: Cluster
       admissionWebhooks:
         objectSelector:
           matchExpressions:
@@ -71,6 +65,7 @@ spec:
               operator: In
               values: ["external"]
       config:
+        allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
         client-body-timeout: 120

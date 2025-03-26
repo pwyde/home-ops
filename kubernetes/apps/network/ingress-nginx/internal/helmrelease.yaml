@@ -20,26 +20,19 @@ spec:
     fullnameOverride: *app
     controller:
       replicaCount: 2
-      # allowSnippetAnnotations: true
-      # enableAnnotationValidations: true
       extraEnvs:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
         default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
-      # electionID: "ingress-internal-leader"
-      # ingressClassByName: true
       ingressClassResource:
         controllerValue: k8s.io/internal
         default: true
-        # enabled: true
         name: internal
-      # kind: Deployment
       service:
         annotations:
           lbipam.cilium.io/ips: ${SVC_NGINX_INTERNAL_IP}
         externalTrafficPolicy: Cluster
-        # type: LoadBalancer
       admissionWebhooks:
         objectSelector:
           matchExpressions:
