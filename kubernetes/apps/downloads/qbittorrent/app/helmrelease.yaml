@@ -100,19 +100,19 @@ spec:
               QBT_Preferences__WebUI__AlternativeUIEnabled: true
               # Settings > WebUI > Use Alternative WebUI.
               QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 5
-              readiness: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/v2/app/version
+            #         port: *port
+            #       initialDelaySeconds: 10
+            #       periodSeconds: 10
+            #       timeoutSeconds: 10
+            #       failureThreshold: 5
+            #   readiness: *probes
             resources:
               requests:
                 cpu: 100m
@@ -146,19 +146,19 @@ spec:
             envFrom:
               - secretRef:
                   name: *app
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 9999
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 5
-              startup: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /
+            #         port: 9999
+            #       initialDelaySeconds: 10
+            #       periodSeconds: 10
+            #       timeoutSeconds: 10
+            #       failureThreshold: 5
+            #   startup: *probes
             resources:
               requests:
                 cpu: 100m
