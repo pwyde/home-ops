@@ -98,18 +98,24 @@ spec:
               - secretRef:
                   name: *app
             probes:
-              liveness: &probes
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /
                     port: 9999
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                spec:
                   initialDelaySeconds: 10
                   periodSeconds: 10
                   timeoutSeconds: 10
                   failureThreshold: 5
-              startup: *probes
             resources:
               requests:
                 cpu: 100m
