@@ -28,8 +28,8 @@ spec:
               tag: 5.0.4@sha256:995c561247b069c10b1fa098186f35b3155c2df63912041f70637a9232755756
             env:
               TZ: &tz ${CONFIG_TIMEZONE}
-              QBITTORRENT__PORT: &port 80
-              QBITTORRENT__BT_PORT: &bittorrentPort ${SVC_QBITTORRENT_PORT}
+              QBT_WEBUI_PORT: &port 80
+              QBT_TORRENTING_PORT: &bittorrentPort ${SVC_QBITTORRENT_PORT}
               # Settings based on https://trash-guides.info/Downloaders/qBittorrent/.
               # Settings > Advanced > Physical memory (RAM) usage limit (libtorrent >=2.0).
               QBT_Application__MemoryWorkingSetLimit: 10000
@@ -175,7 +175,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { add: ["NET_ADMIN"] }
           vuetorrent:
-            dependsOn: qbittorrent
+            dependsOn: *app
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.4.0
