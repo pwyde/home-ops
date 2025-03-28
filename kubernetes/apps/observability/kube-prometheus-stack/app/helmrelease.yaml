@@ -44,7 +44,7 @@ spec:
     alertmanager:
       ingress:
         annotations:
-            nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         enabled: true
         ingressClassName: internal
         hosts:
@@ -148,7 +148,7 @@ spec:
     prometheus:
       ingress:
         annotations:
-            nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         enabled: true
         ingressClassName: internal
         hosts:
