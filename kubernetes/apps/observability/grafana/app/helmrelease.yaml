@@ -310,6 +310,11 @@ spec:
           revision: 7
           datasource: Prometheus
       security:
+        authentik:
+          # renovate: depName="authentik"
+          gnetId: 14837
+          revision: 2
+          datasource: Prometheus
         cert-manager:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/cert-manager.json
           datasource: Prometheus
