@@ -13,7 +13,8 @@
 [![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue&label=%20)](https://talos.dev/)&nbsp;
 [![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue&label=%20)](https://kubernetes.io/)&nbsp;
 [![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fflux_version&style=for-the-badge&logo=flux&logoColor=white&color=blue&label=%20)](https://fluxcd.io/)&nbsp;
-[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovatebot&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
+[![Pull Requests](https://img.shields.io/github/issues-pr/pwyde/home-ops?label=&logo=github&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/pulls)&nbsp;
+[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovate&logoColor=white&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
 
 </div>
 
@@ -130,7 +131,7 @@ _To be documented..._
 
 _To be documented..._
 
-### Kubernetes Cluster
+### Compute
 
 ### Storage
 
