@@ -51,9 +51,9 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 - **[cloudflared](https://github.com/cloudflare/cloudflared):** Secure Cloudflare Tunnel integration.
 - **[democratic-csi](https://github.com/democratic-csi/democratic-csi):** CSI driver for persistent storage.
 - **[external-dns](https://github.com/kubernetes-sigs/external-dns):** Automatic DNS management.
-- **[external-secrets](https://github.com/external-secrets/external-secrets):** Secret management using [1Password Connect](https://github.com/1Password/connect).
+- **[external-secrets](https://github.com/external-secrets/external-secrets):** Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
 - **[sops](https://github.com/getsops/sops):** Secure encryption for Talos configuration and Kubernetes secrets.
-- **[spegel](https://github.com/spegel-org/spegel):** Local OCI image registry mirror.
+- **[spegel](https://github.com/spegel-org/spegel):** Stateless cluster local OCI registry mirror.
 - **[volsync](https://github.com/backube/volsync):** Backup and restore solution for persistent volume claims.
 
 ---
@@ -83,19 +83,6 @@ Flux searches the `kubernetes/apps` directory recursively and applies the highes
 ```
 
 ### Deployment Dependency Graph
-
-```mermaid
-graph TD;
-  id1>Kustomization: flux-system] -->|Creates| id2>Kustomization: cluster-apps];
-  id2>Kustomization: cluster-apps] -->|Creates| id3>Kustomization: cloudnative-pg];
-  id2>Kustomization: cluster-apps] -->|Creates| id5>Kustomization: cloudnative-pg-cluster]
-  id2>Kustomization: cluster-apps] -->|Creates| id8>Kustomization: atuin]
-  id3>Kustomization: cloudnative-pg] -->|Creates| id4(HelmRelease: cloudnative-pg);
-  id5>Kustomization: cloudnative-pg-cluster] -->|Depends on| id3>Kustomization: cloudnative-pg];
-  id5>Kustomization: cloudnative-pg-cluster] -->|Creates| id10(Cluster: postgres17);
-  id8>Kustomization: atuin] -->|Creates| id9(HelmRelease: atuin);
-  id8>Kustomization: atuin] -->|Depends on| id5>Kustomization: cloudnative-pg-cluster];
-```
 
 ```mermaid
 graph TD;
