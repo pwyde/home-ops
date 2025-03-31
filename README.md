@@ -61,13 +61,13 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1fa84/512.gif" alt="🪄" width="16" height="16"> GitOps Workflow
 
-[Flux](https://fluxcd.io/) continuously monitors the repository and applies changes to the cluster based on the desired state defined in the [kubernetes](./kubernetes) directory.
+[Flux](https://fluxcd.io/) continuously monitors the repository and ensures the cluster state aligns with the desired configuration defined in the [kubernetes](./kubernetes) directory.
 
 ### Flux Deployment Strategy
 
-Flux searches the `kubernetes/apps` directory recursively and applies the highest-level `kustomization.yaml` files per directory. These kustomizations typically define namespaces and Flux-managed application configurations (`ks.yaml`).
+Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` resources or other Kubernetes manifests.
 
-[Renovate](https://github.com/renovatebot/renovate) continuously scans the repository for dependency updates, automatically creating pull requests when new versions are available. Once merged, Flux applies the updates to the cluster.
+[Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions of dependencies are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
 
 ### Repository Structure
 
@@ -83,7 +83,9 @@ Flux searches the `kubernetes/apps` directory recursively and applies the highes
   └─ 📁 patches        # Patches applied to Talos nodes
 ```
 
-### Deployment Dependency Graph
+### Deployment Dependencies
+
+Flux ensures applications are deployed in the correct sequence by managing dependencies between them. Typically, a `HelmRelease` depends on another `HelmRelease`, while a `Kustomization` may rely on another `Kustomization`. Occasionally, an application may require both a `HelmRelease` and a `Kustomization` before deployment. The example below illustrates a dependency chain where `cloudnative-pg` must be deployed and operational before `cloudnative-pg-cluster`, which in turn must be healthy before `atuin` is deployed.
 
 ```mermaid
 graph TD;
