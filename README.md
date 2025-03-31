@@ -33,7 +33,7 @@
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.gif" alt="✏" width="16" height="16"> Overview
 
-This repository serves as the single source of truth for my home(lab) infrastructure and Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices. The cluster is semi-automated with tools like [Kubernetes](https://kubernetes.io/), [Flux](https://fluxcd.io/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+This mono repository serves as the single source of truth for my home(lab) infrastructure and Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices. The cluster is semi-automated with tools like [Kubernetes](https://kubernetes.io/), [Flux](https://fluxcd.io/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
 This ensures an immutable and reproducible environment, with changes applied automatically based on repository state.
 
@@ -71,7 +71,7 @@ Flux searches the `kubernetes/apps` directory recursively and applies the highes
 ### Repository Structure
 
 ```plaintext
-├─📁 bootstrap         # Helm-file used during bootstrap process
+├─📁 bootstrap         # Resources used during bootstrap process
 ├─📁 kubernetes        # Kubernetes cluster directory
 │ ├─ 📁 apps           # Applications
 │ ├─ 📁 components     # Reusable kustomize components
@@ -114,6 +114,12 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ---
 
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26d3_fe0f_200d_1f4a5/512.gif" alt="⛓" width="16" height="16"> Network
+
+_To be documented..._
+
+---
+
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30d/512.gif" alt="🌍" width="16" height="16"> DNS
 
 _To be documented..._
@@ -123,6 +129,12 @@ _To be documented..._
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="16" height="16"> Hardware
 
 _To be documented..._
+
+### Kubernetes Cluster
+
+### Storage
+
+### Networking
 
 ---
 
