@@ -118,8 +118,8 @@ spec:
         name: sonarr-scripts
         defaultMode: 0775
         globalMounts:
-          - path: /scripts/pushover-notify.sh
-            subPath: pushover-notify.sh
+          - path: /scripts/pushover-notifier.sh
+            subPath: pushover-notifier.sh
             readOnly: true
           - path: /scripts/tba-refresher.sh
             subPath: tba-refresher.sh
