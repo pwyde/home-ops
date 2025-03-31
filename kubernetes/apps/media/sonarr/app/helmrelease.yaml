@@ -121,5 +121,8 @@ spec:
           - path: /scripts/pushover-notify.sh
             subPath: pushover-notify.sh
             readOnly: true
+          - path: /scripts/tba-refresher.sh
+            subPath: tba-refresher.sh
+            readOnly: true
       tmp:
         type: emptyDir

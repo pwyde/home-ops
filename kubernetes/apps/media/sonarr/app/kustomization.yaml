@@ -9,6 +9,7 @@ configMapGenerator:
   - name: sonarr-scripts
     files:
       - pushover-notify.sh=./resources/pushover-notify.sh
+      - tba-refresher.sh=./resources/tba-refresher.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
