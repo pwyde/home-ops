@@ -72,3 +72,20 @@ This Git repository contains the following directories under [kubernetes](./kube
 ├── 📁 components # re-useable kustomize components
 └── 📁 flux       # flux system configuration
 ```
+
+### Cluster Layout
+
+This is a high-level look how Flux deploys my applications with dependencies. Below there are 3 Flux kustomizations `cloudnative-pg`, `cloudnative-pg-cluster`, and `atuin`. `cloudnative-pg` is the first app that needs to be running and healthy before `cloudnative-pg-cluster` and once `cloudnative-pg-cluster` is healthy `atuin` will be deployed.
+
+```mermaid
+graph TD;
+  id1>Kustomization: flux-system] -->|Creates| id2>Kustomization: cluster-apps];
+  id2>Kustomization: cluster-apps] -->|Creates| id3>Kustomization: cloudnative-pg];
+  id2>Kustomization: cluster-apps] -->|Creates| id5>Kustomization: cloudnative-pg-cluster]
+  id2>Kustomization: cluster-apps] -->|Creates| id8>Kustomization: atuin]
+  id3>Kustomization: cloudnative-pg] -->|Creates| id4(HelmRelease: cloudnative-pg);
+  id5>Kustomization: cloudnative-pg-cluster] -->|Depends on| id3>Kustomization: cloudnative-pg];
+  id5>Kustomization: cloudnative-pg-cluster] -->|Creates| id10(Cluster: postgres17);
+  id8>Kustomization: atuin] -->|Creates| id9(HelmRelease: atuin);
+  id8>Kustomization: atuin] -->|Depends on| id5>Kustomization: cloudnative-pg-cluster];
+```
