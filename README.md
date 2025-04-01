@@ -2,7 +2,7 @@
 
 <img src="./docs/assets/img/home-ops.png" width="200px" height="200px"/>
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> Home(lab) Operations Repository <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f480/512.gif" alt="💀" width="16" height="16">
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> My Home Operations Repository <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f480/512.gif" alt="💀" width="16" height="16">
 
 ... a GitOps-driven homelab managed with [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate), and [GitHub Actions](https://github.com/features/actions) <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
 
@@ -74,7 +74,7 @@ Flux operates by recursively scanning the `kubernetes/apps` directory to identif
 ```plaintext
 ├─📁 bootstrap         # Resources used during bootstrap process
 ├─📁 kubernetes        # Kubernetes cluster directory
-│ ├─ 📁 apps           # Applications
+│ ├─ 📁 apps           # Application manifests
 │ ├─ 📁 components     # Reusable kustomize components
 │ └─ 📁 flux           # Flux system configuration
 ├─📁 scripts           # Scripts used during bootstrap process
@@ -138,6 +138,15 @@ _To be documented..._
 ### Storage
 
 ### Networking
+
+| Vendor   | Model                | Count | Function                 |
+|----------|----------------------|-------|--------------------------|
+| Netgate  | SG-3100              | 1     | Firewall & Router        |
+| Ubiquiti | UniFi Cloud Key Gen2 | 1     | UniFi Network            |
+| Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core switch     |
+| Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE switch     |
+| Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility switch |
+| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 access points     |
 
 ---
 
