@@ -13,7 +13,8 @@
 [![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue&label=%20)](https://talos.dev/)&nbsp;
 [![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue&label=%20)](https://kubernetes.io/)&nbsp;
 [![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fflux_version&style=for-the-badge&logo=flux&logoColor=white&color=blue&label=%20)](https://fluxcd.io/)&nbsp;
-[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovatebot&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
+[![Pull Requests](https://img.shields.io/github/issues-pr/pwyde/home-ops?label=&logo=github&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/pulls)&nbsp;
+[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovate&logoColor=white&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
 
 </div>
 
@@ -33,7 +34,7 @@
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.gif" alt="✏" width="16" height="16"> Overview
 
-This repository serves as the single source of truth for my home(lab) infrastructure and Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices. The cluster is semi-automated with tools like [Kubernetes](https://kubernetes.io/), [Flux](https://fluxcd.io/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+This mono repository serves as the single source of truth for my home(lab) infrastructure and Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices. The cluster is semi-automated with tools like [Kubernetes](https://kubernetes.io/), [Flux](https://fluxcd.io/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
 This ensures an immutable and reproducible environment, with changes applied automatically based on repository state.
 
@@ -60,18 +61,18 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1fa84/512.gif" alt="🪄" width="16" height="16"> GitOps Workflow
 
-[Flux](https://fluxcd.io/) continuously monitors the repository and applies changes to the cluster based on the desired state defined in the [kubernetes](./kubernetes) directory.
+[Flux](https://fluxcd.io/) continuously monitors the repository and ensures the cluster state aligns with the desired configuration defined in the [kubernetes](./kubernetes) directory.
 
 ### Flux Deployment Strategy
 
-Flux searches the `kubernetes/apps` directory recursively and applies the highest-level `kustomization.yaml` files per directory. These kustomizations typically define namespaces and Flux-managed application configurations (`ks.yaml`).
+Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` resources or other Kubernetes manifests.
 
-[Renovate](https://github.com/renovatebot/renovate) continuously scans the repository for dependency updates, automatically creating pull requests when new versions are available. Once merged, Flux applies the updates to the cluster.
+[Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions of dependencies are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
 
 ### Repository Structure
 
 ```plaintext
-├─📁 bootstrap         # Helm-file used during bootstrap process
+├─📁 bootstrap         # Resources used during bootstrap process
 ├─📁 kubernetes        # Kubernetes cluster directory
 │ ├─ 📁 apps           # Applications
 │ ├─ 📁 components     # Reusable kustomize components
@@ -82,7 +83,9 @@ Flux searches the `kubernetes/apps` directory recursively and applies the highes
   └─ 📁 patches        # Patches applied to Talos nodes
 ```
 
-### Deployment Dependency Graph
+### Deployment Dependencies
+
+Flux ensures applications are deployed in the correct sequence by managing dependencies between them. Typically, a `HelmRelease` depends on another `HelmRelease`, while a `Kustomization` may rely on another `Kustomization`. Occasionally, an application may require both a `HelmRelease` and a `Kustomization` before deployment. The example below illustrates a dependency chain where `cloudnative-pg` must be deployed and operational before `cloudnative-pg-cluster`, which in turn must be healthy before `atuin` is deployed.
 
 ```mermaid
 graph TD;
@@ -114,6 +117,12 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ---
 
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26d3_fe0f_200d_1f4a5/512.gif" alt="⛓" width="16" height="16"> Network
+
+_To be documented..._
+
+---
+
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30d/512.gif" alt="🌍" width="16" height="16"> DNS
 
 _To be documented..._
@@ -123,6 +132,12 @@ _To be documented..._
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="16" height="16"> Hardware
 
 _To be documented..._
+
+### Compute
+
+### Storage
+
+### Networking
 
 ---
 
