@@ -65,9 +65,9 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 
 ### Flux Deployment Strategy
 
-Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` resources or other Kubernetes manifests.
+Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` and other resources related to the application.
 
-[Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions of dependencies are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
+[Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
 
 ### Repository Structure
 
@@ -143,10 +143,10 @@ _To be documented..._
 |----------|----------------------|-------|--------------------------|
 | Netgate  | SG-3100              | 1     | Firewall & Router        |
 | Ubiquiti | UniFi Cloud Key Gen2 | 1     | UniFi Network            |
-| Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core switch     |
-| Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE switch     |
-| Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility switch |
-| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 access points     |
+| Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core Switch     |
+| Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE Switch     |
+| Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility Switch |
+| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 Access Points     |
 
 ---
 
