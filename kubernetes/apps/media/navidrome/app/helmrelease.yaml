@@ -68,7 +68,7 @@ spec:
               capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true # Disable during database upgrade.
+        runAsNonRoot: false # Disable during database upgrade.
         runAsUser: &uid 5000
         runAsGroup: *uid
         fsGroup: *uid
