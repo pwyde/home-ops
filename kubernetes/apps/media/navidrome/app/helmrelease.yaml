@@ -43,7 +43,7 @@ spec:
               ND_PROMETHEUS_ENABLED: true
               ND_DEFAULTTHEME: 'Spotify-ish'
               ND_REVERSEPROXYUSERHEADER: x-authentik-username
-              ND_REVERSEPROXYWHITELIST: ${NET_LOCAL_CIDR}
+              ND_REVERSEPROXYWHITELIST: ${CLUSTER_POD_CIDR}
             probes:
               liveness: &probes
                 enabled: true
