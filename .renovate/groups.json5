@@ -23,7 +23,7 @@
       description: "Cert-Manager Group",
       groupName: "Cert-Manager",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/cert-manager/"],
+      matchPackageNames: ["**/cert-manager/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
