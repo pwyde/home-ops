@@ -158,7 +158,6 @@ spec:
           - hosts:
               - *host
       prometheusSpec:
-        scrapeInterval: 30s # Must match interval in Grafana Helm chart.
         enableAdminAPI: true
         enableFeatures:
           - auto-gomemlimit
