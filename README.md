@@ -65,7 +65,7 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 
 ### Flux Deployment Strategy
 
-Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` and other resources related to the application.
+Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` including other resources related to the application.
 
 [Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
 
@@ -146,7 +146,7 @@ _To be documented..._
 | Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core Switch     |
 | Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE Switch     |
 | Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility Switch |
-| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 Access Points     |
+| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 Access Point      |
 
 ---
 
