@@ -111,6 +111,7 @@ While most services are self-hosted, certain critical components rely on cloud s
 | [1Password](https://1password.com/)             | Secret management via [External Secrets](https://external-secrets.io/) | ~€40/yr    |
 | [Cloudflare](https://www.cloudflare.com/)       | DNS and secure access via Cloudflare Tunnel                            | Free       |
 | [GitHub](https://github.com/)                   | Repository hosting and CI/CD                                           | Free       |
+| [Mailgun](https://mailgun.com/)                 | Automatic email delivery                                               | Free       |
 | [Name.com](https://www.name.com/)               | Domain registration                                                    | ~€55/yr    |
 | [Pushover](https://pushover.net/)               | Infrastructure alerts and notifications                                | $5 OTP     |
 |                                                 |                                                                        | **~€8/mo** |
@@ -142,7 +143,7 @@ _To be documented..._
 | Vendor   | Model                | Count | Function                 |
 |----------|----------------------|-------|--------------------------|
 | Netgate  | SG-3100              | 1     | Firewall & Router        |
-| Ubiquiti | UniFi Cloud Key Gen2 | 1     | UniFi Network            |
+| Ubiquiti | UniFi Cloud Key Gen2 | 1     | UniFi Controller         |
 | Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core Switch     |
 | Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE Switch     |
 | Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility Switch |
