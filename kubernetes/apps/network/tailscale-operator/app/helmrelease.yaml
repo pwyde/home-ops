@@ -27,7 +27,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: ingress-nginx
+    name: tailscale-operator
   install:
     remediation:
       retries: -1
