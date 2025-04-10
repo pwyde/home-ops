@@ -79,7 +79,7 @@ Flux operates by recursively scanning the `kubernetes/apps` directory to identif
 │ └─ 📁 flux           # Flux system configuration
 ├─📁 scripts           # Scripts used during bootstrap process
 └─📁 talos             # Talos cluster configuration
-  ├─ 📁 clusterconfig  # Generated node configuration files
+  ├─ 📁 clusterconfig  # Talos node configuration files
   └─ 📁 patches        # Patches applied to Talos nodes
 ```
 
@@ -91,13 +91,13 @@ Flux ensures applications are deployed in the correct sequence by managing depen
 graph TD;
   id1[Kustomization: flux-system] -->|Creates| id2[Kustomization: cluster-apps];
   id2 -->|Creates| id3[Kustomization: cloudnative-pg];
-  id2 -->|Creates| id5[Kustomization: cloudnative-pg-cluster];
-  id2 -->|Creates| id8[Kustomization: atuin];
-  id3 -->|Creates| id4(HelmRelease: cloudnative-pg);
-  id5 -->|Depends on| id3;
-  id5 -->|Creates| id10(Cluster: postgres17);
-  id8 -->|Depends on| id5;
-  id8 -->|Creates| id9(HelmRelease: atuin);
+  id2 -->|Creates| id4[Kustomization: cloudnative-pg-cluster];
+  id2 -->|Creates| id5[Kustomization: atuin];
+  id3 -->|Creates| id6(HelmRelease: cloudnative-pg);
+  id4 -->|Depends on| id3;
+  id4 -->|Creates| id7(Cluster: postgres17);
+  id5 -->|Depends on| id4;
+  id5 -->|Creates| id8(HelmRelease: atuin);
 ```
 
 ---
@@ -114,13 +114,43 @@ While most services are self-hosted, certain critical components rely on cloud s
 | [Mailgun](https://mailgun.com/)                 | Automatic email delivery                                               | Free       |
 | [Name.com](https://www.name.com/)               | Domain registration                                                    | ~€55/yr    |
 | [Pushover](https://pushover.net/)               | Infrastructure alerts and notifications                                | $5 OTP     |
+| [Tailscale](https://tailscale.com/)             | Secure private remote access                                | Free       |
 |                                                 |                                                                        | **~€8/mo** |
 
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26d3_fe0f_200d_1f4a5/512.gif" alt="⛓" width="16" height="16"> Network
 
-_To be documented..._
+### Network Diagram
+
+```mermaid
+graph LR;
+  id1((Internet)) <-->|600Mbps↓ 50Mbps↑| id2[Netgate SG-3100];
+  id2 <-->|1Gbps↕| id3[UniFi Pro 24 PoE];
+  id3 <-->|10Gbps↕| id4[UniFi Aggregation];
+  id3 <-->|1Gbps↕| id5["UniFi 8 (Gen1)"];
+  id3 <-->|1Gbps↕| id6[2 x UniFi AC Pro];
+  id3 <-->|1Gbps↕| id7[UniFi Cloud Key Gen2];
+  id3 <-->|1Gbps↕| id8(Devices);
+  id4 <-->|10Gbps↕| id9[Proxmox VE host];
+  id4 <-->|10Gbps↕| id10[5 x Talos VMs];
+  id4 <-->|10Gbps↕| id11[TrueNAS SCALE];
+  id5 <-->|1Gbps↕| id12(Media & IoT devices);
+  id6 <--> id13(WiFi clients);
+```
+
+### Networks & VLANs
+
+| Name       | ID    | Description                             |
+|------------|-------|-----------------------------------------|
+| Management | `1`   | Default VLAN used as management network |
+| Servers    | `20`  | VLAN for servers and services           |
+| Devices    | `30`  | VLAN for devices and computers          |
+| Kids       | `40`  | VLAN for kids                           |
+| Media      | `50`  | VLAN for media devices/equipment        |
+| Storage    | `100` | VLAN for NFS and iSCSI                  |
+| IoT        | `200` | VLAN for IoT devices                    |
+| Guest      | `210` | VLAN for guest devices                  |
 
 ---
 
