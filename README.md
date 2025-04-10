@@ -106,16 +106,16 @@ graph TD;
 
 While most services are self-hosted, certain critical components rely on cloud services to ensure availability, especially in bootstrapping scenarios.
 
-| Service                                         | Purpose                                                                | Cost       |
-|-------------------------------------------------|------------------------------------------------------------------------|------------|
-| [1Password](https://1password.com/)             | Secret management via [External Secrets](https://external-secrets.io/) | ~€40/yr    |
-| [Cloudflare](https://www.cloudflare.com/)       | DNS and secure access via Cloudflare Tunnel                            | Free       |
-| [GitHub](https://github.com/)                   | Repository hosting and CI/CD                                           | Free       |
-| [Mailgun](https://mailgun.com/)                 | Automatic email delivery                                               | Free       |
-| [Name.com](https://www.name.com/)               | Domain registration                                                    | ~€55/yr    |
-| [Pushover](https://pushover.net/)               | Infrastructure alerts and notifications                                | $5 OTP     |
-| [Tailscale](https://tailscale.com/)             | Secure private remote access                                | Free       |
-|                                                 |                                                                        | **~€8/mo** |
+| Service                                         | Purpose                                                                | Cost              |
+|-------------------------------------------------|------------------------------------------------------------------------|-------------------|
+| [1Password](https://1password.com/)             | Secret management via [External Secrets](https://external-secrets.io/) | ~€40/yr           |
+| [Cloudflare](https://www.cloudflare.com/)       | DNS and secure access via Cloudflare Tunnel                            | Free              |
+| [GitHub](https://github.com/)                   | Repository hosting and CI/CD                                           | Free              |
+| [Mailgun](https://mailgun.com/)                 | Automatic email delivery                                               | Free (Flex Plan)  |
+| [Name.com](https://www.name.com/)               | Domain registration                                                    | ~€55/yr           |
+| [Pushover](https://pushover.net/)               | Infrastructure alerts and notifications                                | $5 (One Time Fee) |
+| [Tailscale](https://tailscale.com/)             | Secure private remote access                                           | Free              |
+|                                                 |                                                                        | **~€8/mo**        |
 
 ---
 
