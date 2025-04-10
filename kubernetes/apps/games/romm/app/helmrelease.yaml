@@ -98,6 +98,10 @@ spec:
           - hosts:
               - *host
     persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /romm/config
       data:
         existingClaim: ${VOLSYNC_CLAIM}
         advancedMounts:
