@@ -106,5 +106,9 @@ spec:
           - path: /romm/library
       romm:
         existingClaim: ${VOLSYNC_CLAIM}
+      romm-config:
+        type: emptyDir
+        globalMounts:
+          - path: /romm/config
       tmp:
         type: emptyDir
