@@ -98,17 +98,13 @@ spec:
           - hosts:
               - *host
     persistence:
-      data:
-        existingClaim: ${VOLSYNC_CLAIM}
-        advancedMounts:
-          romm:
-            app:
-              - path: /romm
       library:
         type: nfs
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_GAMES}
         globalMounts:
           - path: /romm/library
+      romm:
+        existingClaim: ${VOLSYNC_CLAIM}
       tmp:
         type: emptyDir
