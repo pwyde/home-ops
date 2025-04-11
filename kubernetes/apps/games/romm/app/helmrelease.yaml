@@ -110,5 +110,9 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /romm/config
+      romm-resources:
+        type: emptyDir
+        globalMounts:
+          - path: /romm/resources
       tmp:
         type: emptyDir
