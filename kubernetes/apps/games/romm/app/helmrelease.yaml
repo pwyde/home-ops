@@ -98,20 +98,22 @@ spec:
           - hosts:
               - *host
     persistence:
-      data:
+      romm-data:
         existingClaim: ${VOLSYNC_CLAIM}
-        advancedMounts:
-          romm:
-            app:
-              - subPath: resources
-                path: /romm/resources  # Resources fetched from IGDB (covers, screenshots, etc.)
-              - subPath: assets
-                path: /romm/assets # Uploaded saves, states, etc.
-      config:
+        globalMounts:
+          - path: /romm
+      romm-config:
         type: emptyDir
         globalMounts:
           - path: /romm/config
-      library:
+      romm-config-file:
+        type: configMap
+        name: romm-config
+        globalMounts:
+          - path: /romm/config/config.yml
+            subPath: config.yml
+            readOnly: true
+      romm-library:
         type: nfs
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_GAMES}
