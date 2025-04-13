@@ -66,6 +66,10 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -94,17 +98,19 @@ spec:
           - hosts:
               - *host
     persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /romm/config
       data:
         existingClaim: ${VOLSYNC_CLAIM}
         advancedMounts:
           romm:
             app:
-              - path: /romm/assets
-                subPath: assets
-              - path: /romm/config
-                subPath: config
-              - path: /romm/resources
-                subPath: resources
+              - subPath: "resources"
+                path: "/romm/resources"
+              - subPath: "assets"
+                path: "/romm/assets"
       library:
         type: nfs
         server: ${SECRET_NAS_IP}
