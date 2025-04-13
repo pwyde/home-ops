@@ -66,10 +66,10 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
-            # securityContext:
-            #   allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: false
-            #   capabilities: { drop: ["ALL"] }
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -98,17 +98,19 @@ spec:
           - hosts:
               - *host
     persistence:
-      config:
-        type: configMap
-        name: romm-config
-        globalMounts:
-          - path: /romm/config/config.yml
-            subPath: config.yml
-            readOnly: true
-      romm:
+      data:
         existingClaim: ${VOLSYNC_CLAIM}
+        advancedMounts:
+          romm:
+            app:
+              - subPath: resources
+                path: /romm/resources  # Resources fetched from IGDB (covers, screenshots, etc.)
+              - subPath: assets
+                path: /romm/assets # Uploaded saves, states, etc.
+      config:
+        type: emptyDir
         globalMounts:
-          - path: /romm
+          - path: /romm/config
       library:
         type: nfs
         server: ${SECRET_NAS_IP}
