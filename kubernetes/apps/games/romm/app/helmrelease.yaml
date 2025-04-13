@@ -42,6 +42,7 @@ spec:
               SCHEDULED_RESCAN_CRON: "0 2 * * *"
               ENABLE_RESCAN_ON_FILESYSTEM_CHANGE: true
               RESCAN_ON_FILESYSTEM_CHANGE_DELAY: 5
+              ROMM_BASE_PATH: /config
               ROMM_DB_DRIVER: postgresql
               REDIS_HOST: dragonfly.database.svc.cluster.local
               REDIS_PORT: 6379
@@ -98,27 +99,13 @@ spec:
           - hosts:
               - *host
     persistence:
-      romm-data:
+      config:
         existingClaim: ${VOLSYNC_CLAIM}
-        globalMounts:
-          - path: /romm
-            readOnly: false
-      romm-config:
-        type: emptyDir
-        globalMounts:
-          - path: /romm/config
-      romm-config-file:
-        type: configMap
-        name: romm-config
-        globalMounts:
-          - path: /romm/config/config.yml
-            subPath: config.yml
-            readOnly: true
-      romm-library:
+      games:
         type: nfs
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_GAMES}
         globalMounts:
-          - path: /romm/library
+          - path: /config/library
       tmp:
         type: emptyDir
