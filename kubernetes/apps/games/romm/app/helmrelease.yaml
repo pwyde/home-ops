@@ -98,19 +98,10 @@ spec:
           - hosts:
               - *host
     persistence:
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /romm/config
-      data:
+      romm:
         existingClaim: ${VOLSYNC_CLAIM}
-        advancedMounts:
-          romm:
-            app:
-              - subPath: "resources"
-                path: "/romm/resources"
-              - subPath: "assets"
-                path: "/romm/assets"
+        globalMounts:
+          - path: /romm
       library:
         type: nfs
         server: ${SECRET_NAS_IP}
