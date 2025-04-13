@@ -102,6 +102,7 @@ spec:
         existingClaim: ${VOLSYNC_CLAIM}
         globalMounts:
           - path: /romm
+            readOnly: false
       romm-config:
         type: emptyDir
         globalMounts:
