@@ -66,14 +66,14 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: false
+            #   capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: &uid 5000
+        runAsUser: &uid 1000
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
@@ -98,21 +98,20 @@ spec:
           - hosts:
               - *host
     persistence:
-      library:
+      config:
+        type: configMap
+        name: romm-config
+        globalMounts:
+          - path: /romm/config/config.yml
+            subPath: config.yml
+            readOnly: true
+      romm:
+        existingClaim: ${VOLSYNC_CLAIM}
+      games:
         type: nfs
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_GAMES}
         globalMounts:
           - path: /romm/library
-      romm:
-        existingClaim: ${VOLSYNC_CLAIM}
-      romm-config:
-        type: emptyDir
-        globalMounts:
-          - path: /romm/config
-      romm-resources:
-        type: emptyDir
-        globalMounts:
-          - path: /romm/resources
       tmp:
         type: emptyDir

@@ -14,7 +14,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: democratic-csi-nfs
+    - name: democratic-csi-iscsi
       namespace: storage
     - name: onepassword
       namespace: security
