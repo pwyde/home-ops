@@ -66,14 +66,14 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
-            # securityContext:
-            #   allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: false
-            #   capabilities: { drop: ["ALL"] }
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: &uid 1000
+        runAsUser: &uid 5000
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
@@ -98,20 +98,43 @@ spec:
           - hosts:
               - *host
     persistence:
-      config:
+      nginx-conf:
+        type: emptyDir
+        globalMounts:
+          - path: /etc/nginx/conf.d
+      romm-data:
+        existingClaim: ${VOLSYNC_CLAIM}
+        globalMounts:
+          - path: /romm
+            readOnly: false
+      romm-config:
+        type: emptyDir
+        globalMounts:
+          - path: /romm/config
+      romm-config-file:
         type: configMap
         name: romm-config
         globalMounts:
           - path: /romm/config/config.yml
             subPath: config.yml
-            readOnly: true
-      romm:
-        existingClaim: ${VOLSYNC_CLAIM}
-      games:
+        defaultMode: 0664
+      romm-assets:
         type: nfs
         server: ${SECRET_NAS_IP}
-        path: ${SECRET_NFS_PATH_GAMES}
+        path: ${SECRET_NFS_PATH_ROMM_ASSETS}
+        globalMounts:
+          - path: /romm/assets
+      romm-library:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_ROMM_LIBRARY}
         globalMounts:
           - path: /romm/library
+      romm-resources:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_ROMM_RESOURCES}
+        globalMounts:
+          - path: /romm/resources
       tmp:
         type: emptyDir
