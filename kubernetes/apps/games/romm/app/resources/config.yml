@@ -39,8 +39,7 @@ system:
   # Asociate different platform names to your current file system platform names
   # [your custom platform folder name]: [RomM platform name]
   # In this example if you have a 'gc' folder, RomM will treat it like the 'ngc' folder and if you have a 'psx' folder, RomM will treat it like the 'ps' folder
-  platforms:
-    mame: arcade
+  platforms: {} # { gc: 'ngc', psx: 'ps' }
 
   # Asociate one platform to it's main version
   versions: {} # { naomi: 'arcade' }
