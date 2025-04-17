@@ -40,6 +40,8 @@ spec:
               DISABLE_USERPASS_LOGIN: false # Only set to true after first run and admin has been created.
               ENABLE_SCHEDULED_RESCAN: true
               SCHEDULED_RESCAN_CRON: "0 2 * * *"
+              ENABLE_SCHEDULED_UPDATE_MAME_XML: true
+              SCHEDULED_UPDATE_MAME_XML_CRON: "0 3 * * *"
               ENABLE_RESCAN_ON_FILESYSTEM_CHANGE: true
               RESCAN_ON_FILESYSTEM_CHANGE_DELAY: 5
               ROMM_DB_DRIVER: postgresql
