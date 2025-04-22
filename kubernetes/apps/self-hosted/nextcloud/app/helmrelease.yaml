@@ -233,7 +233,7 @@ spec:
           enabled: false
       probes:
         liveness: &probes
-          enabled: true
+          enabled: false
           initialDelaySeconds: 120
           periodSeconds: 10
           timeoutSeconds: 5
@@ -241,7 +241,7 @@ spec:
           successThreshold: 1
         readiness: *probes
         startup: &startupProbe
-          enabled: true
+          enabled: false
           initialDelaySeconds: 600
           periodSeconds: 10
           timeoutSeconds: 5
