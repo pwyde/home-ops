@@ -37,7 +37,7 @@ spec:
             env:
               TZ: ${CONFIG_TIMEZONE}
               DISABLE_DOWNLOAD_ENDPOINT_AUTH: true
-              DISABLE_USERPASS_LOGIN: true # Only set to true after first run and admin has been created.
+              DISABLE_USERPASS_LOGIN: false # Only set to true after first run and admin has been created.
               ENABLE_SCHEDULED_RESCAN: true
               SCHEDULED_RESCAN_CRON: "0 2 * * *"
               ENABLE_SCHEDULED_UPDATE_MAME_XML: true
