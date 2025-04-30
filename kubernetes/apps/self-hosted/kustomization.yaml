@@ -8,7 +8,7 @@ components:
 resources:
   # Flux-Kustomizations
   - ./dokuwiki/ks.yaml
-  - ./hoarder/ks.yaml
+  # - ./hoarder/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
   - ./nextcloud/ks.yaml
