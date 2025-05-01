@@ -10,7 +10,7 @@
     // top level
     ".archive": "folder_dist",
     ".github": "folder_github",
-    ".renovate": "folder_circle-ci",
+    ".renovate": "folder_renovate",
     ".taskfiles": "folder_mocks",
     ".vscode": "folder_vscode",
     "bootstrap": "folder_composables",
@@ -27,6 +27,7 @@
     "download": "folder_download",
     "downloads": "folder_download",
     "flux-system": "folder_controllers",
+    "games": "folder_app",
     "kube-system": "folder_kubernetes",
     "network": "folder_connection",
     "networking": "folder_connection",
