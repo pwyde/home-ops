@@ -147,6 +147,7 @@ nodes:
       customization:
         extraKernelArgs:
           - net.ifnames=0           # Legacy NIC names.
+          - -selinux                # Less security, more performance.
           - apparmor=0              # Less security, more performance.
           - init_on_alloc=0         # Less security, more performance.
           - init_on_free=0          # Less security, more performance.
@@ -179,6 +180,7 @@ controlPlane:
     customization:
       extraKernelArgs:
         - net.ifnames=0           # Legacy NIC names.
+        - -selinux                # Less security, more performance.
         - apparmor=0              # Less security, more performance.
         - init_on_alloc=0         # Less security, more performance.
         - init_on_free=0          # Less security, more performance.
