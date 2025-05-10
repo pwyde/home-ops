@@ -125,7 +125,7 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ```mermaid
 graph LR;
-  id1((Internet)) <-->|600Mbps↓ 50Mbps↑| id2[Netgate SG-3100];
+  id1((Internet)) <-->|600Mbps↓ 50Mbps↑| id2[UniFi Cloud Gateway Fiber];
   id2 <-->|1Gbps↕| id3[UniFi Pro 24 PoE];
   id3 <-->|10Gbps↕| id4[UniFi Aggregation];
   id3 <-->|1Gbps↕| id5["UniFi 8 (Gen1)"];
@@ -170,14 +170,13 @@ _To be documented..._
 
 ### Networking
 
-| Vendor   | Model                | Count | Function                 |
-|----------|----------------------|-------|--------------------------|
-| Netgate  | SG-3100              | 1     | Firewall & Router        |
-| Ubiquiti | UniFi Cloud Key Gen2 | 1     | UniFi Controller         |
-| Ubiquiti | UniFi Aggregation    | 1     | 10G SFP+ Core Switch     |
-| Ubiquiti | UniFi Pro 24 PoE     | 1     | 1GbE RJ45 PoE Switch     |
-| Ubiquiti | UniFi 8 (Gen1)       | 1     | 1GbE RJ45 Utility Switch |
-| Ubiquiti | UniFi AC Pro         | 2     | WiFi 5 Access Point      |
+| Vendor   | Model                     | Count | Function                 |
+|----------|---------------------------|-------|--------------------------|
+| Ubiquiti | UniFi Cloud Gateway Fiber | 1     | Firewall & Router        |
+| Ubiquiti | UniFi Aggregation         | 1     | 10G SFP+ Core Switch     |
+| Ubiquiti | UniFi Pro 24 PoE          | 1     | 1GbE RJ45 PoE Switch     |
+| Ubiquiti | UniFi 8 (Gen1)            | 1     | 1GbE RJ45 Utility Switch |
+| Ubiquiti | UniFi AC Pro              | 2     | WiFi 5 Access Point      |
 
 ---
 
