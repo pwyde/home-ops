@@ -28,20 +28,12 @@ spec:
               tag: v2.15.3@sha256:56069bd90291a7c63e58b594e877c5f868a58f082e20c4c533e4e546ed3b42b3
             env:
               TZ: ${CONFIG_TIMEZONE}
+              UP_INFLUXDB_DISABLE: true
+              UP_POLLER_DEBUG: false
               UP_UNIFI_DEFAULT_ROLE: home-ops
+              UP_UNIFI_DEFAULT_SAVE_DPI: true
               UP_UNIFI_DEFAULT_URL: https://unifi.${SECRET_DOMAIN}
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
-              UP_UNIFI_DEFAULT_SAVE_DPI: true
-              UP_UNIFI_DEFAULT_SAVE_IDS: true
-              UP_UNIFI_DEFAULT_SAVE_EVENTS: true
-              UP_UNIFI_DEFAULT_SAVE_ALARMS: true
-              UP_UNIFI_DEFAULT_SAVE_ANOMALIES: true
-              UP_UNIFI_DYNAMIC: false
-              UP_INFLUXDB_DISABLE: true
-              UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
-              UP_LOKI_DISABLE: false
-              UP_LOKI_URL: https://loki.${SECRET_DOMAIN}
-              UP_POLLER_DEBUG: true
             envFrom:
               - secretRef:
                   name: *app
@@ -52,7 +44,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 80
+                    port: &port 9130
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
