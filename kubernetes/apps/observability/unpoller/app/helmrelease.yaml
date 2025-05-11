@@ -32,9 +32,15 @@ spec:
               UP_UNIFI_DEFAULT_URL: https://unifi.${SECRET_DOMAIN}
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
               UP_UNIFI_DEFAULT_SAVE_DPI: true
+              UP_UNIFI_DEFAULT_SAVE_IDS: true
+              UP_UNIFI_DEFAULT_SAVE_EVENTS: true
+              UP_UNIFI_DEFAULT_SAVE_ALARMS: true
+              UP_UNIFI_DEFAULT_SAVE_ANOMALIES: true
               UP_UNIFI_DYNAMIC: false
               UP_INFLUXDB_DISABLE: true
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
+              UP_LOKI_DISABLE: false
+              UP_LOKI_URL: http://loki-headless.observability.svc.cluster.local:3100
             envFrom:
               - secretRef:
                   name: *app
