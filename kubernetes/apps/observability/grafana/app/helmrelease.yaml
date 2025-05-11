@@ -381,24 +381,34 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
       unifi:
-        unifi-insights:
-          # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
-          gnetId: 11315
-          revision: 9
+        unifi-client-dpi:
+          # renovate: depName="UniFi Client DPI: Prometheus Dashboard"
+          gnetId: 11310
+          revision: 5
           datasource: Prometheus
-        unifi-network-sites:
-          # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
+        unifi-sites:
+          # renovate: depName="UniFi Sites: Prometheus Dashboard"
           gnetId: 11311
           revision: 5
           datasource: Prometheus
+        unifi-usw:
+          # renovate: depName="UniFi USW: Prometheus Dashboard"
+          gnetId: 11312
+          revision: 9
+          datasource: Prometheus
+        unifi-usg:
+          # renovate: depName="UniFi USG: Prometheus Dashboard"
+          gnetId: 11313
+          revision: 9
+          datasource: Prometheus
         unifi-uap:
-          # renovate: depName="UniFi-Poller: UAP Insights - Prometheus"
+          # renovate: depName="UniFi UAP: Prometheus Dashboard"
           gnetId: 11314
           revision: 10
           datasource: Prometheus
-        unifi-usw:
-          # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
-          gnetId: 11312
+        unifi-clients:
+          # renovate: depName="UniFi Clients: Prometheus Dashboard"
+          gnetId: 11315
           revision: 9
           datasource: Prometheus
     resources:
