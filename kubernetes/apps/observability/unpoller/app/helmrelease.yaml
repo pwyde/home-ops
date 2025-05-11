@@ -32,8 +32,9 @@ spec:
               UP_UNIFI_DEFAULT_URL: https://unifi.${SECRET_DOMAIN}
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
               UP_UNIFI_DEFAULT_SAVE_DPI: true
-              UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
+              UP_UNIFI_DYNAMIC: false
               UP_INFLUXDB_DISABLE: true
+              UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
             envFrom:
               - secretRef:
                   name: *app
