@@ -1,6 +1,7 @@
 # Nextcloud
 
 ## Post-install Commands
+
 ```sh
 until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do
     sleep 10;
@@ -13,6 +14,7 @@ done && php /var/www/html/occ upgrade \
 ```
 
 ## Add Apps
+
 ```sh
 until php /var/www/html/occ status --output json | grep -q '\"installed\":true'; do
     sleep 10;
@@ -31,6 +33,7 @@ done && php /var/www/html/occ app:disable firstrunwizard \
 ```
 
 ## Configure Nextcloud Office
+
 ```sh
 until php /var/www/html/occ status --output json | grep -q '"installed":true'; do
     echo "Waiting for Nextcloud installation...";
@@ -46,6 +49,7 @@ echo "Nextcloud Office configuration completed.";
 ```
 
 ## Add Missing Indices
+
 ```sh
 php /var/www/html/occ maintenance:mode --on \
 && php /var/www/html/occ db:add-missing-indices \
