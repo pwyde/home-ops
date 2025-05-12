@@ -7,6 +7,7 @@
 3. [`immich`](../kubernetes/apps/self-hosted/immich/)
 4. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
 5. [`nextcloud`](../kubernetes/apps/self-hosted/nextcloud/)
+6. [`romm`](../kubernetes/apps/games/romm/)
 
 ## Arguments
 
