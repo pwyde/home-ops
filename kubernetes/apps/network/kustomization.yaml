@@ -9,6 +9,6 @@ resources:
   # Flux-Kustomizations
   - ./cloudflared/ks.yaml
   # - ./echo-server/ks.yaml
-  - ./external-dns/ks.yaml
+  - ./cloudflare-dns/ks.yaml
   - ./ingress-nginx/ks.yaml
   - ./tailscale-operator/ks.yaml

@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app external-dns
+  name: &app cloudflare-dns
   namespace: &namespace network
 spec:
   commonMetadata:
@@ -21,7 +21,7 @@ spec:
       kind: CustomResourceDefinition
       name: dnsendpoints.externaldns.k8s.io
   interval: 1h
-  path: ./kubernetes/apps/network/external-dns/app
+  path: ./kubernetes/apps/network/cloudflare-dns/app
   prune: true
   retryInterval: 2m
   sourceRef:
