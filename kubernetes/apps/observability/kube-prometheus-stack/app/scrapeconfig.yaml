@@ -22,6 +22,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
+        - nas.${SECRET_DOMAIN}:9100
         - pikvm.${SECRET_DOMAIN}:9100
         - pve.${SECRET_DOMAIN}:9100
   metricsPath: /metrics
