@@ -8,12 +8,12 @@ components:
 resources:
   # Flux-Kustomizations
   - ./audiobookshelf/ks.yaml
-  # - ./bazarr/ks.yaml
+  - ./bazarr/ks.yaml
   - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./jellystat/ks.yaml
   - ./lidarr/ks.yaml
-  - ./navidrome/ks.yaml
+  # - ./navidrome/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
