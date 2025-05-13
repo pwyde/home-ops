@@ -7,9 +7,9 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  - ./exporters
-  - ./gatus/ks.yaml
-  - ./grafana/ks.yaml
+  # - ./exporters
+  # - ./gatus/ks.yaml
+  # - ./grafana/ks.yaml
   - ./headlamp/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml

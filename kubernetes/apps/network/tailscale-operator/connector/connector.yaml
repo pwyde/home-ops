@@ -1,0 +1,11 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: subnet-router
+spec:
+  hostname: home-k8s-router
+  subnetRouter:
+    advertiseRoutes:
+      - 192.168.20.0/24
+      - 192.168.30.0/24
