@@ -5,10 +5,6 @@ metadata:
   name: subnet-router
 spec:
   hostname: home-k8s-router
-  metrics:
-    enable: true
-    serviceMonitor:
-      enable: true
   subnetRouter:
     advertiseRoutes:
       - 192.168.20.0/24
