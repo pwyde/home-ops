@@ -7,7 +7,7 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  # - ./atuin/ks.yaml
+  - ./atuin/ks.yaml
   - ./cyberchef/ks.yaml
   - ./it-tools/ks.yaml
   - ./jsoncrack/ks.yaml
