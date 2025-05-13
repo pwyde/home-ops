@@ -8,8 +8,8 @@ components:
 resources:
   # Flux-Kustomizations
   # - ./exporters
-  # - ./gatus/ks.yaml
-  # - ./grafana/ks.yaml
+  - ./gatus/ks.yaml
+  - ./grafana/ks.yaml
   - ./headlamp/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
