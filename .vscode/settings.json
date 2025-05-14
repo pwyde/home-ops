@@ -17,8 +17,11 @@
     "docs": "folder_docs",
     "kubernetes": "folder_kubernetes",
     "talos": "folder_core",
+    "truenas": "folder_server",
     // .github
     ".github/workflows": "folder_workflows",
+    // Docker
+    "truenas/stacks": "folder_docker",
     // namespaces
     "actions-runner-system": "folder_github",
     "ai": "folder_client",
@@ -88,8 +91,11 @@
     "docs": "docs",
     "kubernetes": "kubernetes",
     "talos": "core",
+    "truenas": "server",
     // .github
     ".github/workflows": "gh-workflows",
+    // Docker
+    "truenas/stacks": "docker",
     // namespaces
     "actions-runner-system": "github",
     "ai": "robot",
