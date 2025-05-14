@@ -10,7 +10,7 @@ Prior to installation create a `CNAME` record that points to the UCG. This is ne
 
 The script uses `keytool` and is at the time of writing not pre-installed on the UCG. SSH into the device and install the `default-jdk-headless`package.
 
-```sh
+```
 root@Cloud-Gateway-Fiber:~# apt install default-jdk-headless
 Reading package lists... Done
 Building dependency tree... Done
