@@ -65,3 +65,115 @@ Script options used:
 - `--external-dns`: Use specified DNS server for hostname validation and resolution instead of public DNS server, for example `1.1.1.1`.
 - `--prevent-modify-firewall`: Do not automatically open/close port `80` on UniFi Gateway Consoles.
 - `--skip`: Skip any kind of manual input. This automates the entire process.
+
+### BGP Configuration for Cilium
+
+**BGP** is not officially supported on the UCG-Fiber. The **FRR** package is however included on the device but not enabled.
+
+SSH into the device and enable the BGP daemon by modifying the FRRouting (FRR) daemons configuration.
+
+```sh
+sed -i 's/bgpd=no/bgpd=yes/g' /etc/frr/daemons
+```
+
+Adjust the FRR configuration and define the BGP neighbors by editing the `/etc/frr/frr.conf` configuration file.
+
+```
+log syslog informational
+
+! -*- bgp -*-
+!
+hostname gateway
+frr defaults traditional
+log file stdout
+!
+router bgp 64513
+  bgp router-id 192.168.20.1
+  no bgp ebgp-requires-policy
+  !
+  ! Peer group for Cilium
+  neighbor k8s peer-group
+  neighbor k8s remote-as 64514
+  ! Neighbors for Cilium
+  neighbor 192.168.20.21 peer-group k8s
+  neighbor 192.168.20.22 peer-group k8s
+  neighbor 192.168.20.23 peer-group k8s
+  neighbor 192.168.20.24 peer-group k8s
+  neighbor 192.168.20.25 peer-group k8s
+  !
+  address-family ipv4 unicast
+    redistribute connected
+    neighbor k8s next-hop-self
+    neighbor k8s soft-reconfiguration inbound
+  exit-address-family
+  !
+line vty
+```
+
+Enable and start the FRR service to apply the configuration and activate BGP routing.
+
+```sh
+systemctl enable frr.service && systemctl start frr.service
+```
+
+Verify BGP configuration.
+
+```
+root@Cloud-Gateway-Fiber:~# vtysh -c 'show ip bgp'
+BGP table version is 66, local router ID is 192.168.20.1, vrf id 0
+Default local pref 100, local AS 64513
+Status codes:  s suppressed, d damped, h history, * valid, > best, = multipath,
+i internal, r RIB-failure, S Stale, R Removed
+Nexthop codes: @NNN nexthop's vrf id, < announce-nh-self
+Origin codes:  i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+Network          Next Hop            Metric LocPrf Weight Path
+*> 10.129.0.0/22    0.0.0.0                  0         32768 ?
+*> 83.250.32.0/19   0.0.0.0                  0         32768 ?
+*> 172.16.200.0/24  0.0.0.0                  0         32768 ?
+*> 192.168.10.0/24  0.0.0.0                  0         32768 ?
+*> 192.168.20.0/24  0.0.0.0                  0         32768 ?
+*= 192.168.20.40/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.41/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.50/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.51/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.52/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.60/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*= 192.168.20.62/32 192.168.20.25                          0 64514 i
+*=                  192.168.20.24                          0 64514 i
+*=                  192.168.20.23                          0 64514 i
+*=                  192.168.20.21                          0 64514 i
+*>                  192.168.20.22                          0 64514 i
+*> 192.168.30.0/24  0.0.0.0                  0         32768 ?
+*> 192.168.40.0/24  0.0.0.0                  0         32768 ?
+*> 192.168.50.0/24  0.0.0.0                  0         32768 ?
+*> 192.168.60.0/24  0.0.0.0                  0         32768 ?
+*> 203.0.113.0/24   0.0.0.0                  0         32768 ?
+
+Displayed  17 routes and 45 total paths
+```
