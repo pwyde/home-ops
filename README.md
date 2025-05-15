@@ -130,13 +130,12 @@ graph LR;
   id3 <-->|10Gbps↕| id4[UniFi Aggregation];
   id3 <-->|1Gbps↕| id5["UniFi 8 (Gen1)"];
   id3 <-->|1Gbps↕| id6[2 x UniFi AC Pro];
-  id3 <-->|1Gbps↕| id7[UniFi Cloud Key Gen2];
-  id3 <-->|1Gbps↕| id8(Devices);
-  id4 <-->|10Gbps↕| id9[Proxmox VE host];
-  id4 <-->|10Gbps↕| id10[5 x Talos VMs];
-  id4 <-->|10Gbps↕| id11[TrueNAS SCALE];
-  id5 <-->|1Gbps↕| id12(Media & IoT devices);
-  id6 <--> id13(WiFi clients);
+  id3 <-->|1Gbps↕| id7(Home devices);
+  id4 <-->|10Gbps↕| id8[Proxmox VE host];
+  id4 <-->|10Gbps↕| id9[5 x Talos VMs];
+  id4 <-->|10Gbps↕| id10[TrueNAS SCALE];
+  id5 <-->|1Gbps↕| id11(IoT devices);
+  id6 <--> id12(WiFi clients);
 ```
 
 ### Networks & VLANs
@@ -144,13 +143,13 @@ graph LR;
 | Name       | ID    | Description                             |
 |------------|-------|-----------------------------------------|
 | Management | `1`   | Default VLAN used as management network |
-| Servers    | `20`  | VLAN for servers and services           |
-| Devices    | `30`  | VLAN for devices and computers          |
+| Server     | `20`  | VLAN for servers and services           |
+| Home       | `30`  | VLAN for devices and computers          |
 | Kids       | `40`  | VLAN for kids                           |
-| Media      | `50`  | VLAN for media devices/equipment        |
+| Camera     | `50`  | VLAN for security cameras               |
+| IoT        | `60`  | VLAN for IoT devices                    |
 | Storage    | `100` | VLAN for NFS and iSCSI                  |
-| IoT        | `200` | VLAN for IoT devices                    |
-| Guest      | `210` | VLAN for guest devices                  |
+| Guest      | `200` | VLAN for guest devices                  |
 
 ---
 
