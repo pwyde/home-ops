@@ -14,24 +14,6 @@ releases:
     chart: oci://ghcr.io/home-operations/charts-mirror/cilium
     version: 1.17.3
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/kube-system/cilium/app/helm/values.yaml']
-    hooks:
-      - # Wait for cilium CRDs to be available.
-        events: ['postsync']
-        command: bash
-        args:
-          - -c
-          - until kubectl get crd ciliuml2announcementpolicies.cilium.io ciliumloadbalancerippools.cilium.io &>/dev/null; do sleep 10; done
-        showlogs: true
-      - # Apply cilium network configuration.
-        events: ['postsync']
-        command: kubectl
-        args:
-          - apply
-          - --namespace=kube-system
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/kube-system/cilium/app/networks.yaml
-        showlogs: true
 
   - name: coredns
     namespace: kube-system
@@ -44,15 +26,15 @@ releases:
   - name: spegel
     namespace: kube-system
     atomic: true
-    chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.17.2
+    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    version: 0.2.0
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/kube-system/spegel/app/helm/values.yaml']
     needs: ['kube-system/coredns']
 
   - name: cert-manager
     namespace: security
     atomic: true
-    chart: oci://ghcr.io/home-operations/charts-mirror/cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
     version: v1.17.1
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/cert-manager/app/helm/values.yaml']
     needs: ['kube-system/spegel']
@@ -64,22 +46,16 @@ releases:
     version: 0.16.2
     values: ['{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/external-secrets/app/helm/values.yaml']
     hooks:
-      - # Wait for external-secrets CRDs to be available.
-        events: ['postsync']
-        command: bash
-        args:
-          - -c
-          - until kubectl get crd clustersecretstores.external-secrets.io &>/dev/null; do sleep 10; done
-        showlogs: true
       - # Apply cluster secret store configuration.
         events: ['postsync']
         command: kubectl
         args:
           - apply
-          - --namespace=external-secrets
+          - --namespace=security
           - --server-side
           - --field-manager=kustomize-controller
           - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/onepassword/app/clustersecretstore.yaml
+          - --wait=true
         showlogs: true
     needs: ['security/cert-manager']
 
