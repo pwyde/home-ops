@@ -1,8 +1,8 @@
 ---
 autoDirectNodeRoutes: true
-bandwidthManager:
-  enabled: true
-  bbr: true
+# bandwidthManager:
+#   enabled: true
+#   bbr: true
 bpf:
   datapathMode: netkit
   # Ref: https://github.com/siderolabs/talos/issues/10002
