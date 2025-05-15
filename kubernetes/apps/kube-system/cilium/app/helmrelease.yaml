@@ -38,7 +38,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
-  # Enable Hubble, Hubble Relay and Hubble UI.
   values:
     hubble:
       enabled: true
