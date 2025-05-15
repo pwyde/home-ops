@@ -1,13 +1,18 @@
 ---
 autoDirectNodeRoutes: true
+bandwidthManager:
+  enabled: true
+  bbr: true
 bpf:
   datapathMode: netkit
   # Ref: https://github.com/siderolabs/talos/issues/10002
-  hostLegacyRouting: true
-  # masquerade: false # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`.
+  # hostLegacyRouting: true
   masquerade: true
   preallocateMaps: true
-  tproxy: true
+  tproxy: true # Breaks accessing Cilium gateway IPs from inside cluster.
+bpfClockProbe: true
+bgpControlPlane:
+  enabled: true
 cgroup:
   automount:
     enabled: false
@@ -23,7 +28,6 @@ dashboards:
     grafana_folder: Network
   enabled: true
 # Note: Devices might need to be set if more than one active NIC exists on the hosts.
-# devices: eno+ eth+
 devices: eth0
 endpointRoutes:
   enabled: true
@@ -33,7 +37,6 @@ hubble:
   enabled: false
 ipam:
   mode: kubernetes
-# ipv4NativeRoutingCIDR: ${CLUSTER_POD_CIDR}
 ipv4NativeRoutingCIDR: 10.42.0.0/16
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
@@ -43,10 +46,7 @@ l2announcements:
   enabled: true
 loadBalancer:
   algorithm: maglev
-  # DSR mode has more advantages but not possible with the current setup.
-  # Ref: https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/
-  # mode: dsr
-  mode: snat # Default mode.
+  mode: dsr
 localRedirectPolicy: true
 operator:
   dashboards:
@@ -86,5 +86,3 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-socketLB:
-  hostNamespaceOnly: true
