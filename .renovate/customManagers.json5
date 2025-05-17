@@ -4,7 +4,7 @@
     {
       customType: "regex",
       description: "Process annotated dependencies",
-      fileMatch: [
+      managerFilePatterns: [
         "(^|/).+\\.sh$",
         "(^|/).+\\.ya?ml(?:\\.j2)?$",
       ],
@@ -25,7 +25,7 @@
     {
       customType: "regex",
       description: "Process any imageName keys in YAML files (cloudnative-pg)",
-      fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"],
+      managerFilePatterns: ["(^|/)kubernetes/.+\\.ya?ml$"],
       matchStrings: ["imageName: (?<depName>[^\\s:]+):(?<currentValue>\\S+)(@(?<currentDigest>sha256:\\S+)?)"],
       datasourceTemplate: "docker",
     },
