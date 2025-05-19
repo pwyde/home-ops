@@ -5,7 +5,7 @@
       description: "Allowed PostgreSQL major release",
       matchDatasources: ["docker"],
       matchPackageNames: ["**/cloudnative-pg/postgresql", "**/postgres-backup-local"],
-      allowedVersions: "<17",
+      allowedVersions: "<=17",
     },
     {
       description: "Custom schedule for frequently updated container digests",
