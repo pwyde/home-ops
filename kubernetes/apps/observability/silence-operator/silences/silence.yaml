@@ -13,3 +13,18 @@ spec:
     - name: instance
       value: pve.*
       isRegex: true
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.giantswarm.io/silence_v1alpha1.json
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: nas-memory-high-utilization
+  namespace: observability
+spec:
+  matchers:
+    - name: alertname
+      value: NodeMemoryHighUtilization
+      isRegex: false
+    - name: instance
+      value: nas.*
+      isRegex: true
