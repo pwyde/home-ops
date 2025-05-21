@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.giantswarm.io/silence_v1alpha1.json
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: pve-memory-high-utilization
+  namespace: observability
+spec:
+  matchers:
+    - name: alertname
+      value: NodeMemoryHighUtilization
+      isRegex: false
+    - name: instance
+      value: pve.*
+      isRegex: true
