@@ -84,6 +84,21 @@ spec:
         runAsNonRoot: true
         runAsUser: &uid 65534
         runAsGroup: *uid
+    rbac:
+      roles:
+        gatus:
+          type: Role
+          rules:
+            - apiGroups: [""]
+              resources: ["configmaps", "secrets"]
+              verbs: ["get", "watch", "list"]
+      bindings:
+        gatus:
+          type: RoleBinding
+          roleRef:
+            identifier: gatus
+          subjects:
+            - identifier: gatus
     service:
       app:
         controller: *app
