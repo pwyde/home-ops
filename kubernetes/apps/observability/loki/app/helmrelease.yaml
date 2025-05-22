@@ -75,8 +75,6 @@ spec:
         size: 50Gi
     gateway:
       replicas: 1
-      image:
-        registry: ghcr.io
       ingress:
         enabled: true
         ingressClassName: internal
