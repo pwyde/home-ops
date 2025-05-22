@@ -13,7 +13,7 @@ resources:
   - ./headlamp/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
-  - ./loki/ks.yaml
+  # - ./loki/ks.yaml
   - ./promtail/ks.yaml
   - ./silence-operator/ks.yaml
   - ./unpoller/ks.yaml
