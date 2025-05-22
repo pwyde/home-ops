@@ -53,7 +53,7 @@ spec:
       image:
         registry: docker.io
         repository: grafana/loki
-        tag: 3.5.0 # https://github.com/grafana/loki/issues/17371
+        tag: 3.4.3 # https://github.com/grafana/loki/issues/17371
       ingester:
         chunk_encoding: snappy
       limits_config:
