@@ -46,6 +46,10 @@ spec:
         working_directory: /var/loki/compactor/retention
         delete_request_store: filesystem
         retention_enabled: true
+      image:
+        registry: docker.io
+        repository: grafana/loki
+        tag: 3.4.3
       ingester:
         chunk_encoding: snappy
       limits_config:
