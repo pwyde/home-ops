@@ -46,14 +46,6 @@ spec:
         working_directory: /var/loki/compactor/retention
         delete_request_store: filesystem
         retention_enabled: true
-      # TODO: Remove on next Loki v3.5.1 release.
-      # Ref:
-      #  - https://github.com/grafana/loki/issues/17371#issuecomment-2899865527
-      #  - https://github.com/grafana/loki/pull/17372
-      image:
-        registry: docker.io
-        repository: grafana/loki
-        tag: 3.5.1 # https://github.com/grafana/loki/issues/17371
       ingester:
         chunk_encoding: snappy
       limits_config:
