@@ -16,9 +16,7 @@
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["minor", "patch"],
-      // TODO: Re-enable on next Loki v3.5.1 release.
-      // matchPackageNames: ["/kube-prometheus-stack/", "/grafana/"],
-      matchPackageNames: ["/kube-prometheus-stack/"],
+      matchPackageNames: ["/kube-prometheus-stack/", "/grafana/"],
       ignoreTests: false,
     },
     {
