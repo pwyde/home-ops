@@ -79,7 +79,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.131.2-cuda
+              tag: v1.131.3-cuda
             env:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
