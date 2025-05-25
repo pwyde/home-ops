@@ -7,6 +7,6 @@ spec:
   hostname: home-k8s-router
   subnetRouter:
     advertiseRoutes:
-      - 192.168.10.1/32
+      - 192.168.1.1/32
       - 192.168.20.0/24
       - 192.168.30.0/24
