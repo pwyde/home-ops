@@ -24,8 +24,8 @@ spec:
         containers:
           dokuwiki:
             image:
-              repository: ghcr.io/dokuwiki/dokuwiki
-              tag: 2025-05-14@sha256:d93e229c771467ab5b27b8870a10bc733aa471285444f958962e88537e54d752
+              repository: docker.io/dokuwiki/dokuwiki
+              tag: stable
             env:
               PHP_TIMEZONE: ${CONFIG_TIMEZONE}
             probes:
