@@ -39,6 +39,11 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: *app
+            probes:
+              liveness: &probes
+                enabled: false
+              readiness: *probes
+              startup: *probes
             # probes:
             #   liveness: &probes
             #     enabled: true
@@ -94,6 +99,11 @@ spec:
               NVIDIA_VISIBLE_DEVICES: "all"
               NVIDIA_DRIVER_CAPABILITIES: "all"
             envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: false
+              readiness: *probes
+              startup: *probes
             # probes:
             #   liveness: &probes
             #     enabled: true
