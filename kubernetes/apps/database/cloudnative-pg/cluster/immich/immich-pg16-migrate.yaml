@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-pg16-migrate
+spec:
+  instances: 1
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: truenas-ssd-iscsi
+  superuserSecret:
+    name: cloudnative-pg
+  enableSuperuserAccess: true
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+    parameters:
+      max_connections: "600"
+      shared_buffers: 512MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      memory: 4Gi
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      import:
+        databases: ["*"]
+        roles: ["*"]
+        source:
+          externalCluster: &previousCluster pgvectors
+        type: monolith
+  externalClusters:
+    - name: *previousCluster
+      connectionParameters:
+        host: pgvectors.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        key: cloudnative-pg-secret
+        name: password
