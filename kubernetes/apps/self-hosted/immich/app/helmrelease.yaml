@@ -152,7 +152,8 @@ spec:
         controller: *app
         ports:
           http:
-            port: *port
+            # port: *port
+            port: 2283
           metrics-api:
             port: 8081
           metrics-ms:
@@ -161,7 +162,8 @@ spec:
         controller: *app
         ports:
           http:
-            port: *mlPort
+            # port: *mlPort
+            port: 3003
     serviceMonitor:
       immich:
         serviceName: server
