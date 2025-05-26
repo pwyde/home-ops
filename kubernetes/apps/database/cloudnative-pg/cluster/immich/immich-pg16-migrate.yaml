@@ -42,7 +42,7 @@ spec:
   externalClusters:
     - name: *previousCluster
       connectionParameters:
-        host: pgvectors.database.svc.cluster.local
+        host: pgvectors-rw.database.svc.cluster.local
         user: postgres
         dbname: postgres
         sslmode: require
