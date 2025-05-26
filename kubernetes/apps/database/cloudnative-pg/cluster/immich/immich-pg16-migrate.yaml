@@ -47,5 +47,5 @@ spec:
         dbname: postgres
         sslmode: require
       password:
-        key: immich-pg16-migrate
-        name: password
+        name: immich-pg16-migrate
+        key: password
