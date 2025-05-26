@@ -25,7 +25,7 @@ spec:
           server:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.132.3
+              tag: v1.133.1
             env: &env
               TZ: ${CONFIG_TIMEZONE}
               IMMICH_CONFIG_FILE: /config/immich.json
@@ -41,28 +41,33 @@ spec:
                   name: *app
             probes:
               liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/server/ping
-                    port: &port 2283
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
+                enabled: false
               readiness: *probes
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/server/ping
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 30
+              startup: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/server/ping
+            #         port: &port 2283
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
+            #   startup:
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/server/ping
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 30
             resources:
               requests:
                 cpu: 500m
@@ -79,7 +84,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.131.2-cuda
+              tag: v1.133.1-cuda
             env:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
@@ -96,17 +101,22 @@ spec:
             envFrom: *envFrom
             probes:
               liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ping
-                    port: &mlPort 3003
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
+                enabled: false
               readiness: *probes
+              startup: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /ping
+            #         port: &mlPort 3003
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
             resources:
               requests:
                 cpu: 100m
@@ -142,7 +152,8 @@ spec:
         controller: *app
         ports:
           http:
-            port: *port
+            # port: *port
+            port: 2283
           metrics-api:
             port: 8081
           metrics-ms:
@@ -151,7 +162,8 @@ spec:
         controller: *app
         ports:
           http:
-            port: *mlPort
+            # port: *mlPort
+            port: 3003
     serviceMonitor:
       immich:
         serviceName: server
