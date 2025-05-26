@@ -56,7 +56,7 @@ dns_cloudflare_api_token = 0123456789abcdef0123456789abcdef01234567
 Execute script with the following arguments.
 
 ```sh
-bash ~/.local/bin/unifi-easy-encrypt.sh --email ${SECRET_EMAIL}$ --fqdn unifi.${SECRET_DOMAIN} --dns-challenge --dns-provider cloudflare --dns-provider-credentials /root/.secrets/EUS/cloudflare.ini --external-dns 1.1.1.1 --prevent-modify-firewall --skip
+bash ~/.local/bin/unifi-easy-encrypt.sh --email ${SECRET_EMAIL} --fqdn unifi.${SECRET_DOMAIN} --dns-challenge --dns-provider cloudflare --dns-provider-credentials /root/.secrets/EUS/cloudflare.ini --external-dns 1.1.1.1 --prevent-modify-firewall --skip
 ```
 
 Script options used:
@@ -88,7 +88,7 @@ frr defaults traditional
 log file stdout
 !
 router bgp 64513
-  bgp router-id 192.168.20.1
+  bgp router-id 192.168.1.1
   no bgp ebgp-requires-policy
   !
   ! Peer group for Cilium
