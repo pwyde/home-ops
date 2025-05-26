@@ -1,0 +1,84 @@
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-pg17
+spec:
+  backup:
+    retentionPolicy: 14d
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 4
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: https://s3.${SECRET_DOMAIN}
+      # Note: serverName version needs to be incremented when recovering from
+      # an existing CloudNativePG cluster.
+      serverName: immich-pg17-v1
+      s3Credentials:
+        accessKeyId:
+          name: &secret ccloudnative-pg
+          key: s3-access-key
+        secretAccessKey:
+          name: *secret
+          key: s3-secret-key
+  bootstrap:
+    initdb:
+      import:
+        databases: ["*"]
+        roles: ["*"]
+        source:
+          externalCluster: &previousCluster pgvectors
+        type: monolith
+    # Note: previousCluster needs to be set to the name of the previous cluster
+    # when recovering from an existing CloudNativePG cluster.
+    # recovery:
+    #   source: &previousCluster immich-pg17-v1
+  enableSuperuserAccess: true
+  instances: 3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
+  monitoring:
+    enablePodMonitor: true
+  postgresql:
+    shared_preload_libraries: ["vchord.so"]
+    parameters:
+      autovacuum_vacuum_scale_factor: "0.1"
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_vacuum_cost_limit: "1000"
+      effective_io_concurrency: "200"
+      max_connections: "300"
+      random_page_cost: "1.2"
+      shared_buffers: 256MB
+      work_mem: 16MB
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  resources:
+    requests:
+      cpu: 200m
+      memory: 1Gi
+    limits:
+      memory: 2Gi
+  storage:
+    size: 10Gi
+    storageClass: truenas-ssd-iscsi
+  superuserSecret:
+    name: cloudnative-pg
+  # Note: externalClusters is needed when recovering from an existing
+  # CloudNativePG cluster.
+  externalClusters:
+    # - name: *previousCluster
+    #   barmanObjectStore:
+    #     <<: *barmanObjectStore
+    #     serverName: *previousCluster
+    - name: *previousCluster
+      connectionParameters:
+        host: pgvectors-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: *secret
+        key: password
