@@ -47,5 +47,5 @@ spec:
         dbname: postgres
         sslmode: require
       password:
-        key: cloudnative-pg
+        key: immich-pg16-migrate
         name: password
