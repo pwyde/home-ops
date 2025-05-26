@@ -20,7 +20,7 @@ spec:
       serverName: immich-pg17-v1
       s3Credentials:
         accessKeyId:
-          name: &secret ccloudnative-pg
+          name: &secret cloudnative-pg
           key: s3-access-key
         secretAccessKey:
           name: *secret
