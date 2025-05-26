@@ -6,7 +6,7 @@ metadata:
   name: pgvectors
 spec:
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
@@ -16,10 +16,12 @@ spec:
   enableSuperuserAccess: true
   postgresql:
     shared_preload_libraries:
-      - "vchord.so"
+      - "vectors.so"
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
+      # https://github.com/tensorchord/cloudnative-pgvecto.rs/issues/29
+      search_path: '"$user", public, vectors'
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
@@ -46,10 +48,10 @@ spec:
       serverName: pgvectors-v8
       s3Credentials:
         accessKeyId:
-          name: &secret cloudnative-pg
+          name: cloudnative-pg
           key: s3-access-key
         secretAccessKey:
-          name: *secret
+          name: cloudnative-pg
           key: s3-secret-key
   # Note: previousCluster needs to be set to the name of the previous cluster
   # when recovering from an existing CloudNativePG cluster.
