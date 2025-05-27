@@ -71,13 +71,13 @@
 
 ## Clusters
 
-### postgres16
+### cluster-pg17
 
-Primary PostgreSQL cluster on major version `16`. Hosts most application databases.
+Primary PostgreSQL cluster on major version `17`. Hosts most application databases.
 
-### pgvectors
+### immich-pg17
 
-Special cluster with the [`pgvecto.rs`](https://github.com/tensorchord/cloudnative-pgvecto.rs) extension. Used by applications that require a [**vector database**](https://en.wikipedia.org/wiki/Vector_database). At the moment only used by [Immich](../kubernetes/apps/self-hosted/immich/).
+Special cluster with the [`vchord.so`](https://github.com/tensorchord/VectorChord) extension. Used by applications that require a [**vector database**](https://en.wikipedia.org/wiki/Vector_database). At the moment only used by [Immich](../kubernetes/apps/self-hosted/immich/).
 
 ## Recovery
 
@@ -85,17 +85,17 @@ Special cluster with the [`pgvecto.rs`](https://github.com/tensorchord/cloudnati
 
 List existing `Backup` objects and get the name to perform the recovery from.
 
-```sh
+```
 kubectl -n database get backups.postgresql.cnpg.io
-NAME                       AGE    CLUSTER      METHOD              PHASE       ERROR
-postgres-20240912000000    7d8h   postgres16   barmanObjectStore   completed
-postgres-20240913000000    6d8h   postgres16   barmanObjectStore   completed
-postgres-20240914000000    5d8h   postgres16   barmanObjectStore   completed
-postgres-20240915000000    4d8h   postgres16   barmanObjectStore   completed
-postgres-20240916000000    3d8h   postgres16   barmanObjectStore   completed
-postgres-20240917000000    2d8h   postgres16   barmanObjectStore   completed
-postgres-20240918000000    32h    postgres16   barmanObjectStore   completed
-postgres-20240919000000    8h     postgres16   barmanObjectStore   completed
+NAME                           AGE    CLUSTER        METHOD              PHASE       ERROR
+cluster-pg17-20250510000000    7d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250511000000    6d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250512000000    5d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250513000000    4d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250514000000    3d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250515000000    2d8h   cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250516000000    32h    cluster-pg17   barmanObjectStore   completed
+cluster-pg17-20250517000000    8h     cluster-pg17   barmanObjectStore   completed
 ```
 
 Create a new PostgreSQL cluster from `Backup` object.
@@ -105,11 +105,11 @@ Create a new PostgreSQL cluster from `Backup` object.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres16-recovery
+  name: cluster-pg17-recovery
   namespace: database
 spec:
   instances: 1 # Only 1 instance is needed.
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-12
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5-bookworm
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
@@ -133,30 +133,30 @@ spec:
   bootstrap:
     recovery:
       backup:
-        name: postgres-20240913000000 # Name of Backup object.
+        name: cluster-pg17-20250513000000 # Name of Backup object.
 ```
 
 ```sh
-kubectl apply -f kubernetes/apps/database/cloudnative-pg/cluster/postgres16/postgres16-recovery.yaml
+kubectl apply -f kubernetes/apps/database/cloudnative-pg/cluster/cluster-pg17-recovery.yaml
 ```
 
-Connect to the `postgres16-recovery` cluster.
+Connect to the `cluster-pg17-recovery` cluster.
 
 ```sh
-kubectl -n database exec -it postgres16-recovery-1 -- bash
+kubectl -n database exec -it cluster-pg17-recovery-1 -- bash
 ```
 
 Dump the database into a SQL file. Note that the backup must be written into `/var/lib/postgresql/data` as the rest of the filesystem is set to **Read-Only**.
 
-```sh
-postgres@postgres16-recovery-1:/$ pg_dump -U postgres -d dbName -f /var/lib/postgresql/data/dbName_backup.sql
-postgres@postgres16-recovery-1:/$ exit
+```
+postgres@cluster-pg17-recovery-1:/$ pg_dump -U postgres -d dbName -f /var/lib/postgresql/data/dbName_backup.sql
+postgres@cluster-pg17-recovery-1:/$ exit
 ```
 
 Copy the dump from the pod to the local machine.
 
 ```sh
-kubectl cp database/postgres16-recovery-1:/var/lib/postgresql/data/dbName_backup.sql ./dbName_backup.sql
+kubectl cp database/cluster-pg17-recovery-1:/var/lib/postgresql/data/dbName_backup.sql ./dbName_backup.sql
 ```
 
 Suspend Flux objects.
@@ -174,20 +174,20 @@ kubectl -n namespace delete deployments appName
 
 Get the name of the primary PostgreSQL cluster node.
 
-```sh
-kubectl-cnpg -n database status postgres16
+```
+kubectl-cnpg -n database status cluster-pg17
 Instances status
-Name          Database Size  Current LSN  Replication role  Status  QoS        Manager Version  Node
-----          -------------  -----------  ----------------  ------  ---        ---------------  ----
-postgres16-1  855 MB         2A/8101FF08  Primary           OK      Burstable  1.24.0           talos-1
-postgres16-3  854 MB         2A/81024E00  Standby (async)   OK      Burstable  1.24.0           talos-2
-postgres16-2  854 MB         2A/81024D58  Standby (async)   OK      Burstable  1.24.0           talos-3
+Name            Current LSN  Replication role  Status  QoS        Manager Version  Node
+----            -----------  ----------------  ------  ---        ---------------  ----
+cluster-pg17-1  0/A00666D8   Primary           OK      Burstable  1.26.0           talos-4
+cluster-pg17-2  0/A00666D8   Standby (async)   OK      Burstable  1.26.0           talos-2
+cluster-pg17-3  0/A00666D8   Standby (async)   OK      Burstable  1.26.0           talos-1
 ```
 
 Connect to the primary PostgreSQL cluster node.
 
 ```sh
-kubectl -n database exec -it postgres16-1 -- psql -U postgres
+kubectl -n database exec -it cluster-pg17-1 -- psql -U postgres
 ```
 
 Drop and re-create the database.
@@ -202,19 +202,19 @@ ALTER DATABASE dbName OWNER TO dbOwner;
 Restore the database from dump.
 
  ```sh
-kubectl cp ./dbName_backup.sql database/postgres16-1:/var/lib/postgresql/data/dbName_backup.sql
-kubectl -n database exec -it postgres16-1 -- psql -U postgres -d dbName -f /var/lib/postgresql/data/dbName_backup.sql
+kubectl cp ./dbName_backup.sql database/cluster-pg17-1:/var/lib/postgresql/data/dbName_backup.sql
+kubectl -n database exec -it cluster-pg17-1 -- psql -U postgres -d dbName -f /var/lib/postgresql/data/dbName_backup.sql
  ```
 
 Delete the copied dump.
 
 ```sh
-kubectl -n database exec -it pods/postgres16-1 -- bash
+kubectl -n database exec -it pods/cluster-pg17-1 -- bash
 ```
 
-```sh
-postgres@postgres16-1:/$ rm /var/lib/postgresql/data/dbName_backup.sql
-postgres@postgres16-1:/$ exit
+```
+postgres@cluster-pg17-1:/$ rm /var/lib/postgresql/data/dbName_backup.sql
+postgres@cluster-pg17-1:/$ exit
 ```
 
 Resume Flux objects.
@@ -230,10 +230,10 @@ Delete local copy of dump.
 rm ./dbName_backup.sql
 ```
 
-Delete `postgres16-recovery` cluster.
+Delete `cluster-pg17-recovery` cluster.
 
 ```sh
-kubectl delete -f kubernetes/apps/database/cloudnative-pg/cluster/postgres16/postgres16-recovery.yaml
+kubectl delete -f kubernetes/apps/database/cloudnative-pg/cluster/cluster-pg17-recovery.yaml
 ```
 
 Delete the released `persistentvolume`.
@@ -241,7 +241,9 @@ Delete the released `persistentvolume`.
 ```
 kubectl get persistentvolumes -A
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM                                                     STORAGECLASS        VOLUMEATTRIBUTESCLASS   REASON   AGE
-pvc-9946efa8-0b1f-4162-9f8d-18daf74975c3   20Gi       RWO            Retain           Released   database/postgres16-recovery-1                            truenas-ssd-iscsi   <unset>                          96m
+pvc-9946efa8-0b1f-4162-9f8d-18daf74975c3   20Gi       RWO            Retain           Released   database/cluster-pg17-recovery-1                          truenas-ssd-iscsi   <unset>                          96m
+```
 
+```sh
 kubectl delete persistentvolumes pvc-9946efa8-0b1f-4162-9f8d-18daf74975c3
 ```
