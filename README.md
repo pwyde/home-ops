@@ -92,7 +92,7 @@ graph TD;
   id1[Kustomization: flux-system] -->|Creates| id2[Kustomization: cluster-apps];
   id2 -->|Creates| id3[Kustomization: cloudnative-pg];
   id2 -->|Creates| id4[Kustomization: cloudnative-pg-cluster];
-  id2 -->|Creates| id5[Kustomization: atuin];
+  id2 -->|Creates| id5[Kustomization: immich];
   id3 -->|Creates| id6(HelmRelease: cloudnative-pg);
   id4 -->|Depends on| id3;
   id4 -->|Creates| id7(Cluster: immich-pg17);
