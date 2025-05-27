@@ -11,5 +11,5 @@ resources:
   - ./node-feature-discovery/ks.yaml
   - ./node-problem-detector/ks.yaml
   - ./nvidia-device-plugin/ks.yaml
-  - ./system-upgrade-controller/ks.yaml
+  # - ./system-upgrade-controller/ks.yaml
   # - ./talos-debug-tools/ks.yaml
