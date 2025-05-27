@@ -1,9 +1,9 @@
 {
   "Servers": {
     "1": {
-      "Name": "pgvectors",
+      "Name": "cluster-pg17",
       "Group": "Servers",
-      "Host": "pgvectors-rw.database.svc.cluster.local",
+      "Host": "cluster-pg17-rw.database.svc.cluster.local",
       "Port": 5432,
       "MaintenanceDB": "postgres",
       "Username": "postgres",
@@ -17,9 +17,9 @@
       "TunnelAuthentication": 0
     },
     "2": {
-      "Name": "postgres17",
+      "Name": "immich-pg17",
       "Group": "Servers",
-      "Host": "postgres17-rw.database.svc.cluster.local",
+      "Host": "immich-pg17-rw.database.svc.cluster.local",
       "Port": 5432,
       "MaintenanceDB": "postgres",
       "Username": "postgres",

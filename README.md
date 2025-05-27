@@ -85,19 +85,19 @@ Flux operates by recursively scanning the `kubernetes/apps` directory to identif
 
 ### Deployment Dependencies
 
-Flux ensures applications are deployed in the correct sequence by managing dependencies between them. Typically, a `HelmRelease` depends on another `HelmRelease`, while a `Kustomization` may rely on another `Kustomization`. Occasionally, an application may require both a `HelmRelease` and a `Kustomization` before deployment. The example below illustrates a dependency chain where `cloudnative-pg` must be deployed and operational before `cloudnative-pg-cluster`, which in turn must be healthy before `atuin` is deployed.
+Flux ensures applications are deployed in the correct sequence by managing dependencies between them. Typically, a `HelmRelease` depends on another `HelmRelease`, while a `Kustomization` may rely on another `Kustomization`. Occasionally, an application may require both a `HelmRelease` and a `Kustomization` before deployment. The example below illustrates a dependency chain where `cloudnative-pg` must be deployed and operational before `cloudnative-pg-cluster`, which in turn must be healthy before `immich` is deployed.
 
 ```mermaid
 graph TD;
   id1[Kustomization: flux-system] -->|Creates| id2[Kustomization: cluster-apps];
   id2 -->|Creates| id3[Kustomization: cloudnative-pg];
   id2 -->|Creates| id4[Kustomization: cloudnative-pg-cluster];
-  id2 -->|Creates| id5[Kustomization: atuin];
+  id2 -->|Creates| id5[Kustomization: immich];
   id3 -->|Creates| id6(HelmRelease: cloudnative-pg);
   id4 -->|Depends on| id3;
-  id4 -->|Creates| id7(Cluster: postgres17);
+  id4 -->|Creates| id7(Cluster: immich-pg17);
   id5 -->|Depends on| id4;
-  id5 -->|Creates| id8(HelmRelease: atuin);
+  id5 -->|Creates| id8(HelmRelease: immich);
 ```
 
 ---
@@ -142,7 +142,8 @@ graph LR;
 
 | Name       | ID    | Description                             |
 |------------|-------|-----------------------------------------|
-| Management | `1`   | Default VLAN used as management network |
+| Default    | `1`   | Default VLAN (abandoned)                |
+| Management | `10`  | Management network                      |
 | Server     | `20`  | VLAN for servers and services           |
 | Home       | `30`  | VLAN for devices and computers          |
 | Kids       | `40`  | VLAN for kids                           |

@@ -2,7 +2,9 @@
 
 ## PostgreSQL
 
-The Immich database is hosted in a dedicated PostgreSQL [cluster](../kubernetes/apps/database/cloudnative-pg/cluster/pgvectors/pgvectors.yaml).
+**Note:** The instructions below applies to [`pgvecto.rs`](https://github.com/tensorchord/cloudnative-pgvecto.rs) extension. As of Immich `v1.133.0` the deprecated `pgvecto.rs` database extension has been replaced with its successor [VectorChord](https://github.com/tensorchord/VectorChord). See the [release notes](https://github.com/immich-app/immich/releases/tag/v1.133.0) for more information.
+
+The Immich database is hosted in a dedicated PostgreSQL [cluster](../kubernetes/apps/database/cloudnative-pg/cluster/immich-pg17.yaml).
 
 By default, Immich requires superuser access to the PostgreSQL database, as it depends on certain extensions that must be installed. To simplify installation and allow seamless updates, especially during major version updates, Immich is granted superuser privileges within the cluster.
 
@@ -16,7 +18,7 @@ For more information, see the Immich [documentation](https://immich.app/docs/adm
 
 While Immich can be configured to run without superuser permissions, this approach may require manual intervention during updates and is recommended only for **advanced users**.
 
-To configure Immich without superuser access, adjustments can be made during the bootstrap process by updating the [`pgvectors.yaml`](../kubernetes/apps/database/cloudnative-pg/cluster/pgvectors/pgvectors.yaml) file as follows:
+To configure Immich without superuser access, adjustments can be made during the bootstrap process by updating the [`immich-pg17.yaml`](../kubernetes/apps/database/cloudnative-pg/cluster/immich-pg17.yaml) file as follows:
 
 ```yaml
 postgresql:

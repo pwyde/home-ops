@@ -67,5 +67,4 @@ spec:
           subjects:
             - identifier: system-upgrade-controller
     serviceAccount:
-      system-upgrade-controller:
-        enabled: true
+      system-upgrade-controller: {}

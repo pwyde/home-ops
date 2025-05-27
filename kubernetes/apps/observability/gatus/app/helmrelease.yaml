@@ -78,7 +78,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         serviceAccount:
-          identifier: *app
+          identifier: gatus
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -99,15 +99,14 @@ spec:
             identifier: gatus
           subjects:
             - identifier: gatus
+    serviceAccount:
+      gatus: {}
     service:
       app:
         controller: *app
         ports:
           http:
             port: *port
-    serviceAccount:
-      gatus:
-        enabled: true
     serviceMonitor:
       app:
         serviceName: *app
