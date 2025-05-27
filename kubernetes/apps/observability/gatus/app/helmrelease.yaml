@@ -85,29 +85,28 @@ spec:
         runAsUser: &uid 65534
         runAsGroup: *uid
     rbac:
-      bindings:
-        gatus:
-          type: ClusterRoleBinding
-          roleRef:
-            kind: ClusterRole
-            name: gatus
-          subjects:
-            - identifier: gatus
       roles:
         gatus:
-          type: ClusterRole
+          type: Role
           rules:
             - apiGroups: [""]
               resources: ["configmaps", "secrets"]
               verbs: ["get", "watch", "list"]
+      bindings:
+        gatus:
+          type: RoleBinding
+          roleRef:
+            identifier: gatus
+          subjects:
+            - identifier: gatus
+    serviceAccount:
+      gatus: {}
     service:
       app:
         controller: *app
         ports:
           http:
             port: *port
-    serviceAccount:
-      gatus: {}
     serviceMonitor:
       app:
         serviceName: *app
