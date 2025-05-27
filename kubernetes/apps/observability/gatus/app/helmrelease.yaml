@@ -78,13 +78,20 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         serviceAccount:
-          identifier: gatus
+          identifier: *app
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: &uid 65534
         runAsGroup: *uid
     rbac:
+      bindings:
+        gatus:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: *app
+          subjects:
+            - identifier: *app
       roles:
         gatus:
           type: ClusterRole
@@ -92,13 +99,6 @@ spec:
             - apiGroups: [""]
               resources: ["configmaps", "secrets"]
               verbs: ["get", "watch", "list"]
-      bindings:
-        gatus:
-          type: ClusterRoleBinding
-          roleRef:
-            identifier: gatus
-          subjects:
-            - identifier: gatus
     serviceAccount:
       gatus: {}
     service:
