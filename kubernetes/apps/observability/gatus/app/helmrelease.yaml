@@ -77,30 +77,30 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-        serviceAccount:
-          identifier: *app
+        # serviceAccount:
+        #   identifier: *app
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: &uid 65534
         runAsGroup: *uid
-    rbac:
-      roles:
-        gatus:
-          type: Role
-          rules:
-            - apiGroups: [""]
-              resources: ["configmaps", "secrets"]
-              verbs: ["get", "watch", "list"]
-      bindings:
-        gatus:
-          type: RoleBinding
-          roleRef:
-            identifier: gatus
-          subjects:
-            - identifier: gatus
-    serviceAccount:
-      gatus: {}
+    # rbac:
+    #   roles:
+    #     gatus:
+    #       type: Role
+    #       rules:
+    #         - apiGroups: [""]
+    #           resources: ["configmaps", "secrets"]
+    #           verbs: ["get", "watch", "list"]
+    #   bindings:
+    #     gatus:
+    #       type: RoleBinding
+    #       roleRef:
+    #         identifier: gatus
+    #       subjects:
+    #         - identifier: gatus
+    # serviceAccount:
+    #   gatus: {}
     service:
       app:
         controller: *app
