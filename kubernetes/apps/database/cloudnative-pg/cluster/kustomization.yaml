@@ -5,5 +5,3 @@ kind: Kustomization
 resources:
   - ./cluster-pg17
   - ./immich-pg17
-  - ./pgvectors
-  - ./postgres17
