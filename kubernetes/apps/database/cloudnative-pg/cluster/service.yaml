@@ -2,16 +2,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-lb
+  name: &dbcluster cluster-pg17
   annotations:
     lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
 spec:
   type: LoadBalancer
   ports:
-    - name: cluster-pg17
+    - name: postgres
       port: &port 5432
       protocol: TCP
       targetPort: *port
   selector:
-    cnpg.io/cluster: cluster-pg17
+    cnpg.io/cluster: *dbcluster
     cnpg.io/instanceRole: primary
