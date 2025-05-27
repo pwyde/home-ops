@@ -25,20 +25,20 @@ spec:
         secretAccessKey:
           name: *secret
           key: s3-secret-key
-  bootstrap:
-    initdb:
-      postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-      import:
-        databases: ["*"]
-        roles: ["*"]
-        source:
-          externalCluster: &previousCluster pgvectors
-        type: monolith
-    # Note: previousCluster needs to be set to the name of the previous cluster
-    # when recovering from an existing CloudNativePG cluster.
-    # recovery:
-    #   source: &previousCluster immich-pg17-v1
+  # bootstrap:
+  #   initdb:
+  #     postInitSQL:
+  #       - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+  #     import:
+  #       databases: ["*"]
+  #       roles: ["*"]
+  #       source:
+  #         externalCluster: &previousCluster pgvectors
+  #       type: monolith
+  #   # Note: previousCluster needs to be set to the name of the previous cluster
+  #   # when recovering from an existing CloudNativePG cluster.
+  #   recovery:
+  #     source: &previousCluster immich-pg17-v1
   enableSuperuserAccess: true
   instances: 3
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
@@ -70,17 +70,17 @@ spec:
     name: cloudnative-pg
   # Note: externalClusters is needed when recovering from an existing
   # CloudNativePG cluster.
-  externalClusters:
-    # - name: *previousCluster
-    #   barmanObjectStore:
-    #     <<: *barmanObjectStore
-    #     serverName: *previousCluster
-    - name: *previousCluster
-      connectionParameters:
-        host: pgvectors-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-        sslmode: require
-      password:
-        name: *secret
-        key: password
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
+  #   - name: *previousCluster
+  #     connectionParameters:
+  #       host: pgvectors-rw.database.svc.cluster.local
+  #       user: postgres
+  #       dbname: postgres
+  #       sslmode: require
+  #     password:
+  #       name: *secret
+  #       key: password
