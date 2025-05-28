@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: cluster-pg17
+      - name: postgres
         group: infrastructure
         url: tcp://cluster-pg17-rw.database.svc.cluster.local:5432
         interval: 1m
@@ -27,7 +27,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: immich-pg17
+      - name: vectordb
         group: infrastructure
         url: tcp://immich-pg17-rw.database.svc.cluster.local:5432
         interval: 1m
