@@ -93,6 +93,8 @@ spec:
     gateway:
       replicas: 1
       ingress:
+        annotations:
+            nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         enabled: true
         ingressClassName: internal
         hosts:
@@ -109,10 +111,6 @@ spec:
           memory: 24Mi
         limits:
           memory: 32Mi
-      service:
-        annotations:
-          lbipam.cilium.io/ips: ${SVC_LOKI_IP}
-        type: LoadBalancer
     backend:
       replicas: 0
     read:

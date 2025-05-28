@@ -210,19 +210,10 @@ spec:
         supplementalGroups: [*gid]
     service:
       app:
-        annotations:
-          lbipam.cilium.io/ips: ${SVC_QBITTORRENT_IP}
         controller: *app
         ports:
           http:
             port: *port
-          # qBitTorrent startup probe will fail if enabled.
-          # bittorrent:
-          #   enabled: true
-          #   port: *bittorrentPort
-          #   protocol: TCP
-          #   targetPort: *bittorrentPort
-        type: LoadBalancer
     ingress:
       app:
         annotations:

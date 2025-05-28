@@ -22,7 +22,8 @@ kind: Service
 metadata:
   name: &dbcluster immich-pg17
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: immich-pg17.${SECRET_DOMAIN}
+    lbipam.cilium.io/ips: ${SVC_VECTORDB_IP}
+    external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
   ports:

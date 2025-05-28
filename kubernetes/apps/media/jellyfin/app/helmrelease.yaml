@@ -93,8 +93,6 @@ spec:
         supplementalGroups: [4000]
     service:
       app:
-        annotations:
-          lbipam.cilium.io/ips: ${SVC_JELLYFIN_IP}
         controller: *app
         ports:
           http:
@@ -102,7 +100,6 @@ spec:
           discovery:
             port: 7359
             protocol: UDP
-        type: LoadBalancer
     ingress:
       app:
         className: internal
