@@ -23,7 +23,7 @@ spec:
           ollama:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.7.0@sha256:f6699242880c38eb356dfd8204b08b7a7ba4da2645bdece55a0871bf6752a585
+              tag: 0.8.0@sha256:e2c9ab127d555aa671d06d2a48ab58a2e544bbdaf6fa93313dbb4fb8bb73867c
             env:
               TZ: ${CONFIG_TIMEZONE}
               OLLAMA_HOST: 0.0.0.0

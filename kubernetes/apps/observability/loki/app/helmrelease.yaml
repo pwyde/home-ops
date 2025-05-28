@@ -12,11 +12,6 @@ spec:
   ref:
     tag: 6.30.0
   url: oci://ghcr.io/grafana/helm-charts/loki
-  verify:
-    provider: cosign
-    matchOIDCIdentity:
-      - issuer: "^https://token.actions.githubusercontent.com$"
-        subject: "^https://github.com/home-operations/charts-mirror.*$"
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -51,8 +46,17 @@ spec:
         working_directory: /var/loki/compactor/retention
         delete_request_store: filesystem
         retention_enabled: true
+      image:
+        # TODO: Remove pinned tag when chart updates to 3.5.1
+        # See https://github.com/grafana/loki/blob/7445efa2634be0f9bc3dcb5855f70ff6a19e81e5/production/helm/loki/values.yaml#L72C3-L82C29
+        # See https://github.com/grafana/loki/issues/17371
+        registry: docker.io
+        repository: grafana/loki
+        tag: 3.5.1 # Pin to newer version due to error: "negative structured metadata bytes received"
       ingester:
         chunk_encoding: snappy
+      limits_config:
+        retention_period: 14d
       storage:
         type: filesystem
       schemaConfig:
@@ -64,8 +68,16 @@ spec:
             index:
               prefix: loki_index_
               period: 24h
-      limits_config:
-        retention_period: 14d
+      structuredConfig:
+        ruler:
+          enable_api: true
+          enable_alertmanager_v2: true
+          alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
+          storage:
+            type: local
+            local:
+              directory: /rules
+          rule_path: /rules/fake
     singleBinary:
       replicas: 1
       resources:
@@ -80,8 +92,6 @@ spec:
         size: 50Gi
     gateway:
       replicas: 1
-      image:
-        registry: ghcr.io
       ingress:
         enabled: true
         ingressClassName: internal
