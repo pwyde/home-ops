@@ -2,13 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dragonfly-lb
+  name: &name dragonfly
   annotations:
     lbipam.cilium.io/ips: ${SVC_DRAGONFLY_IP}
+    external-dns.alpha.kubernetes.io/hostname: dragonfly.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
   ports:
-    - name: &name dragonfly
+    - name: *name
       port: &port 6379
       protocol: TCP
       targetPort: *port
