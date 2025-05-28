@@ -5,6 +5,7 @@ metadata:
   name: &dbcluster cluster-pg17
   annotations:
     lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
+    external-dns.alpha.kubernetes.io/hostname: cluster-pg17.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
   ports:
