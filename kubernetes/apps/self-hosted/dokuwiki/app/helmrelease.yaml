@@ -25,7 +25,7 @@ spec:
           dokuwiki:
             image:
               repository: ghcr.io/dokuwiki/dokuwiki
-              tag: stable
+              tag: oldstable
             env:
               PHP_TIMEZONE: ${CONFIG_TIMEZONE}
             probes:
