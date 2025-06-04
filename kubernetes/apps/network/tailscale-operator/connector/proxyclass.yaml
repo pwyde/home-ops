@@ -2,7 +2,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: kernel-org-tun
+  name: tailscale-tun
 spec:
   statefulSet:
     pod:
@@ -20,7 +20,3 @@ spec:
       tailscaleInitContainer:
         securityContext:
           privileged: true
-      tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
