@@ -4,8 +4,8 @@ kind: Connector
 metadata:
   name: subnet-router
 spec:
-  exitNode: true
   hostname: home-k8s-router
+  proxyClass: kernel-org-tun
   subnetRouter:
     advertiseRoutes:
       - 192.168.1.1/32
