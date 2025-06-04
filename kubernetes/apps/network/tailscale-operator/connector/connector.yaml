@@ -4,6 +4,7 @@ kind: Connector
 metadata:
   name: subnet-router
 spec:
+  exitNode: true
   hostname: home-k8s-router
   subnetRouter:
     advertiseRoutes:
