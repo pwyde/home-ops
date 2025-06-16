@@ -44,7 +44,7 @@ tasks:
       SECRET: Name of secret to export certificate from (required)
 
       Example:
-      task kubernetes:export-cert NS=security CLAIM=hostname-tls
+      task kubernetes:export-cert NS=security SECRET=hostname-tls
     interactive: true
     vars:
       NS: '{{.NS | default "default"}}'
