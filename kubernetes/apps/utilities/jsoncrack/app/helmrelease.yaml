@@ -25,7 +25,7 @@ spec:
           jsoncrack:
             image:
               repository: docker.io/enmanuelmoreira/jsoncrack
-              tag: v3.2.0@sha256:cfd257a13dec324fc0e29b76d778a5a02b8f3863e5c4fca6aa6f39da272d06d3
+              tag: v4.0.0@sha256:8006a7279c34551a06fd218e808e68cd6910bd8f33667bc5b6b1f210e27e1a1f
             env:
               TZ: ${CONFIG_TIMEZONE}
             probes:
