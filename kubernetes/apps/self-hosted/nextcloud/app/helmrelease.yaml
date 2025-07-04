@@ -212,7 +212,7 @@ spec:
       enabled: true
       image:
         repository: docker.io/collabora/code
-        tag: 25.04.2.2.1@sha256:6df19a481053674038514048a747b224f16fc48fd0daf3a104d29721390fe548
+        tag: 25.04.3.2.1@sha256:43d90d92073649b887faf1098997b8c7c696262e9034c6366c42c9693d4f62e3
       collabora:
         extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN} --o:num_prespawn_children=4
         env:
