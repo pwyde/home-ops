@@ -87,6 +87,7 @@ spec:
           "http_user_agent": "$http_user_agent", "country_code": "$geoip2_city_country_code", "country_name": "$geoip2_city_country_name",
           "city_name": "$geoip2_city", "lat": "$geoip2_latitude", "lon": "$geoip2_longitude", "postal_code": "$geoip2_postal_code"}
         proxy-body-size: 0
+        proxy-busy-buffers-size: 16k
         proxy-buffer-size: 16k
         proxy-read-timeout: 120
         proxy-send-timeout: 120
