@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 6.30.1
+    tag: 6.33.0
   url: oci://ghcr.io/grafana/helm-charts/loki
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
@@ -52,7 +52,7 @@ spec:
         # See https://github.com/grafana/loki/issues/17371
         registry: docker.io
         repository: grafana/loki
-        tag: 3.5.1 # Pin to newer version due to error: "negative structured metadata bytes received"
+        tag: 3.5.3 # Pin to newer version due to error: "negative structured metadata bytes received"
       ingester:
         chunk_encoding: snappy
       limits_config:
@@ -128,7 +128,7 @@ spec:
     sidecar:
       image:
         repository: ghcr.io/home-operations/k8s-sidecar
-        tag: 1.30.6@sha256:ee7efa82ce53089e6a0644d16fbf1263020510b938794a0e3da373972dbbdecc
+        tag: 1.30.7@sha256:3b6444d91c6e69a9e07c5e55419452d967d18c833d88b36277dc2021b708f621
       resources:
         requests:
           cpu: 10m
