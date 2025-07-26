@@ -163,7 +163,7 @@ function sync_helm_releases() {
 
     local -r helmfile_file="${ROOT_DIR}/bootstrap/helmfile.yaml"
 
-    if [[ ! -f "${helmfile_file}" ]]; thenAdd commentMore actions
+    if [[ ! -f "${helmfile_file}" ]]; then
         log error "File does not exist" "file=${helmfile_file}"
     fi
 
