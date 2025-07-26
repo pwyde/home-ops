@@ -38,8 +38,7 @@ spec:
             env:
               TZ: *tz
               POSTGRES_HOST: cluster-pg17-ro.database.svc.cluster.local
-              # POSTGRES_DB: atuin,authentik,bazarr,gatus,grafana,jfstat,lidarr_log,lidarr_main,nextcloud,prowlarr_log,prowlarr_main,radarr_log,radarr_main,romm,sonarr_log,sonarr_main
-              POSTGRES_DB: atuin,authentik,bazarr,grafana,jfstat,lidarr_log,lidarr_main,nextcloud,prowlarr_log,prowlarr_main,radarr_log,radarr_main,romm,sonarr_log,sonarr_main
+              POSTGRES_DB: atuin,authentik,bazarr,gatus,grafana,jfstat,lidarr_log,lidarr_main,nextcloud,prowlarr_log,prowlarr_main,radarr_log,radarr_main,romm,sonarr_log,sonarr_main
               BACKUP_KEEP_DAYS: 14
               BACKUP_KEEP_WEEKS: 2
               BACKUP_KEEP_MONTHS: 0
