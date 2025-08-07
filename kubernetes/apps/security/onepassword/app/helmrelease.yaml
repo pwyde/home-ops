@@ -25,8 +25,8 @@ spec:
         containers:
           api:
             image:
-              repository: docker.io/1password/connect-api
-              tag: 1.7.3@sha256:0601c7614e102eada268dbda6ba4b5886ce77713be2c332ec6a2fd0f028484ba
+              repository: ghcr.io/1password/connect-api
+              tag: 1.7.4@sha256:7d2132985f2f05b7fe4cfaf76314adeeb5abb745f051685b1c561130ab22ade3
             env:
               XDG_DATA_HOME: &configDir /config
               OP_HTTP_PORT: &apiPort 80
@@ -68,8 +68,8 @@ spec:
               capabilities: { drop: ["ALL"] }
           sync:
             image:
-              repository: docker.io/1password/connect-sync
-              tag: 1.7.3@sha256:2f17621c7eb27bbcb1f86bbc5e5a5198bf54ac3b9c2ffac38064d03c932b07d5
+              repository: ghcr.io/1password/connect-sync
+              tag: 1.7.4@sha256:b2b9beb06e40615c55f698e2efc06cad5bdb1f82e09e60d1aac6d7bf3d57ec43
             env:
               XDG_DATA_HOME: *configDir
               OP_HTTP_PORT: &syncPort 8081

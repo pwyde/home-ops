@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 4.12.3
+    tag: 4.13.0
   url: oci://ghcr.io/home-operations/charts-mirror/ingress-nginx
   verify:
     provider: cosign
@@ -87,6 +87,7 @@ spec:
           "http_user_agent": "$http_user_agent", "country_code": "$geoip2_city_country_code", "country_name": "$geoip2_city_country_name",
           "city_name": "$geoip2_city", "lat": "$geoip2_latitude", "lon": "$geoip2_longitude", "postal_code": "$geoip2_postal_code"}
         proxy-body-size: 0
+        proxy-busy-buffers-size: 16k
         proxy-buffer-size: 16k
         proxy-read-timeout: 120
         proxy-send-timeout: 120

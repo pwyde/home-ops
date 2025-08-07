@@ -116,10 +116,10 @@ function apply_crds() {
     log debug "Applying CRDs"
 
     local -r crds=(
-        # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-        https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.84.0/stripped-down-crds.yaml
         # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-        https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.18.0/config/crd/standard/dnsendpoint.yaml
+        https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.18.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
+        # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
+        https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.84.1/stripped-down-crds.yaml
     )
 
     for crd in "${crds[@]}"; do
@@ -163,7 +163,7 @@ function sync_helm_releases() {
 
     local -r helmfile_file="${ROOT_DIR}/bootstrap/helmfile.yaml"
 
-    if [[ ! -f "${helmfile_file}" ]]; thenAdd commentMore actions
+    if [[ ! -f "${helmfile_file}" ]]; then
         log error "File does not exist" "file=${helmfile_file}"
     fi
 

@@ -7,6 +7,7 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
+  - ./alloy/ks.yaml
   - ./exporters
   # - ./gatus/ks.yaml
   - ./grafana/ks.yaml
@@ -14,6 +15,5 @@ resources:
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
-  - ./promtail/ks.yaml
   - ./silence-operator/ks.yaml
   - ./unpoller/ks.yaml
