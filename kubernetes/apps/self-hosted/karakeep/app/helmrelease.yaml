@@ -33,6 +33,7 @@ spec:
               CRAWLER_ENABLE_ADBLOCKER: true
               CRAWLER_STORE_SCREENSHOT: true
               DATA_DIR: /karakeep_data
+              DB_WAL_MODE: true
               DISABLE_NEW_RELEASE_CHECK: true
               DISABLE_SIGNUPS: true
               INFERENCE_CONTEXT_LENGTH: 4096
