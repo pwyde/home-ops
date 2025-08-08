@@ -170,8 +170,8 @@
         "ignoreCert": false,
         "host": "{{ .SMTP_HOST }}",
         "port": 465,
-        "username": "{{ .SMTP_USERNAME }}",
-        "password": "{{ .SMTP_PASSWORD }}"
+        "username": "{{ .IMMICH_SMTP_USERNAME }}",
+        "password": "{{ .IMMICH_SMTP_PASSWORD }}"
       }
     }
   },
