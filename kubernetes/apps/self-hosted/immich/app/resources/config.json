@@ -164,7 +164,7 @@
   "notifications": {
     "smtp": {
       "enabled": true,
-      "from": "Immich",
+      "from": "Immich <{{ .IMMICH_SMTP_USERNAME }}>",
       "replyTo": "",
       "transport": {
         "ignoreCert": false,
