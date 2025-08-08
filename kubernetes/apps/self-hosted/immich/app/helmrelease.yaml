@@ -35,7 +35,7 @@ spec:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
               REDIS_DBINDEX: "3"
-              UPLOAD_LOCATION: /usr/src/app/upload
+              IMMICH_MEDIA_LOCATION: &mediaLocation /data
             envFrom: &envFrom
               - secretRef:
                   name: *app
@@ -200,6 +200,12 @@ spec:
           - path: /config/immich.json
             subPath: immich.json
             readOnly: true
+      data:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_IMMICH}
+        globalMounts:
+          - path: *mediaLocation
       photos:
         type: nfs
         server: ${SECRET_NAS_IP}
@@ -207,12 +213,6 @@ spec:
         globalMounts:
           - path: /photos
             readOnly: true
-      upload:
-        type: nfs
-        server: ${SECRET_NAS_IP}
-        path: ${SECRET_NFS_PATH_IMMICH}
-        globalMounts:
-          - path: /usr/src/app/upload
       tmp:
         type: emptyDir
         globalMounts:
