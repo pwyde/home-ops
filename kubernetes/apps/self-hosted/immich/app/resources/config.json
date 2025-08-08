@@ -163,15 +163,15 @@
   },
   "notifications": {
     "smtp": {
-      "enabled": false,
-      "from": "",
+      "enabled": true,
+      "from": "Immich",
       "replyTo": "",
       "transport": {
         "ignoreCert": false,
-        "host": "",
-        "port": 587,
-        "username": "",
-        "password": ""
+        "host": "{{ .SMTP_HOST }}",
+        "port": 465,
+        "username": "{{ .SMTP_USERNAME }}",
+        "password": "{{ .SMTP_PASSWORD }}"
       }
     }
   },

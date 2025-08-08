@@ -195,7 +195,7 @@ spec:
         globalMounts:
           - path: /cache
       config:
-        type: configMap
+        type: secret
         name: immich-config
         globalMounts:
           - path: /config/immich.json
