@@ -35,7 +35,6 @@ spec:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
               REDIS_DBINDEX: "3"
-              IMMICH_MEDIA_LOCATION: &mediaLocation /data
             envFrom: &envFrom
               - secretRef:
                   name: *app
@@ -205,7 +204,7 @@ spec:
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_IMMICH}
         globalMounts:
-          - path: *mediaLocation
+          - path: /data
       photos:
         type: nfs
         server: ${SECRET_NAS_IP}
