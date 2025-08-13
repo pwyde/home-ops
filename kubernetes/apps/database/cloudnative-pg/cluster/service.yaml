@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: &dbcluster cluster-pg17
+  name: &dbcluster pg17-cluster
   annotations:
     lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
     external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: &dbcluster immich-pg17
+  name: &dbcluster pg17-immich
   annotations:
     lbipam.cilium.io/ips: ${SVC_VECTORDB_IP}
     external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}

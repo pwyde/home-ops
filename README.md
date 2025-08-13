@@ -95,7 +95,7 @@ graph TD;
   id2 -->|Creates| id5[Kustomization: immich];
   id3 -->|Creates| id6(HelmRelease: cloudnative-pg);
   id4 -->|Depends on| id3;
-  id4 -->|Creates| id7(Cluster: immich-pg17);
+  id4 -->|Creates| id7(Cluster: pg17-immich);
   id5 -->|Depends on| id4;
   id5 -->|Creates| id8(HelmRelease: immich);
 ```
