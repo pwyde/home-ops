@@ -9,7 +9,7 @@ metadata:
 spec:
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.2
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
   storage:
     size: 10Gi
     storageClass: truenas-ssd-iscsi
