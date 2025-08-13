@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: pg17-cluster
   annotations:
-    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+    cnpg.io/skipEmptyWalArchiveCheck: enabled
 spec:
   enableSuperuserAccess: true
   instances: 3
