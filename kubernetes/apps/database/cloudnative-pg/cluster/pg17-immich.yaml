@@ -4,48 +4,18 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: pg17-immich
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
-  backup:
-    retentionPolicy: 14d
-    barmanObjectStore: &barmanObjectStore
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 4
-      destinationPath: s3://cloudnative-pg/
-      endpointURL: https://s3.${SECRET_DOMAIN}
-      # Note: serverName version needs to be incremented when recovering from
-      # an existing CloudNativePG cluster.
-      serverName: pg17-immich-v1
-      s3Credentials:
-        accessKeyId:
-          name: &secret cloudnative-pg
-          key: s3-access-key
-        secretAccessKey:
-          name: *secret
-          key: s3-secret-key
-  # bootstrap:
-  #   initdb:
-  #     postInitSQL:
-  #       - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-  #     import:
-  #       databases: ["*"]
-  #       roles: ["*"]
-  #       source:
-  #         externalCluster: &previousCluster pgvectors
-  #       type: monolith
-  #   # Note: previousCluster needs to be set to the name of the previous cluster
-  #   # when recovering from an existing CloudNativePG cluster.
-  #   recovery:
-  #     source: &previousCluster pg17-immich-v1
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
-  monitoring:
-    enablePodMonitor: true
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.2
+  storage:
+    size: 10Gi
+    storageClass: truenas-ssd-iscsi
+  superuserSecret:
+    name: cloudnative-pg
   postgresql:
-    shared_preload_libraries: ["vchord.so"]
     parameters:
       autovacuum_vacuum_scale_factor: "0.1"
       autovacuum_analyze_scale_factor: "0.05"
@@ -62,25 +32,24 @@ spec:
       cpu: 200m
       memory: 1Gi
     limits:
+      # hugepages-2Mi: 2Gi # Requires sysctl set on the host.
       memory: 2Gi
-  storage:
-    size: 10Gi
-    storageClass: truenas-ssd-iscsi
-  superuserSecret:
-    name: cloudnative-pg
-  # Note: externalClusters is needed when recovering from an existing
-  # CloudNativePG cluster.
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
-  #   - name: *previousCluster
-  #     connectionParameters:
-  #       host: pg17-immich-rw.database.svc.cluster.local
-  #       user: postgres
-  #       dbname: postgres
-  #       sslmode: require
-  #     password:
-  #       name: *secret
-  #       key: password
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - enabled: true
+      isWALArchiver: false
+      name: barman-cloud.cloudnative-pg.io
+      parameters: &parameters
+        barmanObjectName: minio
+        serverName: pg17-immich-v1
+  # bootstrap:
+  #   recovery:
+  #     source: source
+  externalClusters:
+    - name: source
+      plugin:
+        enabled: true
+        isWALArchiver: false
+        name: barman-cloud.cloudnative-pg.io
+        parameters: *parameters
