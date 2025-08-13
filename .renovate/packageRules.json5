@@ -21,6 +21,12 @@
       versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
     },
     {
+      description: "Disable new meilisearch releases",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["**/getmeili/meilisearch"],
+      enabled: false
+    },
+    {
       description: "Disable new MinIO releases",
       matchDatasources: ["docker"],
       matchPackageNames: ["**/minio/minio"],
