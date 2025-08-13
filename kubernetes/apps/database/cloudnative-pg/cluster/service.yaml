@@ -52,3 +52,21 @@ spec:
   selector:
     cnpg.io/cluster: *dbcluster
     cnpg.io/instanceRole: primary
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: &dbcluster pg17-immich
+  # annotations:
+  #   lbipam.cilium.io/ips: ${SVC_VECTORDB_IP}
+  #   external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
+spec:
+  type: LoadBalancer
+  ports:
+    - name: postgres
+      port: &port 5432
+      protocol: TCP
+      targetPort: *port
+  selector:
+    cnpg.io/cluster: *dbcluster
+    cnpg.io/instanceRole: primary

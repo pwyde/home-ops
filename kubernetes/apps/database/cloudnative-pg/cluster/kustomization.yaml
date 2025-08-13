@@ -7,5 +7,6 @@ resources:
   # - ./gatus.yaml
   - ./immich-pg17.yaml
   - ./pg17-cluster.yaml
+  - ./pg17-immich.yaml
   - ./scheduledbackup.yaml
   - ./service.yaml
