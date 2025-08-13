@@ -3,23 +3,29 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: pg17-cluster
+  name: pg17-immich
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: enabled
 spec:
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.2
   storage:
     size: 10Gi
     storageClass: truenas-ssd-iscsi
   superuserSecret:
     name: cloudnative-pg
   postgresql:
+    shared_preload_libraries: ["vchord.so"]
     parameters:
+      autovacuum_vacuum_scale_factor: "0.1"
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_vacuum_cost_limit: "1000"
+      effective_io_concurrency: "200"
       max_connections: "300"
-      shared_buffers: 128MB
-      work_mem: 64MB
+      random_page_cost: "1.2"
+      shared_buffers: 256MB
+      work_mem: 16MB
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   resources:
@@ -33,11 +39,11 @@ spec:
     enablePodMonitor: true
   plugins:
     - enabled: true
-      isWALArchiver: true
+      isWALArchiver: false
       name: barman-cloud.cloudnative-pg.io
       parameters: &parameters
         barmanObjectName: minio
-        serverName: pg17-cluster-v1
+        serverName: pg17-immich-v1
   # bootstrap:
   #   recovery:
   #     source: source
