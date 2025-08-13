@@ -3,9 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: &dbcluster cluster-pg17
-  annotations:
-    lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
-    external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
+  # annotations:
+  #   lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
+  #   external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
   ports:
@@ -39,9 +39,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: &dbcluster pg17-cluster
-  # annotations:
-  #   lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
-  #   external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
+  annotations:
+    lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
+    external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
 spec:
   type: LoadBalancer
   ports:
