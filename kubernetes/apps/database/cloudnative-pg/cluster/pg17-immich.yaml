@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cluster-pg17
+  name: pg17-immich
 spec:
   backup:
     retentionPolicy: 14d
@@ -17,7 +17,7 @@ spec:
       endpointURL: https://s3.${SECRET_DOMAIN}
       # Note: serverName version needs to be incremented when recovering from
       # an existing CloudNativePG cluster.
-      serverName: cluster-pg17-v1
+      serverName: pg17-immich-v1
       s3Credentials:
         accessKeyId:
           name: &secret cloudnative-pg
@@ -27,26 +27,34 @@ spec:
           key: s3-secret-key
   # bootstrap:
   #   initdb:
+  #     postInitSQL:
+  #       - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
   #     import:
   #       databases: ["*"]
   #       roles: ["*"]
   #       source:
-  #         externalCluster: &previousCluster postgres17
+  #         externalCluster: &previousCluster pgvectors
   #       type: monolith
   #   # Note: previousCluster needs to be set to the name of the previous cluster
   #   # when recovering from an existing CloudNativePG cluster.
   #   recovery:
-  #     source: &previousCluster cluster-pg17-v1
+  #     source: &previousCluster pg17-immich-v1
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
   monitoring:
     enablePodMonitor: true
   postgresql:
+    shared_preload_libraries: ["vchord.so"]
     parameters:
+      autovacuum_vacuum_scale_factor: "0.1"
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_vacuum_cost_limit: "1000"
+      effective_io_concurrency: "200"
       max_connections: "300"
-      shared_buffers: 128MB
-      work_mem: 64MB
+      random_page_cost: "1.2"
+      shared_buffers: 256MB
+      work_mem: 16MB
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   resources:
@@ -69,7 +77,7 @@ spec:
   #       serverName: *previousCluster
   #   - name: *previousCluster
   #     connectionParameters:
-  #       host: postgres17-rw.database.svc.cluster.local
+  #       host: pg17-immich-rw.database.svc.cluster.local
   #       user: postgres
   #       dbname: postgres
   #       sslmode: require
