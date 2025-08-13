@@ -3,9 +3,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./cluster-pg17.yaml
   # - ./gatus.yaml
-  - ./immich-pg17.yaml
   - ./pg17-cluster.yaml
   - ./pg17-immich.yaml
   - ./scheduledbackup.yaml
