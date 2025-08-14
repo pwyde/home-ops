@@ -9,7 +9,7 @@ resources:
   # Flux-Kustomizations
   - ./alloy/ks.yaml
   - ./exporters
-  # - ./gatus/ks.yaml
+  - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./headlamp/ks.yaml
   - ./kromgo/ks.yaml

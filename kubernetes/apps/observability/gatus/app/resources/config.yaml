@@ -1,9 +1,9 @@
 ---
-# Note: Gatus variables should be escaped with $${VAR_NAME} to avoid interpolation by Flux.
 connectivity:
   checker:
     target: 1.1.1.1:53
     interval: 1m
+
 endpoints:
   - name: flux-webhook
     group: external
@@ -13,18 +13,26 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
+  - name: gatus
+    url: https://gatus.${SECRET_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://8.8.8.8:53
+    conditions:
+      - "[STATUS] == 200"
+
 metrics: true
-storage:
-  type: postgres
-  path: postgres://$${INIT_POSTGRES_USER}:$${INIT_POSTGRES_PASS}@$${INIT_POSTGRES_HOST}:5432/$${INIT_POSTGRES_DBNAME}?sslmode=disable
-  caching: true
+
 ui:
   title: Status | Gatus
   header: Status
+  logo: https://avatars.githubusercontent.com/u/34695534
+  link: https://github.com/pwyde
   buttons:
     - name: Github
       link: https://github.com/pwyde
     - name: Homelab
       link: https://github.com/pwyde/home-ops
+
 web:
-  port: $${WEB_PORT}
+  port: ${GATUS_WEB_PORT}
