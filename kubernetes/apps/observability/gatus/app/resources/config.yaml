@@ -1,4 +1,5 @@
 ---
+# Note: Gatus variables should be escaped with $${VAR_NAME} to avoid interpolation by Flux.
 connectivity:
   checker:
     target: 1.1.1.1:53
@@ -13,13 +14,6 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
-  - name: gatus
-    url: https://gatus.${SECRET_DOMAIN}
-    interval: 1m
-    client:
-      dns-resolver: tcp://8.8.8.8:53
-    conditions:
-      - "[STATUS] == 200"
 
 metrics: true
 
@@ -35,4 +29,4 @@ ui:
       link: https://github.com/pwyde/home-ops
 
 web:
-  port: ${GATUS_WEB_PORT}
+  port: $${GATUS_WEB_PORT}
