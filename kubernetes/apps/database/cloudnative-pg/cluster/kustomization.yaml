@@ -7,7 +7,7 @@ resources:
   # - ./gatus.yaml
   - ./objectstore.yaml
   - ./pg17-cluster.yaml
-  # - ./pg17-immich.yaml
+  - ./pg17-immich.yaml
   - ./prometheusrule.yaml
   - ./scheduledbackup.yaml
   - ./service.yaml
