@@ -9,7 +9,7 @@ metadata:
 spec:
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
   storage:
     size: 10Gi
     storageClass: truenas-ssd-iscsi
@@ -44,15 +44,13 @@ spec:
       parameters: &parameters
         barmanObjectName: minio
         serverName: pg17-immich-v1
-  bootstrap:
-    recovery:
-      source: source
+  # bootstrap:
+  #   recovery:
+  #     source: source
   externalClusters:
     - name: source
       plugin:
         enabled: true
         isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
-        parameters:
-          barmanObjectName: minio
-          serverName: immich-pg17-v1
+        parameters: *parameters
