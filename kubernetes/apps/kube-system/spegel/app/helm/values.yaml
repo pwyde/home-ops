@@ -1,14 +1,14 @@
 ---
-spegel:
-  appendMirrors: true
-  containerdSock: /run/containerd/containerd.sock
-  containerdRegistryConfigPath: /etc/cri/conf.d/hosts
+grafanaDashboard:
+  annotations:
+    grafana_folder: Kubernetes
+  enabled: true
 service:
   registry:
     hostPort: 29999
 serviceMonitor:
   enabled: true
-grafanaDashboard:
-  annotations:
-    grafana_folder: Kubernetes
-  enabled: true
+spegel:
+  appendMirrors: true
+  containerdSock: /run/containerd/containerd.sock
+  containerdRegistryConfigPath: /etc/cri/conf.d/hosts
