@@ -25,7 +25,7 @@ spec:
           web:
             image:
               repository: ghcr.io/karakeep-app/karakeep
-              tag: 0.25.0@sha256:572076596ea7fdaa189694d31dc8059743773b1f908d68d7c4af3737948ff3b3
+              tag: 0.26.0@sha256:f575a34ed3f8975225c156786442f177846126cf27d7fd37350f3af23c549d22
             env:
               BROWSER_WEB_URL: http://karakeep-chrome.self-hosted.svc.cluster.local:9222
               COREPACK_INTEGRITY_KEYS: 0
@@ -33,6 +33,7 @@ spec:
               CRAWLER_ENABLE_ADBLOCKER: true
               CRAWLER_STORE_SCREENSHOT: true
               DATA_DIR: /karakeep_data
+              DB_WAL_MODE: true
               DISABLE_NEW_RELEASE_CHECK: true
               DISABLE_SIGNUPS: true
               INFERENCE_CONTEXT_LENGTH: 4096
@@ -97,8 +98,8 @@ spec:
               capabilities: { drop: ["ALL"] }
           meilisearch:
             image:
-              repository: getmeili/meilisearch
-              tag: v1.15.2@sha256:fe500cf9cca05cb9f027981583f28eccf17d35d94499c1f8b7b844e7418152fc
+              repository: docker.io/getmeili/meilisearch
+              tag: v1.13.3@sha256:c4d6ab59c18d7b3636e82af862c31861ccf8afb3e9c14dddf9d3e868840667cd
             args:
               - /bin/meilisearch
               - --experimental-dumpless-upgrade

@@ -122,7 +122,7 @@
   "storageTemplate": {
     "enabled": true,
     "hashVerificationEnabled": true,
-    "template": "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+    "template": "{{`{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}`}}"
   },
   "image": {
     "thumbnail": {
@@ -163,15 +163,15 @@
   },
   "notifications": {
     "smtp": {
-      "enabled": false,
-      "from": "",
+      "enabled": true,
+      "from": "Immich <{{ .IMMICH_SMTP_USERNAME }}>",
       "replyTo": "",
       "transport": {
         "ignoreCert": false,
-        "host": "",
-        "port": 587,
-        "username": "",
-        "password": ""
+        "host": "{{ .SMTP_HOST }}",
+        "port": 465,
+        "username": "{{ .IMMICH_SMTP_USERNAME }}",
+        "password": "{{ .IMMICH_SMTP_PASSWORD }}"
       }
     }
   },

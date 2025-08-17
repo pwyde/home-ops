@@ -25,7 +25,7 @@ spec:
           server:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.135.3
+              tag: v1.138.0
             env: &env
               TZ: ${CONFIG_TIMEZONE}
               IMMICH_CONFIG_FILE: /config/immich.json
@@ -35,7 +35,6 @@ spec:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
               REDIS_DBINDEX: "3"
-              UPLOAD_LOCATION: /usr/src/app/upload
             envFrom: &envFrom
               - secretRef:
                   name: *app
@@ -79,7 +78,7 @@ spec:
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.135.3-cuda
+              tag: v1.138.0-cuda
             env:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
@@ -90,6 +89,8 @@ spec:
               # Also see the following comment: https://github.com/immich-app/immich/discussions/17105#discussioncomment-12620002
               # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
               # MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               MPLCONFIGDIR: /tmp/matplotlib
               NVIDIA_VISIBLE_DEVICES: "all"
               NVIDIA_DRIVER_CAPABILITIES: "all"
@@ -194,12 +195,18 @@ spec:
         globalMounts:
           - path: /cache
       config:
-        type: configMap
+        type: secret
         name: immich-config
         globalMounts:
           - path: /config/immich.json
             subPath: immich.json
             readOnly: true
+      data:
+        type: nfs
+        server: ${SECRET_NAS_IP}
+        path: ${SECRET_NFS_PATH_IMMICH}
+        globalMounts:
+          - path: /data
       photos:
         type: nfs
         server: ${SECRET_NAS_IP}
@@ -207,12 +214,6 @@ spec:
         globalMounts:
           - path: /photos
             readOnly: true
-      upload:
-        type: nfs
-        server: ${SECRET_NAS_IP}
-        path: ${SECRET_NFS_PATH_IMMICH}
-        globalMounts:
-          - path: /usr/src/app/upload
       tmp:
         type: emptyDir
         globalMounts:

@@ -25,7 +25,7 @@ spec:
           navidrome:
             image:
               repository: ghcr.io/navidrome/navidrome
-              tag: 0.57.0@sha256:d753f3f0ba65d838d288e58c2cb1254a519f439b88fa0fa8378178f5e8b17587
+              tag: 0.58.0@sha256:2ae037d464de9f802d047165a13b1c9dc2bdbb14920a317ae4aef1233adc0a3c
             env:
               TZ: ${CONFIG_TIMEZONE}
               ND_LOGLEVEL: info
@@ -33,15 +33,15 @@ spec:
               ND_CACHEFOLDER: /data/cache
               ND_MUSICFOLDER: /music
               ND_AUTOIMPORTPLAYLISTS: false
-              ND_ARTISTARTPRIORITY: 'folder.*, external'
-              ND_COVERARTPRIORITY: 'folder.*, cover.*, embedded, external'
-              ND_SCANSCHEDULE: '@every 1h'
-              ND_SESSIONTIMEOUT: '72h'
-              ND_IMAGECACHESIZE: '512MB'
-              ND_TRANSCODINGCACHESIZE: '512MB'
+              ND_ARTISTARTPRIORITY: "folder.*, external"
+              ND_COVERARTPRIORITY: "folder.*, cover.*, embedded, external"
+              ND_SCANNER_SCHEDULE: 0 * * * *
+              ND_SCANNER_PURGEMISSING: always
+              ND_IMAGECACHESIZE: "512MB"
+              ND_TRANSCODINGCACHESIZE: "512MB"
               ND_ENABLEINSIGHTSCOLLECTOR: false
               ND_PROMETHEUS_ENABLED: true
-              ND_DEFAULTTHEME: 'Spotify-ish'
+              ND_DEFAULTTHEME: "Spotify-ish"
               ND_REVERSEPROXYUSERHEADER: x-authentik-username
               ND_REVERSEPROXYWHITELIST: ${CLUSTER_POD_CIDR}
             probes:
@@ -65,7 +65,7 @@ spec:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
-              # readOnlyRootFilesystem: true # Disable during database upgrade.
+              readOnlyRootFilesystem: true # Disable during database upgrade.
               capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
