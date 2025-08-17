@@ -36,5 +36,5 @@ spec:
     remediation:
       retries: 3
   values:
-    controller:
-      replicas: 1
+    storageClass:
+      create: false

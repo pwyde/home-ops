@@ -19,7 +19,6 @@ spec:
   values:
     controllers:
       atuin:
-        replicas: 2
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
