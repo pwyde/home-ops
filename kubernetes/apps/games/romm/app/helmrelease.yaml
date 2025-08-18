@@ -29,6 +29,11 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: *app
+          copy-config:
+            image:
+              repository: busybox
+              tag: 1.37.0@sha256:ab33eacc8251e3807b85bb6dba570e4698c3998eca6f0fc2ccb60575a563ea74
+            command: ["cp", "/romm/config-template/config.yml", "/romm/config/config.yml"]
         containers:
           romm:
             image:
@@ -118,10 +123,11 @@ spec:
       romm-config-file:
         type: configMap
         name: romm-config
-        globalMounts:
-          - path: /romm/config/config.yml
-            subPath: config.yml
         defaultMode: 0664
+        globalMounts:
+          - path: /romm/config-template/config.yml
+            subPath: config.yml
+            readOnly: true
       romm-assets:
         type: nfs
         server: ${SECRET_NAS_IP}
