@@ -3,11 +3,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: &cluster pg17-cluster
+  name: &name pg17-cluster
 spec:
   backupOwnerReference: self
   cluster:
-    name: *cluster
+    name: *name
   immediate: true
   method: plugin
   pluginConfiguration:
@@ -18,11 +18,11 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: &cluster pg17-immich
+  name: &name pg17-immich
 spec:
   backupOwnerReference: self
   cluster:
-    name: *cluster
+    name: *name
   immediate: true
   method: plugin
   pluginConfiguration:
