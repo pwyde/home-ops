@@ -1,7 +1,7 @@
 ---
 services:
   graphite-exporter:
-    image: ghcr.io/supporterino/truenas-graphite-to-prometheus:v2.0.1
+    image: ghcr.io/supporterino/truenas-graphite-to-prometheus:v2.1.0
     container_name: graphite-exporter
     restart: unless-stopped
     environment:
