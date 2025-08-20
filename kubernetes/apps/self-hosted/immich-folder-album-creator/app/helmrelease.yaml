@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app immich-folder-album-creator
+  name: immich-folder-album-creator
 spec:
   interval: 1h
   chartRef:
@@ -28,7 +28,7 @@ spec:
           successfulJobsHistory: 1
           failedJobsHistory: 1
         containers:
-          immich-folder-album-creator:
+          app:
             image:
               repository: ghcr.io/salvoxia/immich-folder-album-creator
               tag: 0.20.0@sha256:009fbd59f5030cf8d71eee4b283fdba16c7e16afec7e7f5857c4cca76d10a574
@@ -51,7 +51,7 @@ spec:
               UNATTENDED: 1
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
