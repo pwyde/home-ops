@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app jsoncrack
+  name: jsoncrack
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          jsoncrack:
+          app:
             image:
               repository: docker.io/enmanuelmoreira/jsoncrack
               tag: v4.0.0@sha256:8006a7279c34551a06fd218e808e68cd6910bd8f33667bc5b6b1f210e27e1a1f
@@ -50,7 +50,6 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             port: 80

@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: talos-debug-tools-ssh-config
+  - name: talos-debug-tools-configmap
     files:
       - authorized_keys=./resources/authorized_keys
 generatorOptions:

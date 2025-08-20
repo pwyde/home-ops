@@ -21,7 +21,7 @@ spec:
       talos-debug-tools:
         type: daemonset
         containers:
-          talos-debug-tools:
+          app:
             image:
               repository: ghcr.io/aarnaud/talos-debug-tools
               # tag: latest-6.6.43@sha256:3ed9e526a2e62b143a3fd2c54da8ade0cffcfa3db62a784c2f61ddc55da6a63a
@@ -74,7 +74,7 @@ spec:
         hostPathType: Directory
         advancedMounts:
           talos-debug-tools:
-            talos-debug-tools:
+            app:
               - path: /var/lib/kubelet
                 mountPropagation: Bidirectional
       dev:
@@ -89,7 +89,7 @@ spec:
         hostPathType: ""
         advancedMounts:
           talos-debug-tools:
-            talos-debug-tools:
+            app:
               - path: /lib/modules
                 readOnly: true
       etc-localtime:
@@ -99,7 +99,7 @@ spec:
         hostPathType: ""
         advancedMounts:
           talos-debug-tools:
-            talos-debug-tools:
+            app:
               - path: /etc/localtime
                 readOnly: true
       run-udev:
@@ -119,7 +119,7 @@ spec:
         hostPathType: Directory
         advancedMounts:
           talos-debug-tools:
-            talos-debug-tools:
+            app:
               - path: /host
                 mountPropagation: Bidirectional
       var-log-pods:
@@ -134,7 +134,7 @@ spec:
         hostPathType: ""
       ssh:
         type: configMap
-        name: talos-debug-tools-ssh-config
+        name: "{{ .Release.Name }}-configmap"
         defaultMode: 448
         globalMounts:
           - path: /root/.ssh/authorized_keys
