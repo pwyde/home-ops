@@ -48,7 +48,7 @@ spec:
               values:
                 - "true"
     config:
-      name: &configMap nvidia-device-plugin-config
+      name: &configMap nvidia-device-plugin-configmap
     gfd:
       enabled: true
     nfd:
