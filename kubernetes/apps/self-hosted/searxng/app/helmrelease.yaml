@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app searxng
+  name: searxng
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          searxng:
+          app:
             image:
               repository: docker.io/searxng/searxng
               tag: latest
@@ -31,9 +31,9 @@ spec:
               SEARXNG_BASE_URL: https://search.${SECRET_DOMAIN}
               SEARXNG_URL: https://search.${SECRET_DOMAIN}
               SEARXNG_PORT: &port 8080
-            envFrom:
+            envFrom: &envFrom
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -94,9 +94,7 @@ spec:
               VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-            envFrom:
-              - secretRef:
-                  name: *app
+            envFrom: *envFrom
             probes:
               liveness:
                 enabled: true
@@ -118,22 +116,21 @@ spec:
                   failureThreshold: 5
             resources:
               requests:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 50m
+                memory: 128Mi
                 # Request the /dev/net/tun device that is exposed on the node
                 # using generic-device-plugin. For more information, see:
                 # - https://www.talos.dev/v1.8/introduction/what-is-new/#accessing-devnettun-in-kubernetes-pods
                 # - https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
                 squat.ai/tun: "1"
               limits:
-                memory: 768Mi
+                memory: 256Mi
                 squat.ai/tun: "1"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { add: ["NET_ADMIN"] }
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -156,7 +153,7 @@ spec:
     persistence:
       dnsdist-config:
         type: configMap
-        name: dnsdist-config
+        name: dnsdist-configmap
         globalMounts:
           - path: /etc/dnsdist/dnsdist.conf
             subPath: dnsdist.conf
@@ -167,7 +164,7 @@ spec:
           - path: /etc/searxng
       searxng-config:
         type: configMap
-        name: searxng-config
+        name: searxng-configmap
         globalMounts:
           - path: /etc/searxng/limiter.toml
             subPath: limiter.toml
