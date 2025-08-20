@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          minio:
+          app:
             image:
               repository: quay.io/minio/minio
               # Note: Stay on this release due to the following PR: https://github.com/minio/object-browser/pull/3509
@@ -40,7 +40,7 @@ spec:
               MINIO_UPDATE: "off"
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             args: ["server", "/data", "--console-address", ":9001"]
             probes:
               liveness: &probes
@@ -74,7 +74,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
             port: 9001
@@ -82,7 +81,6 @@ spec:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: s3
             scheme: http
