@@ -151,19 +151,19 @@ spec:
         ports:
           http:
             port: *mlPort
-    serviceMonitor:
-      app:
-        endpoints:
-          - port: metrics-api
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 30s
-          - port: metrics-ms
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 30s
+    # serviceMonitor:
+    #   app:
+    #     endpoints:
+    #       - port: metrics-api
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 30s
+    #       - port: metrics-ms
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 30s
     ingress:
       app:
         annotations:
