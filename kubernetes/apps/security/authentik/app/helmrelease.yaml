@@ -42,8 +42,6 @@ spec:
       error_reporting:
         enabled: false
         send_pii: false
-      worker:
-        concurrency: 4
     server:
       replicas: 1
       initContainers:
