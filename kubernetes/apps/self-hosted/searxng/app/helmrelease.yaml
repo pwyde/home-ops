@@ -164,7 +164,7 @@ spec:
           - path: /etc/searxng
       searxng-config:
         type: configMap
-        name: searxng-configmap
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
           - path: /etc/searxng/limiter.toml
             subPath: limiter.toml

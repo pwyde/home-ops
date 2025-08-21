@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app qbittorrent-exporter
+  name: qbittorrent-exporter
 spec:
   interval: 1h
   chartRef:
@@ -20,7 +20,7 @@ spec:
     controllers:
       qbittorrent-exporter:
         containers:
-          qbittorrent-exporter:
+          app:
             image:
               repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
               tag: v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842
@@ -50,13 +50,11 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
             scheme: http

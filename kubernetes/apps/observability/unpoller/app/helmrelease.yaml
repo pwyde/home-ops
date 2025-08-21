@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app unpoller
+  name: unpoller
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          unpoller:
+          app:
             image:
               repository: ghcr.io/unpoller/unpoller
               tag: v2.15.4@sha256:788a890f2dc5aef3e99ce430917221c43b4e084464d38bc6537a8c7294ef8770
@@ -36,7 +36,7 @@ spec:
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -67,13 +67,11 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
             scheme: http

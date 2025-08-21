@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app kromgo
+  name: kromgo
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          kromgo:
+          app:
             image:
               repository: ghcr.io/kashalls/kromgo
               tag: v0.7.1@sha256:d8fca4ff9b696abc4ca019c76fa629c39e844e4d9435f4afac87a97b1eeae152
@@ -60,7 +60,6 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             primary: true
@@ -85,7 +84,7 @@ spec:
     persistence:
       config-file:
         type: configMap
-        name: kromgo-config
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
           - path: /kromgo/config.yaml
             subPath: config.yaml

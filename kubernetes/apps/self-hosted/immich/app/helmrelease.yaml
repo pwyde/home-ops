@@ -180,7 +180,7 @@ spec:
           - path: /cache
       config:
         type: secret
-        name: immich-config-secret
+        name: "{{ .Release.Name }}-config-secret"
         globalMounts:
           - path: /config/immich.json
             subPath: immich.json
