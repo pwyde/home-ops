@@ -7,7 +7,7 @@ resources:
   - ./priorityclass.yaml
   - ./runtimeclass.yaml
 configMapGenerator:
-  - name: nvidia-device-plugin-config
+  - name: nvidia-device-plugin-configmap
     files:
       - config.yaml=./resources/config.yaml
 generatorOptions:

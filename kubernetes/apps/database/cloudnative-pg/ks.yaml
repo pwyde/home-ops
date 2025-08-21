@@ -41,7 +41,7 @@ spec:
   postBuild:
     substitute:
       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar
-      SIDECAR_IMAGE_VERSION: v0.5.0
+      SIDECAR_IMAGE_VERSION: v0.6.0
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -71,11 +71,11 @@ spec:
       namespace: storage
     - name: onepassword
       namespace: security
-  healthCheckExprs:
-    - apiVersion: postgresql.cnpg.io/v1
-      kind: Cluster
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+  # healthCheckExprs:
+  #   - apiVersion: postgresql.cnpg.io/v1
+  #     kind: Cluster
+  #     current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  #     failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:

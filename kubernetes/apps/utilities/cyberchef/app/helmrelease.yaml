@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app cyberchef
+  name: cyberchef
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          cyberchef:
+          app:
             image:
               repository: ghcr.io/gchq/cyberchef
               tag: 10.19.4@sha256:a2bfe382b2547bdd0a3d0523b9a6b85fab833c56bcec86d600ba6266910b533e
@@ -58,7 +58,6 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port

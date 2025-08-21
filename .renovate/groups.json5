@@ -20,6 +20,16 @@
       },
     },
     {
+      description: "Barman Cloud Group",
+      groupName: "Barman Cloud",
+      matchDatasources: ["docker", "github-releases"],
+      matchPackageNames: ["**/plugin-barman-cloud", "**/plugin-barman-cloud-sidecar"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      minimumGroupSize: 2,
+    },
+    {
       description: "Cert-Manager Group",
       groupName: "Cert-Manager",
       matchDatasources: ["docker"],

@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: generic-device-plugin-config
+  - name: generic-device-plugin-configmap
     files:
       - config.yaml=./resources/config.yaml
 generatorOptions:

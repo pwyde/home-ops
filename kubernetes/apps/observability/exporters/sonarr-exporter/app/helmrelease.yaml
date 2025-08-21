@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app sonarr-exporter
+  name: sonarr-exporter
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          sonarr-exporter:
+          app:
             image:
               repository: ghcr.io/onedr0p/exportarr
               tag: v2.3.0@sha256:af535d94061cf97a52e1661945ffba78c03f9443eae7c0da1a80a5a4be56b520
@@ -35,7 +35,7 @@ spec:
               URL: http://sonarr.media.svc.cluster.local:80
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness:
                 enabled: true
@@ -58,13 +58,11 @@ spec:
         runAsGroup: *uid
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
             scheme: http
