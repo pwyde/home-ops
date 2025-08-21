@@ -188,7 +188,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { add: ["NET_ADMIN"] }
           vuetorrent:
-            dependsOn: "{{ .Release.Name }}"
+            dependsOn: app
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.4.2
