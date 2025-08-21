@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app navidrome
+  name: navidrome
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          navidrome:
+          app:
             image:
               repository: ghcr.io/navidrome/navidrome
               tag: 0.58.0@sha256:2ae037d464de9f802d047165a13b1c9dc2bdbb14920a317ae4aef1233adc0a3c
@@ -77,13 +77,11 @@ spec:
         supplementalGroups: [4000]
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
             scheme: http
@@ -117,7 +115,7 @@ spec:
               - *customHost
     persistence:
       data:
-        existingClaim: ${VOLSYNC_CLAIM}
+        existingClaim: "{{ .Release.Name }}"
       music:
         type: nfs
         server: ${SECRET_NAS_IP}

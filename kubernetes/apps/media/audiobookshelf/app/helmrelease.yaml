@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app audiobookshelf
+  name: audiobookshelf
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          audiobookshelf:
+          app:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.28.0@sha256:b854ec08b1a7bee67c3274f1df5dce2143f48e05cbce5ada356c38662694f7fe
@@ -63,7 +63,6 @@ spec:
         supplementalGroups: [4000]
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -89,7 +88,7 @@ spec:
         globalMounts:
           - path: /.npm
       config:
-        existingClaim: ${VOLSYNC_CLAIM}
+        existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
         server: ${SECRET_NAS_IP}
