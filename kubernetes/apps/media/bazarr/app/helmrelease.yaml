@@ -56,26 +56,10 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 1Gi
-            securityContext: &securityContext
+            securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-          subcleaner:
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.4.2@sha256:3089d9787b89bdc5af01d9f6e8d515aefb9672e8aea3972d7ff67478112bacb3
-            env:
-              GITSYNC_REPO: https://github.com/KBlixt/subcleaner
-              GITSYNC_REF: master
-              GITSYNC_PERIOD: 24h
-              GITSYNC_ROOT: /addons
-            resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
-                memory: 128Mi
-            securityContext: *securityContext
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -104,8 +88,6 @@ spec:
           - hosts:
               - *host
     persistence:
-      addons:
-        type: emptyDir
       config:
         existingClaim: ${VOLSYNC_CLAIM}
       media:
@@ -114,13 +96,5 @@ spec:
         path: ${SECRET_NFS_PATH_MEDIA}
         globalMounts:
           - path: /data
-      scripts:
-        type: configMap
-        name: bazarr-scripts
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/subcleaner.sh
-            subPath: subcleaner.sh
-            readOnly: true
       tmp:
         type: emptyDir
