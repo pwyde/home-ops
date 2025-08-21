@@ -6,7 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: immich-config-tpl
+  - name: immich-configmap
     files:
       - immich.json=./resources/config.json
 configurations:

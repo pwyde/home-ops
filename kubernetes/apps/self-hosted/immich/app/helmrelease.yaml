@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app immich
+  name: immich
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          server:
+          app:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.138.1
@@ -37,7 +37,7 @@ spec:
               REDIS_DBINDEX: "3"
             envFrom: &envFrom
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -139,8 +139,7 @@ spec:
         fsGroup: *gid
         fsGroupChangePolicy: OnRootMismatch
     service:
-      server:
-        controller: *app
+      app:
         ports:
           http:
             port: *port
@@ -149,13 +148,11 @@ spec:
           metrics-ms:
             port: 8082
       machine-learning:
-        controller: *app
         ports:
           http:
             port: *mlPort
     serviceMonitor:
-      immich:
-        serviceName: server
+      app:
         endpoints:
           - port: metrics-api
             scheme: http
@@ -168,7 +165,7 @@ spec:
             interval: 1m
             scrapeTimeout: 30s
     ingress:
-      immich:
+      app:
         annotations:
           # Set to 0 to remove the body limit on file uploads.
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -181,7 +178,7 @@ spec:
             paths: &paths
               - path: /
                 service:
-                  identifier: server
+                  identifier: app
                   port: http
           - host: &customHost foto.${SECRET_DOMAIN}
             paths: *paths
@@ -191,12 +188,12 @@ spec:
               - *customHost
     persistence:
       cache:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /cache
       config:
         type: secret
-        name: immich-config
+        name: immich-config-secret
         globalMounts:
           - path: /config/immich.json
             subPath: immich.json
