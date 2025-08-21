@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app pgadmin
+  name: pgadmin
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          pgadmin:
+          app:
             image:
               repository: docker.io/dpage/pgadmin4
               tag: 9.7@sha256:5929bac24d91b5d7219686c8d66a703cd5851a498620bca4f5e4263873b015c0
@@ -31,7 +31,7 @@ spec:
               PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
             envFrom:
               - secretRef:
-                  name: *app
+                  name: &secret "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -61,7 +61,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -81,20 +80,20 @@ spec:
     persistence:
       config:
         type: configMap
-        name: pgadmin-config
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
           - path: /pgadmin4/servers.json
             subPath: servers.json
             readOnly: true
       oauth:
         type: secret
-        name: *app
+        name: *secret
         globalMounts:
           - path: /pgadmin4/config_local.py
             subPath: config_local.py
             readOnly: true
       pgadmin:
-        existingClaim: ${VOLSYNC_CLAIM}
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /var/lib/pgadmin
 

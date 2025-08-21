@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app radarr
+  name: radarr
 spec:
   interval: 1h
   chartRef:
@@ -28,9 +28,9 @@ spec:
               tag: 17
             envFrom: &envFrom
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
         containers:
-          radarr:
+          app:
             image:
               repository: ghcr.io/home-operations/radarr
               tag: 5.27.4.10176@sha256:4b9c3548ff82a9f3e4ccdabb2d7044da8167c42003ac96164c3e1a5287730538
@@ -78,7 +78,6 @@ spec:
         supplementalGroups: [4000]
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -106,20 +105,12 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: ${VOLSYNC_CLAIM}
+        existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
         server: ${SECRET_NAS_IP}
         path: ${SECRET_NFS_PATH_MEDIA}
         globalMounts:
           - path: /data
-      scripts:
-        type: configMap
-        name: radarr-scripts
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/pushover-notifier.sh
-            subPath: pushover-notifier.sh
-            readOnly: true
       tmp:
         type: emptyDir

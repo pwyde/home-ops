@@ -5,12 +5,3 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: sonarr-scripts
-    files:
-      - pushover-notifier.sh=./resources/pushover-notifier.sh
-      - tba-refresher.sh=./resources/tba-refresher.sh
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
