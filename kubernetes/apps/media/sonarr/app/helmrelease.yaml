@@ -113,16 +113,5 @@ spec:
         path: ${SECRET_NFS_PATH_MEDIA}
         globalMounts:
           - path: /data
-      scripts:
-        type: configMap
-        name: sonarr-scripts
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/pushover-notifier.sh
-            subPath: pushover-notifier.sh
-            readOnly: true
-          - path: /scripts/tba-refresher.sh
-            subPath: tba-refresher.sh
-            readOnly: true
       tmp:
         type: emptyDir
