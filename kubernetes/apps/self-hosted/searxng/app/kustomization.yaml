@@ -6,11 +6,11 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: searxng-config
+  - name: searxng-configmap
     files:
       - limiter.toml=./resources/limiter.toml
       - settings.yml=./resources/settings.yaml
-  - name: dnsdist-config
+  - name: dnsdist-configmap
     files:
       - dnsdist.conf=./resources/dnsdist.conf
 generatorOptions:
