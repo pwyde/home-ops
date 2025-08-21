@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app ollama
+  name: ollama
 spec:
   interval: 1h
   chartRef:
@@ -20,7 +20,7 @@ spec:
     controllers:
       ollama:
         containers:
-          ollama:
+          app:
             image:
               repository: docker.io/ollama/ollama
               tag: 0.11.6@sha256:1868fd51253099b8f48b89b981e5d8ba23e4db161a501b86e29593071c1c069b
@@ -51,7 +51,7 @@ spec:
         job:
           ttlSecondsAfterFinished: 300
         containers:
-          pull-models:
+          app:
             image:
               repository: docker.io/curlimages/curl
               tag: 8.15.0@sha256:4026b29997dc7c823b51c164b71e2b51e0fd95cce4601f78202c513d97da2922
@@ -97,7 +97,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
             port: 11434
@@ -116,7 +115,7 @@ spec:
               - *host
     persistence:
       models:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: *modelPath
       config:

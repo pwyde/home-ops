@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app romm
+  name: romm
 spec:
   interval: 1h
   chartRef:
@@ -28,14 +28,14 @@ spec:
               tag: 17
             envFrom: &envFrom
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
           copy-config:
             image:
               repository: busybox
               tag: 1.37.0@sha256:ab33eacc8251e3807b85bb6dba570e4698c3998eca6f0fc2ccb60575a563ea74
             command: ["cp", "/romm/config-template/config.yml", "/romm/config/config.yml"]
         containers:
-          romm:
+          app:
             image:
               repository: ghcr.io/rommapp/romm
               tag: 4.1.4@sha256:293b2f0fcd690169923bc1d3ae6b41c709bf0655d8d02e04fd7882fc0ee01286
@@ -89,7 +89,6 @@ spec:
         supplementalGroups: [3000]
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -112,7 +111,7 @@ spec:
         globalMounts:
           - path: /etc/nginx/conf.d
       romm-data:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /romm
             readOnly: false
@@ -122,7 +121,7 @@ spec:
           - path: /romm/config
       romm-config-file:
         type: configMap
-        name: romm-config
+        name: "{{ .Release.Name }}-configmap"
         defaultMode: 0664
         globalMounts:
           - path: /romm/config-template/config.yml

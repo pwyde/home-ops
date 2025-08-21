@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app qbittorrent
+  name: qbittorrent
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          qbittorrent:
+          app:
             image:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.2@sha256:9dd0164cc23e9c937e0af27fd7c3f627d1df30c182cf62ed34d3f129c55dc0e8
@@ -152,7 +152,7 @@ spec:
               VPN_INTERFACE: wg0
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness:
                 enabled: true
@@ -188,7 +188,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { add: ["NET_ADMIN"] }
           vuetorrent:
-            dependsOn: *app
+            dependsOn: "{{ .Release.Name }}"
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.4.2
@@ -210,7 +210,6 @@ spec:
         supplementalGroups: [*gid]
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -243,10 +242,10 @@ spec:
       addons:
         type: emptyDir
       config:
-        existingClaim: ${VOLSYNC_CLAIM}
+        existingClaim: "{{ .Release.Name }}"
       config-categories:
         type: secret
-        name: qbittorrent-categories
+        name: qb-categories-secret
         globalMounts:
           - path: /config/qBittorrent/categories.json
             subPath: categories.json

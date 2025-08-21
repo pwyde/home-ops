@@ -1,15 +1,11 @@
 apiVersion: v1
 kind: Secret
 metadata:
-    name: qbittorrent-categories
+    name: qb-categories-secret
     namespace: downloads
 stringData:
     categories.json: ENC[AES256_GCM,data:62d1332JfTVY4iApEh7VNHtyj6gU200rTs6/hOtKnTQtaQAu8cGQolhm9YafA7wgXt4q1ezbLYCIytQHXJZ9ftJ6r/bSFzj4Zydv9eCfY9Cd4aYxOOfLF3ShGT0po88Dw05azp/4jyPv69jHqo3YwfNnzpNkn/9bj7J896ZlXSQitP+Lf9t5soIOQUQ6xwt5HCGrFwU6LZ+3fCujPnUFwG3Go/3fGXzu3RvXHH5499imcYfYSoe9Vb4S7wT8qGTRPrmnEhoqm+nxriql5XMiyA/moSQYOO8lPqYcdKT3fEr8tV+jVxBledrHU1xzkq1+RLZgv+Dn7AtoLd1M8gDSZAe1tVBsZUrCj3lXvsaUr7XYvf/RBJd+hpF6gb5s8Zq/PZ/S0JdRECeCOrRo6/DVsa2p9zaY8n10lxf5Ry4B0bDis0TkW5xQisR//xGaJ/BpI5Xv8FY1ToMtPuOA3Ux5Tuvw1/JnQRnJhvPbfi8/rWGtxsn02Q==,iv:B15pOXFvsSObLpBsB1ZodcnWr1EA80n0qbfmkjpeT7M=,tag:yBlI3k3HOko2XTQn3RhkQQ==,type:str]
 sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
     age:
         - recipient: age16jrnvsqz55me3ju4kl96y2tjs90gygyvk5ren7ch8mv2rxtrqvus508fpn
           enc: |
@@ -20,9 +16,8 @@ sops:
             RTRUYTNQZE9MbS9vcjNScmRONkg4NFkKM9plo6ZeKKdBXlyyJqAkBPnCoo7qzW0c
             uCOPNJeHPmlLbsR/Mo6fv09B20OCwlPcFBGfee8odqsbQjtwr7Pkzw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-02-07T10:40:39Z"
-    mac: ENC[AES256_GCM,data:N9ZlWN7KvibRrMXVWs4JU4efE1HZLy3VKpc/JpfFpyVTCO1adCG20GjV1Abgfziwd6bdIO5KS/Xw12Ii+Dne9bDpSxwpnCg03S1VFHmfOuaip1LgOGHOkNcBu81oJmLYqFxNfGejvlI0Kg7kQw5j3PvVSewNd71ILxha9Mx4yM0=,iv:hJRXgUPL+utFNfzJ7gg9cgL7lPZQwLtbQKSZ98/yMGo=,tag:a7NHmgopOweTXbL/94tJHg==,type:str]
-    pgp: []
+    lastmodified: "2025-08-21T21:02:57Z"
+    mac: ENC[AES256_GCM,data:O86PtMgsexvFLBvSrwcHupVNRhlnhXl2+wTr33D4mJrUJadNtiynS+AkxmQXa5Z3dcwgKUp0SW08bnZx6L2ne8K0tJZbesQhgLBFdChRvkV3VgYaUenwdJGrHimnVYUtCKIiaiXe4RmjE2tSfYrt90GgmNVJm4rJcCHLPR0OR/s=,iv:vcyJk/YjI74tgSsOvqy1QSn3VlsDyP3Y9AQpOjuNz6E=,tag:UhmupdzsyNRJBwM/2gzJkQ==,type:str]
     encrypted_regex: ^(data|stringData)$
     mac_only_encrypted: true
-    version: 3.9.1
+    version: 3.10.2
