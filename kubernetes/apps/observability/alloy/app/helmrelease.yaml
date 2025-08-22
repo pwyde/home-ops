@@ -35,7 +35,7 @@ spec:
     alloy:
       configMap:
         create: false
-        name: &name alloy-config
+        name: &name alloy-configmap
         key: config.alloy
     controller:
       podAnnotations:

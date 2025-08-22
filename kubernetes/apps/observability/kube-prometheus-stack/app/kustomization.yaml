@@ -9,7 +9,7 @@ resources:
   - ./prometheusrule.yaml
   - ./scrapeconfig.yaml
 configMapGenerator:
-  - name: kube-state-metrics-config
+  - name: kube-state-metrics-configmap
     files:
       - kube-state-metrics-config.yaml=./resources/kube-state-metrics.yaml
     options:
