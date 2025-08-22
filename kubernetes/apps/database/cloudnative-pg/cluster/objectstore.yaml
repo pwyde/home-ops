@@ -11,7 +11,7 @@ spec:
     endpointURL: https://s3.${SECRET_DOMAIN}
     s3Credentials:
       accessKeyId:
-        name: &name cloudnative-pg
+        name: &name cloudnative-pg-secret
         key: S3_ACCESS_KEY_ID
       secretAccessKey:
         name: *name
