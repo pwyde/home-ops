@@ -37,7 +37,7 @@ spec:
     size: 10Gi
     storageClass: truenas-ssd-iscsi
   superuserSecret:
-    name: cloudnative-pg
+    name: cloudnative-pg-secret
   # bootstrap:
   #   recovery:
   #     source: source
@@ -93,7 +93,7 @@ spec:
     size: 10Gi
     storageClass: truenas-ssd-iscsi
   superuserSecret:
-    name: cloudnative-pg
+    name: cloudnative-pg-secret
   # bootstrap:
   #   recovery:
   #     source: source

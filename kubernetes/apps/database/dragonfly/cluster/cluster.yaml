@@ -13,7 +13,7 @@ spec:
     - --default_lua_flags=allow-undeclared-keys
   authentication:
     passwordFromSecret:
-      name: *app
+      name: dragonfly-secret
       key: password
   env:
     - name: MAX_MEMORY

@@ -38,7 +38,7 @@ spec:
   valuesFrom:
     - targetPath: controller.maxmindLicenseKey
       kind: Secret
-      name: ingress-nginx-external
+      name: ingress-nginx-external-secret
       valuesKey: MAXMIND_LICENSE_KEY
   values:
     fullnameOverride: *app

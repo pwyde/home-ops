@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
-  name: &name alertmanager
+  name: alertmanager
 spec:
   route:
     groupBy: ["alertname", "job"]
@@ -66,9 +66,9 @@ spec:
             {{ .CommonLabels.alertname }}
           ttl: 86400s
           token:
-            name: *name
+            name: &secret alertmanager-secret
             key: ALERTMANAGER_PUSHOVER_TOKEN
           userKey:
-            name: *name
+            name: *secret
             key: PUSHOVER_USER_KEY
           urlTitle: View in Alertmanager
