@@ -64,7 +64,7 @@ spec:
     enablePodMonitor: true
   plugins:
     - enabled: true
-      isWALArchiver: false
+      isWALArchiver: true
       name: barman-cloud.cloudnative-pg.io
       parameters: &parameters
         barmanObjectName: minio
