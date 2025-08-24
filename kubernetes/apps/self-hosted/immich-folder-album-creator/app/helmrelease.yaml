@@ -36,7 +36,7 @@ spec:
             env:
               TZ: *tz
               ROOT_PATH: /photos
-              API_URL: http://immich-server.self-hosted.svc.cluster.local:2283/api
+              API_URL: http://immich-app.self-hosted.svc.cluster.local:2283/api
               ALBUM_LEVELS: 1
               LOG_LEVEL: DEBUG
               SET_ALBUM_THUMBNAIL: random
