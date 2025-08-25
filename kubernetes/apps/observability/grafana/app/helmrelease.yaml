@@ -215,12 +215,6 @@ spec:
       database:
       default:
       downloads:
-        flaresolverr:
-          # renovate: depName="FlareSolverr"
-          gnetId: 19363
-          revision: 1
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
         qbittorrent-exporter:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/qbittorrent.json
           datasource:
