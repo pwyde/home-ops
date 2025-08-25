@@ -205,9 +205,6 @@ spec:
         readOnlyRootFilesystem: false
     collabora:
       enabled: true
-      # image:
-      #   repository: docker.io/collabora/code
-      #   tag: 25.04.4.2.1@sha256:05df5e537bf7a72f31c6acb72a37dcf74c77893af5a285c0746c1cc590165fb7
       collabora:
         extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN} --o:num_prespawn_children=4
         env:
