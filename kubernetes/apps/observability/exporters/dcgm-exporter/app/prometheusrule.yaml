@@ -12,7 +12,7 @@ spec:
           annotations:
             summary: >-
               High GPU usage on node {{ $labels.Hostname }}
-          expr: |
+          expr: |-
             rate(DCGM_FI_DEV_GPU_UTIL[15m]) > 0.85
           for: 15m
           labels:

@@ -12,7 +12,7 @@ spec:
           annotations:
             summary: >-
               Sonarr may have items stuck in the queue (instance {{ $labels.instance }})
-          expr: |
+          expr: |-
             sonarr_queue_total AND changes(sonarr_queue_total[1h]) == 0
           for: 4h
           labels:

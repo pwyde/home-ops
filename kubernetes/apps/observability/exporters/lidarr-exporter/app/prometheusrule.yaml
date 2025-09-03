@@ -12,7 +12,7 @@ spec:
           annotations:
             summary: >-
               Lidarr may have items stuck in the queue (instance {{ $labels.instance }})
-          expr: |
+          expr: |-
             lidarr_queue_total AND changes(lidarr_queue_total[1h]) == 0
           for: 4h
           labels:
