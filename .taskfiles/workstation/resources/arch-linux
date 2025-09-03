@@ -17,3 +17,4 @@ sops
 stern-bin
 talhelper-bin
 talosctl
+yamlfmt
