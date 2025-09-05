@@ -8,11 +8,8 @@ tasks:
 
   encrypt-all:
     desc: Encrypt ALL secret files in current directory with SOPS
-    prompt: This will encrypt ALL secret files in current directory with SOPS... Continue?
     dir: '{{.USER_WORKING_DIR}}'
-    vars:
-      SECRET_FILES:
-        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    prompt: This will encrypt ALL secret files in current directory with SOPS... Continue?
     cmds:
       - for: {var: SECRET_FILES}
         cmd: |
@@ -20,6 +17,9 @@ tasks:
               echo "Encrypting {{ .ITEM }}"
               sops --encrypt --in-place "{{.ITEM}}"
           fi
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
     preconditions:
       - test -f {{.SOPS_AGE_KEY_FILE}}
       - test -f {{.SOPS_CONFIG_FILE}}
@@ -27,11 +27,8 @@ tasks:
 
   decrypt-all:
     desc: Decrypt ALL secret files in current directory with SOPS
-    prompt: This will decrypt ALL secret files in current directory with SOPS... Continue?
     dir: '{{.USER_WORKING_DIR}}'
-    vars:
-      SECRET_FILES:
-        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    prompt: This will decrypt ALL secret files in current directory with SOPS... Continue?
     cmds:
       - for: {var: SECRET_FILES}
         cmd: |
@@ -39,6 +36,9 @@ tasks:
               echo "Decrypting {{ .ITEM }}"
               sops --decrypt --in-place "{{.ITEM}}"
           fi
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
     preconditions:
       - test -f {{.SOPS_AGE_KEY_FILE}}
       - test -f {{.SOPS_CONFIG_FILE}}
