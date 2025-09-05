@@ -2,65 +2,42 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
-vars:
-  BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/bootstrap/resources"
-
 tasks:
-
-  age-keygen:
-    desc: Bootstrap the SOPS age key and update configuration file, '--force' creates new key
-    cmds:
-      - |
-        # Backup existing SOPS_AGE_KEY_FILE and {{.ROOT_DIR}}/.sops.yaml if '--force' flag is used.
-        {{if .CLI_FORCE}}
-          if [ -f {{.SOPS_AGE_KEY_FILE}} ]; then
-            cp {{.SOPS_AGE_KEY_FILE}} {{.SOPS_AGE_KEY_FILE}}.bak
-            rm {{.SOPS_AGE_KEY_FILE}}
-          fi
-          if [ -f {{.ROOT_DIR}}/.sops.yaml ]; then
-            cp {{.ROOT_DIR}}/.sops.yaml {{.ROOT_DIR}}/.sops.yaml.bak
-            rm {{.ROOT_DIR}}/.sops.yaml
-          fi
-        {{end}}
-      - |
-        # Copy the SOPS configuration template file to {{.ROOT_DIR}}/.sops.yaml
-        cp {{.BOOTSTRAP_RESOURCES_DIR}}/.sops.yaml.j2 {{.ROOT_DIR}}/.sops.yaml
-      - |
-        # Generate new age key.
-        age-keygen --output {{.SOPS_AGE_KEY_FILE}}
-      - |
-        # Extract public key from the generated age key.
-        PUBLIC_KEY=$(awk '/public key:/ {print $NF}' {{.SOPS_AGE_KEY_FILE}})
-        # Inject the public key into the SOPS configuration file using yq.
-        yq eval ".creation_rules[].key_groups[].age = [\"$PUBLIC_KEY\"]" -i {{.ROOT_DIR}}/.sops.yaml
-    status:
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-    preconditions:
-      - which age-keygen yq
 
   talos:
     desc: Bootstrap the Talos cluster
-    dir: '{{.TALOS_DIR}}'
     prompt: Bootstrap the Talos cluster... Continue?
     cmds:
-      - '[ -f talsecret.sops.yaml ] || talhelper gensecret | sops --filename-override talos/talsecret.sops.yaml --encrypt /dev/stdin > talsecret.sops.yaml'
-      - talhelper genconfig
-      - talhelper gencommand apply --extra-flags="--insecure" | bash
-      - until talhelper gencommand bootstrap | bash; do sleep 10; done
-      - until talhelper gencommand kubeconfig --extra-flags="{{.KUBERNETES_DIR}} --force" | bash; do sleep 10; done
+      - until talosctl --nodes {{.RANDOM_CONTROLLER}} bootstrap; do sleep 5; done
+      - talosctl kubeconfig --nodes {{.RANDOM_CONTROLLER}} --force {{.KUBERNETES_DIR}}
+    vars:
+      RANDOM_CONTROLLER:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - test -f {{.TALOS_DIR}}/talconfig.yaml
-      - which talhelper talosctl sops
+      - talosctl config info
+      - talosctl --nodes {{.RANDOM_CONTROLLER}} get machineconfig
+      - which jq talosctl
 
   apps:
-    desc: Bootstrap apps into the Talos cluster
-    prompt: Bootstrap apps into Talos cluster... Continue?
-    cmd: bash {{.SCRIPTS_DIR}}/bootstrap-apps.sh
+    desc: Bootstrap Kubernetes Apps
+    prompt: Bootstrap Kubernetes Apps... Continue?
+    cmds:
+      - kubectl config set-cluster {{.CONTEXT}} --server https://{{.RANDOM_CONTROLLER}}:6443
+      - defer: talosctl kubeconfig --nodes {{.RANDOM_CONTROLLER}} --force {{.KUBERNETES_DIR}}
+      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
+      - minijinja-cli {{.BOOTSTRAP_DIR}}/resources.yaml.j2 | op inject | kubectl apply --server-side --filename -
+      - helmfile --file {{.BOOTSTRAP_DIR}}/helmfile.d/00-crds.yaml template --quiet | kubectl apply --server-side --filename -
+      - helmfile --file {{.BOOTSTRAP_DIR}}/helmfile.d/01-apps.yaml sync --hide-notes
+    vars:
+      CONTEXT:
+        sh: talosctl config info --output json | jq --raw-output '.context'
+      RANDOM_CONTROLLER:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
-      - test -f {{.KUBECONFIG}}
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SCRIPTS_DIR}}/bootstrap-apps.sh
-      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - op user get --me
+      - talosctl config info
+      - talosctl --nodes {{.RANDOM_CONTROLLER}} get machineconfig
+      - test -f {{.BOOTSTRAP_DIR}}/helmfile.d/00-crds.yaml
+      - test -f {{.BOOTSTRAP_DIR}}/helmfile.d/01-apps.yaml
+      - test -f {{.BOOTSTRAP_DIR}}/resources.yaml.j2
+      - which helmfile jq kubectl op talosctl

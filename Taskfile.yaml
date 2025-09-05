@@ -8,14 +8,12 @@ shopt: [globstar]
 vars:
   BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
   KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
-  SCRIPTS_DIR: '{{.ROOT_DIR}}/scripts'
   TALOS_DIR: '{{.ROOT_DIR}}/talos'
-  TALOSCONFIG: '{{.ROOT_DIR}}/talos/clusterconfig/talosconfig'
 
 env:
   KUBECONFIG: '{{.KUBERNETES_DIR}}/kubeconfig'
-  SOPS_AGE_KEY_FILE: '{{.XDG_CONFIG_HOME}}/sops/age/home-ops.txt'
-  TALOSCONFIG: '{{.TALOSCONFIG}}'
+  MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
+  TALOSCONFIG: '{{.TALOS_DIR}}/talosconfig'
 
 includes:
   bootstrap: .taskfiles/bootstrap

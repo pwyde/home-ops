@@ -4,173 +4,128 @@ version: '3'
 
 tasks:
 
-  apply-config:
-    desc: Apply Talos configuration to ALL nodes
-    prompt: This will apply Talos configuration to ALL nodes... Continue?
-    dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand apply | bash
-    preconditions:
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
-
   apply-node:
-    desc: Apply Talos configuration to a node
-    summary: |
-      Apply Talos configuration to a node
-
-      HOSTNAME: Node hostname (required)
-      MODE: Apply mode can be auto, interactive, no-reboot, reboot, staged, try (default: auto)
-
-      Example:
-      task talos:apply-node HOSTNAME=talos-1
-    prompt: This will apply Talos configuration to node {{.HOSTNAME}}... Continue?
-    dir: '{{.TALOS_DIR}}'
+    desc: Apply Talos config to a node [NODE=required] [MODE={{.MODE}}]
+    cmd: |
+      minijinja-cli --define "machinetype={{.MACHINE_TYPE}}" {{.TALOS_DIR}}/machineconfig.yaml.j2 \
+        | op inject \
+        | talosctl --nodes {{.NODE}} apply-config \
+          --mode {{.MODE}} \
+          --config-patch @{{.TALOS_DIR}}/{{.MACHINE_TYPE}}/{{.NODE}}.yaml \
+          --file /dev/stdin {{if .INSECURE}}--insecure{{end}}
     vars:
       MODE: '{{.MODE | default "auto"}}'
+      INSECURE:
+        sh: talosctl --nodes {{.NODE}} get machineconfig &> /dev/null || echo true
+      MACHINE_TYPE:
+        sh: |-
+          talosctl --nodes {{.NODE}} get machinetypes --output=jsonpath='{.spec}' 2> /dev/null \
+            || basename $(find '{{.TALOS_DIR}}' -name '{{.NODE}}.yaml' -printf '%h')
     requires:
-      vars: [HOSTNAME]
-    cmd: talhelper gencommand apply --node {{.HOSTNAME}} --extra-flags '--mode={{.MODE}}' | bash
+      vars: [NODE]
     preconditions:
-      - talosctl --nodes {{.HOSTNAME}} get machineconfig
+      - op user get --me
       - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
-
-  generate-config:
-    desc: Generate Talos configuration
-    prompt: This will generate Talos configuration... Continue?
-    dir: '{{.TALOS_DIR}}'
-    vars:
-      SECRET_FILES:
-        sh: find "{{.TALOS_DIR}}" -type f -name '*.sops.yaml' ! -name ".sops.yaml"
-    cmds:
-      - for: {var: SECRET_FILES}
-        cmd: |
-          # Enhance security by encrypting all unencrypted secrets.
-          if sops filestatus "{{.ITEM}}" | jq --exit-status ".encrypted == false" &>/dev/null; then
-              echo "Encrypting {{ .ITEM }}"
-              sops --encrypt --in-place "{{.ITEM}}"
-          fi
-      - talhelper genconfig
-    preconditions:
-      - test -f {{.TALOS_DIR}}/talconfig.yaml
-      - test -f {{.TALOS_DIR}}/talenv.sops.yaml
-      - test -f {{.TALOS_DIR}}/talsecret.sops.yaml
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which talhelper sops
-
-  generate-secret:
-    desc: Generate Talos secret, '--force' creates new secret
-    prompt: This will create and encrypt Talos secret... Continue?
-    dir: '{{.TALOS_DIR}}'
-    cmds:
-      - |
-        {{if .CLI_FORCE}}
-          # Backup the existing secret file if it exists.
-          if [ -f {{.TALOS_DIR}}/talsecret.sops.yaml ]; then
-            cp {{.TALOS_DIR}}/talsecret.sops.yaml {{.TALOS_DIR}}/talsecret.sops.yaml.bak
-          fi
-        {{end}}
-      - talhelper gensecret > {{.TALOS_DIR}}/talsecret.sops.yaml
-      - sops --encrypt --in-place {{.TALOS_DIR}}/talsecret.sops.yaml
-    status:
-      - test -f {{.TALOS_DIR}}/talsecret.sops.yaml
-    preconditions:
-      - test -f {{.TALOS_DIR}}/talconfig.yaml
-      - test -f {{.TALOS_DIR}}/talsecret.sops.yaml
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which talhelper sops
-
-  reset-cluster:
-    desc: Reset the whole Talos cluster, --force wipes the entire disk
-    prompt: This will destroy the cluster and reset ALL nodes back to maintenance mode... Continue?
-    dir: '{{.TALOS_DIR}}'
-    cmds:
-      - |
-        {{if .CLI_FORCE}}
-          # Wipes the entire disk.
-          talhelper gencommand reset --extra-flags="--reboot --graceful=false --wait=false" | bash
-        {{else}}
-          # Only wipe the STATE and EPHEMERAL partitions.
-          talhelper gencommand reset --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
-        {{end}}
-    preconditions:
-      - which talhelper
-
-  reset-node:
-    desc: Reset a single Talos node, '--force' wipes the entire disk
-    summary: |
-      Reset a single Talos node
-
-      HOSTNAME: Node hostname (required)
-
-      Example:
-      task talos:reset-node HOSTNAME=talos-1
-    prompt: This will reset Talos node {{.HOSTNAME}}... Continue?
-    dir: '{{.TALOS_DIR}}'
-    requires:
-      vars: [HOSTNAME]
-    cmds:
-      - |
-        {{if .CLI_FORCE}}
-          # Wipes the entire disk.
-          talhelper gencommand reset --node {{.HOSTNAME}} --extra-flags="--reboot --graceful=false --wait=false" | bash
-        {{else}}
-          # Only wipe the STATE and EPHEMERAL partitions.
-          talhelper gencommand reset --nodes {{.HOSTNAME}} --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
-        {{end}}
-    preconditions:
-      - which talhelper
-
-  shutdown-cluster:
-    desc: Shutdown the Talos cluster
-    prompt: This will shutdown the Talos cluster... Continue?
-    vars:
-      NODES:
-        sh: talosctl config info --output json | jq --exit-status --join-output '[.nodes[]] | join(",")'
-    cmd: talosctl shutdown --nodes {{.NODES}} --force
-    preconditions:
-      - talosctl --nodes {{.NODES}} get machineconfig
-      - test -f {{.TALOSCONFIG}}
-      - which jq talosctl
-
-  upgrade-k8s:
-    desc: Upgrade Kubernetes
-    prompt: This will upgrade Kubernetes... Continue?
-    dir: '{{.TALOS_DIR}}'
-    vars:
-      KUBERNETES_VERSION:
-        sh: yq '.kubernetesVersion' {{.TALOS_DIR}}/talenv.yaml
-    cmd: talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
-    preconditions:
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
+      - test -f {{.TALOS_DIR}}/machineconfig.yaml.j2
+      - test -f {{.TALOS_DIR}}/{{.MACHINE_TYPE}}/{{.NODE}}.yaml
+      - which minijinja-cli op talosctl
 
   upgrade-node:
-    desc: Upgrade Talos on a single node
-    summary: |
-      Upgrade Talos on a single node
-
-      HOSTNAME: Node hostname (required)
-
-      Example:
-      task talos:upgrade-node HOSTNAME=talos-1
-    prompt: This will upgrade Talos on node {{.HOSTNAME}}... Continue?
-    dir: '{{.TALOS_DIR}}'
+    desc: Upgrade Talos on a single node [NODE=required]
+    cmd: talosctl --nodes {{.NODE}} upgrade --image={{.TALOS_IMAGE}} --timeout=10m
     vars:
-      TALOS_SCHEMATIC_ID:
-        sh: kubectl get node {{.HOSTNAME}} --output=jsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}'
-      TALOS_VERSION:
-        sh: yq '.talosVersion' {{.TALOS_DIR}}/talenv.yaml
+      MACHINE_TYPE:
+        sh: talosctl --nodes {{.NODE}} get machinetypes --output=jsonpath='{.spec}'
+      TALOS_IMAGE:
+        sh: |-
+          talosctl --nodes {{.NODE}} get machineconfig --output=jsonpath='{.spec}' \
+            | yq '.machine.install.image | select(. != null)'
     requires:
-      vars: [HOSTNAME]
-    cmd: talhelper gencommand upgrade --node {{.HOSTNAME}} --extra-flags "--image='factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}}' --timeout=10m" | bash
+      vars: [NODE]
     preconditions:
-      - talosctl --nodes {{.HOSTNAME}} get machineconfig
       - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which kubectl talhelper talosctl yq
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - which minijinja-cli talosctl yq
+
+  reboot-node:
+    desc: Reboot Talos on a single node [NODE=required] [MODE={{.MODE}}]
+    cmd: talosctl --nodes {{.NODE}} reboot --mode={{.MODE}}
+    vars:
+      MODE: '{{.MODE | default "default"}}'
+    requires:
+      vars: [NODE]
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - which talosctl
+
+  shutdown-cluster:
+    desc: Shutdown Talos across the whole cluster
+    prompt: Shutdown the Talos cluster... Continue?
+    cmd: talosctl --nodes {{.NODES}} shutdown --force
+    vars:
+      NODES:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.NODES}} get machineconfig
+      - which jq talosctl
+
+  reset-node:
+    desc: Reset Talos on a single node [NODE=required]
+    prompt: Reset Talos node '{{.NODE}}'... Continue?
+    cmd: talosctl --nodes {{.NODE}} reset --graceful=false --reboot
+    requires:
+      vars: [NODE]
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - which talosctl
+
+  reset-cluster:
+    desc: Reset Talos across the whole cluster
+    prompt: Reset the Talos cluster... Continue?
+    cmd: talosctl --nodes {{.NODES}} reset --graceful=false --reboot
+    vars:
+      NODES:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.NODES}} get machineconfig
+      - which jq talosctl
+
+  generate-kubeconfig:
+    desc: Generate the kubeconfig for a Talos cluster
+    cmd: talosctl kubeconfig --nodes {{.RANDOM_CONTROLLER}} --force {{.KUBERNETES_DIR}}
+    vars:
+      RANDOM_CONTROLLER:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.RANDOM_CONTROLLER}} get machineconfig
+      - which jq talosctl
+
+  generate-iso:
+    desc: Generate a Talos ISO for a specific version [VERSION=required]
+    cmd: |
+      curl -L -o {{.TALOS_DIR}}/talos-{{.VERSION}}-secureboot.iso \
+        https://factory.talos.dev/image/{{.TALOS_SCHEMATIC}}/{{.VERSION}}/metal-amd64-secureboot.iso
+    vars:
+      TALOS_SCHEMATIC:
+        sh: task --silent talos:generate-schematic ISO=true
+    requires:
+      vars: [VERSION]
+    preconditions:
+      - which curl task
+
+  generate-schematic:
+    desc: Generate a Talos schematic [ISO={{.ISO}}]
+    cmd: |
+      minijinja-cli --define "iso={{.ISO}}" {{.TALOS_DIR}}/schematic.yaml.j2 \
+        | curl --silent -X POST --data-binary @- https://factory.talos.dev/schematics \
+        | jq --raw-output '.id'
+    vars:
+      ISO: '{{.ISO | default false}}'
+    preconditions:
+      - test -f {{.TALOS_DIR}}/schematic.yaml.j2
+      - which curl jq minijinja-cli

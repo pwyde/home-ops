@@ -5,7 +5,6 @@
 - { name: "area/github",                color: "141a22", description: "Changes made in the github directory."     }
 - { name: "area/kubernetes",            color: "326be5", description: "Changes made in the kubernetes directory." }
 - { name: "area/renovate",              color: "027fa0", description: "Changes made in the renovate directory."   }
-- { name: "area/scripts",               color: "bfd4f2", description: "Changes made in the scripts directory."    }
 - { name: "area/talos",                 color: "382d56", description: "Changes made in the talos directory."      }
 - { name: "area/taskfile",              color: "28bdaf", description: "Changes made in the taskfiles directory."  }
 - { name: "area/truenas",               color: "0094d4", description: "Changes made in the truenas directory."    }

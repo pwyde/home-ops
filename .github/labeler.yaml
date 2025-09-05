@@ -19,9 +19,6 @@ area/renovate:
       - any-glob-to-any-file:
           - ".renovate/**/*"
           - ".renovaterc.json5"
-area/scripts:
-  - changed-files:
-      - any-glob-to-any-file: "scripts/**/*"
 area/talos:
   - changed-files:
       - any-glob-to-any-file: talos/**/*
