@@ -1,16 +1,16 @@
 # Archived deployments
-.archive
-# Backup
-.backup
+.archive/
+# Backup directory
+.backup/
 # Secrets
-*.pub
+*.crt
+*.decrypted~*.yaml
+*.iso
 *.key
 *.key.bak
-*.decrypted~*.yaml
-# Kubernetes
+*.pub
+# K8s & Talos
 kubeconfig
 talosconfig
-# Miscellaneous
+# Private directory
 .private/
-.DS_Store
-Thumbs.db
