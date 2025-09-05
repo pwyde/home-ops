@@ -2,19 +2,16 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
-vars:
-  WORKSTATION_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/workstation/resources"
-
 tasks:
 
   arch-linux:
     desc: Install tools on Arch Linux
+    cmd: |
+      {{.PKGMGR}} -Syu --needed --noconfirm --noprogressbar \
+        $(cat {{.ROOT_DIR}}/.taskfiles/workstation/resources/arch-linux | xargs)
     vars:
       PKGMGR:
         sh: which paru || which yay
-    cmd: >
-      {{.PKGMGR}} -Syu --needed --noconfirm --noprogressbar
-      $(cat {{.WORKSTATION_RESOURCES_DIR}}/arch-linux | xargs)
     preconditions:
       - test -f {{.WORKSTATION_RESOURCES_DIR}}/arch-linux
       - which paru || which yay

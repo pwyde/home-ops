@@ -1,6 +1,5 @@
 age
 cloudflared-bin
-direnv
 flux-bin
 go-task
 go-yq
@@ -12,8 +11,10 @@ kubectl-bin
 kustomize
 minijinja-cli-bin
 minio-client
+mise
 moreutils
 sops
 stern-bin
 talhelper-bin
 talosctl
+usage
