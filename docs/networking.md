@@ -83,7 +83,7 @@ log syslog informational
 
 ! -*- bgp -*-
 !
-hostname gateway
+hostname unifi
 frr defaults traditional
 log file stdout
 !
@@ -116,4 +116,4 @@ Enable and start the FRR service to apply the configuration and activate BGP rou
 systemctl enable frr.service && systemctl start frr.service
 ```
 
-Verify BGP configuration Verify BGP configuration with the command `vtysh -c 'show ip bgp'`.
+Verify BGP configuration with the command `vtysh -c 'show ip bgp'`.
