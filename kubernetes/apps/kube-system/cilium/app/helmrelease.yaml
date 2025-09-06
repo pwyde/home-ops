@@ -46,6 +46,7 @@ spec:
       enabled: true
     envoy:
       enabled: false
+    # TODO: Disable hubble prior to single node cluster deployment.
     hubble:
       enabled: true
       metrics:
@@ -70,7 +71,7 @@ spec:
             enabled: true
         rollOutPods: true
       ui:
-        enabled: false
+        enabled: true
         ingress:
           className: internal
           enabled: true
