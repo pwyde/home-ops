@@ -13,7 +13,6 @@ tasks:
       PKGMGR:
         sh: which paru || which yay
     preconditions:
-      - test -f {{.WORKSTATION_RESOURCES_DIR}}/arch-linux
       - which paru || which yay
 
   krew:

@@ -2,66 +2,53 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
-vars:
-  KUBERNETES_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/kubernetes/resources"
-
 tasks:
 
   browse-pvc:
-    desc: Browse a PersistentVolumeClaim
-    summary: |
-      Browse a PersistentVolumeClaim
-
-      NS: Browse PersistentVolumeClaim in namespace (default: default)
-      CLAIM: PersistentVolumeClaim to browse (required)
-
-      Example:
-      task kubernetes:browse-pvc NS=media CLAIM=jellyfin
+    desc: Mount a PVC to an temporary container [NS={{.NS}}] [CLAIM=required]
     interactive: true
+    cmd: kubectl browse-pvc --namespace {{.NS}} --image docker.io/library/alpine:latest {{.CLAIM}}
     vars:
       NS: '{{.NS | default "default"}}'
     requires:
       vars: [CLAIM]
-    cmd: kubectl browse-pvc --namespace {{.NS}} --image docker.io/library/alpine:latest {{.CLAIM}}
     preconditions:
       - kubectl --namespace {{.NS}} get persistentvolumeclaims {{.CLAIM}}
+      - kubectl browse-pvc --version
       - which kubectl
 
   delete-failed-pods:
-    desc: Delete all pods with an Evicted/Failed/Succeeded status
+    desc: Delete pods with a Failed/Pending/Succeeded phase
     cmds:
-      - for: [Evicted, Failed, Succeeded]
-        cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
+      - for:
+          matrix:
+            PHASE: [Failed, Pending, Succeeded]
+        cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
     preconditions:
       - which kubectl
 
   export-cert:
-    desc: Export SSL certificate and private key from secret
-    summary: |
-      Export SSL certificate and private key
-
-      NS: Export certificate from namespace (default: default)
-      SECRET: Name of secret to export certificate from (required)
-
-      Example:
-      task kubernetes:export-cert NS=security SECRET=hostname-tls
+    desc: Export SSL certificate and private key from secret [NS={{.NS}}] [SECRET=required]
     interactive: true
-    vars:
-      NS: '{{.NS | default "default"}}'
-    requires:
-      vars: [SECRET]
     cmds:
       - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.crt}' | base64 --decode > certificate.pem
       - kubectl --namespace {{.NS}} get secret {{.SECRET}} -o jsonpath='{.data.tls\.key}' | base64 --decode > private-key.pem
       - cat private-key.pem certificate.pem > combined.pem
       - openssl x509 -in certificate.pem -text -noout
       - openssl rsa -in private-key.pem -check -noout
+    vars:
+      NS: '{{.NS | default "default"}}'
+    requires:
+      vars: [SECRET]
     preconditions:
       - kubectl --namespace {{.NS}} get secrets {{.SECRET}}
       - which kubectl openssl
 
   list-resources:
     desc: List common resources in the cluster
+    cmds:
+      - for: { var: RESOURCE }
+        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
     vars:
       RESOURCE: >-
         nodes
@@ -74,69 +61,47 @@ tasks:
         certificaterequests
         ingresses
         pods
-    cmds:
-      - for: { var: RESOURCE }
-        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
     preconditions:
-      - test -f {{.KUBECONFIG}}
       - which kubectl
 
   node-shell:
-    desc: Open a shell to a Talos node
-    summary: |
-      Open a shell to a Talos node
-
-      NODE: Name of Talos node to open shell to (required)
-
-      Example:
-      task kubernetes:node-shell NODE=talos-1
+    desc: Open a shell to a node [NS={{.NS}}] [NODE=required]
     interactive: true
+    cmd: kubectl node-shell -n {{.NS}} -x {{.NODE}}
+    vars:
+      NS: '{{.NS | default "kube-system"}}'
     requires:
       vars: [NODE]
-    cmd: kubectl node-shell -n kube-system -x {{.NODE}}
     preconditions:
       - kubectl get nodes {{.NODE}}
       - kubectl node-shell --version
       - which kubectl
 
   privileged-pod:
-    desc: Run a privileged pod
-    summary: |
-      Run a privileged pod
-
-      NODE: Name of Talos node to run privileged pod on
-
-      Example:
-      task kubernetes:privileged-pod NODE=talos-1
-    env:
-      NODE: '{{.NODE}}'
+    desc: Run a privileged pod [NODE=required]
     cmd: |
       kubectl run privileged-{{.NODE}} -i --rm --image=null \
-        --overrides="$(yq {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.yaml.j2 -o=json | envsubst)"
+        --overrides="$(yq {{.ROOT_DIR}}/.taskfiles/kubernetes/resources/privileged-pod.yaml.j2 -o=json | envsubst)"
+    env:
+      NODE: '{{.NODE}}'
     preconditions:
-      - test -f {{.KUBERNETES_RESOURCES_DIR}}/privileged-pod.yaml.j2
       - which kubectl
 
   storage-speed-test:
-    desc: Run speed test on storage (iSCSI or NFS)
-    summary: |
-      Test the provisioning, mounting, and performance of using a specified storage class (iSCSI or NFS)
-
-      STORAGE: Storage type to perform test on (iSCSI or NFS)
-
-      Example:
-      task kubernetes:storage-speed-test STORAGE=iSCSI
-    requires:
-      vars: [STORAGE]
+    desc: Run speed test on storage (iSCSI or NFS) [STORAGE=required]
     cmds:
       - task: speed-test-apply-manifest
       - task: speed-test-wait-for-pvc
       - task: speed-test-wait-for-jobs
       - task: speed-test-fetch-logs
       - task: speed-test-cleanup
+    requires:
+      vars: [STORAGE]
 
   speed-test-apply-manifest:
     desc: Apply the Kubernetes manifest for the speed test
+    cmds:
+      - kubectl apply -f {{.ROOT_DIR}}/.taskfiles/kubernetes/resources/{{.MANIFEST_FILE}}
     vars:
       # Map STORAGE to the corresponding manifest file.
       MANIFEST_FILE:
@@ -149,35 +114,33 @@ tasks:
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
           fi
-    cmds:
-      - kubectl apply -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
     preconditions:
-      - test -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
       - which kubectl
 
   speed-test-wait-for-pvc:
-    internal: true
     desc: Wait for the PVC to be fully provisioned
     cmds:
       - kubectl wait --for=jsonpath='{.status.phase}'=Bound pvc/test-claim --timeout=300s
+    internal: true
 
   speed-test-wait-for-jobs:
-    internal: true
     desc: Wait for the read and write jobs to complete
     cmds:
       - kubectl wait --for=condition=complete job/write --timeout=600s
       - kubectl wait --for=condition=complete job/read --timeout=600s
+    internal: true
 
   speed-test-fetch-logs:
-    internal: true
     desc: Fetch logs from the read and write jobs
     cmds:
       - kubectl logs -l app=speedtest,job=write
       - kubectl logs -l app=speedtest,job=read
+    internal: true
 
   speed-test-cleanup:
-    internal: true
     desc: Clean up the Kubernetes resources created for the speed test
+    cmds:
+      - kubectl delete -f {{.ROOT_DIR}}/.taskfiles/kubernetes/resources/{{.MANIFEST_FILE}}
     vars:
       # Map STORAGE to the corresponding manifest file.
       MANIFEST_FILE:
@@ -190,16 +153,15 @@ tasks:
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
           fi
-    cmds:
-      - kubectl delete -f {{.KUBERNETES_RESOURCES_DIR}}/{{.MANIFEST_FILE}}
+    internal: true
 
   sync-secrets:
     desc: Sync all ExternalSecrets
-    vars:
-      SECRETS:
-        sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
     cmds:
       - for: { var: SECRETS, split: "\n" }
         cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
+    vars:
+      SECRETS:
+        sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
     preconditions:
       - which kubectl
