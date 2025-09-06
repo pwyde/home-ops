@@ -46,41 +46,40 @@ spec:
       enabled: true
     envoy:
       enabled: false
-    # TODO: Disable hubble prior to single node cluster deployment.
     hubble:
-      enabled: true
-      metrics:
-        dashboards:
-          annotations:
-            grafana_folder: Network
-          enabled: true
-        enabled:
-          - dns:query;ignoreAAAA
-          - drop
-          - tcp
-          - flow
-          - port-distribution
-          - icmp
-          - http
-        serviceMonitor:
-          enabled: true
-      relay:
-        enabled: true
-        prometheus:
-          serviceMonitor:
-            enabled: true
-        rollOutPods: true
-      ui:
-        enabled: true
-        ingress:
-          className: internal
-          enabled: true
-          hosts:
-            - &host hubble.${SECRET_DOMAIN}
-          tls:
-            - hosts:
-                - *host
-        rollOutPods: true
+      enabled: false
+      # metrics:
+      #   dashboards:
+      #     annotations:
+      #       grafana_folder: Network
+      #     enabled: true
+      #   enabled:
+      #     - dns:query;ignoreAAAA
+      #     - drop
+      #     - tcp
+      #     - flow
+      #     - port-distribution
+      #     - icmp
+      #     - http
+      #   serviceMonitor:
+      #     enabled: true
+      # relay:
+      #   enabled: true
+      #   prometheus:
+      #     serviceMonitor:
+      #       enabled: true
+      #   rollOutPods: true
+      # ui:
+      #   enabled: true
+      #   ingress:
+      #     className: internal
+      #     enabled: true
+      #     hosts:
+      #       - &host hubble.${SECRET_DOMAIN}
+      #     tls:
+      #       - hosts:
+      #           - *host
+      #   rollOutPods: true
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: 10.42.0.0/16
