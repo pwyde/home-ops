@@ -8,7 +8,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: ingress-nginx
+    name: ingress-nginx-internal
   install:
     remediation:
       retries: -1
