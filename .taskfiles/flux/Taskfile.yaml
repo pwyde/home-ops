@@ -16,7 +16,6 @@ tasks:
           done
         done
     preconditions:
-      - test -f {{.KUBECONFIG}}
       - which flux kubectl
 
   # Ref: https://fluxcd.io/flux/components/helm/helmreleases/#forcing-a-release
@@ -32,33 +31,32 @@ tasks:
           done
         done
     preconditions:
-      - test -f {{.KUBECONFIG}}
       - which flux kubectl
 
   "*-all-ks":
     desc: Suspend or resume all Flux Kustomizations
-    vars:
-      STATE: '{{index .MATCH 0}}'
-      NAMESPACES:
-        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     cmds:
       - for:
           var: NAMESPACES
         cmd: flux {{.STATE}} ks -n "{{.ITEM}}" --all || true
+    vars:
+      STATE: '{{index .MATCH 0}}'
+      NAMESPACES:
+        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     preconditions:
       - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
       - which flux kubectl
 
   "*-all-hr":
     desc: Suspend or resume all Flux HelmReleases
-    vars:
-      STATE: '{{index .MATCH 0}}'
-      NAMESPACES:
-        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     cmds:
       - for:
           var: NAMESPACES
         cmd: flux {{.STATE}} hr -n "{{.ITEM}}" --all || true
+    vars:
+      STATE: '{{index .MATCH 0}}'
+      NAMESPACES:
+        sh: kubectl get ns --no-headers -o custom-columns='NAME:.metadata.name'
     preconditions:
       - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
       - which flux kubectl
@@ -67,5 +65,4 @@ tasks:
     desc: Force Flux to pull in changes from the Git repository
     cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
     preconditions:
-      - test -f {{.KUBECONFIG}}
       - which flux
