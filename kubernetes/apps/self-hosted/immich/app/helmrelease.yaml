@@ -34,7 +34,7 @@ spec:
               IMMICH_TELEMETRY_INCLUDE: all
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
-              REDIS_DBINDEX: "3"
+              REDIS_DBINDEX: "2"
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"

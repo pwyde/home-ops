@@ -3,11 +3,10 @@
 ## Database Index
 
 1. `null`
-2. [`authentik`](../kubernetes/apps/security/authentik/)
-3. [`immich`](../kubernetes/apps/self-hosted/immich/)
-4. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
+2. [`immich`](../kubernetes/apps/self-hosted/immich/)
+3. [`searxng`](../kubernetes/apps/self-hosted/searxng/)
+4. [`romm`](../kubernetes/apps/games/romm/)
 5. [`nextcloud`](../kubernetes/apps/self-hosted/nextcloud/)
-6. [`romm`](../kubernetes/apps/games/romm/)
 
 ## Arguments
 
