@@ -29,8 +29,6 @@ spec:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       ingress:
-        # annotations:
-        #   nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         enabled: true
         ingressClassName: internal
         hosts:
@@ -133,8 +131,6 @@ spec:
             memory: 64Mi
     prometheus:
       ingress:
-        # annotations:
-        #   nginx.ingress.kubernetes.io/whitelist-source-range: ${NET_WHITELIST_IP_RANGES}
         enabled: true
         ingressClassName: internal
         hosts:
