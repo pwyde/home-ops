@@ -2,6 +2,8 @@
 .archive/
 # Backup directory
 .backup/
+# Private directory
+.private/
 # Secrets
 *.crt
 *.decrypted~*.yaml
@@ -12,5 +14,3 @@
 # K8s & Talos
 kubeconfig
 talosconfig
-# Private directory
-.private/
