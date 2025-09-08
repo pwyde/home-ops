@@ -1,0 +1,20 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: app-connector
+spec:
+  hostname: homelab-ingress
+  subnetRouter:
+    advertiseRoutes:
+      - 192.168.1.1/32
+      - 192.168.20.0/24
+      - 192.168.30.0/24
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: exit-node
+spec:
+  exitNode: true
+  hostname: homelab-egress
