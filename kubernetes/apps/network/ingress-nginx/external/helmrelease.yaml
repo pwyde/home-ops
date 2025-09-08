@@ -16,11 +16,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  valuesFrom:
-    - targetPath: controller.maxmindLicenseKey
-      kind: Secret
-      name: ingress-nginx-external-secret
-      valuesKey: MAXMIND_LICENSE_KEY
   values:
     fullnameOverride: *app
     controller:
@@ -65,8 +60,7 @@ spec:
           "request_id": "$req_id", "remote_user": "$remote_user", "bytes_sent": $bytes_sent, "request_time": $request_time,
           "status": $status, "vhost": "$host", "request_proto": "$server_protocol", "path": "$uri", "request_query": "$args",
           "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer",
-          "http_user_agent": "$http_user_agent", "country_code": "$geoip2_city_country_code", "country_name": "$geoip2_city_country_name",
-          "city_name": "$geoip2_city", "lat": "$geoip2_latitude", "lon": "$geoip2_longitude", "postal_code": "$geoip2_postal_code"}
+          "http_user_agent": "$http_user_agent"}
         proxy-body-size: 0
         proxy-busy-buffers-size: 16k
         proxy-buffer-size: 16k
