@@ -59,14 +59,6 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default-folder
-          - name: downloads
-            orgId: 1
-            folder: Downloads
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/downloads-folder
           - name: flux
             orgId: 1
             folder: Flux
@@ -172,11 +164,6 @@ spec:
     dashboards:
       database:
       default:
-      downloads:
-        qbittorrent-exporter:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/qbittorrent.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
       flux:
         flux-api-performance:
           url: https://raw.githubusercontent.com/controlplaneio-fluxcd/flux-operator/refs/heads/main/config/monitoring/dashboards/flux-k8s-api-performance.json
@@ -234,10 +221,6 @@ spec:
       media:
         exportarr:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-        unpackerr:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/unpackerr.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
       network:
@@ -308,10 +291,6 @@ spec:
       system:
         dcgm-exporter:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/dcgm-exporter.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-        gatus:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/gatus.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         node-exporter-full:
