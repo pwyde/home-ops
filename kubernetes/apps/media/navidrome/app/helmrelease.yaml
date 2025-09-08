@@ -41,7 +41,7 @@ spec:
               ND_TRANSCODINGCACHESIZE: "512MB"
               ND_ENABLEINSIGHTSCOLLECTOR: false
               ND_PROMETHEUS_ENABLED: true
-              ND_DEFAULTTHEME: "Spotify-ish"
+              ND_DEFAULTTHEME: "Catppuccin Macchiato"
               ND_REVERSEPROXYWHITELIST: ${CLUSTER_POD_CIDR}
             probes:
               liveness: &probes
