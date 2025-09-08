@@ -33,7 +33,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager
-      namespace: security
+      namespace: cert-manager
     - name: cloudnative-pg
       namespace: *namespace
   interval: 1h
