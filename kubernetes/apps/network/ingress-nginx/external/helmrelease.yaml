@@ -29,7 +29,7 @@ spec:
         - name: TZ
           value: "${CONFIG_TIMEZONE}"
       extraArgs:
-        default-ssl-certificate: "security/${SECRET_DOMAIN/./-}-production-tls"
+        default-ssl-certificate: "cert-manager/${SECRET_DOMAIN/./-}-tls"
       ingressClassResource:
         controllerValue: k8s.io/external
         default: false
