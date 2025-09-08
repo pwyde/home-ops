@@ -17,6 +17,7 @@ spec:
     remediation:
       retries: 3
   values:
+    hostname: *app
     oauthSecretVolume:
       secret:
         secretName: &secret tailscale-operator-secret
