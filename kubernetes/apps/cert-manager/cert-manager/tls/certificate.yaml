@@ -3,14 +3,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_DOMAIN/./-}-production"
+  name: "${SECRET_DOMAIN/./-}"
 spec:
-  secretName: "${SECRET_DOMAIN/./-}-production-tls"
+  secretName: "${SECRET_DOMAIN/./-}-tls"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: "${SECRET_DOMAIN}"
-  dnsNames: ["${SECRET_DOMAIN}", "*.${SECRET_DOMAIN}"]
+  dnsNames:
+    - "${SECRET_DOMAIN}"
+    - "*.${SECRET_DOMAIN}"
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
@@ -23,17 +25,20 @@ spec:
     name: letsencrypt-staging
     kind: ClusterIssuer
   commonName: "${SECRET_DOMAIN}"
-  dnsNames: ["${SECRET_DOMAIN}", "*.${SECRET_DOMAIN}"]
+  dnsNames:
+    - "${SECRET_DOMAIN}"
+    - "*.${SECRET_DOMAIN}"
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "pve-ipmi"
+  name: "pve-ipmi.${SECRET_DOMAIN/./-}"
 spec:
-  secretName: "pve-ipmi-tls"
+  secretName: "pve-ipmi.${SECRET_DOMAIN/./-}-tls"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: "pve-ipmi.${SECRET_DOMAIN}"
-  dnsNames: ["pve-ipmi.${SECRET_DOMAIN}"]
+  dnsNames:
+    - "pve-ipmi.${SECRET_DOMAIN}"

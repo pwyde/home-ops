@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: cert-manager-rules
+  name: cert-manager
 spec:
   groups:
     - name: cert-manager.rules
@@ -18,7 +18,7 @@ spec:
           labels:
             severity: critical
 
-    - name: certificates
+    - name: cert-manager-tls.rules
       rules:
         - alert: CertManagerCertExpirySoon
           expr: |-
