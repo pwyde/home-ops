@@ -20,7 +20,7 @@ releases:
     version: 1.18.0
 
   - name: external-secrets
-    namespace: security
+    namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
     version: 0.19.2
 

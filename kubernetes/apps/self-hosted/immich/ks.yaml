@@ -18,8 +18,6 @@ spec:
       namespace: storage
     - name: dragonfly-cluster
       namespace: database
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:

@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: bazarr
       namespace: media
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/observability/exporters/bazarr-exporter/app
   prune: true

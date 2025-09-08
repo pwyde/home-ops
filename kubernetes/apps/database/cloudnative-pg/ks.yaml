@@ -69,8 +69,6 @@ spec:
       namespace: *namespace
     - name: democratic-csi-iscsi
       namespace: storage
-    - name: onepassword
-      namespace: security
   # healthCheckExprs:
   #   - apiVersion: postgresql.cnpg.io/v1
   #     kind: Cluster

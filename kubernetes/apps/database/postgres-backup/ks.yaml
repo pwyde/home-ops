@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: *namespace
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/database/postgres-backup/app
   prune: true

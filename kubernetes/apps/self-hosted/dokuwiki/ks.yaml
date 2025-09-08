@@ -14,8 +14,6 @@ spec:
   dependsOn:
     - name: democratic-csi-nfs
       namespace: storage
-    - name: onepassword
-      namespace: security
     - name: volsync
       namespace: storage
   interval: 1h

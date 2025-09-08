@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: democratic-csi-iscsi
       namespace: storage
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
   prune: true

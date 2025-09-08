@@ -16,8 +16,6 @@ spec:
       namespace: database
     - name: dragonfly-cluster
       namespace: database
-    - name: onepassword
-      namespace: security
     - name: volsync
       namespace: storage
   interval: 1h

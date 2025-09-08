@@ -10,8 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: onepassword
-      namespace: security
     - name: snapshot-controller
       namespace: *namespace
   healthChecks:
@@ -42,8 +40,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: onepassword
-      namespace: security
     - name: snapshot-controller
       namespace: *namespace
   healthChecks:

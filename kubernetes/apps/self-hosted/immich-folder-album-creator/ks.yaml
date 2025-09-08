@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: immich
       namespace: *namespace
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/self-hosted/immich-folder-album-creator/app
   prune: true

@@ -12,8 +12,6 @@ spec:
   dependsOn:
     - name: radarr
       namespace: media
-    - name: onepassword
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/observability/exporters/radarr-exporter/app
   prune: true
