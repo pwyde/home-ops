@@ -33,9 +33,9 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "pve-ipmi.${SECRET_DOMAIN/./-}"
+  name: "pve-ipmi-${SECRET_DOMAIN/./-}"
 spec:
-  secretName: "pve-ipmi.${SECRET_DOMAIN/./-}-tls"
+  secretName: "pve-ipmi-${SECRET_DOMAIN/./-}-tls"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
