@@ -50,7 +50,8 @@ spec:
         kind: ServiceAccount
         spec:
           spec:
-            roles: ["os:admin"]
+            roles:
+              - os:admin
     rbac:
       bindings:
         system-upgrade-controller:

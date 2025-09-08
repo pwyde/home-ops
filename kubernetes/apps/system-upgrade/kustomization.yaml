@@ -2,11 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: system
+namespace: system-upgrade
 components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  - ./generic-device-plugin/ks.yaml
-  - ./node-feature-discovery/ks.yaml
-  - ./nvidia-device-plugin/ks.yaml
+  - ./system-upgrade-controller/ks.yaml
