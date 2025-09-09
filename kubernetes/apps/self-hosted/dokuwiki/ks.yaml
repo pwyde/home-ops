@@ -15,7 +15,7 @@ spec:
     - name: democratic-csi-nfs
       namespace: storage
     - name: volsync
-      namespace: storage
+      namespace: volsync-system
   interval: 1h
   path: ./kubernetes/apps/self-hosted/dokuwiki/app
   postBuild:
