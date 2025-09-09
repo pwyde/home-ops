@@ -2,12 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: storage
+namespace: volsync-system
 components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  # - ./csi-driver-nfs/ks.yaml
-  - ./democratic-csi/ks.yaml
-  - ./minio/ks.yaml
-  - ./openebs/ks.yaml
+  - ./snapshot-controller/ks.yaml
+  - ./volsync/ks.yaml

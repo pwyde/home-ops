@@ -55,7 +55,8 @@
     "rook-ceph": "folder_content",
     "scripts": "folder_scripts",
     "tools": "folder_utils",
-    "volsync": "folder_cloud"
+    "volsync": "folder_cloud",
+    "volsync-system": "folder_content"
   },
   "editor.bracketPairColorization.enabled": true,
   "editor.fontFamily": "FiraCode Nerd Font Ret",
@@ -129,7 +130,8 @@
     "rook-ceph": "dump",
     "scripts": "scripts",
     "tools": "tools",
-    "volsync": "aws"
+    "volsync": "aws",
+    "volsync-system": "dump",
   },
   "redhat.telemetry.enabled": false,
   "vs-kubernetes": {
