@@ -18,4 +18,15 @@ spec:
       retries: 3
   values:
     storageClass:
-      create: false
+      create: true
+      name: truenas-ssd-nfs-talos
+      parameters:
+        server: nas.${SECRET_DOMAIN}
+        share: /mnt/ssd-data/Talos
+      mountOptions:
+        - nfsvers=4.2
+        - nconnect=16
+        - hard
+        - noatime
+      reclaimPolicy: Delete
+      volumeBindingMode: Immediate

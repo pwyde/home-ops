@@ -7,6 +7,5 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  # - ./csi-driver-nfs/ks.yaml
   - ./democratic-csi/ks.yaml
   - ./minio/ks.yaml
