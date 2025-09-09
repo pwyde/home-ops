@@ -2,7 +2,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: app-connector
+  name: ingress
 spec:
   hostname: homelab-ingress
   subnetRouter:
@@ -14,7 +14,7 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: exit-node
+  name: egress
 spec:
   exitNode: true
   hostname: homelab-egress
