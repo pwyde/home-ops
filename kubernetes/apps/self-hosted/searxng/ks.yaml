@@ -13,7 +13,7 @@ spec:
     - name: dragonfly-cluster
       namespace: database
     - name: generic-device-plugin
-      namespace: system
+      namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/self-hosted/searxng/app
   prune: true

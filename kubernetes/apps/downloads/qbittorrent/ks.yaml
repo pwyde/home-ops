@@ -15,7 +15,7 @@ spec:
     - name: democratic-csi-nfs
       namespace: storage
     - name: generic-device-plugin
-      namespace: system
+      namespace: kube-system
     - name: volsync
       namespace: volsync-system
   interval: 1h
