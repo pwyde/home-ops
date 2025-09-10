@@ -76,12 +76,12 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: nvidia.com/gpu.present
+              - key: gpu.home-ops/nvidia
                 operator: In
                 values:
                   - "true"
       nodeSelector:
-        nvidia.com/gpu.present: "true"
+        gpu.home-ops/nvidia: "true"
       priorityClassName: gpu-priority
       runtimeClassName: nvidia
       securityContext:

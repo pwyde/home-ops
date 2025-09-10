@@ -5,6 +5,6 @@ kind: Kustomization
 namespace: system
 components:
   - ../../components/common
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./node-feature-discovery/ks.yaml
+  # - ./node-feature-discovery/ks.yaml

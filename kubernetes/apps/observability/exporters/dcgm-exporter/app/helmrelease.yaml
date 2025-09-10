@@ -24,7 +24,7 @@ spec:
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     nodeSelector:
-      nvidia.com/gpu.present: "true"
+      gpu.home-ops/nvidia: "true"
     resources:
       requests:
         cpu: 10m
