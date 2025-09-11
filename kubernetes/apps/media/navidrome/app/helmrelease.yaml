@@ -108,7 +108,7 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       music:
         type: nfs
-        server: ${SECRET_NAS_IP}
+        server: nas.${SECRET_DOMAIN}
         path: ${SECRET_NFS_PATH_MUSIC}
         globalMounts:
           - path: /music

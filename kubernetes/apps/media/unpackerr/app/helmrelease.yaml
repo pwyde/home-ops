@@ -79,7 +79,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: ${SECRET_NAS_IP}
+        server: nas.${SECRET_DOMAIN}
         path: ${SECRET_NFS_PATH_MEDIA}
         globalMounts:
           - path: /data

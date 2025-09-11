@@ -126,19 +126,19 @@ spec:
             readOnly: true
       romm-assets:
         type: nfs
-        server: ${SECRET_NAS_IP}
+        server: nas.${SECRET_DOMAIN}
         path: ${SECRET_NFS_PATH_ROMM_ASSETS}
         globalMounts:
           - path: /romm/assets
       romm-library:
         type: nfs
-        server: ${SECRET_NAS_IP}
+        server: nas.${SECRET_DOMAIN}
         path: ${SECRET_NFS_PATH_ROMM_LIBRARY}
         globalMounts:
           - path: /romm/library
       romm-resources:
         type: nfs
-        server: ${SECRET_NAS_IP}
+        server: nas.${SECRET_DOMAIN}
         path: ${SECRET_NFS_PATH_ROMM_RESOURCES}
         globalMounts:
           - path: /romm/resources
