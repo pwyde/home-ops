@@ -111,6 +111,6 @@ spec:
       data:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_MINIO}
+        path: /mnt/ssd-data/MinIO
         globalMounts:
           - path: /data
