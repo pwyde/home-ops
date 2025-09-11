@@ -7,14 +7,14 @@ components:
   - ../../components/common
 resources:
   # Flux-Kustomizations
-  - ./audiobookshelf/ks.yaml
-  - ./bazarr/ks.yaml
-  - ./jellyfin/ks.yaml
+  # - ./audiobookshelf/ks.yaml
+  # - ./bazarr/ks.yaml
+  # - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
-  - ./lidarr/ks.yaml
+  # - ./lidarr/ks.yaml
   - ./navidrome/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./radarr/ks.yaml
-  - ./recyclarr/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./unpackerr/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./unpackerr/ks.yaml
