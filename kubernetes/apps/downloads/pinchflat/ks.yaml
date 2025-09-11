@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app pinchflat
+  namespace: &namespace downloads
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: democratic-csi-iscsi
+      namespace: storage
+    - name: volsync
+      namespace: volsync-system
+  interval: 1h
+  path: ./kubernetes/apps/downloads/pinchflat/app
+  postBuild:
+    substitute:
+      APP: *app
+      APP_UID: &uid ${CONFIG_APP_UID}
+      APP_GID: *uid
+      VOLSYNC_CLAIM: *app
+      VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
+      VOLSYNC_SNAPSHOTCLASS: *storageClass
+      VOLSYNC_CACHE_ACCESSMODES: *accessModes
+      VOLSYNC_CAPACITY: &capacity 1Gi
+      VOLSYNC_CACHE_CAPACITY: *capacity
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
