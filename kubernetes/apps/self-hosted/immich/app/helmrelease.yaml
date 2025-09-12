@@ -83,8 +83,8 @@ spec:
               <<: *env
               # Pre-loading of ML model must not be enabled during initial de-
               # ployment. Will cause crash loop otherwise.
-              MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-Vit-B-16Plus"
-              MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-Vit-B-16Plus"
+              # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-Vit-B-16Plus"
+              # MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-Vit-B-16Plus"
               # Recommended model according to https://v1.131.0.archive.immich.app/docs/features/searching/#clip-models
               # Also see the following comment: https://github.com/immich-app/immich/discussions/17105#discussioncomment-12620002
               # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
