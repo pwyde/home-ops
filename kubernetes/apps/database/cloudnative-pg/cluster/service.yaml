@@ -4,8 +4,8 @@ kind: Service
 metadata:
   name: &dbcluster pg17-cluster
   annotations:
-    lbipam.cilium.io/ips: ${SVC_POSTGRES_IP}
     external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
+    lbipam.cilium.io/ips: 192.168.20.50
 spec:
   type: LoadBalancer
   ports:
@@ -16,21 +16,21 @@ spec:
   selector:
     cnpg.io/cluster: *dbcluster
     cnpg.io/instanceRole: primary
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: &dbcluster pg17-immich
-  annotations:
-    lbipam.cilium.io/ips: ${SVC_VECTORDB_IP}
-    external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
-spec:
-  type: LoadBalancer
-  ports:
-    - name: postgres
-      port: &port 5432
-      protocol: TCP
-      targetPort: *port
-  selector:
-    cnpg.io/cluster: *dbcluster
-    cnpg.io/instanceRole: primary
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: &dbcluster pg17-immich
+#   annotations:
+#     external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
+#     lbipam.cilium.io/ips: 192.168.20.51
+# spec:
+#   type: LoadBalancer
+#   ports:
+#     - name: postgres
+#       port: &port 5432
+#       protocol: TCP
+#       targetPort: *port
+#   selector:
+#     cnpg.io/cluster: *dbcluster
+#     cnpg.io/instanceRole: primary
