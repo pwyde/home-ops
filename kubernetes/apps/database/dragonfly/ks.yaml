@@ -36,7 +36,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: dragonfly
+    - name: dragonfly-operator
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
