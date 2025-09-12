@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: utilities
 components:
   - ../../components/common
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./atuin/ks.yaml
-  # - ./cyberchef/ks.yaml
-  # - ./it-tools/ks.yaml
+  - ./atuin/ks.yaml
+  - ./cyberchef/ks.yaml
+  - ./it-tools/ks.yaml
