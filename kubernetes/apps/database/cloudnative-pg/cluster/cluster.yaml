@@ -89,22 +89,11 @@ spec:
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
-  # Bootstrap this new cluster by recovering from the old cluster.
-  bootstrap:
-    recovery:
-      source: old-cluster
-  externalClusters:
-    - name: old-cluster
-      plugin:
-        name: barman-cloud.cloudnative-pg.io
-        parameters:
-          barmanObjectName: minio
-          serverName: pg17-immich-v1   # The old cluster serverName in backups.
   # bootstrap:
   #   recovery:
   #     source: source
-  # externalClusters:
-  #   - name: source
-  #     plugin:
-  #       name: barman-cloud.cloudnative-pg.io
-  #       parameters: *parameters
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters: *parameters
