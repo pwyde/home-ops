@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: democratic-csi-nfs
+    - name: democratic-csi-iscsi
       namespace: storage
     - name: generic-device-plugin
       namespace: kube-system
@@ -27,7 +27,7 @@ spec:
       APP_GID: *uid
       VOLSYNC_CLAIM: *app
       VOLSYNC_ACCESSMODES: &accessModes ReadWriteOnce
-      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_NFS}
+      VOLSYNC_STORAGECLASS: &storageClass ${CLUSTER_STORAGE_BLOCK}
       VOLSYNC_SNAPSHOTCLASS: *storageClass
       VOLSYNC_CACHE_ACCESSMODES: *accessModes
       VOLSYNC_CAPACITY: &capacity 1Gi
