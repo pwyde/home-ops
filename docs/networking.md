@@ -98,8 +98,6 @@ router bgp 64513
   neighbor 192.168.20.21 peer-group k8s
   neighbor 192.168.20.22 peer-group k8s
   neighbor 192.168.20.23 peer-group k8s
-  neighbor 192.168.20.24 peer-group k8s
-  neighbor 192.168.20.25 peer-group k8s
   !
   address-family ipv4 unicast
     redistribute connected
