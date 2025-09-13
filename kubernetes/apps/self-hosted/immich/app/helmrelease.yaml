@@ -73,7 +73,7 @@ spec:
                 nvidia.com/gpu: 1
             securityContext: &securityContext
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
           machine-learning:
             image:
@@ -133,7 +133,7 @@ spec:
       priorityClassName: gpu-priority
       runtimeClassName: nvidia
       securityContext:
-        # runAsNonRoot: true
+        runAsNonRoot: true
         runAsUser: &uid 5000
         runAsGroup: &gid 3010
         fsGroup: *gid
