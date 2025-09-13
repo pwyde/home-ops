@@ -25,7 +25,7 @@ spec:
       APP: *app
       PVC_ACCESSMODES: ReadWriteOnce
       PVC_STORAGECLASS: ${CLUSTER_STORAGE_BLOCK}
-      PVC_CAPACITY: 10Gi
+      PVC_CAPACITY: 20Gi
   prune: true
   retryInterval: 2m
   sourceRef:
