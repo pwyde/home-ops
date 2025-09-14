@@ -1,7 +1,0 @@
-machine:
-  features:
-    hostDNS:
-      enabled: true
-      resolveMemberNames: true
-      # If set to true, Cilium bpf.masquerade must be set to false.
-      forwardKubeDNSToHost: false

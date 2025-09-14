@@ -1,0 +1,23 @@
+---
+customization:
+  extraKernelArgs:
+    - -init_on_alloc            # Less security, more performance.
+    - -selinux                  # Less security, more performance.
+    - apparmor=0                # Less security, more performance.
+    - init_on_alloc=0           # Less security, more performance.
+    - init_on_free=0            # Less security, more performance.
+    - amd_iommu=on              # PCI passthrough.
+    - iommu=pt                  # PCI passthrough.
+    - pcie_aspm=off             # Disable PCIe ASPM.
+    - mitigations=off           # Less security, more performance.
+    - security=none             # Less security, more performance.
+    - talos.auditd.disabled=1   # Less security, more performance.
+    {% if iso == 'true' %}
+    - bond=bond0:enp5s0f0np0,enp5s0f1np1:mode=802.3ad,xmit_hash_policy=layer3+4
+    - ip=bond0:dhcp
+    {% endif %}
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/amdgpu
+      - siderolabs/amd-ucode
+      - siderolabs/nfsrahead
