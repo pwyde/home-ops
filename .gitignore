@@ -11,6 +11,6 @@
 *.key
 *.key.bak
 *.pub
-# K8s & Talos
+# Kubernetes & Talos
 kubeconfig
 talosconfig
