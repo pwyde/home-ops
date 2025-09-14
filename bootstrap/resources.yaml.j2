@@ -16,6 +16,19 @@ stringData:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: network
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-tunnel-id-secret
+  namespace: network
+stringData:
+  CLOUDFLARE_TUNNEL_ID: op://Kubernetes/cloudflare/CLOUDFLARE_TUNNEL_ID
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: flux-system
 ---
 apiVersion: v1
