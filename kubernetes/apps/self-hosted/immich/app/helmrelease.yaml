@@ -188,13 +188,13 @@ spec:
       data:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_IMMICH}
+        path: /mnt/hdd-data/Immich
         globalMounts:
           - path: /data
       photos:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_PHOTOS}
+        path: /mnt/hdd-data/Photos
         globalMounts:
           - path: /photos
             readOnly: true

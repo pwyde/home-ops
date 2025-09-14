@@ -89,6 +89,6 @@ spec:
       downloads:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_MEDIA}
+        path: /mnt/hdd-media/Media
         globalMounts:
           - path: /downloads
