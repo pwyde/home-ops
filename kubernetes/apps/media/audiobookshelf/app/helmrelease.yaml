@@ -61,27 +61,6 @@ spec:
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [4000]
-    service:
-      app:
-        ports:
-          http:
-            port: *port
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &customHost ljudbok.${SECRET_DOMAIN}
-            paths: *paths
-        tls:
-          - hosts:
-              - *host
-              - *customHost
     persistence:
       cache:
         type: emptyDir
@@ -96,3 +75,16 @@ spec:
         globalMounts:
           - path: /data
             readOnly: true
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
