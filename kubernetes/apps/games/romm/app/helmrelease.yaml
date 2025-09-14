@@ -127,19 +127,19 @@ spec:
       romm-assets:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_ROMM_ASSETS}
+        path: /mnt/hdd-data/Games/RomM/Assets
         globalMounts:
           - path: /romm/assets
       romm-library:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_ROMM_LIBRARY}
+        path: /mnt/hdd-data/Games/RomM/Library
         globalMounts:
           - path: /romm/library
       romm-resources:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_ROMM_RESOURCES}
+        path: /mnt/hdd-data/Games/RomM/Resources
         globalMounts:
           - path: /romm/resources
       tmp:

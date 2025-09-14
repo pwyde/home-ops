@@ -109,7 +109,7 @@ spec:
       music:
         type: nfs
         server: nas.${SECRET_DOMAIN}
-        path: ${SECRET_NFS_PATH_MUSIC}
+        path: /mnt/hdd-media/Media/Library/Music
         globalMounts:
           - path: /music
             readOnly: true
