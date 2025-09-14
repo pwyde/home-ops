@@ -46,9 +46,13 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
-    domainFilters: ["${SECRET_DOMAIN}"]
+    domainFilters:
+      - "${SECRET_DOMAIN}"
     policy: sync
-    sources: ["ingress", "service"]
+    sources:
+      - gateway-httproute
+      - ingress
+      - service
     triggerLoopOnEvent: true
     txtOwnerId: main
     txtPrefix: k8s.main.
