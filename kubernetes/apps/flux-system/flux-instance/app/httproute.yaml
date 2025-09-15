@@ -3,16 +3,20 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: headlamp
+  name: github-webhook
 spec:
   hostnames:
-    - "headlamp.${SECRET_DOMAIN}"
+    - flux-webhook.${SECRET_DOMAIN}
   parentRefs:
-    - name: envoy-internal
+    - name: envoy-external
       namespace: network
       sectionName: https
   rules:
     - backendRefs:
-        - name: headlamp
-          namespace: observability
+        - name: webhook-receiver
+          namespace: flux-system
           port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /hook/
