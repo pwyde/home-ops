@@ -74,6 +74,24 @@ spec:
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [4000]
+    persistence:
+      data:
+        existingClaim: "{{ .Release.Name }}"
+      music:
+        type: nfs
+        server: nas.${SECRET_DOMAIN}
+        path: /mnt/hdd-media/Media/Library/Music
+        globalMounts:
+          - path: /music
+            readOnly: true
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
     service:
       app:
         ports:
@@ -87,29 +105,3 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &customHost musik.${SECRET_DOMAIN}
-            paths: *paths
-        tls:
-          - hosts:
-              - *host
-              - *customHost
-    persistence:
-      data:
-        existingClaim: "{{ .Release.Name }}"
-      music:
-        type: nfs
-        server: nas.${SECRET_DOMAIN}
-        path: /mnt/hdd-media/Media/Library/Music
-        globalMounts:
-          - path: /music
-            readOnly: true

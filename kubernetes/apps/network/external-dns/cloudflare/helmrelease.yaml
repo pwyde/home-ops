@@ -39,9 +39,13 @@ spec:
       - --ignore-ingress-tls-spec
       - --ingress-class=external
       - --zone-id-filter=$(CF_ZONE_ID)
-    domainFilters: ["${SECRET_DOMAIN}"]
+    domainFilters:
+      - "${SECRET_DOMAIN}"
     policy: sync
-    sources: ["crd", "ingress"]
+    sources:
+      - crd
+      - gateway-httproute
+      - ingress
     triggerLoopOnEvent: true
     txtOwnerId: default
     txtPrefix: k8s.

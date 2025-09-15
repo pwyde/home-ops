@@ -19,6 +19,11 @@ releases:
     chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
     version: 1.19.0
 
+  - name: envoy-gateway
+    namespace: network
+    chart: oci://docker.io/envoyproxy/gateway-helm
+    version: 1.5.0
+
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets

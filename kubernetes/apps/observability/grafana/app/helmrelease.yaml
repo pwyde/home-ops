@@ -233,6 +233,12 @@ spec:
           revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        envoy-gateway:
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+          datasource: Prometheus
+        envoy-proxy:
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
+          datasource: Prometheus
         external-dns:
           # renovate: depName="External-dns"
           gnetId: 15038
@@ -334,12 +340,32 @@ spec:
           gnetId: 11315
           revision: 9
           datasource: Prometheus
+    persistence:
+      enabled: false
+    plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
     resources:
       requests:
         cpu: 30m
         memory: 128Mi
       limits:
         memory: 192Mi
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    serviceMonitor:
+      enabled: true
     sidecar:
       image:
         registry: ghcr.io
@@ -363,24 +389,5 @@ spec:
           memory: 96Mi
         limits:
           memory: 128Mi
-    plugins:
-      - grafana-clock-panel
-      - grafana-piechart-panel
-      - grafana-worldmap-panel
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
-      - vonage-status-panel
-    serviceMonitor:
-      enabled: true
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-      tls:
-        - hosts:
-            - *host
-    persistence:
-      enabled: false
     testFramework:
       enabled: false
