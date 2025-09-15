@@ -83,7 +83,6 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - "s3.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -92,6 +91,17 @@ spec:
           - backendRefs:
               - identifier: app
                 port: &httpPort 9001
+      s3:
+        hostnames:
+          - "s3.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *s3Port
     service:
       app:
         ports:
