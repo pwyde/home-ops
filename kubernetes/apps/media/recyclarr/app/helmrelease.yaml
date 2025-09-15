@@ -37,7 +37,8 @@ spec:
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-            args: ["sync"]
+            args:
+              - sync
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
