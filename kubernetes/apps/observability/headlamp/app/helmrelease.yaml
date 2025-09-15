@@ -30,21 +30,13 @@ spec:
             name: headlamp-plugins
     config:
       pluginsDir: /build/plugins
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - host: headlamp.${SECRET_DOMAIN}
-          paths:
-            - path: /
-              type: Prefix
-    podAnnotations:
-      reloader.stakater.com/auto: "true"
     persistentVolumeClaim:
       enabled: true
       accessModes: ["${PVC_ACCESSMODES}"]
       size: ${PVC_CAPACITY}
       storageClassName: ${PVC_STORAGECLASS}
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     resources:
       requests:
         cpu: 100m
