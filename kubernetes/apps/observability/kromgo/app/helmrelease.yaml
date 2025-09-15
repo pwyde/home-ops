@@ -58,29 +58,6 @@ spec:
         runAsNonRoot: true
         runAsUser: &uid 65534
         runAsGroup: *uid
-    service:
-      app:
-        ports:
-          http:
-            primary: true
-            port: *port
-          health:
-            port: *healthPort
-    ingress:
-      app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        className: external
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config-file:
         type: configMap
@@ -89,3 +66,23 @@ spec:
           - path: /kromgo/config.yaml
             subPath: config.yaml
             readOnly: true
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    service:
+      app:
+        ports:
+          http:
+            primary: true
+            port: *port
+          health:
+            port: *healthPort

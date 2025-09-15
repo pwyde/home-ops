@@ -129,35 +129,6 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
-    service:
-      app:
-        ports:
-          http:
-            port: 3000
-      chrome:
-        ports:
-          http:
-            port: 9222
-      meilisearch:
-        ports:
-          http:
-            port: 7700
-    ingress:
-      karakeep:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &customHost hoarder.${SECRET_DOMAIN}
-            paths: *paths
-        tls:
-          - hosts:
-              - *host
-              - *customHost
     persistence:
       cache:
         type: emptyDir
@@ -181,3 +152,29 @@ spec:
           karakeep:
             chrome:
               - path: /tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "hoarder.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: &port 3000
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+      chrome:
+        ports:
+          http:
+            port: 9222
+      meilisearch:
+        ports:
+          http:
+            port: 7700

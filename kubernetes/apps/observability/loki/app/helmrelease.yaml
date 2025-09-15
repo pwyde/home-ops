@@ -72,24 +72,7 @@ spec:
         storageClass: truenas-ssd-iscsi
         size: 50Gi
     gateway:
-      replicas: 1
-      ingress:
-        enabled: true
-        ingressClassName: internal
-        hosts:
-          - host: &host loki.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-      resources:
-        requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
-          memory: 32Mi
+      replicas: 0
     backend:
       replicas: 0
     read:

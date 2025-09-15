@@ -9,21 +9,11 @@ spec:
     - name: gatus.rules
       rules:
         - alert: GatusEndpointDown
-          annotations:
-            summary: >-
-              The {{ $labels.name }} endpoint is down
           expr: |-
             gatus_results_endpoint_success{group="external"} == 0
           for: 5m
-          labels:
-            severity: critical
-
-        - alert: GatusEndpointExposed
           annotations:
             summary: >-
-              The {{ $labels.name }} endpoint has a public DNS record and is exposed
-          expr: |-
-            gatus_results_endpoint_success{group="guarded"} == 0
-          for: 5m
+              The {{ $labels.name }} endpoint is down
           labels:
             severity: critical

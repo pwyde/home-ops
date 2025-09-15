@@ -91,27 +91,6 @@ spec:
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [4000]
-    service:
-      app:
-        ports:
-          http:
-            port: *port
-          discovery:
-            port: 7359
-            protocol: UDP
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
@@ -121,3 +100,19 @@ spec:
         path: /mnt/hdd-media/Media
         globalMounts:
           - path: /data
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+          discovery:
+            port: 7359
+            protocol: UDP
