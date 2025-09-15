@@ -3,8 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: flux-instance-rules
-  namespace: flux-system
+  name: flux-instance
 spec:
   groups:
     - name: flux-instance.rules

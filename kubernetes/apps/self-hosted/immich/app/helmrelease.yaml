@@ -138,41 +138,6 @@ spec:
         runAsGroup: &gid 3010
         fsGroup: *gid
         fsGroupChangePolicy: OnRootMismatch
-    service:
-      app:
-        ports:
-          http:
-            port: *port
-          metrics-api:
-            port: 8081
-          metrics-ms:
-            port: 8082
-      machine-learning:
-        ports:
-          http:
-            port: *mlPort
-    ingress:
-      app:
-        annotations:
-          # Set to 0 to remove the body limit on file uploads.
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &customHost foto.${SECRET_DOMAIN}
-            paths: *paths
-        tls:
-          - hosts:
-              - *host
-              - *customHost
     persistence:
       cache:
         existingClaim: "{{ .Release.Name }}"
@@ -202,4 +167,29 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
-
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "foto.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+          metrics-api:
+            port: 8081
+          metrics-ms:
+            port: 8082
+      machine-learning:
+        ports:
+          http:
+            port: *mlPort

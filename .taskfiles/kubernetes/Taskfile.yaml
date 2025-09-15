@@ -59,7 +59,7 @@ tasks:
         helmreleases
         certificates
         certificaterequests
-        ingresses
+        httproutes
         pods
     preconditions:
       - which kubectl

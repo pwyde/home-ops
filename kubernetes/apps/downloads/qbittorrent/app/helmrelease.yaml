@@ -208,27 +208,6 @@ spec:
         fsGroup: &gid 4000
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [*gid]
-    service:
-      app:
-        ports:
-          http:
-            port: *port
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &customHost qbit.${SECRET_DOMAIN}
-            paths: *paths
-        tls:
-          - hosts:
-              - *host
-              - *customHost
     persistence:
       addons:
         type: emptyDir
@@ -247,4 +226,21 @@ spec:
         path: /mnt/hdd-media/Media
         globalMounts:
           - path: /data
-
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "qbit.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    service:
+      app:
+        ports:
+          http:
+            port: *port

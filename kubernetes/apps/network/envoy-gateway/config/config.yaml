@@ -48,7 +48,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname "external-envoy.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: &hostname "external.${SECRET_DOMAIN}"
   name: envoy-external
 spec:
   gatewayClassName: envoy

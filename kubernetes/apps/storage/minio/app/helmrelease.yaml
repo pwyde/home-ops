@@ -49,7 +49,7 @@ spec:
                 spec:
                   httpGet:
                     path: /minio/health/live
-                    port: &port 9000
+                    port: &s3Port 9000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -72,13 +72,43 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      data:
+        type: nfs
+        server: nas.${SECRET_DOMAIN}
+        path: /mnt/ssd-data/MinIO
+        globalMounts:
+          - path: /data
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: &httpPort 9001
+      s3:
+        hostnames:
+          - "s3.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *s3Port
     service:
       app:
         ports:
           http:
-            port: 9001
+            port: *httpPort
           s3:
-            port: *port
+            port: *s3Port
     serviceMonitor:
       app:
         endpoints:
@@ -87,30 +117,3 @@ spec:
             path: /minio/v2/metrics/cluster
             interval: 1m
             scrapeTimeout: 10s
-    ingress:
-      app:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: &s3host s3.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: s3
-        tls:
-          - hosts:
-              - *host
-              - *s3host
-    persistence:
-      data:
-        type: nfs
-        server: nas.${SECRET_DOMAIN}
-        path: /mnt/ssd-data/MinIO
-        globalMounts:
-          - path: /data

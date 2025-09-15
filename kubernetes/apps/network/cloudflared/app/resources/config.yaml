@@ -4,7 +4,7 @@ originRequest:
 
 ingress:
   - hostname: "${SECRET_DOMAIN}"
-    service: &service https://ingress-nginx-external-controller.network.svc.cluster.local:443
+    service: &service https://envoy-external.network.svc.cluster.local
   - hostname: "*.${SECRET_DOMAIN}"
     service: *service
   - service: http_status:404
