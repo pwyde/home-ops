@@ -1,6 +1,8 @@
 {
   "recommendations": [
       "albert.TabOut",
+      "bluebrown.yamlfmt",
+      "blueglassblock.better-json5",
       "britesnow.vscode-toggle-quotes",
       "catppuccin.catppuccin-vsc",
       "catppuccin.catppuccin-vsc-icons",

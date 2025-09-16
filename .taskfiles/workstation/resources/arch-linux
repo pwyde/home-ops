@@ -9,6 +9,7 @@ jq
 krew
 kubectl-bin
 kustomize
+lefthook-bin
 minijinja-cli-bin
 minio-client
 mise
@@ -18,3 +19,4 @@ stern-bin
 talhelper-bin
 talosctl
 usage
+yamlfmt
