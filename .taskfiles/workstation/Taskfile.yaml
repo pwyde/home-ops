@@ -17,7 +17,8 @@ tasks:
 
   krew:
     desc: Install Krew tools
-    deps: [arch-linux]
+    deps:
+      - arch-linux
     cmds:
       - kubectl krew install cert-manager cnpg browse-pvc node-shell view-secret
     preconditions:

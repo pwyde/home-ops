@@ -34,17 +34,17 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: gpu.home-ops/amd
-                operator: In
-                values:
-                  - "true"
+              - matchExpressions:
+                  - key: gpu.home-ops/amd
+                    operator: In
+                    values:
+                      - "true"
       priorityClassName: system-node-critical
       tolerations:
         - key: CriticalAddonsOnly

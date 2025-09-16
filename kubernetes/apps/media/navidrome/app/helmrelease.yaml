@@ -65,7 +65,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true # Disable during database upgrade.
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true # Disable during database upgrade.
@@ -73,7 +73,8 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [4000]
+        supplementalGroups:
+          - 4000
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"

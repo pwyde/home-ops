@@ -75,7 +75,8 @@ spec:
       random_page_cost: "1.2"
       shared_buffers: 256MB
       work_mem: 16MB
-    shared_preload_libraries: ["vchord.so"]
+    shared_preload_libraries:
+      - "vchord.so"
   primaryUpdateMethod: switchover
   primaryUpdateStrategy: unsupervised
   resources:

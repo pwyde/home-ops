@@ -4,7 +4,8 @@ spec:
   containers:
     - name: debug
       image: docker.io/library/alpine:latest
-      command: ["/bin/sh"]
+      command:
+        - "/bin/sh"
       stdin: true
       stdinOnce: true
       tty: true

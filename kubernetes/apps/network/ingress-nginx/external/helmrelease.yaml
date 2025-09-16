@@ -39,7 +39,8 @@ spec:
           matchExpressions:
             - key: ingress-class
               operator: In
-              values: ["external"]
+              values:
+                - "external"
       config:
         allow-snippet-annotations: true
         annotations-risk-level: Critical

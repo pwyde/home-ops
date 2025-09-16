@@ -1,3 +1,4 @@
+---
 # Load default settings and override with settings specified below. Defaults
 # can be viewed here:
 #  - https://github.com/searxng/searxng/blob/master/searx/settings.yml
@@ -203,7 +204,6 @@ search:
   max_page: 0
   # Available languages.
   languages:
-  #   - all
     - en
     - en-US
     - en-GB

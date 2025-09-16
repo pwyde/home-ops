@@ -67,7 +67,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -75,7 +75,8 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [4000]
+        supplementalGroups:
+          - 4000
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

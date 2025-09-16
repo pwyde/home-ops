@@ -132,7 +132,7 @@ spec:
               runAsGroup: *uid
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
@@ -186,7 +186,7 @@ spec:
                 squat.ai/tun: "1"
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { add: ["NET_ADMIN"] }
+              capabilities: {add: ["NET_ADMIN"]}
           vuetorrent:
             dependsOn: app
             image:
@@ -207,7 +207,8 @@ spec:
       securityContext:
         fsGroup: &gid 4000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [*gid]
+        supplementalGroups:
+          - *gid
     persistence:
       addons:
         type: emptyDir

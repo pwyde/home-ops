@@ -69,17 +69,17 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: gpu.home-ops/nvidia
-                operator: In
-                values:
-                  - "true"
+              - matchExpressions:
+                  - key: gpu.home-ops/nvidia
+                    operator: In
+                    values:
+                      - "true"
       nodeSelector:
         gpu.home-ops/nvidia: "true"
       priorityClassName: gpu-priority
@@ -90,7 +90,8 @@ spec:
         runAsGroup: *uid
         fsGroup: *uid
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [4000]
+        supplementalGroups:
+          - 4000
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

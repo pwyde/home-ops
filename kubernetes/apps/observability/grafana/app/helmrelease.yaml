@@ -135,9 +135,9 @@ spec:
       datasources.yaml:
         apiVersion: 1
         deleteDatasources:
-          - { name: Alertmanager, orgId: 1 }
-          - { name: Loki, orgId: 1 }
-          - { name: Prometheus, orgId: 1 }
+          - {name: Alertmanager, orgId: 1}
+          - {name: Loki, orgId: 1}
+          - {name: Prometheus, orgId: 1}
         datasources:
           - name: Alertmanager
             type: alertmanager
@@ -220,7 +220,7 @@ spec:
         exportarr:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr.json
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
       network:
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
@@ -232,7 +232,7 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         envoy-gateway:
           url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
           datasource: Prometheus
@@ -268,23 +268,23 @@ spec:
           gnetId: 13502
           revision: 26
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         truenas-scale-cgroups:
           url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_cgroups.json
           datasource:
-            - { name: DS_MIMIR, value: Prometheus }
+            - {name: DS_MIMIR, value: Prometheus}
         truenas-scale-disk-insights:
           url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_disk_insights.json
           datasource:
-            - { name: DS_MIMIR, value: Prometheus }
+            - {name: DS_MIMIR, value: Prometheus}
         truenas-scale-temperatures:
           url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_temperatures.json
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         truenas-scale-overview:
           url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale.json
           datasource:
-            - { name: DS_MIMIR, value: Prometheus }
+            - {name: DS_MIMIR, value: Prometheus}
         volsync:
           # renovate: depName="Volsync"
           gnetId: 21356
@@ -296,19 +296,19 @@ spec:
         dcgm-exporter:
           url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/dcgm-exporter.json
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 41
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
         smartctl-exporter:
           # renovate: depName="SMARTctl Exporter Dashboard"
           gnetId: 22604
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - {name: DS_PROMETHEUS, value: Prometheus}
       unifi:
         unifi-client-dpi:
           # renovate: depName="UniFi-Poller: Client DPI - Prometheus"

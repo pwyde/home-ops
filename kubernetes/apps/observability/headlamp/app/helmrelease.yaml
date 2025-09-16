@@ -32,7 +32,8 @@ spec:
       pluginsDir: /build/plugins
     persistentVolumeClaim:
       enabled: true
-      accessModes: ["${PVC_ACCESSMODES}"]
+      accessModes:
+        - "${PVC_ACCESSMODES}"
       size: ${PVC_CAPACITY}
       storageClassName: ${PVC_STORAGECLASS}
     podAnnotations:

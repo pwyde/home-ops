@@ -4,7 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: "${PVC_CLAIM:-${APP}}"
 spec:
-  accessModes: ["${PVC_ACCESSMODES:-ReadWriteOnce}"]
+  accessModes:
+    - "${PVC_ACCESSMODES:-ReadWriteOnce}"
   resources:
     requests:
       storage: "${PVC_CAPACITY:-1Gi}"

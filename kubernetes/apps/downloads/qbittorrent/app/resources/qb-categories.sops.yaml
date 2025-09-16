@@ -16,8 +16,8 @@ sops:
             RTRUYTNQZE9MbS9vcjNScmRONkg4NFkKM9plo6ZeKKdBXlyyJqAkBPnCoo7qzW0c
             uCOPNJeHPmlLbsR/Mo6fv09B20OCwlPcFBGfee8odqsbQjtwr7Pkzw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-08-21T21:02:57Z"
-    mac: ENC[AES256_GCM,data:O86PtMgsexvFLBvSrwcHupVNRhlnhXl2+wTr33D4mJrUJadNtiynS+AkxmQXa5Z3dcwgKUp0SW08bnZx6L2ne8K0tJZbesQhgLBFdChRvkV3VgYaUenwdJGrHimnVYUtCKIiaiXe4RmjE2tSfYrt90GgmNVJm4rJcCHLPR0OR/s=,iv:vcyJk/YjI74tgSsOvqy1QSn3VlsDyP3Y9AQpOjuNz6E=,tag:UhmupdzsyNRJBwM/2gzJkQ==,type:str]
+    lastmodified: "2025-09-16T18:58:44Z"
+    mac: ENC[AES256_GCM,data:57Gu8AvDg1jQseAr5DBD9xrMDfHRSXQ3Sog3Oo9QuwE0DRQ5mtHuIJpyFf/TqzZUK8wXjFyRaD6Oks4gbGOs3srVTo1eWaRMLl4TLAINEk4wP10MuQnfoxTXZTwQcxdJpYQii8+GDXt1SUea/YgQmbpHPwUpeALWOggXtKJ+zdc=,iv:8gcIkcRrFkERFkbwayfmGYLojC0IsgMPiWmRB/AKpCg=,tag:75PDNta8MsHZFf1wxYcFsQ==,type:str]
     encrypted_regex: ^(data|stringData)$
     mac_only_encrypted: true
     version: 3.10.2

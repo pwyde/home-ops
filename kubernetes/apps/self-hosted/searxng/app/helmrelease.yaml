@@ -59,7 +59,7 @@ spec:
               runAsGroup: *uid
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-19
@@ -128,7 +128,7 @@ spec:
                 squat.ai/tun: "1"
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { add: ["NET_ADMIN"] }
+              capabilities: {add: ["NET_ADMIN"]}
     persistence:
       dnsdist-config:
         type: configMap

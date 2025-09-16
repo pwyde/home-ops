@@ -3,8 +3,6 @@ apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
   name: gpu-priority
-description: "Priority class for GPU-enabled workloads that require access to
-  the node GPU resources. Ensures high-priority scheduling on the specified
-  node for critical GPU-bound tasks."
+description: "Priority class for GPU-enabled workloads that require access to the node GPU resources. Ensures high-priority scheduling on the specified node for critical GPU-bound tasks."
 globalDefault: false
 value: 1000

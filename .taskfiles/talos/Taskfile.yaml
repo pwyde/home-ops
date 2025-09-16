@@ -17,7 +17,8 @@ tasks:
       INSECURE:
         sh: talosctl --nodes {{.NODE}} get machineconfig &> /dev/null && echo false || echo true
     requires:
-      vars: [NODE]
+      vars:
+        - NODE
     preconditions:
       - op user get --me
       - talosctl config info
@@ -36,7 +37,8 @@ tasks:
           talosctl --nodes {{.NODE}} get machineconfig --output=jsonpath='{.spec}' \
             | yq '.machine.install.image | select(. != null)'
     requires:
-      vars: [NODE]
+      vars:
+        - NODE
     preconditions:
       - talosctl config info
       - talosctl --nodes {{.NODE}} get machineconfig
@@ -48,7 +50,8 @@ tasks:
     vars:
       MODE: '{{.MODE | default "default"}}'
     requires:
-      vars: [NODE]
+      vars:
+        - NODE
     preconditions:
       - talosctl config info
       - talosctl --nodes {{.NODE}} get machineconfig
@@ -71,7 +74,8 @@ tasks:
     prompt: Reset Talos node '{{.NODE}}'... Continue?
     cmd: talosctl --nodes {{.NODE}} reset --graceful=false --reboot
     requires:
-      vars: [NODE]
+      vars:
+        - NODE
     preconditions:
       - talosctl config info
       - talosctl --nodes {{.NODE}} get machineconfig
@@ -109,7 +113,8 @@ tasks:
       TALOS_SCHEMATIC:
         sh: task --silent talos:generate-schematic ISO=true
     requires:
-      vars: [VERSION]
+      vars:
+        - VERSION
     preconditions:
       - which curl task
 

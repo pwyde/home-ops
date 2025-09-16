@@ -64,7 +64,7 @@ spec:
               allowPrivilegeEscalation: false
               # s6-rmrf: fatal: unable to remove /run/s6: Read-only file system
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
           chrome:
             image:
               repository: gcr.io/zenika-hub/alpine-chrome
@@ -95,7 +95,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
           meilisearch:
             image:
               repository: docker.io/getmeili/meilisearch
@@ -121,7 +121,7 @@ spec:
               allowPrivilegeEscalation: false
               # Error while receiving the playload. `Read-only file system (os error 30)`
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

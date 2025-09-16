@@ -11,7 +11,8 @@ tasks:
     vars:
       NS: '{{.NS | default "default"}}'
     requires:
-      vars: [CLAIM]
+      vars:
+        - CLAIM
     preconditions:
       - kubectl --namespace {{.NS}} get persistentvolumeclaims {{.CLAIM}}
       - kubectl browse-pvc --version
@@ -22,7 +23,10 @@ tasks:
     cmds:
       - for:
           matrix:
-            PHASE: [Failed, Pending, Succeeded]
+            PHASE:
+              - Failed
+              - Pending
+              - Succeeded
         cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
     preconditions:
       - which kubectl
@@ -39,7 +43,8 @@ tasks:
     vars:
       NS: '{{.NS | default "default"}}'
     requires:
-      vars: [SECRET]
+      vars:
+        - SECRET
     preconditions:
       - kubectl --namespace {{.NS}} get secrets {{.SECRET}}
       - which kubectl openssl
@@ -47,7 +52,7 @@ tasks:
   list-resources:
     desc: List common resources in the cluster
     cmds:
-      - for: { var: RESOURCE }
+      - for: {var: RESOURCE}
         cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
     vars:
       RESOURCE: >-
@@ -71,7 +76,8 @@ tasks:
     vars:
       NS: '{{.NS | default "kube-system"}}'
     requires:
-      vars: [NODE]
+      vars:
+        - NODE
     preconditions:
       - kubectl get nodes {{.NODE}}
       - kubectl node-shell --version
@@ -96,7 +102,8 @@ tasks:
       - task: speed-test-fetch-logs
       - task: speed-test-cleanup
     requires:
-      vars: [STORAGE]
+      vars:
+        - STORAGE
 
   speed-test-apply-manifest:
     desc: Apply the Kubernetes manifest for the speed test
@@ -158,7 +165,7 @@ tasks:
   sync-secrets:
     desc: Sync all ExternalSecrets
     cmds:
-      - for: { var: SECRETS, split: "\n" }
+      - for: {var: SECRETS, split: "\n"}
         cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
     vars:
       SECRETS:

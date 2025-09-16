@@ -23,11 +23,11 @@ spec:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-          - matchExpressions:
-            - key: gpu.home-ops/nvidia
-              operator: In
-              values:
-                - "true"
+            - matchExpressions:
+                - key: gpu.home-ops/nvidia
+                  operator: In
+                  values:
+                    - "true"
     config:
       name: &configMap nvidia-device-plugin-configmap
     gfd:
@@ -35,7 +35,7 @@ spec:
     nfd:
       enabled: false
     nodeSelector:
-        gpu.home-ops/nvidia: "true"
+      gpu.home-ops/nvidia: "true"
     podAnnotations:
       configmap.reloader.stakater.com/reload: *configMap
     runtimeClassName: nvidia

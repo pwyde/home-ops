@@ -74,7 +74,7 @@ spec:
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
           machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
@@ -123,11 +123,11 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: gpu.home-ops/nvidia
-                operator: In
-                values:
-                  - "true"
+              - matchExpressions:
+                  - key: gpu.home-ops/nvidia
+                    operator: In
+                    values:
+                      - "true"
       nodeSelector:
         gpu.home-ops/nvidia: "true"
       priorityClassName: gpu-priority

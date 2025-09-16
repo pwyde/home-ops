@@ -51,7 +51,7 @@ spec:
       capabilities:
         # Add NET_RAW to enable ICMP.
         add:
-         - NET_RAW
+          - NET_RAW
     serviceMonitor:
       enabled: true
       defaults:
