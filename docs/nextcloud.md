@@ -27,25 +27,8 @@ done && php /var/www/html/occ app:disable firstrunwizard \
 && php /var/www/html/occ app:install contacts \
 && php /var/www/html/occ app:install deck \
 && php /var/www/html/occ app:install forms \
-&& php /var/www/html/occ app:install richdocuments \
 && php /var/www/html/occ app:install tables \
 && php /var/www/html/occ app:install quota_warning
-```
-
-## Configure Nextcloud Office
-
-```sh
-until php /var/www/html/occ status --output json | grep -q '"installed":true'; do
-    echo "Waiting for Nextcloud installation...";
-    sleep 10;
-done; echo "Nextcloud is installed. Waiting for Nextcloud Office..."
-until php /var/www/html/occ app:list | grep -q 'richdocuments'; do
-    echo "Waiting for Nextcloud Office installation..."
-    sleep 10;
-done; echo "Nextcloud Office is installed. Configuring...";
-php /var/www/html/occ config:app:set --value https://collabora.${SECRET_DOMAIN} richdocuments wopi_url
-php /var/www/html/occ richdocuments:activate-config
-echo "Nextcloud Office configuration completed.";
 ```
 
 ## Add Missing Indices
