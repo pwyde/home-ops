@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: default-certificate
+  name: "${SECRET_DOMAIN/./-}"
 spec:
   commonName: "${SECRET_DOMAIN}"
   dnsNames:
@@ -12,4 +12,19 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  secretName: default-certificate
+  secretName: "${SECRET_DOMAIN/./-}-tls"
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "${SECRET_DOMAIN/./-}-staging"
+spec:
+  commonName: "${SECRET_DOMAIN}"
+  dnsNames:
+    - "${SECRET_DOMAIN}"
+    - "*.${SECRET_DOMAIN}"
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: "${SECRET_DOMAIN/./-}-staging-tls"
