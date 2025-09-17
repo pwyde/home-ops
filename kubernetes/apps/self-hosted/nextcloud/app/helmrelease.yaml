@@ -255,50 +255,11 @@ spec:
     imaginary:
       enabled: true
     ingress:
-      annotations:
-        # Enable ingress sticky-sessions to loadbalance over multiple pods.
-        nginx.ingress.kubernetes.io/affinity: cookie
-        # Disable CORS. Service discovery (CalDAV, CardDAV, webfinger,
-        # nodeinfo) is not functioning properly with CORS enabled.
-        # Ref: https://github.com/nextcloud/helm/issues/562
-        # This weakens security if Nextcloud is exposed to the internet.
-        # Ref: https://github.com/nextcloud/helm/issues/410
-        nginx.ingress.kubernetes.io/enable-cors: "false"
-        nginx.ingress.kubernetes.io/proxy-body-size: "10G"
-        nginx.ingress.kubernetes.io/client-body-buffer-size: "512M"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-        nginx.ingress.kubernetes.io/server-snippet: |-
-          server_tokens off;
-          proxy_hide_header X-Powered-By;
-          rewrite ^/.well-known/webfinger /index.php/.well-known/webfinger last;
-          rewrite ^/.well-known/nodeinfo /index.php/.well-known/nodeinfo last;
-          rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-          rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
-          location = /.well-known/carddav {
-            return 301 $scheme://$host/remote.php/dav;
-          }
-          location = /.well-known/caldav {
-            return 301 $scheme://$host/remote.php/dav;
-          }
-          location = /robots.txt {
-            allow all;
-            log_not_found off;
-            access_log off;
-          }
-          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
-            deny all;
-          }
-          location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
-            deny all;
-          }
-      className: internal
-      enabled: true
+      enabled: false
     nginx:
-      enabled: true
       config:
-        headers:
-          "Strict-Transport-Security": "max-age=15552000; includeSubDomains;"
+        default: true
+      enabled: true
       securityContext:
         runAsGroup: 82
       resources:
