@@ -224,9 +224,6 @@ spec:
           memory: 24Mi
         limits:
           memory: 64Mi
-    livenessProbe: *probes
-    readinessProbe: *probes
-    startupProbe: *startupProbe
     phpClientHttpsFix:
       enabled: true
       protocol: https
