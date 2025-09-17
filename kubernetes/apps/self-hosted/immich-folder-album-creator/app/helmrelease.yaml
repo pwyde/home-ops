@@ -32,7 +32,8 @@ spec:
             image:
               repository: ghcr.io/salvoxia/immich-folder-album-creator
               tag: 0.20.0@sha256:009fbd59f5030cf8d71eee4b283fdba16c7e16afec7e7f5857c4cca76d10a574
-            command: /script/immich_auto_album.sh
+            command:
+              - /script/immich_auto_album.sh
             env:
               TZ: *tz
               ROOT_PATH: /photos

@@ -42,7 +42,10 @@ spec:
               BACKUP_KEEP_DAYS: 14
               BACKUP_KEEP_WEEKS: 2
               BACKUP_KEEP_MONTHS: 0
-            command: &command /backup.sh
+            command: &command
+              - /bin/bash
+              - -x
+              - /backup.sh
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
