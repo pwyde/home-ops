@@ -192,24 +192,3 @@ spec:
         - path:
             type: PathPrefix
             value: /
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: BackendPolicy
-metadata:
-  name: nextcloud-collabora-policy
-spec:
-  targetRefs:
-    - kind: Service
-      name: nextcloud-collabora
-      group: ""
-  timeout:
-    request: 3600s # proxy-read-timeout
-    idle: 3600s    # proxy-send-timeout
-  buffer:
-    maxRequestBytes: 10737418240  # 10G proxy-body-size
-    maxResponseBytes: 536870912   # 512M client-body-buffer-size
-  loadBalancer:
-    type: ConsistentHash
-    consistentHash:
-      hashKey: HEADER
-      headerName: WOPISrc
