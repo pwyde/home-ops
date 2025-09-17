@@ -55,7 +55,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 192.168.20.80
+      lbipam.cilium.io/ips: 192.168.20.40
   listeners:
     - name: http
       protocol: HTTP
@@ -80,14 +80,14 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname "internal-envoy.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: &hostname "internal.${SECRET_DOMAIN}"
   name: envoy-internal
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 192.168.20.81
+      lbipam.cilium.io/ips: 192.168.20.41
   listeners:
     - name: http
       protocol: HTTP
