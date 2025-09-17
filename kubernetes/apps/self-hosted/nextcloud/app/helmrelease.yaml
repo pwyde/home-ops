@@ -203,6 +203,12 @@ spec:
           secretName: *secret
           usernameKey: COLLABORA_USERNAME
           passwordKey: COLLABORA_PASSWORD
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+        enabled: true
+        hosts:
+          - host: nextcloud-collabora.self-hosted.svc.cluster.local
       probes:
         liveness: &probes
           enabled: false
