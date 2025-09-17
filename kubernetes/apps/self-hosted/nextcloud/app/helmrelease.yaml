@@ -209,6 +209,9 @@ spec:
         enabled: true
         hosts:
           - host: nextcloud-collabora.self-hosted.svc.cluster.local
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
       probes:
         liveness: &probes
           enabled: false
