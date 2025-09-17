@@ -75,14 +75,6 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/kubernetes-folder
-          - name: media
-            orgId: 1
-            folder: Media
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/media-folder
           - name: network
             orgId: 1
             folder: Network
@@ -160,8 +152,6 @@ spec:
             url: http://prometheus-operated.observability.svc.cluster.local:9090
             isDefault: true
     dashboards:
-      database:
-      default:
       flux:
         flux-api-performance:
           url: https://raw.githubusercontent.com/controlplaneio-fluxcd/flux-operator/refs/heads/main/config/monitoring/dashboards/flux-k8s-api-performance.json
@@ -216,11 +206,6 @@ spec:
           gnetId: 11454
           revision: 14
           datasource: Prometheus
-      media:
-        exportarr:
-          url: https://raw.githubusercontent.com/pwyde/home-ops/main/kubernetes/apps/observability/grafana/app/resources/exportarr.json
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
       network:
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
