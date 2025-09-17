@@ -6,7 +6,7 @@ metadata:
   name: blackbox-exporter
 spec:
   hostnames:
-    - "blackbox.${SECRET_DOMAIN}"
+    - blackbox.${SECRET_DOMAIN}
   parentRefs:
     - name: envoy-internal
       namespace: network
