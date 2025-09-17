@@ -192,7 +192,8 @@ spec:
     collabora:
       enabled: true
       collabora:
-        extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN} --o:num_prespawn_children=4
+        # extra_params: --o:ssl.termination=true --o:ssl.enable=false --o:welcome.enable=false --o:frame-ancestors=nextcloud.${SECRET_DOMAIN} --o:num_prespawn_children=4
+        extra_params: --o:ssl.enable=false
         env:
           - name: dictionaries
             value: "en_GB en_US sv_SE"
