@@ -8,6 +8,7 @@ components:
 resources:
   # Flux-Kustomizations
   - ./alloy/ks.yaml
+  - ./blackbox-exporter/ks.yaml
   - ./exporters
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml

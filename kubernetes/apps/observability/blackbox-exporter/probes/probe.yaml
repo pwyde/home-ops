@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: devices-icmp
+spec:
+  module: icmp
+  prober:
+    url: blackbox-exporter.observability.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - nas.${SECRET_DOMAIN}
+        - pikvm.${SECRET_DOMAIN}
+        - pve.${SECRET_DOMAIN}
+        - pve-ipmi.${SECRET_DOMAIN}
+        - unifi.${SECRET_DOMAIN}
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: devices-http
+spec:
+  module: http_2xx
+  prober:
+    url: blackbox-exporter.observability.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - https://nas.${SECRET_DOMAIN}
+        - https://pikvm.${SECRET_DOMAIN}
+        - https://pve.${SECRET_DOMAIN}:8006
+        - https://pve-ipmi.${SECRET_DOMAIN}
+        - https://unifi.${SECRET_DOMAIN}
