@@ -97,7 +97,7 @@ spec:
                 port: &httpPort 9001
       s3:
         hostnames:
-          - "s3.${SECRET_DOMAIN}"
+          - s3.${SECRET_DOMAIN}
         parentRefs:
           - name: envoy-internal
             namespace: network

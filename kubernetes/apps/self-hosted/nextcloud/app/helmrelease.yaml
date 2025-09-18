@@ -170,7 +170,7 @@ spec:
       mail:
         enabled: true
         fromAddress: *app
-        domain: "${SECRET_DOMAIN}"
+        domain: ${SECRET_DOMAIN}
         smtp:
           secure: ssl
           port: 465

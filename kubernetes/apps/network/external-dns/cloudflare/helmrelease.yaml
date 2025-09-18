@@ -39,7 +39,7 @@ spec:
       - --gateway-name=envoy-external
       - --zone-id-filter=$(CF_ZONE_ID)
     domainFilters:
-      - "${SECRET_DOMAIN}"
+      - ${SECRET_DOMAIN}
     policy: sync
     sources:
       - crd

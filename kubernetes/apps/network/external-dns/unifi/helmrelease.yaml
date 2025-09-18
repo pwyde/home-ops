@@ -47,7 +47,7 @@ spec:
     extraArgs:
       - --ignore-ingress-tls-spec
     domainFilters:
-      - "${SECRET_DOMAIN}"
+      - ${SECRET_DOMAIN}
     policy: sync
     sources:
       - gateway-httproute
