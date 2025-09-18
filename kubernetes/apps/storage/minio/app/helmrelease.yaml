@@ -28,7 +28,7 @@ spec:
               # Note: Stay on this release due to the following PR: https://github.com/minio/object-browser/pull/3509
               tag: RELEASE.2025-04-22T22-12-26Z@sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
             env:
-              TZ: ${CONFIG_TIMEZONE}
+              TZ: Europe/Stockholm
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
               MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
               MINIO_PROMETHEUS_JOB_ID: minio

@@ -23,7 +23,7 @@ spec:
           reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob: &cronjob
-          timeZone: &tz ${CONFIG_TIMEZONE}
+          timeZone: &tz Europe/Stockholm
           schedule: 00 2 * * *
           successfulJobsHistory: 1
           failedJobsHistory: 1
