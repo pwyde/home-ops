@@ -9,18 +9,18 @@ spec:
     - name: kube-prometheus-stack.rules
       rules:
         - alert: DockerhubRateLimitRisk
-          annotations:
-            summary: Kubernetes cluster Dockerhub rate limit risk
           expr: |-
             count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
+          annotations:
+            summary: Kubernetes cluster Dockerhub rate limit risk
           labels:
             severity: critical
 
         - alert: OomKilled
-          annotations:
-            summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes
           expr: |-
             (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+          annotations:
+            summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes
           labels:
             severity: critical
 ---
@@ -34,61 +34,61 @@ spec:
     - name: smartctl-exporter.rules
       rules:
         - alert: SmartDeviceHighTemperature
-          annotations:
-            summary: >-
-              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} has a temperature higher than 65°C
           expr: |-
             smartctl_device_temperature{temperature_type="current"} > 65
           for: 5m
+          annotations:
+            summary: >-
+              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} has a temperature higher than 65°C
           labels:
             severity: critical
 
         - alert: SmartDeviceTestFailed
-          annotations:
-            summary: >-
-              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} did not pass its SMART test
           expr: |-
             (smartctl_device_smart_status != 1 or smartctl_device_status != 1)
           for: 5m
+          annotations:
+            summary: >-
+              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} did not pass its SMART test
           labels:
             severity: critical
 
         - alert: SmartDeviceCriticalWarning
-          annotations:
-            summary: >-
-              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} is in a critical state
           expr: |-
             smartctl_device_critical_warning != 0
           for: 5m
+          annotations:
+            summary: >-
+              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} is in a critical state
           labels:
             severity: critical
 
         - alert: SmartDeviceMediaErrors
-          annotations:
-            summary: >-
-              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} has media errors
           expr: |-
             smartctl_device_media_errors != 0
           for: 5m
+          annotations:
+            summary: >-
+              Mounted drive {{ $labels.device }} on device {{ $labels.instance }} has media errors
           labels:
             severity: critical
 
         - alert: SmartDeviceAvailableSpareUnderThreadhold
-          annotations:
-            summary: >-
-              Device {{ $labels.device }} on instance {{ $labels.instance }} is under available spare threashold
           expr: |-
             smartctl_device_available_spare_threshold > smartctl_device_available_spare
           for: 5m
+          annotations:
+            summary: >-
+              Device {{ $labels.device }} on instance {{ $labels.instance }} is under available spare threashold
           labels:
             severity: critical
 
         - alert: SmartDeviceInterfaceSlow
-          annotations:
-            summary: >-
-              Device {{ $labels.device }} on instance {{ $labels.instance }} interface is slower then it should be
           expr: |-
             smartctl_device_interface_speed{speed_type="current"} != on(device, instance, namespace, pod) smartctl_device_interface_speed{speed_type="max"}
           for: 5m
+          annotations:
+            summary: >-
+              Device {{ $labels.device }} on instance {{ $labels.instance }} interface is slower then it should be
           labels:
             severity: critical
