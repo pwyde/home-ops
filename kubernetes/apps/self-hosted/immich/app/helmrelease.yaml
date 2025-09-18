@@ -27,7 +27,7 @@ spec:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.142.1
             env: &env
-              TZ: ${CONFIG_TIMEZONE}
+              TZ: Europe/Stockholm
               IMMICH_CONFIG_FILE: /config/immich.json
               IMMICH_LOG_LEVEL: verbose
               IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.self-hosted.svc.cluster.local:3003

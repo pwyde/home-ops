@@ -27,7 +27,7 @@ spec:
               repository: docker.io/fallenbagel/jellyseerr
               tag: 2.7.3@sha256:4538137bc5af902dece165f2bf73776d9cf4eafb6dd714670724af8f3eb77764
             env:
-              TZ: ${CONFIG_TIMEZONE}
+              TZ: Europe/Stockholm
               CONFIG_DIRECTORY: /config
               LOG_LEVEL: info
             probes:
