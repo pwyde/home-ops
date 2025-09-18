@@ -73,6 +73,8 @@ spec:
       # TODO: Change to 1 replica prior to single node cluster deployment.
       replicas: 2
       rollOutPods: true
+    pmtuDiscovery:
+      enabled: true
     prometheus:
       enabled: true
       serviceMonitor:
