@@ -58,7 +58,7 @@ spec:
               name: *secret
               key: REDIS_HOST_PASSWORD
         - name: TZ
-          value: "${CONFIG_TIMEZONE}"
+          value: "Europe/Stockholm"
       extraInitContainers:
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:17

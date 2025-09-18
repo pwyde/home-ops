@@ -25,7 +25,7 @@ spec:
               repository: ghcr.io/dokuwiki/dokuwiki
               tag: 2025-05-14a@sha256:f08ecfdda239acb5dfeeb46b582c6cbb148328540382f9255c409cfdab6e41c9
             env:
-              PHP_TIMEZONE: ${CONFIG_TIMEZONE}
+              PHP_TIMEZONE: Europe/Stockholm
             probes:
               liveness: &probes
                 enabled: true
