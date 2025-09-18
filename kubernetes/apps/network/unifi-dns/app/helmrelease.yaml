@@ -8,7 +8,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: external-dns-unifi
+    name: unifi-dns
   install:
     remediation:
       retries: -1
