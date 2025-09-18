@@ -16,10 +16,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: kube-state-metrics-configmap
-      valuesKey: kube-state-metrics-config.yaml
   values:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
