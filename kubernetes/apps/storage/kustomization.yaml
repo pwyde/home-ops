@@ -8,4 +8,3 @@ components:
 resources:
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml
-  # - ./minio/ks.yaml
