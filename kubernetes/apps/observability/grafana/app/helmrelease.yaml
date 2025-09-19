@@ -220,6 +220,11 @@ spec:
           gnetId: 15038
           revision: 3
           datasource: Prometheus
+        traefik:
+          # renovate: depName="Traefik"
+          gnetId: 17346
+          revision: 9
+          datasource: Prometheus
       prometheus:
         prometheus:
           # renovate: depName="Prometheus"
