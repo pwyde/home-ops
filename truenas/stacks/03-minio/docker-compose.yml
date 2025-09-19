@@ -13,6 +13,8 @@ services:
       MINIO_BROWSER_REDIRECT_URL: https://${CONSOLE_HOST}
       MINIO_DOMAIN: ${S3_HOST}
       MINIO_UPDATE: "off"
+      MINIO_PROMETHEUS_JOB_ID: minio
+      MINIO_PROMETHEUS_AUTH_TYPE: public
     command:
       - minio
       - server
