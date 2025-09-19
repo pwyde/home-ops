@@ -1,0 +1,45 @@
+---
+services:
+  traefik:
+    image: traefik:v3.5.2
+    container_name: traefik
+    hostname: traefik
+    restart: always
+    env_file:
+      - path: ./secrets.env
+        required: true
+    environment:
+      TZ: Europe/Stockholm
+    security_opt:
+      - no-new-privileges
+    networks:
+      traefik_macvlan:
+        ipv4_address: ${MACVLAN_ADDRESS}
+      apps:
+    configs:
+      - source: traefik-config
+        target: /etc/traefik/traefik.yml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/dynamic:/dynamic
+      - certs:/certs
+configs:
+  traefik-config:
+    file: ./config/traefik.yml
+volumes:
+  certs:
+    name: certs
+networks:
+  apps:
+    name: apps
+  traefik_macvlan:
+    name: traefik_macvlan
+    driver: ipvlan
+    driver_opts:
+      parent: br0
+    ipam:
+      driver: default
+      config:
+        - subnet: ${MACVLAN_SUBNET}
+          ip_range: ${MACVLAN_IP_RANGE}
+          gateway: ${MACVLAN_GATEWAY}

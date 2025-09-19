@@ -3,15 +3,22 @@ services:
   graphite-exporter:
     image: ghcr.io/supporterino/truenas-graphite-to-prometheus:v2.1.0
     container_name: graphite-exporter
+    hostname: graphite-exporter
     restart: unless-stopped
     environment:
-      TZ: ${TIMEZONE}
+      TZ: Europe/Stockholm
+    security_opt:
+      - no-new-privileges
     ports:
       - ${GRAPHITE_PORT}:${GRAPHITE_PORT}
       - ${PROM_PORT}:${PROM_PORT}
+    networks:
+      - internal
+
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
     container_name: node-exporter
+    hostname: node-exporter
     restart: unless-stopped
     command:
       - --path.rootfs=/host/root
@@ -20,20 +27,35 @@ services:
       - --path.udev.data=/host/root/run/udev/data
       - --web.listen-address=0.0.0.0:9100
       - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
-    ports:
-      - ${NODE_PORT}:${NODE_PORT}
+    security_opt:
+      - no-new-privileges
     network_mode: host
     volumes:
       - /:/host/root:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
+
   smartctl-exporter:
     image: quay.io/prometheuscommunity/smartctl-exporter:v0.14.0
     container_name: smartctl-exporter
+    hostname: smartctl-exporter
     restart: unless-stopped
     environment:
-      TZ: ${TIMEZONE}
+      TZ: Europe/Stockholm
     privileged: true
     user: root
+    security_opt:
+      - no-new-privileges
     ports:
       - ${SMART_PORT}:${SMART_PORT}
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.16.2.0/24
+         gateway: 172.16.2.1
