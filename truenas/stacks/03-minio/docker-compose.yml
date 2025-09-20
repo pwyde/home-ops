@@ -1,0 +1,54 @@
+---
+services:
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    container_name: minio
+    hostname: minio
+    restart: unless-stopped
+    env_file:
+      - path: ./secrets.env
+        required: true
+    environment:
+      MINIO_API_CORS_ALLOW_ORIGIN: https://${S3_HOST},https://${CONSOLE_HOST}
+      MINIO_BROWSER_REDIRECT_URL: https://${CONSOLE_HOST}
+      MINIO_DOMAIN: ${S3_HOST}
+      MINIO_UPDATE: "off"
+      MINIO_PROMETHEUS_JOB_ID: minio
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    command:
+      - minio
+      - server
+      - /data
+      - --console-address
+      - :9001
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    user: 1000:1000
+    networks:
+      apps:
+    expose:
+      - &s3Port 9000
+      - &consolePort 9001
+    volumes:
+      - ${DATA_PATH}:/data
+    labels:
+      traefik.enable: "true"
+      # Console
+      traefik.http.routers.minio.entrypoints: https
+      traefik.http.routers.minio.rule: Host(`${CONSOLE_HOST}`)
+      traefik.http.routers.minio.service: minio
+      traefik.http.routers.minio.tls: true
+      traefik.http.routers.minio.tls.certresolver: letsencrypt
+      traefik.http.services.minio.loadbalancer.server.port: *consolePort
+      # S3
+      traefik.http.routers.s3.entrypoints: https
+      traefik.http.routers.s3.rule: Host(`${S3_HOST}`)
+      traefik.http.routers.s3.service: s3
+      traefik.http.routers.s3.tls: true
+      traefik.http.routers.s3.tls.certresolver: letsencrypt
+      traefik.http.services.s3.loadbalancer.server.port: *s3Port
+networks:
+  apps:
+    external: true

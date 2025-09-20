@@ -156,7 +156,7 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - "hoarder.${SECRET_DOMAIN}"
+          - hoarder.${SECRET_DOMAIN}
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -1,0 +1,59 @@
+---
+global:
+  sendAnonymousUsage: false
+api:
+  dashboard: true
+accesslog: {}
+log:
+  # level: INFO
+  level: DEBUG
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: ":443"
+providers:
+  docker:
+    network: apps
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    directory: /dynamic
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: postmaster@wyde.network
+      storage: /certs/acme.json
+      # ACME staging.
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      dnsChallenge:
+        provider: cloudflare
+        # Delay DNS check and reduce Let's Encrypt hitrate.
+        delayBeforeCheck: 90s
+        # Disables the need to wait for the propagation of the TXT record to all
+        # authoritative name servers.
+        disablePropagationCheck: true
+        resolvers:
+          - 1.1.1.1:53
+tls:
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: letsencrypt
+        domain:
+          main: wyde.network
+          sans:
+            - "*.wyde.network"
+metrics:
+  prometheus:
+    entryPoint: metrics
+    manualRouting: true
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
