@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: "${PVC_CLAIM:-${APP}}"
+  name: ${PVC_CLAIM:-${APP}}
 spec:
   accessModes:
-    - "${PVC_ACCESSMODES:-ReadWriteOnce}"
+    - ${PVC_ACCESSMODES:-ReadWriteOnce}
   resources:
     requests:
-      storage: "${PVC_CAPACITY:-1Gi}"
-  storageClassName: "${PVC_STORAGECLASS:-truenas-ssd-iscsi}"
+      storage: ${PVC_CAPACITY:-1Gi}
+  storageClassName: ${PVC_STORAGECLASS:-truenas-ssd-iscsi}

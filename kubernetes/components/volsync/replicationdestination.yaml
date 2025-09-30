@@ -3,7 +3,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination # Cluster resource used for restores.
 metadata:
-  name: "${APP}"
+  name: ${APP}
 spec:
   trigger:
     manual: restore-once
