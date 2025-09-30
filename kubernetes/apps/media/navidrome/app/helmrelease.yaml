@@ -42,7 +42,7 @@ spec:
               ND_ENABLEINSIGHTSCOLLECTOR: false
               ND_PROMETHEUS_ENABLED: true
               ND_DEFAULTTHEME: "Catppuccin Macchiato"
-              ND_REVERSEPROXYWHITELIST: ${CLUSTER_POD_CIDR}
+              ND_REVERSEPROXYWHITELIST: "10.42.0.0/16"
             probes:
               liveness: &probes
                 enabled: true
