@@ -13,5 +13,3 @@ data:
   # K8s Cluster Storage
   CLUSTER_STORAGE_BLOCK: "truenas-ssd-iscsi"
   CLUSTER_SNAPSHOT_BLOCK: "truenas-ssd-iscsi"
-  CLUSTER_STORAGE_HOSTPATH: "openebs-hostpath"
-  CLUSTER_SNAPSHOT_HOSTPATH: "openebs-hostpath"
