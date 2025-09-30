@@ -33,9 +33,9 @@ spec:
     persistentVolumeClaim:
       enabled: true
       accessModes:
-        - "${PVC_ACCESSMODES}"
-      size: ${PVC_CAPACITY}
-      storageClassName: ${PVC_STORAGECLASS}
+        - ReadWriteOnce
+      size: 1Gi
+      storageClassName: truenas-ssd-iscsi
     podAnnotations:
       reloader.stakater.com/auto: "true"
     resources:
