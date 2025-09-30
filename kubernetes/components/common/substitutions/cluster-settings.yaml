@@ -23,5 +23,3 @@ data:
   CLUSTER_SNAPSHOT_HOSTPATH: "openebs-hostpath"
   # Networks
   NET_LOCAL_CIDR: "192.168.20.0/24"
-  # Service Ports
-  SVC_QBITTORRENT_PORT: "60112"
