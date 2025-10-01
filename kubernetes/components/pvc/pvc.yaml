@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ${PVC_CLAIM:-${APP}}
+  name: ${APP}
 spec:
   accessModes:
     - ${PVC_ACCESSMODES:-ReadWriteOnce}

@@ -5,15 +5,15 @@ kind: ReplicationSource # The backup policy: target, frequency and retention.
 metadata:
   name: ${APP}
 spec:
-  sourcePVC: ${VOLSYNC_CLAIM:-${APP}}
+  sourcePVC: ${APP}
   trigger:
-    schedule: ${VOLSYNC_TIME:-0 3 * * *}
+    schedule: 0 3 * * *
   restic:
     accessModes:
       - ${VOLSYNC_ACCESSMODES:-ReadWriteOnce}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}
-    cacheCapacity: ${VOLSYNC_CACHE_CAPACITY:-1Gi}
+    cacheCapacity: ${VOLSYNC_CAPACITY:-1Gi}
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
     copyMethod: Snapshot
     moverSecurityContext:
