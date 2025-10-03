@@ -23,10 +23,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: &uid "82"
-      APP_GID: *uid
-      VOLSYNC_CAPACITY: &capacity 10Gi
-      VOLSYNC_CACHE_CAPACITY: *capacity
+      VOLSYNC_PUID: "82"
+      VOLSYNC_PGID: "82"
+      VOLSYNC_CAPACITY: 10Gi
   prune: true
   retryInterval: 2m
   sourceRef:

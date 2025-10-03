@@ -128,8 +128,8 @@ spec:
                 memory: 6Gi
             securityContext:
               runAsNonRoot: true
-              runAsUser: &uid 5000
-              runAsGroup: *uid
+              runAsUser: 1000
+              runAsGroup: 1000
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
@@ -205,10 +205,8 @@ spec:
                 memory: 64Mi
     defaultPodOptions:
       securityContext:
-        fsGroup: &gid 4000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups:
-          - *gid
     persistence:
       addons:
         type: emptyDir

@@ -55,8 +55,8 @@ spec:
                 memory: 2Gi
             securityContext: &securityContext
               runAsNonRoot: true
-              runAsUser: &uid 65534
-              runAsGroup: *uid
+              runAsUser: 65534
+              runAsGroup: 65534
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}

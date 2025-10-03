@@ -75,7 +75,6 @@ spec:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         type: emptyDir

@@ -71,8 +71,8 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: &uid 65534
-        runAsGroup: *uid
+        runAsUser: 65534
+        runAsGroup: 65534
     service:
       app:
         ports:

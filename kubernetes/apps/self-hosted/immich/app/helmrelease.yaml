@@ -132,9 +132,9 @@ spec:
       runtimeClassName: nvidia
       securityContext:
         runAsNonRoot: true
-        runAsUser: &uid 5000
-        runAsGroup: &gid 3010
-        fsGroup: *gid
+        runAsUser: 1000
+        runAsGroup: 3010
+        fsGroup: 3010
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       cache:

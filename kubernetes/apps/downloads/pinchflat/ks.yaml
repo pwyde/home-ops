@@ -21,8 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: &uid ${CONFIG_APP_UID}
-      APP_GID: *uid
   prune: true
   retryInterval: 2m
   sourceRef:

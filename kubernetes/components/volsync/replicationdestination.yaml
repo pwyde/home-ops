@@ -20,9 +20,9 @@ spec:
     copyMethod: Snapshot
     enableFileDeletion: true
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:-5000}
-      runAsGroup: ${VOLSYNC_PGID:-5000}
-      fsGroup: ${VOLSYNC_PGID:-5000}
+      runAsUser: ${VOLSYNC_PUID:-1000}
+      runAsGroup: ${VOLSYNC_PGID:-1000}
+      fsGroup: ${VOLSYNC_PGID:-1000}
     repository: ${APP}-volsync-secret
     storageClassName: ${VOLSYNC_STORAGECLASS:-truenas-ssd-iscsi}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:-truenas-ssd-iscsi}
