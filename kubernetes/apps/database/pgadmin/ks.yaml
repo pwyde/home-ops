@@ -23,8 +23,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: "5050"
-      APP_GID: "5050"
+      VOLSYNC_PUID: "5050"
+      VOLSYNC_PGID: "5050"
   prune: true
   retryInterval: 2m
   sourceRef:
