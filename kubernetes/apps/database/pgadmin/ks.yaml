@@ -23,8 +23,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      APP_UID: &uid "5050"
-      APP_GID: *uid
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -55,9 +55,9 @@ spec:
       securityContext:
         # https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html#mapped-files-and-directories
         runAsNonRoot: true
-        runAsUser: &uid 5050
-        runAsGroup: *uid
-        fsGroup: *uid
+        runAsUser: 5050
+        runAsGroup: 5050
+        fsGroup: 5050
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
