@@ -73,8 +73,8 @@ spec:
               limits:
                 memory: 4Gi
             securityContext:
-              # allowPrivilegeEscalation: false
-              # readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
@@ -97,14 +97,14 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /romm/config
-      # romm-config-file:
-      #   type: configMap
-      #   name: "{{ .Release.Name }}-configmap"
-      #   defaultMode: 0664
-      #   globalMounts:
-      #     - path: /romm/config/config.yml
-      #       subPath: config.yml
-      #       readOnly: true
+      romm-config-file:
+        type: configMap
+        name: "{{ .Release.Name }}-configmap"
+        defaultMode: 0664
+        globalMounts:
+          - path: /romm/config/config.yml
+            subPath: config.yml
+            readOnly: true
       romm-assets:
         type: nfs
         server: nas.${SECRET_DOMAIN}
