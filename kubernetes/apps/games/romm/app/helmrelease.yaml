@@ -74,7 +74,7 @@ spec:
                 memory: 4Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
@@ -104,7 +104,7 @@ spec:
         globalMounts:
           - path: /romm/config/config.yml
             subPath: config.yml
-            readOnly: false
+            # readOnly: true
       romm-assets:
         type: nfs
         server: nas.${SECRET_DOMAIN}
