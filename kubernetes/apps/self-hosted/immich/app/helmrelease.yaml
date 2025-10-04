@@ -177,12 +177,14 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: *port
+                # port: *port
+                port: 2283
     service:
       app:
         ports:
           http:
-            port: *port
+            # port: *port
+            port: 2283
           metrics-api:
             port: 8081
           metrics-ms:
@@ -190,4 +192,5 @@ spec:
       machine-learning:
         ports:
           http:
-            port: *mlPort
+            # port: *mlPort
+            port: 3003
