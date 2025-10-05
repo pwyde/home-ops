@@ -142,8 +142,15 @@ spec:
     persistence:
       cache:
         existingClaim: "{{ .Release.Name }}"
-        globalMounts:
-          - path: /cache
+        # globalMounts:
+        #   - path: /cache
+        advancedMounts:
+          immich:
+            machine-learning:
+              - path: /cache
+                subPath: cache
+              - path: /.cache
+                subPath: dotCache
       config:
         type: secret
         name: "{{ .Release.Name }}-config-secret"
