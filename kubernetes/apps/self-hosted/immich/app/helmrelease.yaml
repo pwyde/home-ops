@@ -140,7 +140,7 @@ spec:
       cache:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-          - path: /cache
+          - path: /.cache
       config:
         type: secret
         name: "{{ .Release.Name }}-config-secret"
