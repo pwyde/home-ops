@@ -73,7 +73,9 @@ spec:
                 nvidia.com/gpu: 1
             securityContext: &securityContext
               # allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: true
               # readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
           machine-learning:
             image:
@@ -132,6 +134,7 @@ spec:
       runtimeClassName: nvidia
       securityContext:
         # runAsNonRoot: true
+        runAsNonRoot: false
         runAsUser: 1000
         runAsGroup: 3010
         fsGroup: 3010
