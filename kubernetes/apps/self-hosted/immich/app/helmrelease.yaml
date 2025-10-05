@@ -73,7 +73,7 @@ spec:
                 nvidia.com/gpu: 1
             securityContext: &securityContext
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
           machine-learning:
             image:
