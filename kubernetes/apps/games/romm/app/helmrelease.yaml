@@ -29,14 +29,6 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-          copy-config:
-            image:
-              repository: busybox
-              tag: 1.37.0@sha256:d82f458899c9696cb26a7c02d5568f81c8c8223f8661bb2a7988b269c8b9051e
-            command:
-              - cp
-              - /romm/config-template/config.yml
-              - /romm/config/config.yml
         containers:
           app:
             image:
@@ -92,47 +84,38 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     persistence:
+      config:
+        type: configMap
+        name: "{{ .Release.Name }}-configmap"
+        globalMounts:
+          - path: /romm/config/config.yml
+            subPath: config.yml
+            readOnly: true
+      data:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          romm:
+            app:
+              - path: /romm/assets
+                subPath: assets
+              - path: /romm/config
+                subPath: config
+              - path: /romm/resources
+                subPath: resources
+      library:
+        type: nfs
+        server: nas.${SECRET_DOMAIN}
+        path: /mnt/hdd-data/Games/RomM
+        globalMounts:
+          - path: /romm/library
       nginx-conf:
         type: emptyDir
         globalMounts:
           - path: /etc/nginx/conf.d
-      romm-data:
-        existingClaim: "{{ .Release.Name }}"
-        globalMounts:
-          - path: /romm
-            readOnly: false
-      romm-config:
-        type: emptyDir
-        globalMounts:
-          - path: /romm/config
-      romm-config-file:
-        type: configMap
-        name: "{{ .Release.Name }}-configmap"
-        defaultMode: 0664
-        globalMounts:
-          - path: /romm/config-template/config.yml
-            subPath: config.yml
-            readOnly: true
-      romm-assets:
-        type: nfs
-        server: nas.${SECRET_DOMAIN}
-        path: /mnt/hdd-data/Games/RomM/Assets
-        globalMounts:
-          - path: /romm/assets
-      romm-library:
-        type: nfs
-        server: nas.${SECRET_DOMAIN}
-        path: /mnt/hdd-data/Games/RomM/Library
-        globalMounts:
-          - path: /romm/library
-      romm-resources:
-        type: nfs
-        server: nas.${SECRET_DOMAIN}
-        path: /mnt/hdd-data/Games/RomM/Resources
-        globalMounts:
-          - path: /romm/resources
       tmp:
         type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:
