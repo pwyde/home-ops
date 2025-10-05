@@ -72,7 +72,7 @@ spec:
                 # memory: 8Gi
                 nvidia.com/gpu: 1
             securityContext: &securityContext
-              allowPrivilegeEscalation: false
+              # allowPrivilegeEscalation: false
               # readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
           machine-learning:
@@ -140,7 +140,7 @@ spec:
       cache:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-          - path: /.cache
+          - path: /cache
       config:
         type: secret
         name: "{{ .Release.Name }}-config-secret"
