@@ -10,6 +10,6 @@ resources:
   - ./dokuwiki/ks.yaml
   - ./karakeep/ks.yaml
   - ./immich/ks.yaml
-  # - ./immich-folder-album-creator/ks.yaml
+  - ./immich-folder-album-creator/ks.yaml
   - ./nextcloud/ks.yaml
   - ./searxng/ks.yaml

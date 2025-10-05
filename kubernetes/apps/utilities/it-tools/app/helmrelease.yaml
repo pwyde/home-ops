@@ -53,7 +53,7 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /var/cache/nginx
-      logs:
+      log:
         type: emptyDir
         globalMounts:
           - path: /var/log/nginx

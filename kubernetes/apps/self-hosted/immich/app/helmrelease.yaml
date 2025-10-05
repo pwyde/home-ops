@@ -38,30 +38,30 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /api/server/ping
-            #         port: &port 2283
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness: *probes
-            #   startup:
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /api/server/ping
-            #         port: *port
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 30
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: &port 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 500m
@@ -69,13 +69,11 @@ spec:
                 nvidia.com/gpu: 1 # Request 1 GPU.
               limits:
                 # Disable during initial import of photographs.
-                # memory: 8Gi
+                memory: 8Gi
                 nvidia.com/gpu: 1
             securityContext: &securityContext
-              # allowPrivilegeEscalation: false
-              allowPrivilegeEscalation: true
-              # readOnlyRootFilesystem: true
-              readOnlyRootFilesystem: false
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
           machine-learning:
             image:
@@ -87,27 +85,27 @@ spec:
               # ployment. Will cause crash loop otherwise.
               # Recommended model according to https://v1.131.0.archive.immich.app/docs/features/searching/#clip-models
               # Also see the following comment: https://github.com/immich-app/immich/discussions/17105#discussioncomment-12620002
-              # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
-              # MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
-              # MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
-              # MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
+              MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
+              MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               MPLCONFIGDIR: /tmp/matplotlib
               NVIDIA_VISIBLE_DEVICES: "all"
               NVIDIA_DRIVER_CAPABILITIES: "all"
             envFrom: *envFrom
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /ping
-            #         port: &mlPort 3003
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness: *probes
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlPort 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 100m
@@ -115,7 +113,7 @@ spec:
                 nvidia.com/gpu: 1 # Request 1 GPU.
               limits:
                 # Disable during initial import of photographs.
-                # memory: 8Gi
+                memory: 8Gi
                 nvidia.com/gpu: 1
             securityContext: *securityContext
     defaultPodOptions:
@@ -133,8 +131,7 @@ spec:
       priorityClassName: gpu-priority
       runtimeClassName: nvidia
       securityContext:
-        # runAsNonRoot: true
-        runAsNonRoot: false
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 3010
         fsGroup: 3010
@@ -142,15 +139,13 @@ spec:
     persistence:
       cache:
         existingClaim: "{{ .Release.Name }}"
-        # globalMounts:
-        #   - path: /cache
         advancedMounts:
           immich:
             machine-learning:
               - path: /cache
                 subPath: cache
               - path: /.cache
-                subPath: dotCache
+                subPath: dot-cache
       config:
         type: secret
         name: "{{ .Release.Name }}-config-secret"
@@ -187,14 +182,12 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                # port: *port
-                port: 2283
+                port: *port
     service:
       app:
         ports:
           http:
-            # port: *port
-            port: 2283
+            port: *port
           metrics-api:
             port: 8081
           metrics-ms:
@@ -202,5 +195,4 @@ spec:
       machine-learning:
         ports:
           http:
-            # port: *mlPort
-            port: 3003
+            port: *mlPort
