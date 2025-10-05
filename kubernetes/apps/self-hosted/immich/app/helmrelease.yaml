@@ -72,10 +72,8 @@ spec:
                 # memory: 8Gi
                 nvidia.com/gpu: 1
             securityContext: &securityContext
-              # allowPrivilegeEscalation: false
-              allowPrivilegeEscalation: true
-              # readOnlyRootFilesystem: true
-              readOnlyRootFilesystem: false
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
           machine-learning:
             image:
@@ -133,24 +131,16 @@ spec:
       priorityClassName: gpu-priority
       runtimeClassName: nvidia
       securityContext:
-        # runAsNonRoot: true
-        runAsNonRoot: false
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 3010
         fsGroup: 3010
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       cache:
-        existingClaim: "{{ .Release.Name }}"
-        # globalMounts:
-        #   - path: /cache
-        advancedMounts:
-          immich:
-            machine-learning:
-              - path: /cache
-                subPath: cache
-              - path: /.cache
-                subPath: dotCache
+        type: emptyDir
+        globalMounts:
+          - path: /.cache
       config:
         type: secret
         name: "{{ .Release.Name }}-config-secret"
@@ -164,6 +154,10 @@ spec:
         path: /mnt/hdd-data/Immich
         globalMounts:
           - path: /data
+      ml-cache:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /cache
       photos:
         type: nfs
         server: nas.${SECRET_DOMAIN}
