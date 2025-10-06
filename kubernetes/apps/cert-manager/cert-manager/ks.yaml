@@ -45,6 +45,10 @@ spec:
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
   interval: 1h
   path: ./kubernetes/apps/cert-manager/cert-manager/issuers
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -69,6 +73,10 @@ spec:
       namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/cert-manager/cert-manager/certificates
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

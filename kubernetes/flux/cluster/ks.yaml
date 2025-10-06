@@ -8,13 +8,11 @@ metadata:
 spec:
   decryption:
     provider: sops
-    secretRef:
-      name: sops-age
   interval: 1h
   path: ./kubernetes/apps
   patches:
-    # Add SOPS decryption and postBuild substitutions to child Kustomizations.
-    - patch: |-
+    - # Add SOPS decryption to all Kustomizations.
+      patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
         kind: Kustomization
         metadata:
@@ -22,27 +20,9 @@ spec:
         spec:
           decryption:
             provider: sops
-            secretRef:
-              name: sops-age
-          postBuild:
-            substituteFrom:
-              - name: cluster-secrets
-                kind: Secret
-                optional: false
-              - name: cluster-settings
-                kind: ConfigMap
-                optional: true
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
-        optional: false
-      - name: cluster-settings
-        kind: ConfigMap
-        optional: true
   prune: true
   retryInterval: 2m
   sourceRef:

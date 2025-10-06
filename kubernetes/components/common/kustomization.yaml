@@ -6,5 +6,4 @@ resources:
   - ./alerts
   - ./repos
   - ./sops
-  - ./substitutions
   - ./namespace.yaml

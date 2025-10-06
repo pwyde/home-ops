@@ -42,6 +42,10 @@ spec:
       namespace: *namespace
   interval: 1h
   path: ./kubernetes/apps/network/envoy-gateway/config
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

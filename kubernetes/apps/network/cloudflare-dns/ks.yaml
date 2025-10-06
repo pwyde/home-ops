@@ -19,6 +19,10 @@ spec:
       name: dnsendpoints.externaldns.k8s.io
   interval: 1h
   path: ./kubernetes/apps/network/cloudflare-dns/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
