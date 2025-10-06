@@ -11,10 +11,10 @@ helmDefaults:
   postRenderer: bash
   postRendererArgs:
     - -c
-    - yq ea --exit-status 'select(.kind == "CustomResourceDefinition")'
+    - yq eval-all --exit-status 'select(.kind == "CustomResourceDefinition")'
 
 releases:
-  - name: external-dns
+  - name: cloudflare-dns
     namespace: network
     chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
     version: 1.19.0
