@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: democratic-csi-nfs
+    - name: democratic-csi-iscsi
       namespace: storage
     - name: volsync
       namespace: volsync-system
