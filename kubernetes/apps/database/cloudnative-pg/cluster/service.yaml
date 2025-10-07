@@ -5,6 +5,16 @@ metadata:
   name: &dbcluster pg17-cluster
   annotations:
     external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
+    gatus.home-operations.com/enabled: "true"
+    gatus.home-operations.com/endpoint: |-
+      name: postgres
+      group: infrastructure
+      conditions:
+        - "[CONNECTED] == true"
+        - "[RESPONSE_TIME] < 100"
+      ui:
+        hide-hostname: true
+        hide-url: true
     lbipam.cilium.io/ips: 192.168.20.50
 spec:
   type: LoadBalancer
@@ -23,6 +33,16 @@ metadata:
   name: &dbcluster pg17-immich
   annotations:
     external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
+    gatus.home-operations.com/enabled: "true"
+    gatus.home-operations.com/endpoint: |-
+      name: vectordb
+      group: infrastructure
+      conditions:
+        - "[CONNECTED] == true"
+        - "[RESPONSE_TIME] < 100"
+      ui:
+        hide-hostname: true
+        hide-url: true
     lbipam.cilium.io/ips: 192.168.20.51
 spec:
   type: LoadBalancer

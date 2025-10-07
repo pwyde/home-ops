@@ -10,6 +10,14 @@ metadata:
   name: gatus
 rules:
   - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
       - gateway.networking.k8s.io
     resources:
       - gateways
