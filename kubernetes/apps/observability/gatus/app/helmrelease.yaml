@@ -22,24 +22,20 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          init-config:
+          gatus-sidecar:
             image:
-              repository: ghcr.io/home-operations/k8s-sidecar
-              tag: 1.30.10@sha256:dd3b1f0c4e6b4512b2deb50c58acf65fd0f0927120a59a95eec854d32a6c9ce3
-            env:
-              FOLDER: /config
-              LABEL: gatus.io/enabled
-              NAMESPACE: ALL
-              RESOURCE: both
-              UNIQUE_FILENAMES: true
-              METHOD: WATCH
-            restartPolicy: Always
+              repository: ghcr.io/home-operations/gatus-sidecar
+              tag: 0.0.8@sha256:79c4622f9b379d6bb4e81d775dc4290ddab65eb2d1e4fa4d37a3e7aeef1975d5
+            args:
+              - --auto-httproute
+              - --enable-httproute
             resources:
               requests:
                 cpu: 10m
-                memory: 64Mi
+                memory: 32Mi
               limits:
-                memory: 128Mi
+                memory: 64Mi
+            restartPolicy: Always
         containers:
           app:
             image:
@@ -92,6 +88,9 @@ spec:
             readOnly: true
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 200"]
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
           - status.${SECRET_DOMAIN}
