@@ -9,7 +9,6 @@ metadata:
     gatus.home-operations.com/endpoint: |-
       name: postgres
       group: infrastructure
-      interval: 15s
       conditions:
         - "[CONNECTED] == true"
         - "[RESPONSE_TIME] < 100"
@@ -38,7 +37,6 @@ metadata:
     gatus.home-operations.com/endpoint: |-
       name: vectordb
       group: infrastructure
-      interval: 15s
       conditions:
         - "[CONNECTED] == true"
         - "[RESPONSE_TIME] < 100"
