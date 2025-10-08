@@ -39,8 +39,9 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      backup:
-        name: backup-20251008000000
+      source: source
+      recoveryTarget:
+        targetTime: "2025-10-08 00:01:52.00000+02"
   # bootstrap:
   #   recovery:
   #     source: source
@@ -96,8 +97,9 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      backup:
-        name: backup-20251008000000
+      source: source
+      recoveryTarget:
+        targetTime: "2025-10-08 00:03:16.00000+02"
   # bootstrap:
   #   recovery:
   #     source: source
