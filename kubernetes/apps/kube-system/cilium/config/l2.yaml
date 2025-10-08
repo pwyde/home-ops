@@ -8,6 +8,7 @@ spec:
   loadBalancerIPs: true
   # TODO: Change interfaces to 'bond0' prior to single node cluster deployment.
   interfaces:
+    - bond0
     - eth0
   nodeSelector:
     matchLabels:
