@@ -39,9 +39,11 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: source
-      recoveryTarget:
-        targetTime: "2025-10-08 00:01:52+02"
+      backup:
+        name: backup-20251008000000
+  # bootstrap:
+  #   recovery:
+  #     source: source
   externalClusters:
     - name: source
       plugin:
@@ -94,9 +96,11 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: source
-      recoveryTarget:
-        targetTime: "2025-10-08 00:03:16+02"
+      backup:
+        name: backup-20251008000000
+  # bootstrap:
+  #   recovery:
+  #     source: source
   externalClusters:
     - name: source
       plugin:
