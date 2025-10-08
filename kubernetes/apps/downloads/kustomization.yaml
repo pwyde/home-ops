@@ -8,4 +8,4 @@ components:
 resources:
   # Flux-Kustomizations
   - ./pinchflat/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml
