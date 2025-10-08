@@ -50,7 +50,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/database-folder
+              path: /var/lib/grafana/dashboards/database
           - name: default
             orgId: 1
             folder: ""
@@ -58,7 +58,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/default-folder
+              path: /var/lib/grafana/dashboards/default
           - name: flux
             orgId: 1
             folder: Flux
@@ -66,7 +66,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/flux-folder
+              path: /var/lib/grafana/dashboards/flux
           - name: kubernetes
             orgId: 1
             folder: Kubernetes
@@ -74,7 +74,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/kubernetes-folder
+              path: /var/lib/grafana/dashboards/kubernetes
           - name: network
             orgId: 1
             folder: Network
@@ -82,7 +82,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/network-folder
+              path: /var/lib/grafana/dashboards/network
           - name: prometheus
             orgId: 1
             folder: Prometheus
@@ -90,7 +90,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/prometheus-folder
+              path: /var/lib/grafana/dashboards/prometheus
           - name: security
             orgId: 1
             folder: Security
@@ -98,7 +98,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/security-folder
+              path: /var/lib/grafana/dashboards/security
           - name: storage
             orgId: 1
             folder: Storage
@@ -106,7 +106,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/storage-folder
+              path: /var/lib/grafana/dashboards/storage
           - name: system
             orgId: 1
             folder: System
@@ -114,7 +114,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/system-folder
+              path: /var/lib/grafana/dashboards/system
           - name: unifi
             orgId: 1
             folder: UniFi
@@ -122,7 +122,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/unifi-folder
+              path: /var/lib/grafana/dashboards/unifi
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -153,14 +153,15 @@ spec:
             isDefault: true
     dashboards:
       flux:
-        flux-api-performance:
-          url: https://raw.githubusercontent.com/controlplaneio-fluxcd/flux-operator/refs/heads/main/config/monitoring/dashboards/flux-k8s-api-performance.json
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
-        flux-operator-performance:
-          url: https://raw.githubusercontent.com/controlplaneio-fluxcd/flux-operator/refs/heads/main/config/monitoring/dashboards/flux-performance.json
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
+        flux-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+          datasource: Prometheus
+        flux-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+          datasource: Prometheus
+        flux-logs:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
+          datasource: Prometheus
       kubernetes:
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
