@@ -31,6 +31,17 @@ spec:
       memory: 128Mi
     limits:
       memory: 512Mi
+  serviceSpec:
+    annotations:
+      gatus.home-operations.com/endpoint: |-
+        name: dragonfly
+        group: infrastructure
+        conditions:
+          - "[CONNECTED] == true"
+          - "[RESPONSE_TIME] < 100"
+        ui:
+          hide-hostname: true
+          hide-url: true
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
