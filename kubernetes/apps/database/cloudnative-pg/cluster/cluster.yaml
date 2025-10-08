@@ -40,6 +40,8 @@ spec:
   bootstrap:
     recovery:
       source: source
+      recoveryTarget:
+        targetTime: "2025-10-08 00:01:52+02"
   externalClusters:
     - name: source
       plugin:
@@ -93,6 +95,8 @@ spec:
   bootstrap:
     recovery:
       source: source
+      recoveryTarget:
+        targetTime: "2025-10-08 00:03:16+02"
   externalClusters:
     - name: source
       plugin:
