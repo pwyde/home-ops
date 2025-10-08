@@ -62,10 +62,10 @@ spec:
               requests:
                 cpu: 200m
                 memory: 2Gi
-                nvidia.com/gpu: 1 # Request 1 GPU.
+                # nvidia.com/gpu: 1 # Request 1 GPU.
               limits:
                 memory: 4Gi
-                nvidia.com/gpu: 1
+                # nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -76,14 +76,14 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: gpu.home-ops/nvidia
+                  - key: gpu.home-ops/amd
                     operator: In
                     values:
                       - "true"
       nodeSelector:
-        gpu.home-ops/nvidia: "true"
+        gpu.home-ops/amd: "true"
       priorityClassName: gpu-priority
-      runtimeClassName: nvidia
+      # runtimeClassName: nvidia
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
