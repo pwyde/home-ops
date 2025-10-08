@@ -22,6 +22,8 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 6Gi
+      VOLSYNC_STORAGECLASS: &storageClass openebs-hostpath
+      VOLSYNC_SNAPSHOTCLASS: *storageClass
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
