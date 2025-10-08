@@ -41,7 +41,7 @@ spec:
     recovery:
       source: source
       recoveryTarget:
-        targetTime: "2025-10-08 00:01:52.00000+02"
+        targetTime: "2025-10-08 04:00:00.00000+02"
   # bootstrap:
   #   recovery:
   #     source: source
@@ -99,7 +99,7 @@ spec:
     recovery:
       source: source
       recoveryTarget:
-        targetTime: "2025-10-08 00:03:16.00000+02"
+        targetTime: "2025-10-08 04:00:00.00000+02"
   # bootstrap:
   #   recovery:
   #     source: source
