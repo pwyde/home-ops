@@ -136,6 +136,8 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 3010
     persistence:
       cache:
         existingClaim: "{{ .Release.Name }}"
