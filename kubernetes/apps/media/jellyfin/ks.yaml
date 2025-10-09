@@ -12,6 +12,8 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
+    - name: amd-device-plugin
+      namespace: kube-system
     - name: democratic-csi-iscsi
       namespace: storage
     - name: volsync
