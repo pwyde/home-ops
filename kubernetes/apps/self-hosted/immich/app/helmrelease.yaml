@@ -133,7 +133,7 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
-        runAsGroup: 1000
+        runAsGroup: 3010
         fsGroup: 3010
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
