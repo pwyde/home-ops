@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app cloudflare-dns
+  name: cloudflare-dns
 spec:
   interval: 1h
   chartRef:
@@ -17,9 +17,9 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: *app
-    provider:
-      name: cloudflare
+    fullnameOverride: external-dns-cloudflare
+    domainFilters:
+      - ${SECRET_DOMAIN}
     env:
       - name: &name CF_API_TOKEN
         valueFrom:
@@ -38,15 +38,11 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --gateway-name=envoy-external
       - --zone-id-filter=$(CF_ZONE_ID)
-    domainFilters:
-      - ${SECRET_DOMAIN}
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *secret
     policy: sync
-    sources:
-      - crd
-      - gateway-httproute
-    triggerLoopOnEvent: true
-    txtOwnerId: default
-    txtPrefix: k8s.
+    provider:
+      name: cloudflare
     resources:
       requests:
         cpu: 10m
@@ -55,5 +51,9 @@ spec:
         memory: 192Mi
     serviceMonitor:
       enabled: true
-    podAnnotations:
-      secret.reloader.stakater.com/reload: *secret
+    sources:
+      - crd
+      - gateway-httproute
+    triggerLoopOnEvent: true
+    txtOwnerId: default
+    txtPrefix: k8s.
