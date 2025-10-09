@@ -62,10 +62,10 @@ spec:
               requests:
                 cpu: 200m
                 memory: 2Gi
-                amd.com/gpu: 1 # Request 1 GPU.
+                # amd.com/gpu: 1 # Request 1 GPU.
               limits:
                 memory: 4Gi
-                amd.com/gpu: 1
+                # amd.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
