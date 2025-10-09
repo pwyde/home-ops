@@ -134,10 +134,12 @@ spec:
               namespace: network
               sectionName: https
       prometheusSpec:
+        externalUrl: https://prometheus.${SECRET_DOMAIN}
+        version: v2.55.1 # Override 'unsupported Prometheus version' error.
         image:
           registry: docker.io
           repository: prompp/prompp
-          tag: 2.53.2-0.4.0
+          tag: 0.5.2
         securityContext:
           runAsNonRoot: true
           runAsUser: 64535
@@ -148,7 +150,6 @@ spec:
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
-        externalUrl: https://prometheus.${SECRET_DOMAIN}
         retention: 14d
         retentionSize: 50GB
         resources:
