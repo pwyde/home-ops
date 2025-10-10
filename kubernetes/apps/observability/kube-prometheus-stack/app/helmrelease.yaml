@@ -45,7 +45,7 @@ spec:
             metadata:
               name: data
             spec:
-              storageClassName: truenas-ssd-iscsi
+              storageClassName: ceph-block
               resources:
                 requests:
                   storage: 1Gi
@@ -162,7 +162,7 @@ spec:
             metadata:
               name: data
             spec:
-              storageClassName: truenas-ssd-iscsi
+              storageClassName: ceph-block
               resources:
                 requests:
                   storage: 50Gi
