@@ -69,7 +69,7 @@ spec:
           memory: 512Mi
       persistence:
         enabled: true
-        storageClass: truenas-ssd-iscsi
+        storageClass: ceph-block
         size: 50Gi
     gateway:
       replicas: 0
