@@ -14,4 +14,3 @@
 # Kubernetes & Talos
 kubeconfig
 talosconfig
-k8s-*.yaml.j2

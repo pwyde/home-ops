@@ -9,7 +9,7 @@ machine:
   certSANs:
     - 127.0.0.1
     - 192.168.20.20
-    - op://Kubernetes/talos/MACHINE_CERTSAN
+    - home-k8s.wyde.network
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
@@ -23,7 +23,7 @@ machine:
     kubernetesTalosAPIAccess:
       allowedKubernetesNamespaces:
         - actions-runner-system
-        - system-upgrade
+        - system
       allowedRoles:
         - os:admin
       enabled: true
@@ -49,8 +49,12 @@ machine:
         rsize=1048576
         wsize=1048576
   install:
-    disk: /dev/sda
-    image: factory.talos.dev/metal-installer/6b35a4a9d9443a9641ca0773f1cd8ecfe06f9b5a1e62298266c26023ab292e5f:v1.11.2
+    diskSelector:
+      serial: S666NT0Y523232
+    # Including extensions iscsi-tools and util-linux-tools.
+    image: factory.talos.dev/metal-installer-secureboot/cf599287ad9dc26ddb635c782d2309b74224600972cb3c7a9b4374ff339948c1:v1.11.2
+    # Excluding iscsi-tools and util-linux-tools.
+    # image: factory.talos.dev/metal-installer-secureboot/b2c95653dcce44052c622b22158a6dfada369640a3990d10271381afceab739e:v1.11.2
   kernel:
     modules:
       - name: nbd
@@ -67,21 +71,28 @@ machine:
         - 192.168.20.0/24
   network:
     disableSearchDomain: true
-    hostname: talos-2
+    hostname: k8s-1
     interfaces:
-      - deviceSelector:
-          hardwareAddr: bc:24:11:61:9a:bd
+      - interface: bond0
         addresses:
-          - 192.168.20.22/24
+          - 192.168.20.21/24
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 38:05:25:30:83:*
+              driver: i40e
+          lacpRate: fast
+          mode: 802.3ad
+          miimon: 1000
+          xmitHashPolicy: layer3+4
+        dhcp: false
+        mtu: 1500
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.20.1
-        mtu: 1500
-        dhcp: false
     nameservers:
       - 192.168.20.1
   nodeLabels:
-    gpu.home-ops/amd: false
+    gpu.home-ops/amd: true
     gpu.home-ops/nvidia: false
     topology.kubernetes.io/region: k8s
     topology.kubernetes.io/zone: m
@@ -114,13 +125,12 @@ cluster:
     key: op://Kubernetes/talos/CLUSTER_CA_KEY
   clusterName: home-k8s
   controlPlane:
-    endpoint: op://Kubernetes/talos/CLUSTER_CONTROLPLANE_ENDPOINT
+    endpoint: https://home-k8s.wyde.network:6443
   discovery:
     enabled: true
     registries:
-      kubernetes:
-        disabled: true
-      service: {}
+      kubernetes: {disabled: true}
+      service: {disabled: false}
   id: op://Kubernetes/talos/CLUSTER_ID
   network:
     cni:
@@ -145,11 +155,11 @@ cluster:
     certSANs:
       - 127.0.0.1
       - 192.168.20.20
-      - op://Kubernetes/talos/CLUSTER_APISERVER_CERTSAN
+      - home-k8s.wyde.network
     disablePodSecurityPolicy: true
     extraArgs:
-      enable-aggregator-routing: "true"
-      feature-gates: MutatingAdmissionPolicy=true
+      enable-aggregator-routing: true
+      feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
     image: registry.k8s.io/kube-apiserver:v1.34.1
   controllerManager:
@@ -193,3 +203,58 @@ cluster:
   secretboxEncryptionSecret: op://Kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: enp5s0f0np0
+rings: {rx: 8160, tx: 8160}
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: enp5s0f1np1
+rings: {rx: 8160, tx: 8160}
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: STATE
+encryption:
+  provider: luks2
+  keys:
+    - slot: 0
+      tpm:
+        checkSecurebootStatusOnEnroll: true
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+encryption:
+  provider: luks2
+  keys:
+    - slot: 0
+      tpm:
+        checkSecurebootStatusOnEnroll: true
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZ1L21T9HCLS-00A07"
+  minSize: 20GB
+  maxSize: 256GB # Limit EPHEMERAL to 256GB.
+  grow: false # Do not auto-grow.
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+encryption:
+  provider: luks2
+  keys:
+    - slot: 0
+      tpm:
+        checkSecurebootStatusOnEnroll: true
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZ1L21T9HCLS-00A07"
+  minSize: 1.0TB
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

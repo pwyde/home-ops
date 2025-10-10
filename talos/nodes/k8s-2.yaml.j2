@@ -9,7 +9,7 @@ machine:
   certSANs:
     - 127.0.0.1
     - 192.168.20.20
-    - op://Kubernetes/talos/MACHINE_CERTSAN
+    - home-k8s.wyde.network
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
@@ -50,14 +50,10 @@ machine:
         wsize=1048576
   install:
     disk: /dev/sda
-    image: factory.talos.dev/metal-installer/6f5bfc74b8208614e498720c8c3a2d1dfe0f88227aff4d1c84f22e259d5ed62a:v1.11.2
+    image: factory.talos.dev/metal-installer/6b35a4a9d9443a9641ca0773f1cd8ecfe06f9b5a1e62298266c26023ab292e5f:v1.11.2
   kernel:
     modules:
       - name: nbd
-      - name: nvidia
-      - name: nvidia_uvm
-      - name: nvidia_drm
-      - name: nvidia_modeset
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
@@ -71,28 +67,27 @@ machine:
         - 192.168.20.0/24
   network:
     disableSearchDomain: true
-    hostname: talos-1
+    hostname: k8s-2
     interfaces:
       - deviceSelector:
-          hardwareAddr: bc:24:11:45:85:07
+          hardwareAddr: BC:24:11:61:9A:BD
         addresses:
-          - 192.168.20.21/24
+          - 192.168.20.22/24
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.20.1
-        mtu: 1500
         dhcp: false
+        mtu: 1500
     nameservers:
       - 192.168.20.1
   nodeLabels:
     gpu.home-ops/amd: false
-    gpu.home-ops/nvidia: true
+    gpu.home-ops/nvidia: false
     topology.kubernetes.io/region: k8s
     topology.kubernetes.io/zone: m
   sysctls:
     fs.inotify.max_user_instances: "8192" # Watchdog
     fs.inotify.max_user_watches: "1048576" # Watchdog
-    net.core.bpf_jit_harden: "1" # NVIDIA GPU
     net.core.default_qdisc: fq # 10Gb/s
     net.core.rmem_max: "67108864" # 10Gb/s | Cloudflared / QUIC
     net.core.wmem_max: "67108864" # 10Gb/s | Cloudflared / QUIC
@@ -119,7 +114,7 @@ cluster:
     key: op://Kubernetes/talos/CLUSTER_CA_KEY
   clusterName: home-k8s
   controlPlane:
-    endpoint: op://Kubernetes/talos/CLUSTER_CONTROLPLANE_ENDPOINT
+    endpoint: https://home-k8s.wyde.network:6443
   discovery:
     enabled: true
     registries:
@@ -150,7 +145,7 @@ cluster:
     certSANs:
       - 127.0.0.1
       - 192.168.20.20
-      - op://Kubernetes/talos/CLUSTER_APISERVER_CERTSAN
+      - home-k8s.wyde.network
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
@@ -198,3 +193,32 @@ cluster:
   secretboxEncryptionSecret: op://Kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: eth0
+rings: {rx: 8160, tx: 8160}
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.model == "QEMU HARDDISK"
+  minSize: 20GB
+  maxSize: 50GB # Limit EPHEMERAL to 50GB.
+  grow: false # Do not auto-grow.
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+provisioning:
+  diskSelector:
+    match: disk.model == "QEMU HARDDISK"
+  minSize: 100GB
+  grow: true
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

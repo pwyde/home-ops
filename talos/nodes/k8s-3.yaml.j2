@@ -9,7 +9,7 @@ machine:
   certSANs:
     - 127.0.0.1
     - 192.168.20.20
-    - op://Kubernetes/talos/MACHINE_CERTSAN
+    - home-k8s.wyde.network
   features:
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
@@ -67,17 +67,17 @@ machine:
         - 192.168.20.0/24
   network:
     disableSearchDomain: true
-    hostname: talos-3
+    hostname: k8s-3
     interfaces:
       - deviceSelector:
-          hardwareAddr: bc:24:11:17:18:1c
+          hardwareAddr: BC:24:11:17:18:1C
         addresses:
           - 192.168.20.23/24
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.20.1
-        mtu: 1500
         dhcp: false
+        mtu: 1500
     nameservers:
       - 192.168.20.1
   nodeLabels:
@@ -114,7 +114,7 @@ cluster:
     key: op://Kubernetes/talos/CLUSTER_CA_KEY
   clusterName: home-k8s
   controlPlane:
-    endpoint: op://Kubernetes/talos/CLUSTER_CONTROLPLANE_ENDPOINT
+    endpoint: https://home-k8s.wyde.network:6443
   discovery:
     enabled: true
     registries:
@@ -145,7 +145,7 @@ cluster:
     certSANs:
       - 127.0.0.1
       - 192.168.20.20
-      - op://Kubernetes/talos/CLUSTER_APISERVER_CERTSAN
+      - home-k8s.wyde.network
     disablePodSecurityPolicy: true
     extraArgs:
       enable-aggregator-routing: "true"
@@ -193,3 +193,32 @@ cluster:
   secretboxEncryptionSecret: op://Kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: eth0
+rings: {rx: 8160, tx: 8160}
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.model == "QEMU HARDDISK"
+  minSize: 20GB
+  maxSize: 50GB # Limit EPHEMERAL to 50GB.
+  grow: false # Do not auto-grow.
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath
+provisioning:
+  diskSelector:
+    match: disk.model == "QEMU HARDDISK"
+  minSize: 100GB
+  grow: true
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m
