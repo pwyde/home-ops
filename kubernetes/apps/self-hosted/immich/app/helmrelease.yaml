@@ -66,11 +66,9 @@ spec:
               requests:
                 cpu: 500m
                 memory: 1Gi
-                # nvidia.com/gpu: 1 # Request 1 GPU.
               limits:
                 # Disable during initial import of photographs.
                 memory: 8Gi
-                # nvidia.com/gpu: 1
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -90,8 +88,6 @@ spec:
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               MPLCONFIGDIR: /tmp/matplotlib
-              # NVIDIA_VISIBLE_DEVICES: "all"
-              # NVIDIA_DRIVER_CAPABILITIES: "all"
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -110,26 +106,11 @@ spec:
               requests:
                 cpu: 100m
                 memory: 2Gi
-                # nvidia.com/gpu: 1 # Request 1 GPU.
               limits:
                 # Disable during initial import of photographs.
                 memory: 8Gi
-                # nvidia.com/gpu: 1
             securityContext: *securityContext
     defaultPodOptions:
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #         - matchExpressions:
-      #             - key: gpu.home-ops/nvidia
-      #               operator: In
-      #               values:
-      #                 - "true"
-      # nodeSelector:
-      #   gpu.home-ops/nvidia: "true"
-      # priorityClassName: gpu-priority
-      # runtimeClassName: nvidia
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
