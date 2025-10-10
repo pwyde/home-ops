@@ -164,7 +164,7 @@ spec:
         server: nas.${SECRET_DOMAIN}
         path: /mnt/hdd-data/Photos
         globalMounts:
-          - path: /photos
+          - path: /mnt/photos
             readOnly: true
       tmp:
         type: emptyDir
