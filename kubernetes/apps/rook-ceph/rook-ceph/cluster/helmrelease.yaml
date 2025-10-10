@@ -127,7 +127,8 @@ spec:
               name: data0
           metadataServer:
             activeCount: 1
-            activeStandby: true
+            # TODO: Change to 'true' prior to multi-node cluster deployment.
+            activeStandby: false
             priorityClassName: system-cluster-critical
             placement:
               topologySpreadConstraints:
