@@ -53,7 +53,7 @@ spec:
         prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
       mgr:
         # TODO: Remove prior to multi-node cluster deployment.
-        count: 1
+        # count: 1
         modules:
           - name: diskprediction_local
             enabled: true
