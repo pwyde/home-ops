@@ -17,6 +17,10 @@ spec:
     remediation:
       retries: 3
   values:
+    clusterRoleBinding:
+      create: false
+    config:
+      pluginsDir: /build/plugins
     fullnameOverride: *app
     initContainers:
       - image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:v0.1.0-beta-2@sha256:c63dc4e10d7ddb95c966194b5e6fbe2012feb7f932bafa24692daed3cf6c248a
@@ -28,14 +32,6 @@ spec:
         volumeMounts:
           - mountPath: /build/plugins
             name: headlamp-plugins
-    config:
-      pluginsDir: /build/plugins
-    persistentVolumeClaim:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 1Gi
-      storageClassName: truenas-ssd-iscsi
     podAnnotations:
       reloader.stakater.com/auto: "true"
     resources:
@@ -51,6 +47,5 @@ spec:
       - mountPath: /build/plugins
         name: headlamp-plugins
     volumes:
-      - name: headlamp-plugins
-        persistentVolumeClaim:
-          claimName: *app
+      - emptyDir: {}
+        name: headlamp-plugins
