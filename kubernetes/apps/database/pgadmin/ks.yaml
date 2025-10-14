@@ -26,11 +26,9 @@ spec:
       VOLSYNC_PUID: "5050"
       VOLSYNC_PGID: "5050"
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: false
