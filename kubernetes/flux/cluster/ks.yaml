@@ -61,10 +61,8 @@ spec:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
   prune: true
-
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-
   wait: false
