@@ -29,22 +29,15 @@ spec:
               tag: 2025.9.1@sha256:4604b477520dc8322af5427da68b44f0bf814938e9d2e4814f2249ee4b03ffdf
             args:
               - tunnel
-              - --config
-              - /etc/cloudflared/config/config.yaml
               - run
-              - $(TUNNEL_ID)
             env:
-              TZ: Europe/Stockholm
               NO_AUTOUPDATE: true
-              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_TRANSPORT_PROTOCOL: http2
-              TUNNEL_ID:
-                valueFrom:
-                  secretKeyRef:
-                    name: "{{ .Release.Name }}-secret"
-                    key: CLOUDFLARE_TUNNEL_ID
+              TUNNEL_POST_QUANTUM: true # Disable when using http2.
+              TUNNEL_TRANSPORT_PROTOCOL: quic # http2
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -87,13 +80,6 @@ spec:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
         globalMounts:
-          - path: /etc/cloudflared/config/config.yaml
+          - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
-            readOnly: true
-      credentials:
-        type: secret
-        name: "{{ .Release.Name }}-secret"
-        globalMounts:
-          - path: /etc/cloudflared/creds/credentials.json
-            subPath: credentials.json
             readOnly: true
