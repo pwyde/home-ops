@@ -1,5 +1,4 @@
 ---
-# Note: Gatus variables should be escaped with $${VAR_NAME} to avoid interpolation by Flux.
 connectivity:
   checker:
     target: 1.1.1.1:53
@@ -19,4 +18,4 @@ ui:
       link: https://github.com/pwyde/home-ops
 
 web:
-  port: $${GATUS_WEB_PORT}
+  port: ${GATUS_WEB_PORT}
