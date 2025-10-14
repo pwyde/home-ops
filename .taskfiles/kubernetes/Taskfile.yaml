@@ -94,7 +94,7 @@ tasks:
       - which kubectl
 
   storage-speed-test:
-    desc: Run speed test on storage (iSCSI or NFS) [STORAGE=required]
+    desc: Run speed test on storage (block or file) [STORAGE=required]
     cmds:
       - task: speed-test-apply-manifest
       - task: speed-test-wait-for-pvc
@@ -113,10 +113,10 @@ tasks:
       # Map STORAGE to the corresponding manifest file.
       MANIFEST_FILE:
         sh: |
-          if [ "{{.STORAGE}}" = "iSCSI" ]; then
-            echo "speed-test-iscsi.yaml.j2"
-          elif [ "{{.STORAGE}}" = "NFS" ]; then
-            echo "speed-test-nfs.yaml.j2"
+          if [ "{{.STORAGE}}" = "block" ]; then
+            echo "speed-test-block.yaml.j2"
+          elif [ "{{.STORAGE}}" = "file" ]; then
+            echo "speed-test-file.yaml.j2"
           else
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
@@ -152,10 +152,10 @@ tasks:
       # Map STORAGE to the corresponding manifest file.
       MANIFEST_FILE:
         sh: |
-          if [ "{{.STORAGE}}" = "iSCSI" ]; then
-            echo "speed-test-iscsi.yaml.j2"
-          elif [ "{{.STORAGE}}" = "NFS" ]; then
-            echo "speed-test-nfs.yaml.j2"
+          if [ "{{.STORAGE}}" = "block" ]; then
+            echo "speed-test-block.yaml.j2"
+          elif [ "{{.STORAGE}}" = "file" ]; then
+            echo "speed-test-file.yaml.j2"
           else
             echo "Unsupported storage type: {{.STORAGE}}" >&2
             exit 1
