@@ -5,17 +5,10 @@ kind: HelmRelease
 metadata:
   name: pinchflat
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: pinchflat
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+  interval: 1h
   values:
     controllers:
       pinchflat:

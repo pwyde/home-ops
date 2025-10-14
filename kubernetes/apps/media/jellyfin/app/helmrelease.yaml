@@ -5,19 +5,10 @@ kind: HelmRelease
 metadata:
   name: jellyfin
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: jellyfin
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+  interval: 1h
   values:
     controllers:
       jellyfin:
