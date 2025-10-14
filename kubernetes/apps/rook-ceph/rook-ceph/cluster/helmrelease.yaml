@@ -25,7 +25,7 @@ spec:
     route:
       dashboard:
         host:
-          name: rook.${SECRET_DOMAIN}
+          name: rook.wyde.network
           path: /
           pathType: PathPrefix
         parentRefs:

@@ -19,7 +19,7 @@ spec:
   values:
     fullnameOverride: external-dns-unifi
     domainFilters:
-      - ${SECRET_DOMAIN}
+      - wyde.network
     podAnnotations:
       secret.reloader.stakater.com/reload: &secret unifi-dns-secret
     policy: sync
@@ -31,7 +31,7 @@ spec:
           tag: v0.7.0@sha256:a5503c1c61e3a8f6d66a0172fca6fb9affbe1f527ae6360ccf5ff5f0bf181c6e
         env:
           - name: UNIFI_HOST
-            value: https://unifi.${SECRET_DOMAIN}
+            value: https://unifi.wyde.network
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:

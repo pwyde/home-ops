@@ -6,7 +6,7 @@ metadata:
   name: nextcloud
 spec:
   hostnames:
-    - nextcloud.${SECRET_DOMAIN}
+    - nextcloud.wyde.network
   parentRefs:
     - name: envoy-internal
       namespace: network

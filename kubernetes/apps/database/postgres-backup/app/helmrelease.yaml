@@ -84,7 +84,7 @@ spec:
     persistence:
       backups:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-data/Backups
         globalMounts:
           - path: /backups

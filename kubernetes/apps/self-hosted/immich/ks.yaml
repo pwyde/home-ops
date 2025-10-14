@@ -24,9 +24,6 @@ spec:
     substitute:
       APP: *app
       PVC_CAPACITY: 100Gi
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

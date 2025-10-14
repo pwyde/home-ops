@@ -3,12 +3,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "pve-ipmi-${SECRET_DOMAIN/./-}"
+  name: pve-ipmi-wyde-network
 spec:
-  commonName: "pve-ipmi.${SECRET_DOMAIN}"
+  commonName: pve-ipmi.wyde.network
   dnsNames:
-    - "pve-ipmi.${SECRET_DOMAIN}"
+    - pve-ipmi.wyde.network
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  secretName: "pve-ipmi-${SECRET_DOMAIN/./-}-tls"
+  secretName: pve-ipmi-wyde-network-tls

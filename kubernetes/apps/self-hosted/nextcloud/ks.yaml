@@ -26,9 +26,6 @@ spec:
       VOLSYNC_PUID: "82"
       VOLSYNC_PGID: "82"
       VOLSYNC_CAPACITY: 10Gi
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

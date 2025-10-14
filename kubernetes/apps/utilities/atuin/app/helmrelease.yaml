@@ -81,8 +81,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - sh.${SECRET_DOMAIN}
+          - "{{ .Release.Name }}.wyde.network"
+          - sh.wyde.network
         parentRefs:
           - name: envoy-internal
             namespace: network

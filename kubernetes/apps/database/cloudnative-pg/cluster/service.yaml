@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: &dbcluster pg17-cluster
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: postgres.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/hostname: postgres.wyde.network
     gatus.home-operations.com/enabled: "true"
     gatus.home-operations.com/endpoint: |-
       name: postgres
@@ -32,7 +32,7 @@ kind: Service
 metadata:
   name: &dbcluster pg17-immich
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: vectordb.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/hostname: vectordb.wyde.network
     gatus.home-operations.com/enabled: "true"
     gatus.home-operations.com/endpoint: |-
       name: vectordb

@@ -28,8 +28,8 @@ spec:
               tag: latest
             env:
               TZ: &tz Europe/Stockholm
-              SEARXNG_BASE_URL: https://search.${SECRET_DOMAIN}
-              SEARXNG_URL: https://search.${SECRET_DOMAIN}
+              SEARXNG_BASE_URL: https://search.wyde.network
+              SEARXNG_URL: https://search.wyde.network
               SEARXNG_PORT: &port 8080
             envFrom: &envFrom
               - secretRef:
@@ -158,8 +158,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - search.${SECRET_DOMAIN}
+          - "{{ .Release.Name }}.wyde.network"
+          - search.wyde.network
         parentRefs:
           - name: envoy-internal
             namespace: network

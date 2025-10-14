@@ -136,13 +136,13 @@ spec:
             readOnly: true
       data:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-data/Immich
         globalMounts:
           - path: /data
       photos:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-data/Photos
         globalMounts:
           - path: /photos
@@ -154,8 +154,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - foto.${SECRET_DOMAIN}
+          - "{{ .Release.Name }}.wyde.network"
+          - foto.wyde.network
         parentRefs:
           - name: envoy-internal
             namespace: network

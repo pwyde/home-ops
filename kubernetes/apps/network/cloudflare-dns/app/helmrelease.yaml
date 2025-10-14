@@ -19,7 +19,7 @@ spec:
   values:
     fullnameOverride: external-dns-cloudflare
     domainFilters:
-      - ${SECRET_DOMAIN}
+      - wyde.network
     env:
       - name: &name CF_API_TOKEN
         valueFrom:

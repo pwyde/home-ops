@@ -78,7 +78,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-media/Media
         globalMounts:
           - path: /data

@@ -33,7 +33,7 @@ spec:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 50000000
               JELLYFIN_FFmpeg__analyzeduration: 50000000
-              JELLYFIN_PublishedServerUrl: https://jellyfin.${SECRET_DOMAIN}
+              JELLYFIN_PublishedServerUrl: https://jellyfin.wyde.network
             probes:
               liveness: &probes
                 enabled: true
@@ -94,14 +94,14 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-media/Media
         globalMounts:
           - path: /data
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.wyde.network"
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -39,7 +39,7 @@ spec:
               INFERENCE_CONTEXT_LENGTH: 4096
               INFERENCE_ENABLE_AUTO_SUMMARIZATION: true
               MEILI_ADDR: http://karakeep-meilisearch.self-hosted.svc.cluster.local:7700
-              NEXTAUTH_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              NEXTAUTH_URL: "https://{{ .Release.Name }}.wyde.network"
               OCR_LANGS: eng,swe
             envFrom: &envFrom
               - secretRef:
@@ -155,8 +155,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          - hoarder.${SECRET_DOMAIN}
+          - "{{ .Release.Name }}.wyde.network"
+          - hoarder.wyde.network
         parentRefs:
           - name: envoy-internal
             namespace: network

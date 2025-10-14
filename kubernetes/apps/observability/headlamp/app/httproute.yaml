@@ -6,7 +6,7 @@ metadata:
   name: headlamp
 spec:
   hostnames:
-    - headlamp.${SECRET_DOMAIN}
+    - headlamp.wyde.network
   parentRefs:
     - name: envoy-internal
       namespace: network

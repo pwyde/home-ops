@@ -48,7 +48,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname external.wyde.network
     gatus.home-operations.com/endpoint: |-
       client:
         dns-resolver: tcp://1.1.1.1:53
@@ -76,14 +76,14 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-tls
+            name: wyde-network-tls
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname internal.wyde.network
     gatus.home-operations.com/endpoint: |-
       group: internal
       ui:
@@ -112,7 +112,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: "${SECRET_DOMAIN/./-}-tls"
+            name: wyde-network-tls
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_clienttrafficpolicies.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1

@@ -14,10 +14,6 @@ spec:
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/utilities/atuin/app
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:

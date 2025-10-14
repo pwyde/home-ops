@@ -3,28 +3,28 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_DOMAIN/./-}"
+  name: wyde-network
 spec:
-  commonName: "${SECRET_DOMAIN}"
+  commonName: wyde.network
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - wyde.network
+    - "*.wyde.network"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  secretName: "${SECRET_DOMAIN/./-}-tls"
+  secretName: wyde-network-tls
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_DOMAIN/./-}-staging"
+  name: wyde-network-staging
 spec:
-  commonName: "${SECRET_DOMAIN}"
+  commonName: wyde.network
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - wyde.network
+    - "*.wyde.network"
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
-  secretName: "${SECRET_DOMAIN/./-}-staging-tls"
+  secretName: wyde-network-staging-tls

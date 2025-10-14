@@ -78,7 +78,7 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       music:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-media/Media/Library/Music
         globalMounts:
           - path: /music
@@ -86,7 +86,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.wyde.network"
         parentRefs:
           - name: envoy-internal
             namespace: network

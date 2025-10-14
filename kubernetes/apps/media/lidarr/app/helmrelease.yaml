@@ -80,7 +80,7 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         path: /mnt/hdd-media/Media
         globalMounts:
           - path: /data
@@ -89,7 +89,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.wyde.network"
         parentRefs:
           - name: envoy-internal
             namespace: network

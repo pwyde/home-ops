@@ -11,11 +11,11 @@ spec:
   targets:
     staticConfig:
       static:
-        - nas.${SECRET_DOMAIN}
-        - pikvm.${SECRET_DOMAIN}
-        - pve.${SECRET_DOMAIN}
-        - pve-ipmi.${SECRET_DOMAIN}
-        - unifi.${SECRET_DOMAIN}
+        - nas.wyde.network
+        - pikvm.wyde.network
+        - pve.wyde.network
+        - pve-ipmi.wyde.network
+        - unifi.wyde.network
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 apiVersion: monitoring.coreos.com/v1
@@ -29,8 +29,8 @@ spec:
   targets:
     staticConfig:
       static:
-        - https://nas.${SECRET_DOMAIN}
-        - https://pikvm.${SECRET_DOMAIN}
-        - https://pve.${SECRET_DOMAIN}:8006
-        - https://pve-ipmi.${SECRET_DOMAIN}
-        - https://unifi.${SECRET_DOMAIN}
+        - https://nas.wyde.network
+        - https://pikvm.wyde.network
+        - https://pve.wyde.network:8006
+        - https://pve-ipmi.wyde.network
+        - https://unifi.wyde.network

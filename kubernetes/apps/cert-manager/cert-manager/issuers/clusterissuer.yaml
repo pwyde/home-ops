@@ -17,7 +17,7 @@ spec:
               key: CLOUDFLARE_API_TOKEN
         selector:
           dnsZones:
-            - ${SECRET_DOMAIN}
+            - wyde.network
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
 apiVersion: cert-manager.io/v1
@@ -37,4 +37,4 @@ spec:
               key: CLOUDFLARE_API_TOKEN
         selector:
           dnsZones:
-            - ${SECRET_DOMAIN}
+            - wyde.network

@@ -38,7 +38,7 @@ spec:
         usernameKey: POSTGRES_USER
         passwordKey: POSTGRES_PASSWORD
     nextcloud:
-      host: nextcloud.${SECRET_DOMAIN}
+      host: nextcloud.wyde.network
       extraEnv:
         - name: PHP_MEMORY_LIMIT
           value: "512M"
@@ -170,7 +170,7 @@ spec:
       mail:
         enabled: true
         fromAddress: *app
-        domain: ${SECRET_DOMAIN}
+        domain: wyde.network
         smtp:
           secure: ssl
           port: 465
@@ -212,7 +212,7 @@ spec:
     metrics:
       enabled: false
       https: true
-      server: https://nextcloud.${SECRET_DOMAIN}
+      server: https://nextcloud.wyde.network
       token: ${NEXTCLOUD_METRICS_TOKEN}
       info:
         apps: true

@@ -32,7 +32,7 @@ spec:
               UP_POLLER_DEBUG: false
               UP_UNIFI_DEFAULT_ROLE: home-ops
               UP_UNIFI_DEFAULT_SAVE_DPI: true
-              UP_UNIFI_DEFAULT_URL: https://unifi.${SECRET_DOMAIN}
+              UP_UNIFI_DEFAULT_URL: https://unifi.wyde.network
               UP_UNIFI_DEFAULT_VERIFY_SSL: true
             envFrom:
               - secretRef:

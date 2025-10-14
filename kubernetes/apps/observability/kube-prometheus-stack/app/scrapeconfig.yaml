@@ -7,7 +7,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.${SECRET_DOMAIN}:9108
+        - nas.wyde.network:9108
   metricsPath: /metrics
   relabelings:
     - action: replace
@@ -22,9 +22,9 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.${SECRET_DOMAIN}:9100
-        - pikvm.${SECRET_DOMAIN}:9100
-        - pve.${SECRET_DOMAIN}:9100
+        - nas.wyde.network:9100
+        - pikvm.wyde.network:9100
+        - pve.wyde.network:9100
   metricsPath: /metrics
   relabelings:
     - action: replace
@@ -39,8 +39,8 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - nas.${SECRET_DOMAIN}:9633
-        - pve.${SECRET_DOMAIN}:9633
+        - nas.wyde.network:9633
+        - pve.wyde.network:9633
   metricsPath: /metrics
   relabelings:
     - action: replace
@@ -55,7 +55,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - traefik.${SECRET_DOMAIN}
+        - traefik.wyde.network
   metricsPath: /metrics
   scheme: HTTPS
   honorTimestamps: true
@@ -72,7 +72,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - s3.${SECRET_DOMAIN}
+        - s3.wyde.network
   metricsPath: /minio/v2/metrics/cluster
   scheme: HTTPS
   relabelings:

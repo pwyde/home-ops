@@ -21,7 +21,7 @@ spec:
       create: true
       name: truenas-ssd-nfs-talos
       parameters:
-        server: nas.${SECRET_DOMAIN}
+        server: nas.wyde.network
         share: /mnt/ssd-data/Talos
       mountOptions:
         - nfsvers=4.2

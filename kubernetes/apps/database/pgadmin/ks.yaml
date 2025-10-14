@@ -25,9 +25,6 @@ spec:
       APP: *app
       VOLSYNC_PUID: "5050"
       VOLSYNC_PGID: "5050"
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
