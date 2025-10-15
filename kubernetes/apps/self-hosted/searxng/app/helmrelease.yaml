@@ -20,10 +20,10 @@ spec:
               repository: docker.io/searxng/searxng
               tag: latest
             env:
-              TZ: &tz Europe/Stockholm
               SEARXNG_BASE_URL: https://search.wyde.network
               SEARXNG_URL: https://search.wyde.network
               SEARXNG_PORT: &port 8080
+              TZ: &tz Europe/Stockholm
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -74,7 +74,6 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
             env:
-              TZ: *tz
               DNS_ADDRESS: "127.0.0.2"
               # Disable DNS over TLS. Available using dnsdist instead.
               DOT: off
@@ -84,6 +83,7 @@ spec:
               FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
               # Internal health check server listening address.
               HEALTH_SERVER_ADDRESS: ":9999"
+              TZ: *tz
               VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0

@@ -16,10 +16,10 @@ spec:
           reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob:
-          timeZone: &tz Europe/Stockholm
+          failedJobsHistory: 1
           schedule: "@daily"
           successfulJobsHistory: 1
-          failedJobsHistory: 1
+          timeZone: &tz Europe/Stockholm
         containers:
           app:
             image:

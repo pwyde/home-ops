@@ -20,7 +20,6 @@ spec:
               repository: ghcr.io/navidrome/navidrome
               tag: 0.58.0@sha256:2ae037d464de9f802d047165a13b1c9dc2bdbb14920a317ae4aef1233adc0a3c
             env:
-              TZ: Europe/Stockholm
               ND_LOGLEVEL: info
               ND_DATAFOLDER: /data
               ND_CACHEFOLDER: /data/cache
@@ -36,6 +35,7 @@ spec:
               ND_PROMETHEUS_ENABLED: true
               ND_DEFAULTTHEME: "Catppuccin Macchiato"
               ND_REVERSEPROXYWHITELIST: "10.42.0.0/16"
+              TZ: Europe/Stockholm
             probes:
               liveness: &probes
                 enabled: true

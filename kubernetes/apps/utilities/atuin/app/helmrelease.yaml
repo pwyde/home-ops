@@ -28,13 +28,13 @@ spec:
               repository: ghcr.io/atuinsh/atuin
               tag: v18.8.0@sha256:8a8a8ef4eb5865656072bace5cc49390b56caa81360f9f0869054777155b6ef1
             env:
-              TZ: Europe/Stockholm
               ATUIN_HOST: 0.0.0.0
               ATUIN_PORT: &port 8080
               ATUIN_OPEN_REGISTRATION: true
               ATUIN_METRICS__ENABLE: true
               ATUIN_METRICS__HOST: 0.0.0.0
               ATUIN_METRICS__PORT: &metricsPort 8081
+              TZ: Europe/Stockholm
             envFrom: *envFrom
             command:
               - atuin

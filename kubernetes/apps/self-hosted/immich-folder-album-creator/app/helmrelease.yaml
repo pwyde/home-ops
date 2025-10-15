@@ -16,10 +16,10 @@ spec:
           reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob:
-          timeZone: &tz Europe/Stockholm
+          failedJobsHistory: 1
           schedule: "@weekly"
           successfulJobsHistory: 1
-          failedJobsHistory: 1
+          timeZone: &tz Europe/Stockholm
         containers:
           app:
             image:
@@ -28,11 +28,10 @@ spec:
             command:
               - /script/immich_auto_album.sh
             env:
-              TZ: *tz
-              ROOT_PATH: /photos
               API_URL: http://immich-app.self-hosted.svc.cluster.local:2283/api
               ALBUM_LEVELS: 1
               LOG_LEVEL: DEBUG
+              ROOT_PATH: /photos
               SET_ALBUM_THUMBNAIL: random
               # Synchronization mode to use. Synchronization mode helps synchronizing changes in
               # external libraries structures to Immich after albums have already been created.
@@ -43,6 +42,7 @@ spec:
               SYNC_MODE: 1
               # Comment to perform dry run (only list albums that would be created).
               UNATTENDED: 1
+              TZ: *tz
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"

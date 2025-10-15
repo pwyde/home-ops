@@ -20,7 +20,6 @@ spec:
               repository: ghcr.io/immich-app/immich-server
               tag: v2.0.1
             env: &env
-              TZ: Europe/Stockholm
               IMMICH_CONFIG_FILE: /config/immich.json
               IMMICH_LOG_LEVEL: verbose
               IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.self-hosted.svc.cluster.local:3003
@@ -28,6 +27,7 @@ spec:
               REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
               REDIS_PORT: "6379"
               REDIS_DBINDEX: "2"
+              TZ: Europe/Stockholm
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"

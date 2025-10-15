@@ -20,9 +20,9 @@ spec:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.2@sha256:31ac39705e31f7cdcc04dc46c1c0b0cdf8dc6f9865d4894efc097a33adc41524
             env:
-              TZ: &tz Europe/Stockholm
               QBT_TORRENTING_PORT: &qbPort 60112
               QBT_WEBUI_PORT: &port 80
+              TZ: &tz Europe/Stockholm
             probes:
               liveness: &probes
                 enabled: true
@@ -61,7 +61,6 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
             env:
-              TZ: *tz
               # Ports to allow through the default interface. This is needed for Kubernetes sidecars.
               FIREWALL_INPUT_PORTS: "80,9999"
               # Ports to allow from the VPN server side.
@@ -70,6 +69,7 @@ spec:
               FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
               # Internal health check server listening address.
               HEALTH_SERVER_ADDRESS: ":9999"
+              TZ: *tz
               VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0

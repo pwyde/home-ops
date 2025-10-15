@@ -16,23 +16,23 @@ spec:
           reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob: &cronjob
-          timeZone: &tz Europe/Stockholm
+          failedJobsHistory: 1
           schedule: 00 2 * * *
           successfulJobsHistory: 1
-          failedJobsHistory: 1
+          timeZone: &tz Europe/Stockholm
         containers:
           app:
             image:
               repository: docker.io/prodrigestivill/postgres-backup-local
               tag: 17@sha256:e803bd9eb4bfb42e9b3e74ba411227f3d55da292905800395659cc579b6641e8
             env:
-              TZ: *tz
               POSTGRES_HOST: pg17-cluster-ro.database.svc.cluster.local
               POSTGRES_DB: atuin,bazarr,lidarr_log,lidarr_main,nextcloud,prowlarr_log,prowlarr_main,radarr_log,radarr_main,romm,sonarr_log,sonarr_main
               BACKUP_DIR: /backups/PostgreSQL
               BACKUP_KEEP_DAYS: 14
               BACKUP_KEEP_WEEKS: 2
               BACKUP_KEEP_MONTHS: 0
+              TZ: *tz
             envFrom: &envFrom
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -54,13 +54,13 @@ spec:
               repository: docker.io/prodrigestivill/postgres-backup-local
               tag: 17@sha256:e803bd9eb4bfb42e9b3e74ba411227f3d55da292905800395659cc579b6641e8
             env:
-              TZ: *tz
               POSTGRES_HOST: pg17-immich-ro.database.svc.cluster.local
               POSTGRES_DB: immich
               BACKUP_DIR: /backups/PostgreSQL
               BACKUP_KEEP_DAYS: 7
               BACKUP_KEEP_WEEKS: 4
               BACKUP_KEEP_MONTHS: 0
+              TZ: *tz
             envFrom: *envFrom
             command: *command
             securityContext: *securityContext

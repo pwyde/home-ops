@@ -20,9 +20,9 @@ spec:
               repository: ghcr.io/kieraneglin/pinchflat
               tag: v2025.6.6@sha256:4e975edf58f0861a5cbfe8fc6aac4851ff5a02dfc3f05ffeea4982e3084a5a4a
             env:
-              TZ: Europe/Stockholm
-              TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
+              TZ_DATA_DIR: /tmp/elixir_tz_data
+              TZ: Europe/Stockholm
             probes:
               liveness: &probes
                 enabled: true
