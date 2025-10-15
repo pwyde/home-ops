@@ -7,8 +7,8 @@ components:
   - ../../components/namespace
 resources:
   # Flux-Kustomizations
-  # - ./audiobookshelf/ks.yaml
-  - ./bazarr/ks.yaml
+  - ./audiobookshelf/ks.yaml
+  # - ./bazarr/ks.yaml
   - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   - ./lidarr/ks.yaml
