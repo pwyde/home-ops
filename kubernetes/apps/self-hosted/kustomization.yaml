@@ -7,7 +7,7 @@ components:
   - ../../components/namespace
 resources:
   # Flux-Kustomizations
-  - ./dokuwiki/ks.yaml
+  # - ./dokuwiki/ks.yaml
   - ./karakeep/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
