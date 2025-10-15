@@ -16,6 +16,8 @@ spec:
       namespace: database
     - name: dragonfly-cluster
       namespace: database
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h
@@ -26,6 +28,8 @@ spec:
       VOLSYNC_PUID: "82"
       VOLSYNC_PGID: "82"
       VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_STORAGECLASS: ceph-block
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
   prune: true
   sourceRef:
     kind: GitRepository
