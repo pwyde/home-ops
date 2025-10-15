@@ -21,78 +21,8 @@ spec:
               tag: 5.1.2@sha256:31ac39705e31f7cdcc04dc46c1c0b0cdf8dc6f9865d4894efc097a33adc41524
             env:
               TZ: &tz Europe/Stockholm
+              QBT_TORRENTING_PORT: &qbPort 60112
               QBT_WEBUI_PORT: &port 80
-              QBT_TORRENTING_PORT: &bittorrentPort 60112
-              # Settings based on https://trash-guides.info/Downloaders/qBittorrent/.
-              # Settings > Advanced > Physical memory (RAM) usage limit (libtorrent >=2.0).
-              QBT_Application__MemoryWorkingSetLimit: 10000
-              # Settings > Speed > Alternative Rate Limits > Download.
-              QBT_BitTorrent__Session__AlternativeGlobalDLSpeedLimit: 7812
-              # Settings > Speed > Alternative Rate Limits > Upload.
-              QBT_BitTorrent__Session__AlternativeGlobalUPSpeedLimit: 1171
-              # Settings > Advanced > Security > Always announce to all trackers in a tier.
-              QBT_BitTorrent__Session__AnnounceToAllTrackers: true
-              # Settings > Connection > Peer connection protocl.
-              QBT_BitTorrent__Session__BTProtocol: TCP
-              # Settings > Speed > Schedule the use of alternative rate limits.
-              QBT_BitTorrent__Session__BandwidthSchedulerEnabled: true
-              # Settings > Downlods > Saving Management > Default Save Path (complete).
-              QBT_BitTorrent__Session__DefaultSavePath: /data/Downloads/Torrents
-              # Settings > Downloads > Saving Management > Default Torrent Management Mode. This will set it to "Automatic".
-              QBT_BitTorrent__Session__DisableAutoTMMByDefault: false
-              # Settings > Downloads > Saving Management > When Category Save Path changed. This will set it to "Relocate torrent".
-              QBT_BitTorrent__Session__DisableAutoTMMTriggers__CategorySavePathChanged: false
-              # Settings > Downloads > Saving Management > When Default Save Path changed. This will set it to "Relocate torrent".
-              QBT_BitTorrent__Session__DisableAutoTMMTriggers__DefaultSavePathChanged: false
-              # Settings > Downlods > Saving Management > Copy torrent files for finished downloads to.
-              QBT_BitTorrent__Session__FinishedTorrentExportDirectory: /config/qBittorrent/torrent_files
-              # Settings > BitTorrent > Speed Limits > When ratio reaches.
-              QBT_BitTorrent__Session__GlobalMaxRatio: 10
-              # Settings > Advanced > Networking > Network interface.
-              # QBT_BitTorrent__Session__Interface: eth0
-              # # Settings > Advanced > Networking > Optional IP address to bind to.
-              # QBT_BitTorrent__Session__InterfaceAddress:
-              #   valueFrom:
-              #     fieldRef:
-              #       fieldPath: status.podIP
-              # QBT_BitTorrent__Session__InterfaceName: eth0
-              # Settings > BitTorrent > Privacy > Enable Local Peer Discovery to find more peers.
-              QBT_BitTorrent__Session__LSDEnabled: false
-              # Settings > BitTorrent > Torrent Queueing > Maximum active downloads.
-              QBT_BitTorrent__Session__MaxActiveDownloads: 100
-              # Settings > BitTorrent > Torrent Queueing > Maximum active torrents.
-              QBT_BitTorrent__Session__MaxActiveTorrents: 200
-              # Settings > BitTorrent > Torrent Queueing > Maximum active uploads.
-              QBT_BitTorrent__Session__MaxActiveUploads: 200
-              # Settings > Connection > Connection Limits > Global maximum number of connections.
-              QBT_BitTorrent__Session__MaxConnections: -1
-              # Settings > Connection > Connection Limits > Maximum number of connections per torrent.
-              QBT_BitTorrent__Session__MaxConnectionsPerTorrent: -1
-              # Settings > BitTorrent > Seed Limits > Then: Enable super seeding for torrent.
-              QBT_BitTorrent__Session__MaxRatioAction: 2
-              # Settings > Connection > Connection Limits > Global maximum number of upload slots.
-              QBT_BitTorrent__Session__MaxUploads: -1
-              # Settings > Connection > Connection Limits > Maximum number of upload slots per torrent.
-              QBT_BitTorrent__Session__MaxUploadsPerTorrent: -1
-              # Settings > Advanced > Reannounce to all trackers when IP or port changed.
-              QBT_BitTorrent__Session__ReannounceWhenAddressChanged: true
-              # Settings > Connection > Use UPnP / NAT-PMP port forwarding from my router.
-              QBT_Network__PortForwardingEnabled: false
-              # Settings > Speed > When.
-              QBT_Preferences__Scheduler__days: EveryDay
-              # Settings > Speed > To.
-              QBT_Preferences__Scheduler__end_time: '@Variant(\0\0\0\xf\0m\xdd\0)'
-              # Settings > Speed > From.
-              QBT_Preferences__Scheduler__start_time: '@Variant(\0\0\0\xf\x1\x80\x85\x80)'
-              # Settings > WebUI > Bypass authentication for clients in whitelisted IP subnets. This will enable the setting.
-              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
-              # Settings > WebUI > Bypass authentication for clients in whitelisted IP subnets.
-              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                10.42.0.0/16, 192.168.20.0/24
-              # Settings > WebUI > Use Alternative WebUI.
-              QBT_Preferences__WebUI__AlternativeUIEnabled: true
-              # Settings > WebUI > Use Alternative WebUI.
-              QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
             probes:
               liveness: &probes
                 enabled: true
@@ -135,7 +65,7 @@ spec:
               # Ports to allow through the default interface. This is needed for Kubernetes sidecars.
               FIREWALL_INPUT_PORTS: "80,9999"
               # Ports to allow from the VPN server side.
-              FIREWALL_VPN_INPUT_PORTS: *bittorrentPort
+              FIREWALL_VPN_INPUT_PORTS: *qbPort
               # Allow access to K8s subnets.
               FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
               # Internal health check server listening address.
@@ -205,13 +135,6 @@ spec:
         type: emptyDir
       config:
         existingClaim: "{{ .Release.Name }}"
-      config-categories:
-        type: secret
-        name: qb-categories-secret
-        globalMounts:
-          - path: /config/qBittorrent/categories.json
-            subPath: categories.json
-            readOnly: true
       media:
         type: nfs
         server: nas.wyde.network
