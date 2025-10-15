@@ -133,6 +133,8 @@ spec:
     persistence:
       addons:
         type: emptyDir
+        globalMounts:
+          - path: /addons
       config:
         existingClaim: "{{ .Release.Name }}"
       media:
