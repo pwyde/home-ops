@@ -28,8 +28,6 @@ spec:
       VOLSYNC_PUID: "82"
       VOLSYNC_PGID: "82"
       VOLSYNC_CAPACITY: 10Gi
-      VOLSYNC_STORAGECLASS: ceph-block
-      VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
   prune: true
   sourceRef:
     kind: GitRepository

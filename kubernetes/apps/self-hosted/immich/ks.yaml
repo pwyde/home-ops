@@ -24,7 +24,6 @@ spec:
     substitute:
       APP: *app
       PVC_CAPACITY: 20Gi
-      PVC_STORAGECLASS: ceph-block
   prune: true
   sourceRef:
     kind: GitRepository
