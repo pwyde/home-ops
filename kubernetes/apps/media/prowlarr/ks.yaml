@@ -14,8 +14,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: democratic-csi-iscsi
-      namespace: storage
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h
@@ -23,6 +23,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_STORAGECLASS: ceph-block
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
   prune: true
   sourceRef:
     kind: GitRepository
