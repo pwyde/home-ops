@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: kube-vip
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: home-k8s.wyde.network
+    # external-dns.alpha.kubernetes.io/hostname: home-k8s.wyde.network
     lbipam.cilium.io/ips: 192.168.20.20
 spec:
   type: LoadBalancer
@@ -13,4 +13,8 @@ spec:
     k8s-app: kube-apiserver
     tier: control-plane
   ports:
-    - port: 6443
+    # - port: 6443
+    - name: https
+      port: 6443
+      protocol: TCP
+      targetPort: 6443
