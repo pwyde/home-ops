@@ -106,64 +106,65 @@ spec:
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
-    cephFileSystems:
-      - name: &cephFileSystemName ceph-filesystem
-        spec:
-          metadataPool:
-            replicated:
-              # TODO: Change size to 1 prior to single-node cluster deployment.
-              # size: 3
-              # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
-               size: 2
-          dataPools:
-            - failureDomain: host
-              replicated:
-                # TODO: Change size to 1 prior to single-node cluster deployment.
-                # size: 3
-                # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
-                size: 2
-              name: data0
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-            priorityClassName: system-cluster-critical
-            placement:
-              topologySpreadConstraints:
-                - maxSkew: 1
-                  topologyKey: kubernetes.io/hostname
-                  # TODO: Change to 'Schedule' prior to single-node cluster deployment. Spread
-                  # constraints are useful in multi-node clusters but harmful on single-node
-                  # clusters.
-                  whenUnsatisfiable: DoNotSchedule
-                  labelSelector:
-                    matchLabels:
-                      app.kubernetes.io/name: ceph-mds
-                      app.kubernetes.io/part-of: *cephFileSystemName
-            resources:
-              requests:
-                cpu: 100m
-                memory: 1Gi
-              limits:
-                memory: 4Gi
-        storageClass:
-          enabled: true
-          isDefault: false
-          name: ceph-filesystem
-          pool: data0
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          volumeBindingMode: Immediate
-          parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/fstype: ext4
-    cephFileSystemVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-filesystem
-      isDefault: false
-      deletionPolicy: Delete
+    cephFileSystems: []
+    # cephFileSystems:
+    #   - name: &cephFileSystemName ceph-filesystem
+    #     spec:
+    #       metadataPool:
+    #         replicated:
+    #           # TODO: Change size to 1 prior to single-node cluster deployment.
+    #           # size: 3
+    #           # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
+    #            size: 2
+    #       dataPools:
+    #         - failureDomain: host
+    #           replicated:
+    #             # TODO: Change size to 1 prior to single-node cluster deployment.
+    #             # size: 3
+    #             # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
+    #             size: 2
+    #           name: data0
+    #       metadataServer:
+    #         activeCount: 1
+    #         activeStandby: true
+    #         priorityClassName: system-cluster-critical
+    #         placement:
+    #           topologySpreadConstraints:
+    #             - maxSkew: 1
+    #               topologyKey: kubernetes.io/hostname
+    #               # TODO: Change to 'Schedule' prior to single-node cluster deployment. Spread
+    #               # constraints are useful in multi-node clusters but harmful on single-node
+    #               # clusters.
+    #               whenUnsatisfiable: DoNotSchedule
+    #               labelSelector:
+    #                 matchLabels:
+    #                   app.kubernetes.io/name: ceph-mds
+    #                   app.kubernetes.io/part-of: *cephFileSystemName
+    #         resources:
+    #           requests:
+    #             cpu: 100m
+    #             memory: 1Gi
+    #           limits:
+    #             memory: 4Gi
+    #     storageClass:
+    #       enabled: true
+    #       isDefault: false
+    #       name: ceph-filesystem
+    #       pool: data0
+    #       reclaimPolicy: Delete
+    #       allowVolumeExpansion: true
+    #       volumeBindingMode: Immediate
+    #       parameters:
+    #         csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #         csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+    #         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #         csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+    #         csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #         csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+    #         csi.storage.k8s.io/fstype: ext4
+    # cephFileSystemVolumeSnapshotClass:
+    #   enabled: true
+    #   name: csi-ceph-filesystem
+    #   isDefault: false
+    #   deletionPolicy: Delete
     cephObjectStores: []
