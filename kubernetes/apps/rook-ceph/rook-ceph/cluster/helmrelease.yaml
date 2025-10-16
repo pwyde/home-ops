@@ -77,7 +77,9 @@ spec:
           failureDomain: host
           replicated:
             # TODO: Change size to 1 prior to single-node cluster deployment.
-            size: 3
+            # size: 3
+            # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
+            size: 2
         storageClass:
           enabled: true
           name: ceph-block
@@ -110,12 +112,16 @@ spec:
           metadataPool:
             replicated:
               # TODO: Change size to 1 prior to single-node cluster deployment.
-              size: 3
+              # size: 3
+              # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
+               size: 2
           dataPools:
             - failureDomain: host
               replicated:
                 # TODO: Change size to 1 prior to single-node cluster deployment.
-                size: 3
+                # size: 3
+                # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
+                size: 2
               name: data0
           metadataServer:
             activeCount: 1
