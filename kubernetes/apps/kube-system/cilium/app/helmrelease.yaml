@@ -64,8 +64,8 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      # TODO: Change to 2 replicas prior to multi-node cluster deployment.
-      replicas: 1
+      # TODO: Change to 1 replicas prior to single-node cluster deployment.
+      replicas: 2
       rollOutPods: true
     pmtuDiscovery:
       enabled: true
