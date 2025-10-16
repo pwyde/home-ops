@@ -195,16 +195,11 @@ cluster:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
 ---
 apiVersion: v1alpha1
-kind: EthernetConfig
-name: eth0
-rings: {rx: 8160, tx: 8160}
----
-apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: disk.model == "QEMU HARDDISK"
+    match: system_disk
   minSize: 20GB
   maxSize: 50GB # Limit EPHEMERAL to 50GB.
   grow: false # Do not auto-grow.
@@ -214,7 +209,7 @@ kind: UserVolumeConfig
 name: local-hostpath
 provisioning:
   diskSelector:
-    match: disk.model == "QEMU HARDDISK"
+    match: system_disk
   minSize: 100GB
   grow: true
 ---
