@@ -38,9 +38,9 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   # Remove comments during full cluster restore from object store.
-  bootstrap:
-    recovery:
-      source: source
+  # bootstrap:
+  #   recovery:
+  #     source: source
   externalClusters:
     - name: source
       plugin:
@@ -92,9 +92,9 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   # Remove comments during full cluster restore from object store.
-  bootstrap:
-    recovery:
-      source: source
+  # bootstrap:
+  #   recovery:
+  #     source: source
   externalClusters:
     - name: source
       plugin:
