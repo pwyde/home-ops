@@ -51,10 +51,7 @@ machine:
   install:
     diskSelector:
       serial: S666NT0Y523232
-    # Including extensions iscsi-tools and util-linux-tools.
-    image: factory.talos.dev/metal-installer-secureboot/cf599287ad9dc26ddb635c782d2309b74224600972cb3c7a9b4374ff339948c1:v1.11.2
-    # Excluding iscsi-tools and util-linux-tools.
-    # image: factory.talos.dev/metal-installer-secureboot/b2c95653dcce44052c622b22158a6dfada369640a3990d10271381afceab739e:v1.11.2
+    image: factory.talos.dev/metal-installer-secureboot/0392e7a1190fee2170875a206d210840f556258efd07d6ca9a4d6326e62647fd:v1.11.2
   kernel:
     modules:
       - name: nbd

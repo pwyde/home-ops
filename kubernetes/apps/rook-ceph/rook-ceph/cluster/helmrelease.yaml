@@ -46,7 +46,7 @@ spec:
         prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
       mgr:
         # TODO: Remove prior to multi-node cluster deployment.
-        # count: 1
+        count: 1
         modules:
           - name: diskprediction_local
             enabled: true
@@ -58,8 +58,8 @@ spec:
             enabled: true
       # TODO: Remove prior to multi-node cluster deployment. Ceph needs an odd number of mons. Must
       # run a single mon with a single node.
-      # mon:
-      #   count: 1
+      mon:
+        count: 1
       network:
         provider: host
         connections:
@@ -67,7 +67,7 @@ spec:
       storage:
         useAllNodes: true
         useAllDevices: false
-        devicePathFilter: /dev/disk/by-id/(nvme-SAMSUNG_MZQL23T8HCLS-00A07_.*|scsi-0QEMU_QEMU_HARDDISK_drive-scsi1)
+        devicePathFilter: /dev/disk/by-id/nvme-SAMSUNG_MZQL23T8HCLS-00A07_.*
         config:
           encryptedDevice: "true"
           osdsPerDevice: "1"
@@ -76,10 +76,8 @@ spec:
         spec:
           failureDomain: host
           replicated:
-            # TODO: Change size to 1 prior to single-node cluster deployment.
-            # size: 3
-            # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
-            size: 2
+            # TODO: Change size to 3 prior to multi-node cluster deployment.
+            size: 1
         storageClass:
           enabled: true
           name: ceph-block
@@ -106,6 +104,7 @@ spec:
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
+    # TODO: Disable CephFS for now. Re-enable when applicable.
     cephFileSystems: []
     # cephFileSystems:
     #   - name: &cephFileSystemName ceph-filesystem
@@ -113,16 +112,12 @@ spec:
     #       metadataPool:
     #         replicated:
     #           # TODO: Change size to 1 prior to single-node cluster deployment.
-    #           # size: 3
-    #           # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
-    #            size: 2
+    #           size: 3
     #       dataPools:
     #         - failureDomain: host
     #           replicated:
     #             # TODO: Change size to 1 prior to single-node cluster deployment.
-    #             # size: 3
-    #             # TODO: Replication size set to 2 temporarily. Increase to 3 when possible.
-    #             size: 2
+    #             size: 3
     #           name: data0
     #       metadataServer:
     #         activeCount: 1

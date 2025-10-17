@@ -32,9 +32,7 @@ spec:
       annotations:
         grafana_folder: Network
       enabled: true
-    # TODO: Change devices to 'bond+' prior to single node cluster deployment.
-    # TODO: Remove 'eth0' when cluster nodes only uses bonded interfaces.
-    devices: bond+ eth0
+    devices: bond+
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
@@ -64,8 +62,8 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      # TODO: Change to 1 replicas prior to single-node cluster deployment.
-      replicas: 2
+      # TODO: Change to 2 replicas prior to multi-node cluster deployment.
+      replicas: 1
       rollOutPods: true
     pmtuDiscovery:
       enabled: true

@@ -56,7 +56,7 @@ spec:
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
-  # TODO: Remove once Ceph replicas have been increased.
+  # TODO: Remove when Ceph replicas have been increased.
   name: ceph-health-warning
   namespace: observability
 spec:
@@ -68,7 +68,7 @@ spec:
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
-  # TODO: Remove once Ceph replicas have been increased.
+  # TODO: Remove when Ceph replicas have been increased.
   name: kube-pdb-not-enough-healthy-pods
   namespace: observability
 spec:
@@ -80,7 +80,7 @@ spec:
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
-  # TODO: Remove once Ceph replicas have been increased.
+  # TODO: Remove when Ceph replicas have been increased.
   name: ceph-pg-imbalance
   namespace: observability
 spec:
