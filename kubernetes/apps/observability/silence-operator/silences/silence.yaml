@@ -49,7 +49,7 @@ spec:
     - name: alertname
       value: CephNodeDiskspaceWarning
     - name: device
-      value: /dev/sd.*
+      value: /dev/(sd|dm-).*
       matchType: "=~"
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/observability.giantswarm.io/silence_v1alpha2.json
