@@ -35,7 +35,8 @@ spec:
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
       crashCollector:
-        disable: false
+        # TODO: Change to 'false' prior to multi-node cluster deployment.
+        disable: true
       csi:
         readAffinity:
           enabled: true
@@ -46,7 +47,9 @@ spec:
         prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
       mgr:
         # TODO: Remove prior to multi-node cluster deployment.
-        count: 1
+        count: 2
+        # TODO: Remove prior to multi-node cluster deployment.
+        allowMultiplePerNode: true
         modules:
           - name: diskprediction_local
             enabled: true
@@ -60,6 +63,8 @@ spec:
       # run a single mon with a single node.
       mon:
         count: 1
+        # TODO: Remove prior to multi-node cluster deployment.
+        allowMultiplePerNode: true
       network:
         provider: host
         connections:
