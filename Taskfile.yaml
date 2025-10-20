@@ -21,6 +21,7 @@ includes:
   flux: .taskfiles/flux
   sops: .taskfiles/sops
   talos: .taskfiles/talos
+  volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
 
 tasks:
