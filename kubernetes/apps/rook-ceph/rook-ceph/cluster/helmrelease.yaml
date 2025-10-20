@@ -47,7 +47,7 @@ spec:
         prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
       mgr:
         # TODO: Remove prior to multi-node cluster deployment.
-        count: 2
+        count: 1
         # TODO: Remove prior to multi-node cluster deployment.
         allowMultiplePerNode: true
         modules:
