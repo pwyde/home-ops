@@ -2,6 +2,15 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
+vars:
+  SYSTEM_UPGRADE_KS: '{{.KUBERNETES_DIR}}/apps/system-upgrade/system-upgrade-controller/ks.yaml'
+
+env:
+  KUBERNETES_VERSION:
+    sh: yq '.spec.postBuild.substitute.KUBERNETES_VERSION | select(.)' {{.SYSTEM_UPGRADE_KS}}
+  TALOS_VERSION:
+    sh: yq '.spec.postBuild.substitute.TALOS_VERSION | select(.)' {{.SYSTEM_UPGRADE_KS}}
+
 tasks:
 
   apply-node:
@@ -28,21 +37,32 @@ tasks:
 
   upgrade-node:
     desc: Upgrade Talos on a single node [NODE=required]
-    cmd: talosctl --nodes {{.NODE}} upgrade --image={{.TALOS_IMAGE}} --timeout=10m
-    vars:
-      MACHINE_TYPE:
-        sh: talosctl --nodes {{.NODE}} get machinetypes --output=jsonpath='{.spec}'
-      TALOS_IMAGE:
+    cmd: talosctl --nodes {{.NODE}} upgrade --image="factory.talos.dev/metal-installer-secureboot/$TALOS_SCHEMATIC:$TALOS_VERSION" --timeout=10m
+    env:
+      TALOS_SCHEMATIC:
         sh: |-
-          talosctl --nodes {{.NODE}} get machineconfig --output=jsonpath='{.spec}' \
-            | yq '.machine.install.image | select(. != null)'
+          minijinja-cli {{.TALOS_DIR}}/schematic.yaml.j2 \
+            | curl --silent -X POST --data-binary @- https://factory.talos.dev/schematics \
+            | jq --raw-output '.id'
     requires:
       vars:
         - NODE
     preconditions:
       - talosctl config info
       - talosctl --nodes {{.NODE}} get machineconfig
+      - test -f {{.TALOS_DIR}}/schematic.yaml.j2
       - which minijinja-cli talosctl yq
+
+  upgrade-kubernetes:
+    desc: Upgrade Kubernetes across the whole cluster
+    cmd: talosctl --nodes {{.NODE}} upgrade-k8s --to $KUBERNETES_VERSION
+    vars:
+      NODE:
+        sh: talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1
+    preconditions:
+      - talosctl config info
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - which jq talosctl
 
   reboot-node:
     desc: Reboot Talos on a single node [NODE=required] [MODE={{.MODE}}]
