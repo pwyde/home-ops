@@ -133,8 +133,14 @@ spec:
     persistence:
       addons:
         type: emptyDir
-        globalMounts:
-          - path: /addons
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /addons
+                subPath: addons
+            vuetorrent:
+              - path: /addons
+                subPath: addons
       config:
         existingClaim: "{{ .Release.Name }}"
       media:
