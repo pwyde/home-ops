@@ -74,14 +74,6 @@ spec:
             target:
               kind: Deployment
               name: kustomize-controller
-          # Cache Secrets and ConfigMaps.
-          - patch: |-
-              - op: add
-                path: /spec/template/spec/containers/0/args/-
-                value: --feature-gates=CacheSecretsAndConfigMaps=true
-            target:
-              kind: Deployment
-              name: source-controller
           # Enable Helm repositories caching.
           # Ref: https://fluxcd.io/flux/installation/configuration/vertical-scaling/#enable-helm-repositories-caching
           - patch: |-
@@ -94,6 +86,14 @@ spec:
               - op: add
                 path: /spec/template/spec/containers/0/args/-
                 value: --helm-cache-purge-interval=5m
+            target:
+              kind: Deployment
+              name: source-controller
+          # Cache Secrets and ConfigMaps.
+          - patch: |-
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --feature-gates=CacheSecretsAndConfigMaps=true
             target:
               kind: Deployment
               name: source-controller
