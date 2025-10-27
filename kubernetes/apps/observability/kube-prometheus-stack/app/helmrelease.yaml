@@ -20,7 +20,6 @@ spec:
           parentRefs:
             - name: envoy-internal
               namespace: network
-              sectionName: https
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -125,7 +124,6 @@ spec:
           parentRefs:
             - name: envoy-internal
               namespace: network
-              sectionName: https
       prometheusSpec:
         externalUrl: https://prometheus.wyde.network
         version: v2.55.1 # Override 'unsupported Prometheus version' error.
