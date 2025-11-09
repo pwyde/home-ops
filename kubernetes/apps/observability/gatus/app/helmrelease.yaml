@@ -68,7 +68,7 @@ spec:
           name: *app
         statefulset:
           volumeClaimTemplates:
-            - name: "{{ .Release.Name }}-config"
+            - name: gatus-config
               storageClass: ceph-block
               accessMode: ReadWriteOnce
               size: 5Gi
