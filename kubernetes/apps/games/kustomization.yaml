@@ -5,6 +5,6 @@ kind: Kustomization
 namespace: games
 components:
   - ../../components/namespace
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./romm/ks.yaml
+  # - ./romm/ks.yaml
