@@ -11,7 +11,7 @@ spec:
   interval: 1h
   values:
     apiServerProxyConfig:
-      mode: true
+      mode: "true"
     oauthSecretVolume:
       secret:
         secretName: &secret tailscale-operator-secret
