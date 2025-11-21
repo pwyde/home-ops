@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cyberchef
-  namespace: &namespace utilities
 spec:
   interval: 1h
   path: ./kubernetes/apps/utilities/cyberchef/app
@@ -13,5 +12,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: utilities
   wait: false
