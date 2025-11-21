@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: searxng
-  namespace: &namespace self-hosted
 spec:
   dependsOn:
     - name: dragonfly-cluster
@@ -18,5 +17,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: self-hosted
   wait: false
