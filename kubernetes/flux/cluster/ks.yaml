@@ -47,6 +47,9 @@ spec:
               target:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
+      target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
   prune: true
   sourceRef:
     kind: GitRepository
