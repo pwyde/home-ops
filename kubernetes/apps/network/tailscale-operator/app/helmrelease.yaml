@@ -12,6 +12,7 @@ spec:
   values:
     apiServerProxyConfig:
       mode: "true"
+    fullnameOverride: *app
     oauthSecretVolume:
       secret:
         secretName: &secret tailscale-operator-secret
