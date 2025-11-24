@@ -1,12 +1,13 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/tailscale.com/connector_v1alpha1.json
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ingress
+  name: app-connector
 spec:
-  hostname: homelab-ingress
-  subnetRouter:
-    advertiseRoutes:
+  appConnector:
+    routes:
       - 192.168.1.1/32
       - 192.168.20.0/24
       - 192.168.30.0/24
+  hostname: homelab-ingress
