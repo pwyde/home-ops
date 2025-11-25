@@ -21,7 +21,7 @@ spec:
         resourceFieldRef:
           resource: limits.memory
           divisor: 1Mi
-  image: ghcr.io/dragonflydb/dragonfly:v1.35.0
+  image: ghcr.io/dragonflydb/dragonfly:v1.35.1
   labels:
     dragonflydb.io/cluster: dragonfly
   replicas: 3
