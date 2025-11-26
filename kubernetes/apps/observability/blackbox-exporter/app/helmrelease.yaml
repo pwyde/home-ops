@@ -38,10 +38,5 @@ spec:
         memory: 64Mi
       limits:
         memory: 96Mi
-    securityContext:
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      # Add NET_RAW to enable ICMP.
-      capabilities: {add: ["NET_RAW"]}
     serviceMonitor:
       enabled: true
