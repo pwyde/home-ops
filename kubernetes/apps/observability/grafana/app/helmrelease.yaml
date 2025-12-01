@@ -352,6 +352,7 @@ spec:
     serviceMonitor:
       enabled: true
     sidecar:
+      # TODO: Remove when the following issue is resolved: https://github.com/grafana/helm-charts/issues/4031
       image:
         registry: quay.io
         repository: kiwigrid/k8s-sidecar
