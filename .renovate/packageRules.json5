@@ -21,6 +21,13 @@
       versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
     },
     {
+      // TODO: Remove when the following issue is resolved: https://github.com/grafana/helm-charts/issues/4031
+      description: "Disable new k8s-sidecar releases",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["**/kiwigrid/k8s-sidecar"],
+      enabled: false
+    },
+    {
       description: "Disable new meilisearch releases",
       matchDatasources: ["docker"],
       matchPackageNames: ["**/getmeili/meilisearch"],
