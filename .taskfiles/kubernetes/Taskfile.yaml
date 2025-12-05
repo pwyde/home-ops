@@ -18,6 +18,12 @@ tasks:
       - kubectl browse-pvc --version
       - which kubectl
 
+  cordon-nodes:
+    desc: Cordon all Kubernetes nodes
+    cmd: kubectl get nodes -o name | xargs -I {} kubectl cordon {}
+    preconditions:
+      - which kubectl
+
   delete-failed-pods:
     desc: Delete pods with a Failed/Pending/Succeeded phase
     cmds:
@@ -28,6 +34,14 @@ tasks:
               - Pending
               - Succeeded
         cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
+    preconditions:
+      - which kubectl
+
+  drain-storage-workloads:
+    desc: Cordon nodes and scale down all ceph-block workloads
+    deps:
+      - cordon-nodes
+      - scale-down-ceph-block
     preconditions:
       - which kubectl
 
@@ -92,6 +106,120 @@ tasks:
       NODE: '{{.NODE}}'
     preconditions:
       - which kubectl
+
+  restore-storage-workloads:
+    desc: Uncordon nodes and scale up all ceph-block workloads
+    deps:
+      - uncordon-nodes
+      - scale-up-ceph-block
+    preconditions:
+      - which kubectl
+
+  scale-down-ceph-block:
+    desc: Scale down all deployments and statefulsets that use PVCs with storageClass=ceph-block
+    silent: false
+    cmd: |
+      # Get all PVCs that use storageClass ceph-block in format "<namespace> <pvc-name>"
+      ceph_pvcs=$(
+        kubectl get pvc --all-namespaces -o json \
+          | jq -r '.items[]
+              | select(.spec.storageClassName=="ceph-block")
+              | "\(.metadata.namespace) \(.metadata.name)"'
+      )
+
+      # Iterate each PVC safely
+      while IFS=' ' read -r ns pvc; do
+        [ -z "$ns" ] && continue
+        echo "Processing PVC $ns/$pvc ..."
+
+        # Scale Deployments referencing this PVC
+        deployments=$(
+          kubectl get deploy -n "$ns" -o json \
+            | jq -r --arg pvc "$pvc" '
+                .items[]
+                | select(.spec.template.spec.volumes[]?.persistentVolumeClaim.claimName==$pvc)
+                | .metadata.name'
+        )
+        for deploy in $deployments; do
+          [ -z "$deploy" ] && continue
+          echo "Scaling down Deployment: $ns/$deploy"
+          kubectl scale deploy "$deploy" -n "$ns" --replicas=0
+        done
+
+        # Scale StatefulSets referencing this PVC
+        # For StatefulSets, look at pods that mount the PVC and resolve ownerReferences
+        pods=$(kubectl get pods -n "$ns" -o json \
+          | jq -r --arg pvc "$pvc" '.items[]
+              | select(.spec.volumes[]? | .persistentVolumeClaim.claimName==$pvc)
+              | .metadata.name')
+
+        for pod in $pods; do
+          owner_kind=$(kubectl get pod -n "$ns" "$pod" -o json | jq -r '.metadata.ownerReferences[0].kind // empty')
+          owner_name=$(kubectl get pod -n "$ns" "$pod" -o json | jq -r '.metadata.ownerReferences[0].name // empty')
+
+          if [ "$owner_kind" = "StatefulSet" ] && [ -n "$owner_name" ]; then
+            echo "Scaling down StatefulSet: $ns/$owner_name"
+            kubectl scale statefulset "$owner_name" -n "$ns" --replicas=0
+          fi
+        done
+
+      done <<< "$ceph_pvcs"
+    preconditions:
+      - which jq
+      - which kubectl
+
+  scale-up-ceph-block:
+    desc: Scale up all deployments and statefulsets that use PVCs with storageClass=ceph-block
+    silent: false
+    cmd: |
+      # Get all PVCs using ceph-block in format "<namespace> <pvc-name>"
+      ceph_pvcs=$(
+        kubectl get pvc --all-namespaces -o json \
+          | jq -r '.items[]
+              | select(.spec.storageClassName=="ceph-block")
+              | "\(.metadata.namespace) \(.metadata.name)"'
+      )
+
+      # Iterate all PVCs
+      while IFS=' ' read -r ns pvc; do
+        [ -z "$ns" ] && continue
+        echo "Processing PVC $ns/$pvc ..."
+
+        # Scale Deployments referencing this PVC
+        deployments=$(
+          kubectl get deploy -n "$ns" -o json \
+            | jq -r --arg pvc "$pvc" '
+                .items[]
+                | select(.spec.template.spec.volumes[]?.persistentVolumeClaim.claimName==$pvc)
+                | .metadata.name'
+        )
+        for deploy in $deployments; do
+          [ -z "$deploy" ] && continue
+          echo "Scaling up§  Deployment: $ns/$deploy"
+          kubectl scale deploy "$deploy" -n "$ns" --replicas=1
+        done
+
+        # Scale StatefulSets referencing this PVC
+        # For StatefulSets, look at pods that mount the PVC and resolve ownerReferences
+        pods=$(kubectl get pods -n "$ns" -o json \
+          | jq -r --arg pvc "$pvc" '.items[]
+              | select(.spec.volumes[]? | .persistentVolumeClaim.claimName==$pvc)
+              | .metadata.name')
+
+        for pod in $pods; do
+          owner_kind=$(kubectl get pod -n "$ns" "$pod" -o json | jq -r '.metadata.ownerReferences[0].kind // empty')
+          owner_name=$(kubectl get pod -n "$ns" "$pod" -o json | jq -r '.metadata.ownerReferences[0].name // empty')
+
+          if [ "$owner_kind" = "StatefulSet" ] && [ -n "$owner_name" ]; then
+            echo "Scaling down StatefulSet: $ns/$owner_name"
+            kubectl scale statefulset "$owner_name" -n "$ns" --replicas=1
+          fi
+        done
+
+      done <<< "$ceph_pvcs"
+    preconditions:
+      - which kubectl
+      - which jq
 
   storage-speed-test:
     desc: Run speed test on storage (block or file) [STORAGE=required]
@@ -170,5 +298,11 @@ tasks:
     vars:
       SECRETS:
         sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    preconditions:
+      - which kubectl
+
+  uncordon-nodes:
+    desc: Uncordon all Kubernetes nodes
+    cmd: kubectl get nodes -o name | xargs -r -I {} kubectl uncordon {}
     preconditions:
       - which kubectl
