@@ -28,7 +28,6 @@ machine:
         - os:admin
       enabled: true
     rbac: true
-    stableHostname: true
   files:
     - op: create
       path: /etc/cri/conf.d/20-customization.part
@@ -196,6 +195,10 @@ cluster:
   secretboxEncryptionSecret: op://Kubernetes/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-2
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig

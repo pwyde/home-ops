@@ -28,7 +28,6 @@ machine:
         - os:admin
       enabled: true
     rbac: true
-    stableHostname: true
   files:
     - op: create
       path: /etc/cri/conf.d/20-customization.part
@@ -214,6 +213,10 @@ apiVersion: v1alpha1
 kind: EthernetConfig
 name: enp5s0f1np1
 rings: {rx: 8160, tx: 8160}
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-1
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
