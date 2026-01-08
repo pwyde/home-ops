@@ -64,27 +64,6 @@ machine:
     nodeIP:
       validSubnets:
         - 192.168.20.0/24
-  network:
-    disableSearchDomain: true
-    interfaces:
-      - interface: bond0
-        addresses:
-          - 192.168.20.21/24
-        bond:
-          deviceSelectors:
-            - hardwareAddr: 38:05:25:30:83:*
-              driver: i40e
-          lacpRate: fast
-          mode: 802.3ad
-          miimon: 1000
-          xmitHashPolicy: layer3+4
-        dhcp: false
-        mtu: 1500
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 192.168.20.1
-    nameservers:
-      - 192.168.20.1
   nodeLabels:
     gpu.home-ops/amd: true
     gpu.home-ops/nvidia: false
@@ -202,18 +181,60 @@ cluster:
     key: op://Kubernetes/talos/CLUSTER_SERVICEACCOUNT_KEY
 ---
 apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: k8s-1
+---
+apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - enp5s0f0np0
+  - enp5s0f1np1
+bondMode: 802.3ad
+lacpRate: fast
+miimon: 1000
+xmitHashPolicy: layer3+4
+mtu: 9000
+addresses:
+  - 192.168.20.21/24
+routes:
+  - gateway: 192.168.20.1
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: bond0
+features:
+  rx-gro-list: off
+  rx-udp-gro-forwarding: on
+---
+apiVersion: v1alpha1
 kind: EthernetConfig
 name: enp5s0f0np0
 rings: {rx: 8160, tx: 8160}
+features:
+  rx-gro-list: off
+  rx-udp-gro-forwarding: on
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig
 name: enp5s0f1np1
 rings: {rx: 8160, tx: 8160}
+features:
+  rx-gro-list: off
+  rx-udp-gro-forwarding: on
 ---
 apiVersion: v1alpha1
-kind: HostnameConfig
-hostname: k8s-1
+kind: ResolverConfig
+nameservers:
+  - address: 192.168.20.1
+searchDomains:
+  disableDefault: true
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+  servers:
+    - time.cloudflare.com
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
