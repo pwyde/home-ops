@@ -91,10 +91,6 @@ machine:
     sunrpc.tcp_max_slot_table_entries: "128" # 10Gb/s | NFS
     user.max_user_namespaces: "11255" # User namespaces
     vm.nr_hugepages: "1024" # PostgreSQL
-  time:
-    disabled: false
-    servers:
-      - time.cloudflare.com
 cluster:
   ca:
     crt: op://Kubernetes/talos/CLUSTER_CA_CRT
