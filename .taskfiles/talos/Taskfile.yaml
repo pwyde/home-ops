@@ -138,20 +138,6 @@ tasks:
     preconditions:
       - which curl task
 
-  generate-iso-vm:
-    desc: Generate a Talos ISO for VM install [VERSION=required]
-    cmd: |
-      curl -L -o {{.TALOS_DIR}}/talos-{{.VERSION}}-vm.iso \
-        https://factory.talos.dev/image/{{.TALOS_SCHEMATIC}}/{{.VERSION}}/metal-amd64.iso
-    vars:
-      TALOS_SCHEMATIC:
-        sh: task --silent talos:generate-schematic-vm
-    requires:
-      vars:
-        - VERSION
-    preconditions:
-      - which curl task
-
   generate-schematic:
     desc: Generate a Talos schematic for bare metal install [ISO={{.ISO}}]
     cmd: |
@@ -160,16 +146,6 @@ tasks:
         | jq --raw-output '.id'
     vars:
       ISO: '{{.ISO | default false}}'
-    preconditions:
-      - test -f {{.TALOS_DIR}}/schematic.yaml.j2
-      - which curl jq minijinja-cli
-
-  generate-schematic-vm:
-    desc: Generate a Talos schematic for VM install
-    cmd: |
-      minijinja-cli {{.TALOS_DIR}}/schematic-vm.yaml.j2 \
-        | curl --silent -X POST --data-binary @- https://factory.talos.dev/schematics \
-        | jq --raw-output '.id'
     preconditions:
       - test -f {{.TALOS_DIR}}/schematic.yaml.j2
       - which curl jq minijinja-cli
