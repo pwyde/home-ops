@@ -5,9 +5,9 @@ kind: Kustomization
 namespace: database
 components:
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
   # - ./cloudnative-pg/ks.yaml
-  # - ./dragonfly/ks.yaml
+  - ./dragonfly/ks.yaml
   # - ./pgadmin/ks.yaml
   # - ./postgres-backup/ks.yaml

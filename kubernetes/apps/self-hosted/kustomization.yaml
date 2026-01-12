@@ -5,11 +5,11 @@ kind: Kustomization
 namespace: self-hosted
 components:
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./dokuwiki/ks.yaml
+  - ./dokuwiki/ks.yaml
   # - ./karakeep/ks.yaml
   # - ./immich/ks.yaml
   # - ./immich-folder-album-creator/ks.yaml
   # - ./nextcloud/ks.yaml
-  # - ./searxng/ks.yaml
+  - ./searxng/ks.yaml

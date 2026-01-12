@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: downloads
 components:
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./pinchflat/ks.yaml
+  - ./pinchflat/ks.yaml
   # - ./qbittorrent/ks.yaml
