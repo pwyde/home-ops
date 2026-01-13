@@ -37,6 +37,11 @@ spec:
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
+  bootstrap:
+    recovery:
+      source: source
+      recoveryTarget:
+        targetTime: "2026-01-12 04:00:00.00000+02"
   # Remove comments during full cluster restore from object store.
   # bootstrap:
   #   recovery:
@@ -91,6 +96,11 @@ spec:
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
+  bootstrap:
+    recovery:
+      source: source
+      recoveryTarget:
+        targetTime: "2026-01-12 04:00:00.00000+02"
   # Remove comments during full cluster restore from object store.
   # bootstrap:
   #   recovery:
