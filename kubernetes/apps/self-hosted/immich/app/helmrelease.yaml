@@ -76,10 +76,10 @@ spec:
               # crash loop otherwise.
               # Recommended model according to https://v1.131.0.archive.immich.app/docs/features/searching/#clip-models
               # Also see the following comment: https://github.com/immich-app/immich/discussions/17105#discussioncomment-12620002
-              MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
-              MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
-              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
-              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
+              # MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
+              # MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: "XLM-Roberta-Large-ViT-H-14__frozen_laion5b_s13b_b90k"
+              # MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
+              # MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
               MPLCONFIGDIR: /tmp/matplotlib
             envFrom: *envFrom
             probes:
