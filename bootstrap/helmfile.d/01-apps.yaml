@@ -44,14 +44,15 @@ releases:
     needs:
       - kube-system/cilium
 
-  - name: spegel
-    namespace: kube-system
-    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    version: 0.5.1
-    values:
-      - ./templates/values.yaml.gotmpl
-    needs:
-      - kube-system/coredns
+  # TODO: Re-enable prior to multi-node cluster deployment.
+  # - name: spegel
+  #   namespace: kube-system
+  #   chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+  #   version: 0.5.1
+  #   values:
+  #     - ./templates/values.yaml.gotmpl
+  #   needs:
+  #     - kube-system/coredns
 
   - name: cert-manager
     namespace: cert-manager
@@ -60,7 +61,9 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - kube-system/spegel
+      # TODO: Modify prior to multi-node cluster deployment.
+      - kube-system/coredns
+      # - kube-system/spegel
 
   - name: flux-operator
     namespace: flux-system
