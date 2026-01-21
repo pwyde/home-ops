@@ -12,7 +12,13 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
   secretName: wyde-network-tls
+  usages:
+    - digital signature
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
@@ -27,4 +33,10 @@ spec:
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
   secretName: wyde-network-staging-tls
+  usages:
+    - digital signature
