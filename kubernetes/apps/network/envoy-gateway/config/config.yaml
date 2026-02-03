@@ -12,7 +12,8 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        replicas: 2
+        # TODO: Change replicas to 2 prior to multi-node cluster deployment.
+        replicas: 1
         container:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
