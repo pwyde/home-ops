@@ -15,3 +15,5 @@ configMapGenerator:
       - flux-metrics.yaml=./resources/flux-metrics.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled

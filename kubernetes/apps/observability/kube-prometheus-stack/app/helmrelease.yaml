@@ -12,6 +12,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: flux-metrics-configmap
+      valuesKey: flux-metrics.yaml
   values:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
