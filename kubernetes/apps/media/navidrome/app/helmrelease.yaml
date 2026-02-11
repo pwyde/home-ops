@@ -34,7 +34,7 @@ spec:
               ND_ENABLEINSIGHTSCOLLECTOR: false
               ND_PROMETHEUS_ENABLED: true
               ND_DEFAULTTHEME: "Catppuccin Macchiato"
-              ND_REVERSEPROXYWHITELIST: "10.42.0.0/16"
+              ND_EXTAUTH_TRUSTEDSOURCES: "10.42.0.0/16"
               TZ: Europe/Stockholm
             probes:
               liveness: &probes
