@@ -36,9 +36,7 @@ spec:
               ATUIN_METRICS__PORT: &metricsPort 8081
               TZ: Europe/Stockholm
             envFrom: *envFrom
-            command:
-              - atuin
-              - server
+            args:
               - start
             probes:
               liveness: &probes
