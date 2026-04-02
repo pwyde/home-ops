@@ -57,11 +57,11 @@ spec:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true # Disable during database upgrade.
+              # readOnlyRootFilesystem: true # Disable during database upgrade.
               capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true # Disable during database upgrade.
+        # runAsNonRoot: true # Disable during database upgrade.
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
