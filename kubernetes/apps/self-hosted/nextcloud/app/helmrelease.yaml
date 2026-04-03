@@ -16,7 +16,7 @@ spec:
     image:
       registry: docker.io
       repository: library/nextcloud
-      tag: 33.0.2-fpm-alpine
+      tag: 33.0.0-fpm-alpine
       flavor: fpm-alpine
     internalDatabase:
       enabled: false
