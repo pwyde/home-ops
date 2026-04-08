@@ -25,12 +25,9 @@ spec:
               ND_CACHEFOLDER: /data/cache
               ND_MUSICFOLDER: /music
               ND_AUTOIMPORTPLAYLISTS: false
-              ND_ARTISTARTPRIORITY: "folder.*, external"
-              ND_COVERARTPRIORITY: "folder.*, cover.*, embedded, external"
               ND_SCANNER_SCHEDULE: 0 * * * *
               ND_SCANNER_PURGEMISSING: always
-              ND_IMAGECACHESIZE: "512MB"
-              ND_TRANSCODINGCACHESIZE: "512MB"
+              ND_TRANSCODINGCACHESIZE: "1GB"
               ND_ENABLEINSIGHTSCOLLECTOR: false
               ND_PROMETHEUS_ENABLED: true
               ND_DEFAULTTHEME: "Catppuccin Macchiato"
