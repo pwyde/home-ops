@@ -15,8 +15,6 @@ spec:
     monitoring:
       podMonitorEnabled: false
       grafanaDashboard:
-        annotations:
-          grafana_folder: Database
         create: true
     resources:
       requests:

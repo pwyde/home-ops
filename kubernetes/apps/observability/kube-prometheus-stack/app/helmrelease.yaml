@@ -47,12 +47,6 @@ spec:
                   storage: 1Gi
     grafana:
       enabled: false
-      forceDeployDashboards: true
-      defaultDashboardsTimezone: browser
-      sidecar:
-        dashboards:
-          annotations:
-            grafana_folder: Kubernetes
     kubeEtcd:
       service:
         selector:

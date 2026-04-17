@@ -11,9 +11,6 @@ spec:
   interval: 1h
   values:
     grafanaDashboard:
-      annotations:
-        name: grafana_folder
-      enabled: true
-      folder: Database
+      create: true
     serviceMonitor:
       enabled: false

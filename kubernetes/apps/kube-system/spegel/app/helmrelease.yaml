@@ -11,8 +11,6 @@ spec:
   interval: 1h
   values:
     grafanaDashboard:
-      annotations:
-        grafana_folder: Kubernetes
       enabled: true
     service:
       registry:
