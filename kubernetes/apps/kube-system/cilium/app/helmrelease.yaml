@@ -29,7 +29,7 @@ spec:
       exclusive: false
     dashboards:
       annotations:
-        grafana_folder: Network
+        grafana_folder: Networking
       enabled: true
     devices: bond+
     enableIPv4BIGTCP: true
@@ -57,7 +57,7 @@ spec:
     operator:
       dashboards:
         annotations:
-          grafana_folder: Network
+          grafana_folder: Networking
         enabled: true
       prometheus:
         enabled: true
