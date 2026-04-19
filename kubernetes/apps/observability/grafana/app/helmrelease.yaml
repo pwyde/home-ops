@@ -55,6 +55,14 @@ spec:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
+          - name: database
+            orgId: 1
+            folder: Database
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/database
           - name: default
             orgId: 1
             folder: ""
@@ -63,42 +71,74 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: flux
+            orgId: 1
+            folder: Flux
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/flux
+          - name: kubernetes
+            orgId: 1
+            folder: Kubernetes
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/kubernetes
+          - name: networking
+            orgId: 1
+            folder: Networking
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/networking
+          - name: prometheus
+            orgId: 1
+            folder: Prometheus
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/prometheus
+          - name: security
+            orgId: 1
+            folder: Security
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/security
+          - name: storage
+            orgId: 1
+            folder: Storage
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/storage
+          - name: system
+            orgId: 1
+            folder: System
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/system
+          - name: unifi
+            orgId: 1
+            folder: UniFi
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/unifi
     dashboards:
+      database:
       default:
-        blackbox-exporter:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/7587/revisions/3/download
-        ceph-cluster:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/2842/revisions/18/download
-        ceph-osd:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/5336/revisions/9/download
-        ceph-pools:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/5342/revisions/9/download
-        cert-manager:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/20842/revisions/3/download
-        cilium:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/21431/revisions/6/download
-        cloudflared:
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
-          url: https://grafana.com/api/dashboards/17457/revisions/6/download
-        envoy-overview:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/24459/revisions/3/download
-        envoy-upstream:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/24457/revisions/4/download
-        envoy-downstream:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/24458/revisions/3/download
-        external-dns:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/15038/revisions/3/download
+      flux:
         flux-operator-performance:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
@@ -115,6 +155,7 @@ spec:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
+      kubernetes:
         etcd:
           datasource: Prometheus
           url: https://grafana.com/api/dashboards/22236/revisions/4/download
@@ -143,27 +184,51 @@ spec:
         kubernetes-volumes:
           datasource: Prometheus
           url: https://grafana.com/api/dashboards/11454/revisions/14/download
+      networking:
+        blackbox-exporter:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/7587/revisions/3/download
+        cloudflared:
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+          url: https://grafana.com/api/dashboards/17457/revisions/6/download
+        envoy-overview:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/24459/revisions/3/download
+        envoy-upstream:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/24457/revisions/4/download
+        envoy-downstream:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/24458/revisions/3/download
+        external-dns:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/15038/revisions/3/download
+        traefik:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/17346/revisions/9/download
+      prometheus:
+        prometheus:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/19105/revisions/9/download
+      security:
+        cert-manager:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/20842/revisions/3/download
+      storage:
+        ceph-cluster:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/2842/revisions/18/download
+        ceph-osd:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/5336/revisions/9/download
+        ceph-pools:
+          datasource: Prometheus
+          url: https://grafana.com/api/dashboards/5342/revisions/9/download
         minio:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
           url: https://grafana.com/api/dashboards/13502/revisions/26/download
-        node-exporter-full:
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
-          url: https://grafana.com/api/dashboards/1860/revisions/45/download
-        prometheus:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/19105/revisions/9/download
-        smartctl-exporter:
-          datasource:
-            - {name: DS_VICTORIAMETRICS, value: Prometheus}
-          url: https://grafana.com/api/dashboards/22381/revisions/1/download
-        spegel:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/22104/revisions/1/download
-        traefik:
-          datasource: Prometheus
-          url: https://grafana.com/api/dashboards/17346/revisions/9/download
         truenas-scale-cgroups:
           datasource:
             - {name: DS_MIMIR, value: Prometheus}
@@ -180,6 +245,20 @@ spec:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
           url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_temperatures.json
+        volsync:
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+          url: https://grafana.com/api/dashboards/21356/revisions/3/download
+      system:
+        node-exporter-full:
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+          url: https://grafana.com/api/dashboards/1860/revisions/45/download
+        smartctl-exporter:
+          datasource:
+            - {name: DS_VICTORIAMETRICS, value: Prometheus}
+          url: https://grafana.com/api/dashboards/22381/revisions/1/download
+      unifi:
         unifi-insights:
           datasource: Prometheus
           url: https://grafana.com/api/dashboards/11315/revisions/9/download
@@ -192,11 +271,6 @@ spec:
         unifi-usw:
           datasource: Prometheus
           url: https://grafana.com/api/dashboards/11312/revisions/9/download
-        volsync:
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
-          url: https://grafana.com/api/dashboards/21356/revisions/3/download
-
     persistence:
       enabled: false
     plugins:
