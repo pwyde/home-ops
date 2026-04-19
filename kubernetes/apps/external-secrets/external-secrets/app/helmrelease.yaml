@@ -18,6 +18,8 @@ spec:
         limits:
           memory: 96Mi
     grafanaDashboard:
+      annotations:
+        grafana_folder: Security
       enabled: true
     resources:
       requests:

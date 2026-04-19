@@ -28,6 +28,8 @@ spec:
     cni:
       exclusive: false
     dashboards:
+      annotations:
+        grafana_folder: Network
       enabled: true
     devices: bond+
     enableIPv4BIGTCP: true
@@ -54,6 +56,8 @@ spec:
       enabled: true
     operator:
       dashboards:
+        annotations:
+          grafana_folder: Network
         enabled: true
       prometheus:
         enabled: true

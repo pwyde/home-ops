@@ -249,6 +249,10 @@ spec:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
           url: https://grafana.com/api/dashboards/21356/revisions/3/download
+        zfs:
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus }
+          url: https://grafana.com/api/dashboards/24987/revisions/2/download
       system:
         node-exporter-full:
           datasource:

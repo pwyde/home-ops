@@ -11,6 +11,7 @@ spec:
   interval: 1h
   values:
     grafanaDashboard:
-      create: true
+      enabled: true
+      folder: database
     serviceMonitor:
       enabled: false
