@@ -4,13 +4,13 @@
     "grafana-dashboards": {
       defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
       format: "json",
-      transformTemplates: ['{"releases":[{"version": $string(revision)}]}'],
+      transformTemplates: ['{"releases":[{"version": $string(revision)}], "sourceDirectory": name}'],
     },
   },
   customManagers: [
     {
-      description: "Process Grafana dashboards",
       customType: "regex",
+      description: "Process Grafana dashboards",
       managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
       matchStrings: [
         "dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download",
@@ -26,7 +26,7 @@
       automerge: true,
       automergeType: "branch",
       commitMessageExtra: "({{currentVersion}} ➔ {{newVersion}})",
-      commitMessageTopic: "dashboard {{depName}}",
+      commitMessageTopic: "dashboard {{sourceDirectory}}",
       ignoreTests: true,
       matchDatasources: ["custom.grafana-dashboards"],
       matchUpdateTypes: ["major"],
