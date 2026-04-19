@@ -136,8 +136,6 @@ spec:
             options:
               path: /var/lib/grafana/dashboards/unifi
     dashboards:
-      database:
-      default:
       flux:
         flux-operator-performance:
           datasource:
