@@ -11,6 +11,7 @@ customization:
     - iommu=pt                  # PCI passthrough.
     - pcie_aspm=off             # Disable PCIe ASPM.
     - mitigations=off           # Less security, more performance.
+    - module_blacklist=igc      # Disable onboard NIC
     - security=none             # Less security, more performance.
     - talos.auditd.disabled=1   # Less security, more performance.
     {% if iso == 'true' %}
@@ -19,7 +20,6 @@ customization:
     {% endif %}
   systemExtensions:
     officialExtensions:
-      - siderolabs/amdgpu
-      - siderolabs/amd-ucode
-      - siderolabs/nfsrahead
-      - siderolabs/util-linux-tools
+      - siderolabs/amd-ucode        # AMD microcode binaries.
+      - siderolabs/amdgpu           # AMDGPU firmware binaries and kernel modules.
+      - siderolabs/util-linux-tools # Minimal util-linux package.
