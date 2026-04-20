@@ -7,4 +7,4 @@ components:
   - ../../components/namespace
 resources: []
   # Flux-Kustomizations
-  # - ./system-upgrade-controller/ks.yaml
+  # - ./tuppr/ks.yaml
