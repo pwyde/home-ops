@@ -3,7 +3,7 @@
 version: '3'
 
 vars:
-  SYSTEM_UPGRADE_KS: '{{.KUBERNETES_DIR}}/apps/system-upgrade/system-upgrade-controller/ks.yaml'
+  SYSTEM_UPGRADE_KS: '{{.KUBERNETES_DIR}}/apps/system-upgrade/tuppr/ks.yaml'
 
 env:
   KUBERNETES_VERSION:
