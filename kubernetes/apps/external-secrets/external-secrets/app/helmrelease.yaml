@@ -10,13 +10,7 @@ spec:
     name: external-secrets
   interval: 1h
   values:
-    certController:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 48Mi
-        limits:
-          memory: 96Mi
+    leaderElect: true
     grafanaDashboard:
       annotations:
         grafana_folder: Security
