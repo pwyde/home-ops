@@ -52,7 +52,6 @@ spec:
               # s6-overlay-suexec: fatal: child failed with exit code 100
               runAsUser: 0
               runAsGroup: 0
-              fsGroup: 0
               runAsNonRoot: false
               allowPrivilegeEscalation: false
               # s6-rmrf: fatal: unable to remove /run/s6: Read-only file system
