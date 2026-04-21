@@ -32,7 +32,7 @@ spec:
         usernameKey: POSTGRES_USER
         passwordKey: POSTGRES_PASSWORD
     nextcloud:
-      host: nextcloud.wyde.network
+      host: &host nextcloud.wyde.network
       extraEnv:
         - name: PHP_MEMORY_LIMIT
           value: "512M"
@@ -141,6 +141,7 @@ spec:
             'trusted_proxies' => array(
               0 => '127.0.0.1',
               1 => '10.42.0.0/16',
+              2 => '10.43.0.0/16',
             ),
             'forwarded_for_headers' => array(
               0 => 'HTTP_X_FORWARDED_FOR',
@@ -185,8 +186,16 @@ spec:
         readOnlyRootFilesystem: false
     cronjob:
       enabled: true
+      successfulJobsHistoryLimit: 1
       securityContext:
         runAsGroup: 82
+    httpRoute:
+      enabled: true
+      hostnames:
+        - *host
+      parentRefs:
+        - name: envoy-internal
+          namespace: network
     imaginary:
       enabled: true
     ingress:
