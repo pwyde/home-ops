@@ -197,12 +197,16 @@ spec:
         - name: envoy-internal
           namespace: network
       rules:
-        filters:
-          - type: ResponseHeaderModifier
-            responseHeaderModifier:
-            add:
-              - name: strict-transport-security
-                value: max-age=31536000
+        - matches:
+          - path:
+              type: PathPrefix
+              value: "/"
+          filters:
+            - type: ResponseHeaderModifier
+              responseHeaderModifier:
+              add:
+                - name: strict-transport-security
+                  value: max-age=31536000
     imaginary:
       enabled: true
     ingress:
