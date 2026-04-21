@@ -27,7 +27,6 @@ spec:
         path: kubernetes/flux/cluster
         interval: 1h
       kustomize:
-        kustomize:
         patches:
           # Increase the number of workers and limits.
           # Ref: https://fluxcd.io/flux/installation/configuration/vertical-scaling/#increase-the-number-of-workers-and-limits
