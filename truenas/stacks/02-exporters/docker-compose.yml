@@ -1,20 +1,5 @@
 ---
 services:
-  graphite-exporter:
-    image: ghcr.io/supporterino/truenas-graphite-to-prometheus:v2.2.1
-    container_name: graphite-exporter
-    hostname: graphite-exporter
-    restart: unless-stopped
-    environment:
-      TZ: Europe/Stockholm
-    security_opt:
-      - no-new-privileges
-    ports:
-      - ${GRAPHITE_PORT}:${GRAPHITE_PORT}
-      - ${PROM_PORT}:${PROM_PORT}
-    networks:
-      - internal
-
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.11.1
     container_name: node-exporter
