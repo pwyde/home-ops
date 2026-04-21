@@ -13,11 +13,6 @@ spec:
     fullnameOverride: *app
     deploymentAnnotations:
       secret.reloader.stakater.com/reload: &secret nextcloud-secret
-    image:
-      registry: docker.io
-      repository: library/nextcloud
-      tag: 33.0.2-fpm-alpine
-      flavor: fpm-alpine
     internalDatabase:
       enabled: false
     externalDatabase:
@@ -90,7 +85,6 @@ spec:
             'auth.bruteforce.protection.enabled' => true,
             // Circumvention for client freezes. See https://github.com/nextcloud/desktop/issues/5094
             'bulkupload.enabled' => false,
-            'check_data_directory_permissions' => false,
             'default_language' => 'en',
             'default_locale' => 'sv_SE',
             'default_phone_region' => 'SE',
@@ -138,6 +132,7 @@ spec:
         proxy.config.php: |-
           <?php
           $CONFIG = array (
+            'overwrite.cli.url' => 'https://nextcloud.wyde.network',
             'trusted_proxies' => array(
               0 => '127.0.0.1',
               1 => '10.42.0.0/16',
@@ -171,24 +166,32 @@ spec:
           port: 465
           authtype: LOGIN
       phpConfigs:
+        uploadLimit.ini: |
+          upload_max_filesize = 16G
+          post_max_size = 16G
+          max_input_time = 3600
+          max_execution_time = 3600
         www.conf: |
+          [www]
+          user = www-data
+          group = www-data
+          listen = 127.0.0.1:9000
           pm = dynamic
-          pm.max_children = 10
-          pm.start_servers = 3
-          pm.min_spare_servers = 2
-          pm.max_spare_servers = 5
+          pm.max_children = 57
+          pm.start_servers = 14
+          pm.min_spare_servers = 14
+          pm.max_spare_servers = 42
           pm.max_requests = 500
           pm.process_idle_timeout = 10s
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 82
-        runAsGroup: 82
-        readOnlyRootFilesystem: false
     cronjob:
       enabled: true
-      successfulJobsHistoryLimit: 1
-      securityContext:
-        runAsGroup: 82
+      type: cronjob
+      cronjob:
+        successfulJobsHistoryLimit: 1
+        securityContext:
+          runAsGroup: 33
+          runAsNonRoot: true
+          runAsUser: 33
     httpRoute:
       enabled: true
       hostnames:
@@ -209,20 +212,6 @@ spec:
                     value: max-age=31536000
     imaginary:
       enabled: true
-    ingress:
-      enabled: false
-    nginx:
-      config:
-        default: true
-      enabled: true
-      securityContext:
-        runAsGroup: 82
-      resources:
-        requests:
-          cpu: 50m
-          memory: 24Mi
-        limits:
-          memory: 128Mi
     metrics:
       enabled: false
       https: true
@@ -230,23 +219,9 @@ spec:
       token: ${NEXTCLOUD_METRICS_TOKEN}
       info:
         apps: true
-      serviceMonitor:
-        enabled: false
-      resources:
-        requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
-          memory: 64Mi
     phpClientHttpsFix:
       enabled: true
       protocol: https
     persistence:
       enabled: true
       existingClaim: *app
-    resources:
-      requests:
-        cpu: 200m
-        memory: 384Mi
-      limits:
-        memory: 2Gi
