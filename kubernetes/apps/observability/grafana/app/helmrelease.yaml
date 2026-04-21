@@ -227,22 +227,6 @@ spec:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
           url: https://grafana.com/api/dashboards/13502/revisions/26/download
-        truenas-scale-cgroups:
-          datasource:
-            - {name: DS_MIMIR, value: Prometheus}
-          url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_cgroups.json
-        truenas-scale-disk-insights:
-          datasource:
-            - {name: DS_MIMIR, value: Prometheus}
-          url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_disk_insights.json
-        truenas-scale-overview:
-          datasource:
-            - {name: DS_MIMIR, value: Prometheus}
-          url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale.json
-        truenas-scale-temperatures:
-          datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
-          url: https://raw.githubusercontent.com/Supporterino/truenas-graphite-to-prometheus/refs/heads/main/dashboards/truenas_scale_temperatures.json
         volsync:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
