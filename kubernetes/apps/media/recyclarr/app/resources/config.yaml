@@ -10,7 +10,7 @@ sonarr:
   # readable and self-documenting. It is used in different ways:
   #   * In log messages to more easily point out where issues are in the configuration.
   #   * (In the future) On the CLI it allows executing actions against specific instances.
-  tv_series:
+  series:
     # Set the URL/API Key to the actual instance.
     base_url: http://sonarr.media.svc.cluster.local
     api_key: !env_var SONARR_API_KEY
@@ -26,7 +26,6 @@ sonarr:
     # custom formats that Recyclarr has synchronized to Sonarr. Custom formats that have been added
     # manually in Sonarr will not be deleted if this setting is enabled.
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
 
     custom_formats:
       - trash_ids:
@@ -156,11 +155,11 @@ sonarr:
           - e2315f990da2e2cbfc9fa5b7a6fcfe48 # LQ (Release Title)
           - 23297a736ca77c0fc8e70f8edd7ee56c # Upscaled
           - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
-    quality_profiles:
-      # Note: Recyclarr does not create quality profiles. It must first be created in Sonarr.
-      # Recyclarr then applies custom formats above with the scores given in the guide and
-      # applies the scores to the quality profile below.
-      - name: HD - Bluray/HDTV/WEB (720p/1080p)
+        assign_scores_to:
+          # Note: Recyclarr does not create quality profiles. It must first be created in Sonarr.
+          # Recyclarr then applies custom formats above with the scores given in the guide and
+          # applies the scores to the quality profile below.
+          - name: HD - Bluray/HDTV/WEB (720p/1080p)
 
 # Configuration specific to Radarr.
 radarr:
@@ -180,7 +179,6 @@ radarr:
     # custom formats that Recyclarr has synchronized to Radarr. Custom formats that have been added
     # manually in Radarr will not be deleted if this setting is enabled.
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
 
     custom_formats:
       # Custom formats that will be added from TRaSH Guides. For more information, see
@@ -320,8 +318,8 @@ radarr:
           - e204b80c87be9497a8a6eaff48f72905 # LQ (Release Title)
           - bfd8eb01832d646a0a89c4deb46f8564 # Upscaled
           - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
-    quality_profiles:
-      # Note: Recyclarr does not create quality profiles. It must first be created in Radarr.
-      # Recyclarr then applies custom formats above with the scores given in the guide and
-      # applies the scores to the quality profile below.
-      - name: HD-Bluray/WEB (720p/1080p)
+        assign_scores_to:
+          # Note: Recyclarr does not create quality profiles. It must first be created in Radarr.
+          # Recyclarr then applies custom formats above with the scores given in the guide and
+          # applies the scores to the quality profile below.
+          - name: HD-Bluray/WEB (720p/1080p)
