@@ -42,3 +42,5 @@ spec:
       enabled: true
       annotations:
         grafana_folder: System
+      labels:
+        grafana_dashboard: "1"
