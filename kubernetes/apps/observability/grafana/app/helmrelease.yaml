@@ -38,19 +38,16 @@ spec:
             url: http://alertmanager-operated.observability.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
-          - name: Loki
-            type: loki
-            uid: loki
-            access: proxy
-            url: http://loki-headless.observability.svc.cluster.local:3100
-            jsonData:
-              maxLines: 250
           - name: Prometheus
             type: prometheus
             uid: prometheus
             access: proxy
             url: http://prometheus-operated.observability.svc.cluster.local:9090
             isDefault: true
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
+            access: proxy
+            url: http://victoria-logs-server.observability.svc.cluster.local:9428
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -263,6 +260,7 @@ spec:
       - grafana-clock-panel
       - grafana-piechart-panel
       - grafana-worldmap-panel
+      - victoriametrics-logs-datasource
     resources:
       requests:
         cpu: 30m
