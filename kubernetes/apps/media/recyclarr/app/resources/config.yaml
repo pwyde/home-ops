@@ -20,6 +20,11 @@ sonarr:
     # Quality definitions from the guide to sync to Sonarr. Choices: series, anime
     quality_definition:
       type: series
+      qualities:
+        - name: SDTV
+          min: 5
+          max: 100
+          preferred: 80
 
     quality_profiles:
       - trash_id: 72dae194fc92bf828f32cde7744e51a1 # WEB-1080p
