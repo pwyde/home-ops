@@ -26,17 +26,24 @@ sonarr:
         reset_unmatched_scores:
           enabled: true
         upgrade:
-          allowed: false
-          until_quality: Remux-1080p
+          allowed: true
+          until_quality: Bluray-1080p
           until_score: 10000
         min_format_score: 0
         quality_sort: top
         qualities:
-          - name: Remux-1080p
+          - name: Bluray-1080p
           - name: WEB 1080p
             qualities:
               - WEBDL-1080p
               - WEBRip-1080p
+          - name: HDTV-1080p
+          - name: Bluray-720p
+          - name: WEB 720p
+            qualities:
+              - WEBDL-720p
+              - WEBRip-720p
+          - name: HDTV-720p
       - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
         reset_unmatched_scores:
           enabled: true
