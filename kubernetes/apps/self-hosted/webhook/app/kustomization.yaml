@@ -12,7 +12,7 @@ configMapGenerator:
       - hooks.yaml=./resources/hooks.yaml
       - github-push-doco-ci.sh=./resources/github-push-doco-ci.sh
 configurations:
-  - ./resources/kustomizeconfig.yaml
+  - ./kustomizeconfig.yaml
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
