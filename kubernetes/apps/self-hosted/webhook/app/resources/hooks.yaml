@@ -1,6 +1,6 @@
 ---
-- id: github-pwyde-home-ops-doco-ci
-  execute-command: /config/github-push-doco-ci.sh
+- id: github-pwyde-home-ops-doco-cd
+  execute-command: /config/github-push-doco-cd.sh
   pass-arguments-to-command:
     - # ref
       source: payload
@@ -20,7 +20,7 @@
     - # pusher email
       source: payload
       name: pusher.email
-    - # doco-ci webhook url
+    - # doco-cd webhook url
       source: string
       name: http://webhook.wyde.network:8080/v1/webhook
   trigger-rule:

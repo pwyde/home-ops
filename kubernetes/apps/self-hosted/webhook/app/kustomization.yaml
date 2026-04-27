@@ -10,7 +10,7 @@ configMapGenerator:
   - name: webhook-configmap
     files:
       - hooks.yaml=./resources/hooks.yaml
-      - github-push-doco-ci.sh=./resources/github-push-doco-ci.sh
+      - github-push-doco-cd.sh=./resources/github-push-doco-cd.sh
 configurations:
   - ./kustomizeconfig.yaml
 generatorOptions:
