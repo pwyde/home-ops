@@ -9,6 +9,15 @@ configs:
         reference: refs/heads/main
         interval: 3600
 
+networks:
+  internal:
+    name: internal
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.16.2.0/24
+         gateway: 172.16.2.1
+
 secrets:
   1pw_token:
     file: /mnt/hdd-data/Home/patrik/.config/doco-cd/1pw_token
@@ -40,6 +49,8 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    networks:
+      - internal
     security_opt:
       - no-new-privileges
     ports:
