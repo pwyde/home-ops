@@ -22,7 +22,7 @@
       name: pusher.email
     - # doco-cd webhook url
       source: string
-      name: http://webhook.wyde.network:8080/v1/webhook
+      name: http://nas.wyde.network:8080/v1/webhook
   trigger-rule:
     and:
       - # Validate the webhook secret.
