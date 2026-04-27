@@ -5,15 +5,15 @@
 configs:
   poll-config.yml:
     content: |
-      - run_once: true
-        url: https://github.com/pwyde/home-ops.git
+      - url: https://github.com/pwyde/home-ops.git
         reference: refs/heads/main
+        interval: 3600
 
 secrets:
   1pw_token:
     file: /mnt/hdd-data/Home/patrik/.config/doco-cd/1pw_token
-  webhook_secret:
-    file: /mnt/hdd-data/Home/patrik/.config/doco-cd/webhook_secret
+  # webhook_secret:
+  #   file: /mnt/hdd-data/Home/patrik/.config/doco-cd/webhook_secret
 
 services:
   doco-cd:
@@ -29,7 +29,7 @@ services:
       POLL_CONFIG_FILE: /poll-config.yml
       SECRET_PROVIDER: 1password
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      # WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       DEPLOY_CONFIG_BASE_DIR: ./docker/truenas/
     healthcheck:
       test:
@@ -46,7 +46,7 @@ services:
       - 8080:8080
     secrets:
       - 1pw_token
-      - webhook_secret
+      # - webhook_secret
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - data:/data
