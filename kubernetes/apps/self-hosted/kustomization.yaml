@@ -13,4 +13,3 @@ resources:
   - ./immich-folder-album-creator/ks.yaml
   - ./nextcloud/ks.yaml
   - ./searxng/ks.yaml
-  - ./webhook/ks.yaml
