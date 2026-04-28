@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/refs/heads/main/schema/compose-spec.json
 services:
   minio:
     image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z

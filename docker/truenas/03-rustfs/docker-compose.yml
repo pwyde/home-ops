@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/refs/heads/main/schema/compose-spec.json
+networks:
+  apps:
+    external: true
+
+services:
+  minio:
+    image: docker.io/rustfs/rustfs:1.0.0-alpha.94
+    container_name: rustfs
+    hostname: rustfs
+    restart: unless-stopped
+    environment:
+      RUSTFS_SERVER_DOMAINS: rs3.wyde.network
+      RUSTFS_REGION: "eu-north-1"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ROOT_USER: ${RUSTFS_ROOT_USER}
+      RUSTFS_ROOT_PASSWORD: ${RUSTFS_ROOT_PASSWORD}
+      RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY}
+      RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY}
+      RUSTFS_OBS_ENDPOINT: http://otel-collector:4318
+      RUSTFS_OBS_SERVICE_NAME: rustfs
+      RUSTFS_OBS_TRACES_EXPORT_ENABLED: "false"
+      RUSTFS_OBS_LOGS_EXPORT_ENABLED: "false"
+      RUSTFS_OBS_PROFILING_EXPORT_ENABLED: "false"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    user: 1000:1000
+    networks:
+      apps:
+    expose:
+      - &s3Port 9000
+      - &consolePort 9001
+    volumes:
+      - /mnt/ssd-data/RustFS:/data
+    labels:
+      traefik.enable: "true"
+      # Console
+      traefik.http.routers.rustfsconsole.entrypoints: https
+      traefik.http.routers.rustfsconsole.rule: Host(`rustfs.wyde.network`)
+      traefik.http.routers.rustfsconsole.service: rustfsconsole
+      traefik.http.routers.rustfsconsole.tls: true
+      traefik.http.routers.rustfsconsole.tls.certresolver: letsencrypt
+      traefik.http.services.rustfsconsole.loadbalancer.server.port: *consolePort
+      # S3
+      traefik.http.routers.rustfs.entrypoints: https
+      traefik.http.routers.rustfs.rule: Host(`rs3.wyde.network`) || HostRegexp(`^.+\.rs3.wyde.network$`)
+      traefik.http.routers.rustfs.service: rustfs
+      traefik.http.routers.rustfs.tls: true
+      traefik.http.routers.rustfs.tls.certresolver: letsencrypt
+      traefik.http.routers.rustfs.tls.domains[0].main: rs3.wyde.network
+      traefik.http.routers.rustfs.tls.domains[0].sans: "*.rs3.wyde.network"
+      traefik.http.services.rustfs.loadbalancer.server.port: *s3Port
