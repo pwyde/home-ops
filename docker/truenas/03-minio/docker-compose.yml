@@ -8,6 +8,8 @@ services:
     environment:
       MINIO_API_CORS_ALLOW_ORIGIN: https://s3.wyde.network,https://minio.wyde.network
       MINIO_BROWSER_REDIRECT_URL: https://minio.wyde.network
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_DOMAIN: s3.wyde.network
       MINIO_UPDATE: "off"
       MINIO_PROMETHEUS_JOB_ID: minio
