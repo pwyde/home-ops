@@ -7,3 +7,5 @@ auto_discover_opts:
 external_secrets:
   TRAEFIK_CF_API_EMAIL: op://Kubernetes/cloudflare/ADMIN_EMAIL
   TRAEFIK_CF_DNS_API_TOKEN: op://Kubernetes/cloudflare/CLOUDFLARE_API_TOKEN
+  MINIO_ROOT_USER: op://Kubernetes/minio/MINIO_ROOT_USER
+  MINIO_ROOT_PASSWORD: op://Kubernetes/minio/MINIO_ROOT_PASSWORD
