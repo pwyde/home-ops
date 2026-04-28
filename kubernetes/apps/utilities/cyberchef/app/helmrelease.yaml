@@ -63,6 +63,10 @@ spec:
         globalMounts:
           - path: /var/run
             subPath: nginx.pid
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:
