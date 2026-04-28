@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/refs/heads/main/schema/compose-spec.json
+configs:
+  traefik-config:
+    file: ./config/traefik.yml
+
+networks:
+  apps:
+    name: apps
+  traefik_macvlan:
+    name: traefik_macvlan
+    driver: ipvlan
+    driver_opts:
+      parent: br0
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.20.0/24
+          ip_range: 192.168.20.96/27
+          gateway: 192.168.20.1
+
+services:
+  traefik:
+    image: traefik:v3.6.13
+    container_name: traefik
+    configs:
+      - source: traefik-config
+        target: /etc/traefik/traefik.yml
+    hostname: traefik
+    restart: always
+    environment:
+      TZ: Europe/Stockholm
+      CF_API_EMAIL: ${TRAEFIK_CF_API_EMAIL}
+      CF_DNS_API_TOKEN: ${TRAEFIK_CF_DNS_API_TOKEN}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    networks:
+      traefik_macvlan:
+        ipv4_address: 192.168.20.97
+      apps:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/dynamic:/dynamic
+      - certs:/certs
+
+volumes:
+  certs:
+    name: certs

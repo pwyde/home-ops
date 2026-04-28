@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Update script for doco-cd.
+
+set -euo pipefail
+
+WORK_DIR="/mnt/ssd-data/Docker/doco-cd"
+BASE_URL="https://raw.githubusercontent.com/pwyde/home-ops/main/docker/.doco-cd"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+LOG_FILE="$WORK_DIR/update.log"
+
+log() { echo "[$TIMESTAMP] $*" | tee -a "$LOG_FILE"; }
+
+cd "$WORK_DIR" || { log "ERROR: Unable to change directory to $WORK_DIR"; exit 1; }
+
+CHANGED=0
+
+fetch_and_compare() {
+  local filename="$1"
+  local url="$BASE_URL/$filename"
+
+  local new_content
+  new_content=$(curl -sf --max-time 30 "$url") || {
+    log "ERROR: Failed to fetch $filename from GitHub (outage or network issue) — aborting..."
+    exit 1
+  }
+
+  local new_hash old_hash
+  new_hash=$(echo "$new_content" | sha256sum | cut -d' ' -f1)
+  old_hash=$(sha256sum "$filename" 2>/dev/null | cut -d' ' -f1 || echo "")
+
+  if [ "$new_hash" != "$old_hash" ]; then
+    log "CHANGED: $filename — updating"
+    echo "$new_content" > "$filename"
+    CHANGED=1
+  else
+    log "UNCHANGED: $filename"
+  fi
+}
+
+fetch_and_compare "docker-compose.app.yaml"
+
+if [ "$CHANGED" -eq 1 ]; then
+  log "Rebuilding and restarting doco-cd stack..."
+  docker compose -f "$WORK_DIR/docker-compose.app.yaml" up -d --build --force-recreate
+  log "Done."
+else
+  log "No changes detected — exiting..."
+fi

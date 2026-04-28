@@ -1,0 +1,19 @@
+http:
+  routers:
+    dashboard:
+      rule: Host(`traefik.wyde.network`)
+      service: api@internal
+      entryPoints:
+        - https
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: wyde.network
+            sans:
+              - "*.wyde.network"
+    metrics:
+      rule: Host(`traefik.wyde.network`) && PathPrefix(`/metrics`)
+      service: prometheus@internal
+      entryPoints:
+        - https
+      tls: true

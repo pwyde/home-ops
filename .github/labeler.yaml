@@ -40,4 +40,4 @@ area/taskfile:
 area/truenas:
   - changed-files:
       - any-glob-to-any-file:
-          - truenas/**/*
+          - docker/**/*

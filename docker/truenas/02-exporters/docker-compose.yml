@@ -42,6 +42,6 @@ services:
     security_opt:
       - no-new-privileges
     ports:
-      - ${SMART_PORT}:${SMART_PORT}
+      - 9633:9633
     networks:
       - internal
