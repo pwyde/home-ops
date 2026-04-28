@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-WORK_DIR="/mnt/hdd-data/Home/patrik/.config/doco-cd"
+WORK_DIR="/mnt/ssd-data/Docker/doco-cd"
 BASE_URL="https://raw.githubusercontent.com/pwyde/home-ops/main/docker/.doco-cd"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 LOG_FILE="$WORK_DIR/update.log"
