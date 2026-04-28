@@ -23,8 +23,8 @@ services:
       RUSTFS_OBS_TRACES_EXPORT_ENABLED: "false"
       RUSTFS_OBS_LOGS_EXPORT_ENABLED: "false"
       RUSTFS_OBS_PROFILING_EXPORT_ENABLED: "false"
-    # cap_drop:
-    #   - ALL
+    cap_drop:
+      - ALL
     security_opt:
       - no-new-privileges
     user: 1000:1000
