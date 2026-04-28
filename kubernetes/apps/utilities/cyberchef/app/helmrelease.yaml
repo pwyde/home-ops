@@ -70,4 +70,4 @@ spec:
       app:
         ports:
           http:
-            port: *port
+            port: 8080
