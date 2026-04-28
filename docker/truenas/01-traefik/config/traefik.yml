@@ -31,8 +31,8 @@ certificatesResolvers:
       email: postmaster@wyde.network
       storage: /certs/acme.json
       # ACME staging.
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
-      # caServer: https://acme-v02.api.letsencrypt.org/directory
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-v02.api.letsencrypt.org/directory
       dnsChallenge:
         provider: cloudflare
         # Delay DNS check and reduce Let's Encrypt hitrate.
