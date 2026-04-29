@@ -20,11 +20,10 @@
     ":semanticCommits",
     ":timezone(Europe/Stockholm)"
   ],
+  registryAliases: {
+    "mirror.gcr.io": "docker.io",
+  },
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  suppressNotifications: [
-    "prEditedNotification",
-    "prIgnoreNotification"
-  ],
   commitBodyTable: true,
   assigneesFromCodeOwners: true,
   reviewersFromCodeOwners: true,
