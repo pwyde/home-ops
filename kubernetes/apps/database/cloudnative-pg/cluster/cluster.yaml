@@ -54,6 +54,78 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
+  name: pg18-cluster
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: enabled
+spec:
+  enableSuperuserAccess: true
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.3-standard-trixie@sha256:72da9c67c0c9d3d220bd92eca11434189297f179411275476f876cbfe1b5164a
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters: &parameters
+        barmanObjectName: minio
+        serverName: pg18-cluster
+  postgresql:
+    parameters:
+      max_connections: "300"
+      shared_buffers: 128MB
+      work_mem: 64MB
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  resources:
+    requests:
+      cpu: 200m
+      memory: 1Gi
+    limits:
+      # hugepages-2Mi: 2Gi # Requires sysctl set on the host.
+      memory: 2Gi
+  storage:
+    size: 10Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  # Remove comments during full cluster restore from object store.
+  # bootstrap:
+  #   recovery:
+  #     source: source
+  #     # Optional point-in-time recovery.
+  #     # recoveryTarget:
+  #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters: *parameters
+  # Remove comments during major version upgrades.
+    - name: &oldCluster ppg17-cluster
+      connectionParameters:
+        host: pg17-cluster-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cloudnative-pg-secret
+        key: password
+  bootstrap:
+    initdb:
+      import:
+        databases: ["*"]
+        roles: ["*"]
+        source:
+          externalCluster: *oldCluster
+        type: monolith
+  managed:
+    services:
+      disabledDefaultServices: ["r", "ro"]
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
   name: pg17-immich
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: enabled
