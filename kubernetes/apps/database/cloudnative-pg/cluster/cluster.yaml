@@ -46,6 +46,9 @@ spec:
       plugin:
         name: barman-cloud.cloudnative-pg.io
         parameters: *parameters
+  managed:
+    services:
+      disabledDefaultServices: ["r", "ro"]
 ---
 # yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
@@ -100,3 +103,6 @@ spec:
       plugin:
         name: barman-cloud.cloudnative-pg.io
         parameters: *parameters
+  managed:
+    services:
+      disabledDefaultServices: ["r", "ro"]
