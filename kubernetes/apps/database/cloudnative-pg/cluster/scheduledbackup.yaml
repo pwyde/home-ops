@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: &name pg17-cluster
+  name: &name pg18-cluster
 spec:
   backupOwnerReference: self
   cluster:
