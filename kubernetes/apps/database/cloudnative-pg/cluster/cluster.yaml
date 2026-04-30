@@ -3,54 +3,6 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: pg17-cluster
-  annotations:
-    cnpg.io/skipEmptyWalArchiveCheck: enabled
-spec:
-  enableSuperuserAccess: true
-  instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
-  monitoring:
-    enablePodMonitor: true
-  plugins:
-    - name: barman-cloud.cloudnative-pg.io
-      isWALArchiver: true
-      parameters: &parameters
-        barmanObjectName: minio
-        serverName: pg17-cluster
-  postgresql:
-    parameters:
-      max_connections: "300"
-      shared_buffers: 128MB
-      work_mem: 64MB
-  primaryUpdateMethod: switchover
-  primaryUpdateStrategy: unsupervised
-  resources:
-    requests:
-      cpu: 200m
-      memory: 1Gi
-    limits:
-      # hugepages-2Mi: 2Gi # Requires sysctl set on the host.
-      memory: 2Gi
-  storage:
-    size: 10Gi
-    storageClass: openebs-hostpath
-  superuserSecret:
-    name: cloudnative-pg-secret
-  # Remove comments during full cluster restore from object store.
-  # bootstrap:
-  #   recovery:
-  #     source: source
-  externalClusters:
-    - name: source
-      plugin:
-        name: barman-cloud.cloudnative-pg.io
-        parameters: *parameters
----
-# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
   name: pg18-cluster
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: enabled
