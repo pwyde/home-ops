@@ -7,6 +7,6 @@ components:
   - ../../components/namespace
 resources:
   # Flux-Kustomizations
-  - ./atuin/ks.yaml
+  # - ./atuin/ks.yaml
   - ./cyberchef/ks.yaml
   - ./it-tools/ks.yaml
