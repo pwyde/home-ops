@@ -187,20 +187,20 @@ spec:
         name: barman-cloud.cloudnative-pg.io
         parameters: *parameters
   # Remove comments during major version upgrades.
-    - name: &oldCluster pg17-immich
-      connectionParameters:
-        host: pg17-immich-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-        sslmode: require
-      password:
-        name: cloudnative-pg-secret
-        key: password
-  bootstrap:
-    initdb:
-      import:
-        databases: ["*"]
-        roles: ["*"]
-        source:
-          externalCluster: *oldCluster
-        type: monolith
+  #   - name: &oldCluster pg17-immich
+  #     connectionParameters:
+  #       host: pg17-immich-rw.database.svc.cluster.local
+  #       user: postgres
+  #       dbname: postgres
+  #       sslmode: require
+  #     password:
+  #       name: cloudnative-pg-secret
+  #       key: password
+  # bootstrap:
+  #   initdb:
+  #     import:
+  #       databases: ["*"]
+  #       roles: ["*"]
+  #       source:
+  #         externalCluster: *oldCluster
+  #       type: monolith
