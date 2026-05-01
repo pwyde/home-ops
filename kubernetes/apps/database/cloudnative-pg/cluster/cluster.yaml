@@ -140,7 +140,7 @@ spec:
       isWALArchiver: true
       parameters: &parameters
         barmanObjectName: minio
-        serverName: pg17-immich
+        serverName: pg18-immich
   postgresql:
     extensions:
       - name: vchord
