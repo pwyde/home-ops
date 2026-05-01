@@ -77,7 +77,7 @@ metadata:
     cnpg.io/skipEmptyWalArchiveCheck: enabled
 spec:
   enableSuperuserAccess: true
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.5.3
   instances: 3
   monitoring:
     enablePodMonitor: true
