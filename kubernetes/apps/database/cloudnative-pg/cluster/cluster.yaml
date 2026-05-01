@@ -121,3 +121,86 @@ spec:
       plugin:
         name: barman-cloud.cloudnative-pg.io
         parameters: *parameters
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg18-immich
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: enabled
+spec:
+  enableSuperuserAccess: true
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.3-standard-trixie@sha256:72da9c67c0c9d3d220bd92eca11434189297f179411275476f876cbfe1b5164a
+  instances: 3
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters: &parameters
+        barmanObjectName: minio
+        serverName: pg17-immich
+  postgresql:
+    extensions:
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib
+        extension_control_path:
+          - /usr/share/postgresql/18/
+    parameters:
+      autovacuum_vacuum_scale_factor: "0.1"
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_vacuum_cost_limit: "1000"
+      effective_io_concurrency: "200"
+      max_connections: "300"
+      random_page_cost: "1.2"
+      shared_buffers: 256MB
+      work_mem: 16MB
+    shared_preload_libraries:
+      - "vchord.so"
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  resources:
+    requests:
+      cpu: 200m
+      memory: 1Gi
+    limits:
+      memory: 2Gi
+  storage:
+    size: 10Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  # Remove comments during full cluster restore from object store.
+  # bootstrap:
+  #   recovery:
+  #     source: source
+  #     # Optional point-in-time recovery.
+  #     # recoveryTarget:
+  #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters: *parameters
+  # Remove comments during major version upgrades.
+    - name: &oldCluster pg17-immich
+      connectionParameters:
+        host: pg17-immich-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cloudnative-pg-secret
+        key: password
+  bootstrap:
+    initdb:
+      import:
+        databases: ["*"]
+        roles: ["*"]
+        source:
+          externalCluster: *oldCluster
+        type: monolith
