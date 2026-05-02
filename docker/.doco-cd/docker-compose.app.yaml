@@ -7,7 +7,7 @@ configs:
     content: |
       - url: https://github.com/pwyde/home-ops.git
         reference: refs/heads/main
-        interval: 3600
+        interval: 7200
 
 networks:
   internal:
