@@ -51,10 +51,6 @@ spec:
       namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
-  postBuild:
-    substitute:
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRESQL_VERSION: 17.9-system-trixie
   prune: true
   sourceRef:
     kind: GitRepository
