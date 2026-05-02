@@ -4,8 +4,8 @@
     {
       description: "Allowed PostgreSQL major release",
       matchDatasources: ["docker"],
-      matchPackageNames: ["**/cloudnative-pg/postgresql", "**/postgres-backup-local", "**/postgres-init"],
-      allowedVersions: "<=17",
+      matchPackageNames: ["vchord-scratch", "postgresql", "postgres-backup-local", "postgres-init"],
+      allowedVersions: "<=18",
     },
     {
       description: "Custom schedule for frequently updated container digests",
