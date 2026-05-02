@@ -28,6 +28,7 @@
   assigneesFromCodeOwners: true,
   reviewersFromCodeOwners: true,
   ignorePaths: [
+    "docs/**",
     "**/*.sops.*",
     "**/resources/**"
   ],
