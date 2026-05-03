@@ -5,8 +5,8 @@ api:
   dashboard: true
 accesslog: {}
 log:
-  # level: INFO
-  level: DEBUG
+  level: INFO
+  # level: DEBUG
   format: "common"
 entryPoints:
   http:
