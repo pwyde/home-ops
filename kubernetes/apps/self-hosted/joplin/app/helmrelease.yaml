@@ -25,7 +25,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/joplin/server
+              repository: joplin/server
               tag: 3.6.1@sha256:95c1badac330e53918ff3a756fccc67d1d7f65d00a4f806c6a5f79925e7f18ca
             env:
               APP_BASE_URL: https://joplin.wyde.network
