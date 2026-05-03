@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/refs/heads/main/schema/compose-spec.json
+configs:
+  garage-config:
+    file: ./config/garage.toml
+
+networks:
+  apps:
+    external: true
+
+services:
+  garage:
+    image: docker.io/dxflrs/garage:v2.3.0
+    container_name: garage
+    configs:
+      - source: garage-config
+        target: /etc/garage.toml
+    hostname: garage
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Stockholm
+      GARAGE_RPC_SECRET: ${GARAGE_RPC_SECRET}
+      GARAGE_ADMIN_TOKEN: ${GARAGE_ADMIN_TOKEN}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    user: 1000:1000
+    networks:
+      apps:
+    expose:
+      - &s3Port 3900
+      - &adminPort 3903
+    volumes:
+      - /mnt/ssd-data/Garage/data:/data
+      - /mnt/ssd-data/Garage/meta:/meta
+    labels:
+      traefik.enable: "true"
+      # S3
+      traefik.http.routers.garage-s3.entrypoints: https
+      traefik.http.routers.garage-s3.rule: Host(`garage-s3.wyde.network`)
+      traefik.http.routers.garage-s3.service: garage-s3
+      traefik.http.routers.garage-s3.tls: true
+      traefik.http.routers.garage-s3.tls.certresolver: letsencrypt
+      traefik.http.services.garage-s3.loadbalancer.server.port: *s3Port
+      # Admin API
+      traefik.http.routers.garage-api.entrypoints: https
+      traefik.http.routers.garage-api.rule: Host(`garage-api.wyde.network`)
+      traefik.http.routers.garage-api.service: garage-api
+      traefik.http.routers.garage-api.tls: true
+      traefik.http.routers.garage-api.tls.certresolver: letsencrypt
+      traefik.http.services.garage-api.loadbalancer.server.port: *adminPort
+
+  garage-webui:
+    image: docker.io/khairul169/garage-webui:1.1.0
+    container_name: garage-webui
+    configs:
+      - source: garage-config
+        target: /etc/garage.toml
+    hostname: garage-webui
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Stockholm
+      API_BASE_URL: http://garage:3903
+      API_ADMIN_KEY: ${GARAGE_ADMIN_TOKEN}
+      S3_ENDPOINT_URL: http://garage:3900
+      AUTH_USER_PASS: ${GARAGE_WEBUI_ADMIN_PASS}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    networks:
+      apps:
+    expose:
+      - &webPort 3909
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.garage-webui.entrypoints: https
+      traefik.http.routers.garage-webui.rule: Host(`garage.wyde.network`)
+      traefik.http.routers.garage-webui.service: garage-webui
+      traefik.http.routers.garage-webui.tls: true
+      traefik.http.routers.garage-webui.tls.certresolver: letsencrypt
+      traefik.http.services.garage-webui.loadbalancer.server.port: *webPort
+
+

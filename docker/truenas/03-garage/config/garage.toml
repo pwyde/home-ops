@@ -1,0 +1,45 @@
+# Garage configuration file. Documentation can be found here:
+#   - https://garagehq.deuxfleurs.fr/documentation/reference-manual/configuration/
+
+# Data & metadata storage paths.
+data_dir = "/data"
+metadata_dir = "/meta"
+
+# Database engine:
+#   - lmdb: Default and fastest.
+#   - sqlite: More robust for power failures.
+db_engine = "sqlite"
+
+# Automatic metadata snapshots every 2 hours (recommended for recovery).
+metadata_auto_snapshot_interval = "2h"
+
+# Cluster configuration.
+replication_factor = 1
+
+# Compression level (0-3):
+#   - 0: None
+#   - 1: Fast
+#   - 2: Balanced
+#   - 3: Max
+compression_level = 2
+
+# RPC configuration.
+rpc_bind_addr = "[::]:3901"
+rpc_public_addr = "garage:3901"
+
+# S3 API configuration.
+[s3_api]
+s3_region = "eu-north-1"
+api_bind_addr = "[::]:3900"
+root_domain = ".garage-s3.wyde.network"
+
+# S3 web configuration.
+# Optional, expose buckets as web.
+# [s3_web] # Optional, if you want to expose bucket as web
+# bind_addr = "[::]:3902"
+# root_domain = "garage-web.wyde.network"
+# index = "index.html"
+
+# Admin API configuration.
+[admin]
+api_bind_addr = "[::]:3903"
