@@ -7,7 +7,7 @@ configs:
     content: |
       - url: https://github.com/pwyde/home-ops.git
         reference: refs/heads/main
-        interval: 7200
+        interval: 3600
 
 networks:
   internal:
@@ -36,6 +36,8 @@ services:
       POLL_CONFIG_FILE: /poll-config.yml
       SECRET_PROVIDER: 1password
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
+      SECRET_PROVIDER_CACHE_ENABLED: true
+      SECRET_PROVIDER_CACHE_TTL: 2h
       DEPLOY_CONFIG_BASE_DIR: ./docker/truenas/
     healthcheck:
       test:
