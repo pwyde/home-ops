@@ -55,9 +55,9 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-            securityContext:
-              # allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
