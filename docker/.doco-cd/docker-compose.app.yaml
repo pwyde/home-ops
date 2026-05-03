@@ -7,7 +7,7 @@ configs:
     content: |
       - url: https://github.com/pwyde/home-ops.git
         reference: refs/heads/main
-        interval: 7200
+        interval: 3600
 
 networks:
   internal:
@@ -24,7 +24,7 @@ secrets:
 
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.83.0@sha256:7987d1628f787e51b71a499f82e8be714e6d6150b716e24911b1c546c17c9888
+    image: ghcr.io/kimdre/doco-cd:0.84.0-rc.2
     container_name: doco-cd
     configs:
       - source: poll-config.yml
@@ -36,6 +36,8 @@ services:
       POLL_CONFIG_FILE: /poll-config.yml
       SECRET_PROVIDER: 1password
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
+      SECRET_PROVIDER_CACHE_ENABLED: true
+      SECRET_PROVIDER_CACHE_TTL: 2h
       DEPLOY_CONFIG_BASE_DIR: ./docker/truenas/
     healthcheck:
       test:
