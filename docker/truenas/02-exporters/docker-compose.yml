@@ -13,7 +13,6 @@ services:
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.11.1
     container_name: node-exporter
-    hostname: node-exporter
     restart: unless-stopped
     command:
       - --path.rootfs=/host/root
@@ -33,7 +32,6 @@ services:
   smartctl-exporter:
     image: quay.io/prometheuscommunity/smartctl-exporter:v0.14.0
     container_name: smartctl-exporter
-    hostname: smartctl-exporter
     restart: unless-stopped
     environment:
       TZ: Europe/Stockholm
@@ -45,3 +43,24 @@ services:
       - 9633:9633
     networks:
       - internal
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
+    container_name: cadvisor
+    restart: unless-stopped
+    command:
+      - --housekeeping_interval=30s
+      - --docker_only=true
+      - --store_container_labels=false
+    privileged: true
+    devices:
+      - /dev/kmsg
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+
