@@ -55,8 +55,7 @@ services:
     privileged: true
     devices:
       - /dev/kmsg
-    ports:
-      - 8080:8080
+    network_mode: host
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
