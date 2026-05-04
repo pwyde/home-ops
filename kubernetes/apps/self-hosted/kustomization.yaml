@@ -11,6 +11,6 @@ resources:
   - ./karakeep/ks.yaml
   - ./immich/ks.yaml
   - ./immich-folder-album-creator/ks.yaml
-  # - ./joplin/ks.yaml
+  - ./joplin/ks.yaml
   - ./nextcloud/ks.yaml
   - ./searxng/ks.yaml

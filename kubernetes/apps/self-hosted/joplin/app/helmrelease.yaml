@@ -31,6 +31,11 @@ spec:
               APP_BASE_URL: https://joplin.wyde.network
               APP_PORT: &port 8080
               DB_CLIENT: pg
+              MAILER_ENABLED: 1
+              MAILER_PORT: 465
+              MAILER_SECURE: 1
+              MAILER_NOREPLY_NAME: JoplinServer
+              MAILER_NOREPLY_EMAIL: joplin@wyde.network
               TZ: Europe/Stockholm
             envFrom: *envFrom
             probes:
