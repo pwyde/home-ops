@@ -52,8 +52,6 @@ services:
       - internal
     security_opt:
       - no-new-privileges
-    ports:
-      - 8080:8080
     secrets:
       - 1pw_token
     volumes:
