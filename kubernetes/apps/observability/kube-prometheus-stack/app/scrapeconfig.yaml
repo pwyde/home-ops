@@ -11,6 +11,7 @@ spec:
         - pikvm.wyde.network:9100
         - pve.wyde.network:9100
   metricsPath: /metrics
+  honorTimestamps: true
   relabelings:
     - action: replace
       targetLabel: job
@@ -27,6 +28,23 @@ spec:
         - nas.wyde.network:9633
         - pve.wyde.network:9633
   metricsPath: /metrics
+  honorTimestamps: true
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name dococd
+spec:
+  staticConfigs:
+    - targets:
+        - nas.wyde.network:9120
+  metricsPath: /metrics
+  honorTimestamps: true
   relabelings:
     - action: replace
       targetLabel: job
@@ -60,6 +78,7 @@ spec:
         - s3.wyde.network
   metricsPath: /minio/v2/metrics/cluster
   scheme: HTTPS
+  honorTimestamps: true
   relabelings:
     - action: replace
       targetLabel: job
