@@ -6,7 +6,7 @@ networks:
 
 services:
   minio:
-    image: docker.io/rustfs/rustfs:1.0.0-alpha.99
+    image: docker.io/rustfs/rustfs:1.0.0-beta.1
     container_name: rustfs
     hostname: rustfs
     restart: unless-stopped
