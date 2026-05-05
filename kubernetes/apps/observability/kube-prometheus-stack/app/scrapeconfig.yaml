@@ -99,3 +99,17 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
+---
+# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: rustfs
+spec:
+  staticConfigs:
+    - targets:
+        - otel.wyde.network
+  metricsPath: /metrics
+  scheme: HTTPS
+  honorTimestamps: true
+  honorLabels: true
