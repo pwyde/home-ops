@@ -12,10 +12,16 @@ services:
     restart: unless-stopped
     environment:
       RUSTFS_SERVER_DOMAINS: rs3.wyde.network
-      RUSTFS_REGION: "eu-north-1"
-      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_REGION: eu-north-1
+      RUSTFS_CONSOLE_ENABLE: true
       RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY}
       RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY}
+      RUSTFS_OBS_ENDPOINT: http://otel-collector:4318
+      RUSTFS_OBS_SERVICE_NAME: rustfs
+      RUSTFS_OBS_TRACES_EXPORT_ENABLED: false
+      RUSTFS_OBS_LOGS_EXPORT_ENABLED: false
+      RUSTFS_OBS_PROFILING_EXPORT_ENABLED: false
+      PROMETHEUS_HOST: prometheus.wyde.network
     cap_drop:
       - ALL
     security_opt:
@@ -31,12 +37,12 @@ services:
     labels:
       traefik.enable: "true"
       # Console
-      traefik.http.routers.rustfsconsole.entrypoints: https
-      traefik.http.routers.rustfsconsole.rule: Host(`rustfs.wyde.network`)
-      traefik.http.routers.rustfsconsole.service: rustfsconsole
-      traefik.http.routers.rustfsconsole.tls: true
-      traefik.http.routers.rustfsconsole.tls.certresolver: letsencrypt
-      traefik.http.services.rustfsconsole.loadbalancer.server.port: *consolePort
+      traefik.http.routers.rustfs-console.entrypoints: https
+      traefik.http.routers.rustfs-console.rule: Host(`rustfs.wyde.network`)
+      traefik.http.routers.rustfs-console.service: rustfs-console
+      traefik.http.routers.rustfs-console.tls: true
+      traefik.http.routers.rustfs-console.tls.certresolver: letsencrypt
+      traefik.http.services.rustfs-console.loadbalancer.server.port: *consolePort
       # S3
       traefik.http.routers.rustfs.entrypoints: https
       traefik.http.routers.rustfs.rule: Host(`rs3.wyde.network`)
