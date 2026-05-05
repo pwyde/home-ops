@@ -24,7 +24,7 @@ secrets:
 
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.84.0-rc.2
+    image: ghcr.io/kimdre/doco-cd:0.84.0
     container_name: doco-cd
     configs:
       - source: poll-config.yml
