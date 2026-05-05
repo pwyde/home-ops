@@ -31,7 +31,7 @@ services:
         target: /poll-config.yml
     restart: unless-stopped
     environment:
-      HTTP_PORT: 8080
+      HTTP_PORT: 8120
       LOG_LEVEL: info
       POLL_CONFIG_FILE: /poll-config.yml
       SECRET_PROVIDER: 1password
@@ -48,6 +48,9 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    ports:
+      - 8120:8120
+      - 9120:9120
     networks:
       - internal
     security_opt:
