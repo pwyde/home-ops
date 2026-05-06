@@ -6,10 +6,10 @@ metadata:
   name: cert-manager
 spec:
   allowCrossNamespaceImport: true
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
   url: https://grafana.com/api/dashboards/20842/revisions/3/download
