@@ -16,7 +16,7 @@ spec:
       pluginsDir: /build/plugins
     fullnameOverride: *app
     initContainers:
-      - # Generate kubeconfig file. Can be removed when https://github.com/kubernetes-sigs/headlamp/issues/1826 is resolved
+      - # Generate kubeconfig file. Can be removed when https://github.com/kubernetes-sigs/headlamp/issues/1826 is resolved.
         image: docker.io/rancher/shell:v7.0.0
         command:
           - /bin/sh
