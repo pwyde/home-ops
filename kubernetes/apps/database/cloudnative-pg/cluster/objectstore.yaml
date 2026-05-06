@@ -20,3 +20,25 @@ spec:
       compression: bzip2
       maxParallel: 4
   retentionPolicy: 14d
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: rustfs
+spec:
+  configuration:
+    data:
+      compression: bzip2
+    destinationPath: s3://cloudnative-pg/
+    endpointURL: https://rs3.wyde.network
+    s3Credentials:
+      accessKeyId:
+        name: &name cloudnative-pg-secret
+        key: s3-access-key
+      secretAccessKey:
+        name: *name
+        key: s3-secret-key
+    wal:
+      compression: bzip2
+      maxParallel: 4
+  retentionPolicy: 7d
