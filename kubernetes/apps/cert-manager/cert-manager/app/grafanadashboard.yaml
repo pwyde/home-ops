@@ -11,5 +11,5 @@ spec:
       inputName: DS_PROMETHEUS
   instanceSelector:
     matchLabels:
-      grafana.internal/instance: grafana
+      dashboards: grafana
   url: https://grafana.com/api/dashboards/20842/revisions/3/download
