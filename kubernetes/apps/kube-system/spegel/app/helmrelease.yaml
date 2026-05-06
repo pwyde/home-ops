@@ -11,9 +11,8 @@ spec:
   interval: 1h
   values:
     grafanaDashboard:
-      annotations:
-        grafana_folder: Kubernetes
       enabled: true
+      mode: GrafanaOperator
     service:
       registry:
         hostPort: 29999
