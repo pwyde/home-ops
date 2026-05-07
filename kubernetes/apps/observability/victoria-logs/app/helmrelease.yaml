@@ -14,10 +14,11 @@ spec:
       enabled: true
       grafanaOperator:
         enabled: true
-    server:
-      fullnameOverride: *app
+    global:
       image:
         registry: quay.io
+    server:
+      fullnameOverride: *app
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
