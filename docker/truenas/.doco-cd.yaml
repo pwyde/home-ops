@@ -1,6 +1,5 @@
 ---
 working_dir: ./docker/truenas
-auto_discover: true
 auto_discovery:
   enabled: true
   depth: 1
