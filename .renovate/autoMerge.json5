@@ -16,7 +16,7 @@
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["minor", "patch"],
-      matchPackageNames: ["/kube-prometheus-stack/"],
+      matchPackageNames: ["/kube-prometheus-stack/", "ghcr.io/searxng/searxng"],
       ignoreTests: false,
       schedule: ["before 6am on Monday"],
     },
