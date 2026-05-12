@@ -21,9 +21,9 @@
       versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
     },
     {
-      description: "Disable new meilisearch releases",
+      description: "Disable new Meilisearch releases",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/meilisearch"],
+      matchPackageNames: ["docker.io/getmeili/meilisearch"],
       enabled: false
     },
     {
@@ -33,7 +33,7 @@
       enabled: false
     },
     {
-      description: "Use loose versioning for SearXNG date+commit image tags",
+      description: "Use loose versioning for SearXNG date + commit image tags",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/searxng/searxng"],
       versioning: "loose",
