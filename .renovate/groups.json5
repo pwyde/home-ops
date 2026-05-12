@@ -5,10 +5,7 @@
       description: "Actions Runner Controller Group",
       groupName: "actions-runner-controller",
       matchDatasources: ["docker"],
-      matchPackageNames: [
-        "/gha-runner-scale-set-controller/",
-        "/gha-runner-scale-set/"
-      ],
+      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
@@ -16,12 +13,9 @@
     },
     {
       description: "Barman Cloud Group",
-      groupName: "barman-cloud",
+      groupName: "plugin-barman-cloud",
       matchDatasources: ["docker", "github-releases"],
-      matchPackageNames: [
-        "**/plugin-barman-cloud",
-        "**/plugin-barman-cloud-sidecar"
-      ],
+      matchPackageNames: ["/plugin-barman-cloud", "/plugin-barman-cloud-sidecar"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
