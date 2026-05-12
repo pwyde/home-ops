@@ -10,7 +10,7 @@
     {
       description: "Custom schedule for frequently updated container digests",
       matchDataSources: ["docker"],
-      matchPackageNames: ["**/cloudnative-pg/postgresql"],
+      matchPackageNames: ["/postgresql"],
       matchUpdateTypes: ["digest"],
       schedule: "on the first day of the month",
     },
@@ -23,7 +23,7 @@
     {
       description: "Disable new meilisearch releases",
       matchDatasources: ["docker"],
-      matchPackageNames: ["**/getmeili/meilisearch"],
+      matchPackageNames: ["/meilisearch"],
       enabled: false
     },
     {
@@ -33,7 +33,7 @@
       enabled: false
     },
     {
-      description: "Loose versioning for non-semver packages",
+      description: "Use loose versioning for SearXNG date+commit image tags",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/searxng/searxng"],
       versioning: "loose",
