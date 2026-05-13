@@ -15,24 +15,27 @@ tasks:
 
   apply-node:
     desc: Apply Talos config to a node [NODE=required] [MODE={{.MODE}}]
-    cmd: |
-      minijinja-cli {{.TALOS_DIR}}/nodes/{{.NODE}}.yaml.j2 \
+    cmd: |-
+      minijinja-cli {{.TALOS_DIR}}/machineconfig.yaml.j2 \
         | op inject \
         | talosctl --nodes {{.NODE}} apply-config \
           --mode={{.MODE}} \
-          --file /dev/stdin {{if eq .INSECURE "true"}}--insecure{{end}}
+          --config-patch @{{.TALOS_DIR}}/networking.yaml.j2 \
+          --config-patch @{{.TALOS_DIR}}/nodes/{{.NODE}}.yaml.j2 \
+          --file /dev/stdin {{if .INSECURE}}--insecure{{end}}
     vars:
       MODE: '{{.MODE | default "auto"}}'
       INSECURE:
-        sh: talosctl --nodes {{.NODE}} get machineconfig &> /dev/null && echo false || echo true
+        sh: talosctl --nodes {{.NODE}} get machineconfig &> /dev/null || echo true
     requires:
       vars:
         - NODE
     preconditions:
       - op user get --me
       - talosctl config info
+      - test -f {{.TALOS_DIR}}/machineconfig.yaml.j2
+      - test -f {{.TALOS_DIR}}/networking.yaml.j2
       - test -f {{.TALOS_DIR}}/nodes/{{.NODE}}.yaml.j2
-      - test -f {{.TALOS_DIR}}/schematic.yaml.j2
       - which minijinja-cli op talosctl
 
   upgrade-node:
@@ -92,7 +95,7 @@ tasks:
   reset-node:
     desc: Reset Talos on a single node [NODE=required]
     prompt: Reset Talos node '{{.NODE}}'... Continue?
-    cmd: talosctl --nodes {{.NODE}} reset --graceful=false --reboot
+    cmd: talosctl --nodes {{.NODE}} reset --reboot=true --graceful=false
     requires:
       vars:
         - NODE
@@ -104,7 +107,7 @@ tasks:
   reset-cluster:
     desc: Reset Talos across the whole cluster
     prompt: Reset the Talos cluster... Continue?
-    cmd: talosctl --nodes {{.NODES}} reset --graceful=false --reboot
+    cmd: talosctl --nodes {{.NODES}} reset --reboot=true --graceful=false
     vars:
       NODES:
         sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
@@ -124,28 +127,16 @@ tasks:
       - talosctl --nodes {{.RANDOM_CONTROLLER}} get machineconfig
       - which jq talosctl
 
-  generate-iso:
-    desc: Generate a Talos ISO for bare metal install [VERSION=required]
-    cmd: |
-      curl -L -o {{.TALOS_DIR}}/talos-{{.VERSION}}-secureboot.iso \
-        https://factory.talos.dev/image/{{.TALOS_SCHEMATIC}}/{{.VERSION}}/metal-amd64-secureboot.iso
-    vars:
-      TALOS_SCHEMATIC:
-        sh: task --silent talos:generate-schematic ISO=true
-    requires:
-      vars:
-        - VERSION
-    preconditions:
-      - which curl task
-
   generate-schematic:
-    desc: Generate a Talos schematic for bare metal install [ISO={{.ISO}}]
-    cmd: |
-      minijinja-cli --define "iso={{.ISO}}" {{.TALOS_DIR}}/schematic.yaml.j2 \
+    desc: Generate a Talos schematic
+    cmd: |-
+      minijinja-cli {{.TALOS_DIR}}/schematic.yaml.j2 \
         | curl --silent -X POST --data-binary @- https://factory.talos.dev/schematics \
         | jq --raw-output '.id'
-    vars:
-      ISO: '{{.ISO | default false}}'
+    env:
+      TALOS_CONFIG_EARLY:
+        sh: zstd -c {{.TALOS_DIR}}/networking.yaml.j2 | base64 -w0
     preconditions:
       - test -f {{.TALOS_DIR}}/schematic.yaml.j2
-      - which curl jq minijinja-cli
+      - test -f {{.TALOS_DIR}}/networking.yaml.j2
+      - which base64 curl jq minijinja-cli zstd

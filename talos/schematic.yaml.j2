@@ -1,25 +1,14 @@
 ---
 customization:
   extraKernelArgs:
-    - -init_on_alloc            # Less security, more performance.
-    - -selinux                  # Less security, more performance.
-    - apparmor=0                # Less security, more performance.
-    - init_on_alloc=0           # Less security, more performance.
-    - init_on_free=0            # Less security, more performance.
-    - amd_iommu=on              # PCI passthrough.
-    - amd_pstate=active         # AMD P-State Driver
-    - iommu=pt                  # PCI passthrough.
-    - pcie_aspm=off             # Disable PCIe ASPM.
-    - mitigations=off           # Less security, more performance.
-    - module_blacklist=igc      # Disable onboard NIC
-    - security=none             # Less security, more performance.
-    - talos.auditd.disabled=1   # Less security, more performance.
-    {% if iso == 'true' %}
-    - bond=bond0:enp5s0f0np0,enp5s0f1np1:mode=802.3ad,xmit_hash_policy=layer3+4
-    - ip=bond0:dhcp
-    {% endif %}
+    - amd_iommu=on                                     # PCI passthrough.
+    - amd_pstate=active                                # AMD P-State Driver
+    - iommu=pt                                         # PCI passthrough.
+    - module_blacklist=igc                             # Disable onboard NIC
+    - pcie_aspm=off                                    # Disable PCIe ASPM.
+    - talos.config.early={{ ENV.TALOS_CONFIG_EARLY }}  # Early config.
   systemExtensions:
     officialExtensions:
-      - siderolabs/amd-ucode        # AMD microcode binaries.
-      - siderolabs/amdgpu           # AMDGPU firmware binaries and kernel modules.
-      - siderolabs/util-linux-tools # Minimal util-linux package.
+      - siderolabs/amd-ucode                           # AMD microcode binaries.
+      - siderolabs/amdgpu                              # AMDGPU firmware binaries and kernel modules.
+      - siderolabs/util-linux-tools                    # Minimal util-linux package.
