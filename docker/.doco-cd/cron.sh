@@ -1,48 +1,78 @@
 #!/usr/bin/env bash
-# Update script for doco-cd.
+# Self-update script for doco-cd on TrueNAS SCALE.
 
 set -euo pipefail
 
 WORK_DIR="/mnt/ssd-data/Docker/doco-cd"
 BASE_URL="https://raw.githubusercontent.com/pwyde/home-ops/main/docker/.doco-cd"
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-LOG_FILE="$WORK_DIR/update.log"
-
-log() { echo "[$TIMESTAMP] $*" | tee -a "$LOG_FILE"; }
-
-cd "$WORK_DIR" || { log "ERROR: Unable to change directory to $WORK_DIR"; exit 1; }
-
+APP_NAME="doco-cd"
+LOG_DIR="$WORK_DIR/logs"
+LOG_FILE="$LOG_DIR/$(date '+%Y-%m-%d').log"
 CHANGED=0
+
+mkdir -p "$LOG_DIR"
+
+log() {
+  local timestamp
+  timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+  echo "[$timestamp] $*" | tee -a "$LOG_FILE"
+}
+
+require_binary() {
+  local binary="$1"
+  if ! command -v "$binary" >/dev/null 2>&1; then
+    log "ERROR: Required binary '$binary' not found."
+    exit 1
+  fi
+}
+
+require_binary curl
+require_binary sha256sum
+require_binary midclt
+
+cd "$WORK_DIR" || {
+  log "ERROR: Unable to change directory to $WORK_DIR"
+  exit 1
+}
 
 fetch_and_compare() {
   local filename="$1"
   local url="$BASE_URL/$filename"
-
-  local new_content
-  new_content=$(curl -sf --max-time 30 "$url") || {
-    log "ERROR: Failed to fetch $filename from GitHub (outage or network issue) — aborting..."
+  log "Checking $filename..."
+  local tmp_file
+  tmp_file=$(mktemp)
+  if ! curl -sfL --max-time 30 "$url" -o "$tmp_file"; then
+    log "ERROR: Failed to fetch $filename from GitHub."
+    rm -f "$tmp_file"
     exit 1
-  }
-
-  local new_hash old_hash
-  new_hash=$(echo "$new_content" | sha256sum | cut -d' ' -f1)
-  old_hash=$(sha256sum "$filename" 2>/dev/null | cut -d' ' -f1 || echo "")
-
+  fi
+  local new_hash=""
+  local old_hash=""
+  new_hash=$(sha256sum "$tmp_file" | cut -d' ' -f1)
+  if [ -f "$filename" ]; then
+    old_hash=$(sha256sum "$filename" | cut -d' ' -f1)
+  fi
   if [ "$new_hash" != "$old_hash" ]; then
     log "CHANGED: $filename — updating"
-    echo "$new_content" > "$filename"
+    mv "$tmp_file" "$filename"
     CHANGED=1
   else
     log "UNCHANGED: $filename"
+    rm -f "$tmp_file"
   fi
 }
 
 fetch_and_compare "docker-compose.app.yaml"
 
 if [ "$CHANGED" -eq 1 ]; then
-  log "Rebuilding and restarting doco-cd stack..."
-  docker compose -f "$WORK_DIR/docker-compose.app.yaml" up -d --build --force-recreate
-  log "Done."
+  log "Changes detected — restarting TrueNAS SCALE app '$APP_NAME'..."
+  if midclt call app.redeploy "$APP_NAME"; then
+    log "Successfully redeployed '$APP_NAME'."
+  else
+    log "ERROR: Failed to redeploy '$APP_NAME'."
+    exit 1
+  fi
+  log "Update completed successfully."
 else
-  log "No changes detected — exiting..."
+  log "No changes detected — exiting."
 fi
