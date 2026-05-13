@@ -10,7 +10,5 @@ external_secrets:
   GARAGE_RPC_SECRET: op://Kubernetes/garage/GARAGE_RPC_SECRET
   GARAGE_ADMIN_TOKEN: op://Kubernetes/garage/GARAGE_ADMIN_TOKEN
   GARAGE_WEBUI_ADMIN_PASS: op://Kubernetes/garage/GARAGE_WEBUI_ADMIN_PASS
-  MINIO_ROOT_USER: op://Kubernetes/minio/MINIO_ROOT_USER
-  MINIO_ROOT_PASSWORD: op://Kubernetes/minio/MINIO_ROOT_PASSWORD
   RUSTFS_ACCESS_KEY: op://Kubernetes/rustfs/RUSTFS_ACCESS_KEY
   RUSTFS_SECRET_KEY: op://Kubernetes/rustfs/RUSTFS_SECRET_KEY

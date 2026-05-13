@@ -87,23 +87,6 @@ spec:
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: &name minio
-spec:
-  staticConfigs:
-    - targets:
-        - s3.wyde.network
-  metricsPath: /minio/v2/metrics/cluster
-  scheme: HTTPS
-  honorTimestamps: true
-  relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: *name
----
-# yaml-language-server: $schema=https://home-kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
   name: rustfs
 spec:
   staticConfigs:
