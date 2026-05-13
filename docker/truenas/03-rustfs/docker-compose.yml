@@ -11,7 +11,7 @@ services:
     hostname: rustfs
     restart: unless-stopped
     environment:
-      RUSTFS_SERVER_DOMAINS: rs3.wyde.network
+      RUSTFS_SERVER_DOMAINS: s3.wyde.network
       RUSTFS_REGION: eu-north-1
       RUSTFS_CONSOLE_ENABLE: true
       RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY}
@@ -45,7 +45,7 @@ services:
       traefik.http.services.rustfs-console.loadbalancer.server.port: *consolePort
       # S3
       traefik.http.routers.rustfs.entrypoints: https
-      traefik.http.routers.rustfs.rule: Host(`rs3.wyde.network`)
+      traefik.http.routers.rustfs.rule: Host(`s3.wyde.network`)
       traefik.http.routers.rustfs.service: rustfs
       traefik.http.routers.rustfs.tls: true
       traefik.http.routers.rustfs.tls.certresolver: letsencrypt
