@@ -1,10 +1,11 @@
 age
 cloudflared-bin
 flux-bin
-go-task
 go-yq
 helm
 helmfile-bin
+just
+just-lsp
 jq
 krew
 kubectl-bin
@@ -14,7 +15,6 @@ minijinja-cli-bin
 minio-client
 mise
 moreutils
-sops
 stern-bin
 talhelper-bin
 talosctl

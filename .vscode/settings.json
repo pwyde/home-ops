@@ -1,10 +1,8 @@
 {
   "catppuccin.accentColor": "blue",
   "catppuccin-icons.associations.files": {
-    ".renovaterc.json5": "renovate",
-    ".sops.yaml": "yaml",
-    "*.sops.env": "key",
-    "*.sops.yaml": "key"
+    "*.just": "just",
+    ".renovaterc.json5": "renovate"
   },
   "catppuccin-icons.associations.folders": {
     // top level
@@ -74,9 +72,7 @@
   },
   "files.trimTrailingWhitespace": true,
   "material-icon-theme.files.associations": {
-    ".sops.yaml": "lock",
-    "*.sops.env": "lock",
-    "*.sops.yaml": "lock",
+    "*.just": "just",
     "helmfile.yaml": "helm",
     "kubeconfig": "kubernetes",
     "talosconfig": "kubernetes"
@@ -144,6 +140,9 @@
   "yaml.schemaStore.enable": true,
   "yaml.schemas": {
     "kubernetes": "./kubernetes/**/*.yaml"
+  },
+  "[just]": {
+    "editor.defaultFormatter": "nefrob.vscode-just-syntax"
   },
   "[yaml]": {
     "editor.defaultFormatter": "bluebrown.yamlfmt"

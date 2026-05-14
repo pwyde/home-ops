@@ -53,7 +53,6 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 - **[democratic-csi](https://github.com/democratic-csi/democratic-csi):** CSI driver for persistent storage.
 - **[external-dns](https://github.com/kubernetes-sigs/external-dns):** Automatic DNS management.
 - **[external-secrets](https://github.com/external-secrets/external-secrets):** Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
-- **[sops](https://github.com/getsops/sops):** Secure encryption for Talos configuration and Kubernetes secrets.
 - **[spegel](https://github.com/spegel-org/spegel):** Stateless cluster local OCI registry mirror.
 - **[volsync](https://github.com/backube/volsync):** Backup and restore solution for persistent volume claims.
 
