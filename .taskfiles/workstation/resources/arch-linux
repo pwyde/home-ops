@@ -2,6 +2,7 @@ age
 cloudflared-bin
 flux-bin
 go-yq
+gum
 helm
 helmfile-bin
 just
