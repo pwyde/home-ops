@@ -9,8 +9,8 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 mod bootstrap "bootstrap"
 
 # Kube Recipes
-# [group: 'Kube']
-# mod kube "kubernetes"
+[group: 'Kube']
+mod kube "kubernetes"
 
 # Talos Recipes
 [group: 'Talos']
