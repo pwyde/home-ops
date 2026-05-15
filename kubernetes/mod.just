@@ -26,6 +26,25 @@ debug-node node:
 delete-ks ns ks:
     just kube render-local-ks "{{ ns }}" "{{ ks }}" | kubectl delete -f -
 
+[doc('List common resources in the cluster')]
+[script]
+list-resources cli-args='-A':
+    resources=(
+        nodes
+        gitrepositories
+        kustomizations
+        helmrepositories
+        ocirepositories
+        helmreleases
+        certificates
+        certificaterequests
+        httproutes
+        pods
+    );
+    for resource in "${resources[@]}"; do
+        kubectl get "$resource" {{ cli-args }};
+    done
+
 [doc('Prune pods in Failed, Pending, or Succeeded state')]
 [script]
 prune-pods:
