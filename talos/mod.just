@@ -56,7 +56,7 @@ upgrade-node node *args:
 
 [private]
 schematic-id:
-    export CONFIG_EARLY="$(zstd -c {{ source_directory() }}/networking.yaml.j2 | base64 -w0)"
+    export CONFIG_EARLY="$(just talos config-early)"
     curl -sX POST --data-binary @<(just template "{{ source_directory() }}/schematic.yaml.j2") "https://factory.talos.dev/schematics" | jq -r '.id'
 
 [private]
@@ -67,3 +67,7 @@ machine-controller node:
 machine-image:
     export SCHEMATIC="$(just talos schematic-id)"
     just template "{{ source_directory() }}/machineconfig.yaml.j2" | yq -e 'select(.machine) | .machine.install.image'
+
+[private]
+config-early:
+    just template "{{ source_directory() }}/networking.yaml.j2" | zstd --compress --ultra -22 | base64 -w 0
