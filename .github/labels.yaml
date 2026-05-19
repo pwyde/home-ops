@@ -12,8 +12,6 @@
   color: "027fa0"
 - name: area/talos
   color: "382d56"
-- name: area/taskfile
-  color: "28bdaf"
 - name: area/truenas
   color: "0094d4"
 # Renovate Types

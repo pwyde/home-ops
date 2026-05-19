@@ -4,12 +4,6 @@ area/bootstrap:
       - any-glob-to-any-file:
           - bootstrap/**/*
 
-area/docs:
-  - changed-files:
-      - any-glob-to-any-file:
-          - docs/**/*
-          - README.md
-
 area/github:
   - changed-files:
       - any-glob-to-any-file:
@@ -30,12 +24,6 @@ area/talos:
   - changed-files:
       - any-glob-to-any-file:
           - talos/**/*
-
-area/taskfile:
-  - changed-files:
-      - any-glob-to-any-file:
-          - .taskfiles/**/*
-          - Taskfile.yaml
 
 area/truenas:
   - changed-files:
