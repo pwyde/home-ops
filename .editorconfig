@@ -1,4 +1,5 @@
-# editorconfig.org
+; https://editorconfig.org/
+
 root = true
 
 [*]
@@ -13,6 +14,8 @@ insert_final_newline = true
 indent_size = 4
 trim_trailing_whitespace = false
 
-[*.{bash,py,sh}]
-indent_style = space
+[*.sh]
+indent_size = 4
+
+[{*.just,*.justfile}]
 indent_size = 4
