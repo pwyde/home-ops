@@ -50,5 +50,5 @@ Create an API token for GitHub Actions to authenticate with Cloudflare Pages.
 
 1. After the workflow runs, go to **Cloudflare Dashboard** > **Workers & Pages** and verify that assets are uploaded.
 2. The latest schemas should be published to the Cloudflare Pages URL. For example:
-   `https://home-kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json`
+   `https://k8s-schemas.home-operations.com//helm.toolkit.fluxcd.io/helmrelease_v2.json`
 3. Access and reference the schemas should now be possible using tools such as `kubeval`, `kubeconform`, or `datree`.
