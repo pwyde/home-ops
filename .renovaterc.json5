@@ -4,38 +4,15 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
+    "github>home-operations/renovate-presets#1.1.0",
     "github>pwyde/home-ops//.renovate/autoMerge.json5",
-    "github>onedr0p/home-ops//.renovate/changelogs.json5",
-    "github>pwyde/home-ops//.renovate/customManagers.json5",
-    "github>pwyde/home-ops//.renovate/grafanaDashboards.json5",
     "github>pwyde/home-ops//.renovate/groups.json5",
     "github>pwyde/home-ops//.renovate/labels.json5",
-    "github>onedr0p/home-ops//.renovate/overrides.json5",
-    "github>pwyde/home-ops//.renovate/packageRules.json5",
-    "github>pwyde/home-ops//.renovate/semanticCommits.json5",
-    "github>onedr0p/home-ops//.renovate/talosFactory.json5",
     ":automergeBranch",
     ":disableRateLimiting",
-    ":dependencyDashboard",
     ":gitSignOff",
     ":semanticCommits",
     ":timezone(Europe/Stockholm)"
   ],
-  registryAliases: {
-    "mirror.gcr.io": "docker.io",
-  },
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  commitBodyTable: true,
-  assigneesFromCodeOwners: true,
-  reviewersFromCodeOwners: true,
-  ignorePaths: [
-    "docs/**",
-    "**/resources/**"
-  ],
-  flux: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
-  kubernetes: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
 }
