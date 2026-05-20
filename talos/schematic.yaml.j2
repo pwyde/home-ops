@@ -1,14 +1,14 @@
 ---
 customization:
   extraKernelArgs:
-    - amd_iommu=on                                     # PCI passthrough.
-    - amd_pstate=active                                # AMD P-State Driver
-    - iommu=pt                                         # PCI passthrough.
-    - module_blacklist=igc                             # Disable onboard NIC
-    - pcie_aspm=off                                    # Disable PCIe ASPM.
-    - talos.config.early={{ ENV.TALOS_CONFIG_EARLY }}  # Early config.
+    - amd_iommu=on                               # PCI passthrough.
+    - amd_pstate=active                          # AMD P-State Driver
+    - iommu=pt                                   # PCI passthrough.
+    - module_blacklist=igc                       # Disable onboard NIC
+    - pcie_aspm=off                              # Disable PCIe ASPM.
+    - talos.config.early={{ ENV.CONFIG_EARLY }}  # Early config.
   systemExtensions:
     officialExtensions:
-      - siderolabs/amd-ucode                           # AMD microcode binaries.
-      - siderolabs/amdgpu                              # AMDGPU firmware binaries and kernel modules.
-      - siderolabs/util-linux-tools                    # Minimal util-linux package.
+      - siderolabs/amd-ucode                     # AMD microcode binaries.
+      - siderolabs/amdgpu                        # AMDGPU firmware binaries and kernel modules.
+      - siderolabs/util-linux-tools              # Minimal util-linux package.
