@@ -10,28 +10,26 @@
 # workloads that reference them, avoiding the need for dependsOn chains on nearly
 # every Kustomization that consumes a CRD-backed resource.
 
+bases:
+  - defaults.yaml
+
 helmDefaults:
   args:
     - --include-crds
     - --no-hooks
 
 releases:
-  - name: cloudflare-dns
-    namespace: network
-    chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
-    version: 1.21.1
-
   - name: envoy-gateway
     namespace: network
-    chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
-    version: v1.8.0
+    inherit:
+      - template: default
 
   - name: grafana-operator
     namespace: observability
-    chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
-    version: 5.22.2
+    inherit:
+      - template: default
 
   - name: kube-prometheus-stack
     namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-    version: 85.1.3
+    inherit:
+      - template: default
