@@ -11,6 +11,6 @@
     ":automergeBranch",
     ":disableRateLimiting",
     ":semanticCommits",
-    ":timezone(America/New_York)",
+    ":timezone(Europe/Stockholm)",
   ],
 }
