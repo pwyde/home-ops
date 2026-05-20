@@ -5,14 +5,12 @@
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
     "github>home-operations/renovate-presets#1.1.0",
-    "github>pwyde/home-ops//.renovate/autoMerge.json5",
-    "github>pwyde/home-ops//.renovate/groups.json5",
-    "github>pwyde/home-ops//.renovate/labels.json5",
+    "github>onedr0p/home-ops//.renovate/autoMerge.json5",
+    "github>onedr0p/home-ops//.renovate/groups.json5",
+    "github>onedr0p/home-ops//.renovate/labels.json5",
     ":automergeBranch",
     ":disableRateLimiting",
-    ":gitSignOff",
     ":semanticCommits",
-    ":timezone(Europe/Stockholm)"
+    ":timezone(America/New_York)",
   ],
-  dependencyDashboardTitle: "Renovate Dashboard 🤖",
 }
