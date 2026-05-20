@@ -42,11 +42,5 @@
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
       enabled: false
     },
-    {
-      description: "Use loose versioning for SearXNG date + commit image tags",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/searxng/searxng"],
-      versioning: "loose",
-    },
   ],
 }
