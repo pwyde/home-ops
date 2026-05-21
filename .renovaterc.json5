@@ -8,6 +8,7 @@
     "github>pwyde/home-ops//.renovate/autoMerge.json5",
     "github>pwyde/home-ops//.renovate/groups.json5",
     "github>pwyde/home-ops//.renovate/labels.json5",
+    "github>pwyde/home-ops//.renovate/packageRules.json5",
     ":automergeBranch",
     ":disableRateLimiting",
     ":semanticCommits",

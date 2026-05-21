@@ -2,45 +2,10 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Allowed PostgreSQL major release",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["vchord-scratch", "postgresql", "postgres-backup-local", "postgres-init"],
-      allowedVersions: "<=18",
-    },
-    {
-      description: "Custom schedule for frequently updated container digests",
-      matchDataSources: ["docker"],
-      matchPackageNames: ["/postgresql"],
-      matchUpdateTypes: ["digest"],
-      schedule: "on the first day of the month",
-    },
-    {
-      description: "Barman Cloud Group",
-      groupName: "plugin-barman-cloud",
-      matchDatasources: ["docker", "github-releases"],
-      matchPackageNames: ["/plugin-barman-cloud", "/plugin-barman-cloud-sidecar"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Immich Group",
-      groupName: "immich",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/immich/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
-      },
-      separateMinorPatch: true,
-      sourceUrl: "https://github.com/immich-app/immich",
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Disable new Meilisearch releases",
+      description: "Allowed Meilisearch version",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
-      enabled: false
+      allowedVersions: "<=1.41.0"
     },
   ],
 }
