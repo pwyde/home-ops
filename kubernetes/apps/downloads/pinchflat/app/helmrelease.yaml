@@ -44,7 +44,7 @@ spec:
                 memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
-              # readOnlyRootFilesystem: true
+              # Must be writable to update yt-dlp.
               readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
     defaultPodOptions:
