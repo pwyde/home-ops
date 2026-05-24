@@ -43,8 +43,10 @@ spec:
               limits:
                 memory: 2Gi
             securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              # allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: true
+              # readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
