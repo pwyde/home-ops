@@ -68,6 +68,7 @@ spec:
           volumeClaimTemplates:
             - name: config
               storageClass: ceph-block
+              # storageClass: openebs-zfs
               accessMode: ReadWriteOnce
               size: 5Gi
     defaultPodOptions:

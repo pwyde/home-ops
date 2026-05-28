@@ -22,6 +22,7 @@ spec:
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
+        # storageClassName: openebs-zfs
         size: 20Gi
       retentionPeriod: 14d
       route:
