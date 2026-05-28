@@ -6,7 +6,7 @@ namespace: downloads
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
   # - ./pinchflat/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml

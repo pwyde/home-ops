@@ -6,7 +6,7 @@ metadata:
   name: &app qbittorrent
 spec:
   components:
-    - ../../../../components/volsync
+    - ../../../../components/volsync-ceph
   dependsOn:
     - name: generic-device-plugin
       namespace: kube-system

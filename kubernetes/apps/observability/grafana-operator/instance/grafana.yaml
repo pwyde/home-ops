@@ -77,3 +77,4 @@ spec:
         requests:
           storage: 5Gi
       storageClassName: ceph-block
+      # storageClassName: openebs-zfs

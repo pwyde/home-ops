@@ -39,7 +39,41 @@ spec:
           enabled: false
           keep: false
     zfs-localpv:
-      enabled: false
+      # enabled: false
+      enabled: true
+      zfsNode:
+        # /home is read-only on Talos. Use a writable path instead.
+        encrKeysDir: /var/local/openebs/keys
+        resources:
+          requests:
+            cpu: 100m
+            memory: 192Mi
+          limits:
+            memory: 256Mi
+        nodeDriverRegistrar:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 32Mi
+      zfs:
+        # Talos installs ZFS at a non-standard path.
+        bin: /usr/local/sbin/zfs
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+      zfsController:
+        replicas: 1
+        resources:
+          requests:
+            cpu: 20m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
     lvm-localpv:
       enabled: false
     mayastor:
@@ -49,7 +83,8 @@ spec:
         lvm:
           enabled: false
         zfs:
-          enabled: false
+          # enabled: false
+          enabled: true
       replicated:
         mayastor:
           enabled: false
