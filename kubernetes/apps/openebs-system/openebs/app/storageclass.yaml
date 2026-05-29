@@ -10,7 +10,7 @@ parameters:
   compression: "zstd"
   dedup: "off"
   fstype: "zfs"
-  poolname: "data-pool"
+  poolname: "zfspv-pool"
   recordsize: "128k"
   shared: "yes"
 provisioner: zfs.csi.openebs.io
