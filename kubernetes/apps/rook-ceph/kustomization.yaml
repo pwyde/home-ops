@@ -6,6 +6,6 @@ namespace: rook-ceph
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./rook-ceph/ks.yaml
+  # - ./rook-ceph/ks.yaml
