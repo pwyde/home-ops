@@ -6,4 +6,4 @@ namespace: external-secrets
 components:
   - ../../../../kubernetes/components/namespace
 resources:
-  - ./secret.yaml
+  - ./onepassword-connect
