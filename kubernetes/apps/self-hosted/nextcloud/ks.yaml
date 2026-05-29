@@ -6,7 +6,7 @@ metadata:
   name: &app nextcloud
 spec:
   components:
-    - ../../../../components/volsync
+    - ../../../../components/volsync-ceph
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database

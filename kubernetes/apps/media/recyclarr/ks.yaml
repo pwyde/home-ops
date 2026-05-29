@@ -6,7 +6,7 @@ metadata:
   name: &app recyclarr
 spec:
   components:
-    - ../../../../components/volsync
+    - ../../../../components/volsync-ceph
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
