@@ -41,8 +41,8 @@ spec:
             metadata:
               name: data
             spec:
-              # storageClassName: ceph-block
-              storageClassName: openebs-zfs
+              storageClassName: ceph-block
+              # storageClassName: openebs-zfs
               resources:
                 requests:
                   storage: 1Gi
@@ -142,8 +142,8 @@ spec:
             metadata:
               name: data
             spec:
-              # storageClassName: ceph-block
-              storageClassName: openebs-zfs
+              storageClassName: ceph-block
+              # storageClassName: openebs-zfs
               resources:
                 requests:
                   storage: 50Gi
