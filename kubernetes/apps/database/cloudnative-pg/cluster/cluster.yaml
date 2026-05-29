@@ -38,12 +38,12 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   # Remove comments during full cluster restore from object store.
-  # bootstrap:
-  #   recovery:
-  #     source: source
-  #     # Optional point-in-time recovery.
-  #     # recoveryTarget:
-  #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
+  bootstrap:
+    recovery:
+      source: source
+      # Optional point-in-time recovery.
+      # recoveryTarget:
+      #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
   externalClusters:
     - name: source
       plugin:
@@ -121,12 +121,12 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   # Remove comments during full cluster restore from object store.
-  # bootstrap:
-  #   recovery:
-  #     source: source
-  #     # Optional point-in-time recovery.
-  #     # recoveryTarget:
-  #     #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
+  bootstrap:
+    recovery:
+      source: source
+      # Optional point-in-time recovery.
+      # recoveryTarget:
+      #   targetTime: "2025-01-15 10:30:00"  # Restore to specific time.
   externalClusters:
     - name: source
       plugin:
