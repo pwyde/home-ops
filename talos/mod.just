@@ -54,7 +54,8 @@ upgrade-k8s version:
 upgrade-node node *args:
     talosctl -n "{{ node }}" upgrade -i "$(just talos machine-image)" -m powercycle --timeout=10m {{ args }}
 
-[private]
+[doc('Generate a Talos schematic')]
+[script]
 schematic-id:
     export CONFIG_EARLY="$(just talos config-early)"
     curl -sX POST --data-binary @<(just template "{{ source_directory() }}/schematic.yaml.j2") "https://factory.talos.dev/schematics" | jq -r '.id'
