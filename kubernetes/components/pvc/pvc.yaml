@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: ${PVC_CAPACITY:-1Gi}
-  storageClassName: ${PVC_STORAGECLASS:=openebs-zfs}
+  storageClassName: ${PVC_STORAGECLASS:=openebs-zfspv}
