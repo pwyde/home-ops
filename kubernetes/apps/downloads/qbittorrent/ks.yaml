@@ -10,8 +10,8 @@ spec:
   dependsOn:
     - name: generic-device-plugin
       namespace: kube-system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
     - name: volsync
       namespace: volsync-system
   interval: 1h
