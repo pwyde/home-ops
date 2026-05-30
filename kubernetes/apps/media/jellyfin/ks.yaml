@@ -6,7 +6,7 @@ metadata:
   name: &app jellyfin
 spec:
   components:
-    - ../../../../components/volsync-ceph
+    - ../../../../components/volsync
   dependsOn:
     - name: amd-device-plugin
       namespace: kube-system
