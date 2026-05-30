@@ -6,7 +6,7 @@ metadata:
   name: &app recyclarr
 spec:
   components:
-    - ../../../../components/volsync-ceph
+    - ../../../../components/volsync
   dependsOn:
     - name: openebs
       namespace: openebs-system
