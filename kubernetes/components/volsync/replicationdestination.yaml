@@ -24,5 +24,5 @@ spec:
       runAsGroup: ${VOLSYNC_PGID:=1000}
       fsGroup: ${VOLSYNC_PGID:=1000}
     repository: ${APP}-volsync-secret
-    storageClassName: ${VOLSYNC_STORAGECLASS:=openebs-zfs}
+    storageClassName: ${VOLSYNC_STORAGECLASS:=openebs-zfspv}
     volumeSnapshotClassName: ${VOLSYNC_SNAPSHOTCLASS:=openebs-zfs-snapshot}
