@@ -12,8 +12,8 @@ spec:
       namespace: database
     - name: dragonfly-cluster
       namespace: database
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
