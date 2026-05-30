@@ -50,6 +50,15 @@ provisioning:
   minSize: 1.0TB
 ---
 apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: openebs-zpool
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZQL23T8HCLS-00A07"
+  minSize: 1.0TB
+  grow: true
+---
+apiVersion: v1alpha1
 kind: TimeSyncConfig
 ntp:
   servers:

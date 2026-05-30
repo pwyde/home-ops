@@ -6,12 +6,12 @@ metadata:
   name: &app prowlarr
 spec:
   components:
-    - ../../../../components/volsync-ceph
+    - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
     - name: volsync
       namespace: volsync-system
   interval: 1h
