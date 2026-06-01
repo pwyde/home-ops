@@ -3,6 +3,7 @@
 defaults:
   badge:
     size: 12
+  cacheSeconds: 300 # 5 min.
 
 badges:
   - id: talos_version
@@ -56,6 +57,6 @@ badges:
     title: Uptime
 
   - id: cluster_alert_count
-    query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
+    query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog.
     color: 'result < 1 ? "green" : "red"'
     title: Alerts
