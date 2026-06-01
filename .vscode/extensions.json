@@ -1,7 +1,6 @@
 {
   "recommendations": [
       "albert.TabOut",
-      "bluebrown.yamlfmt",
       "blueglassblock.better-json5",
       "britesnow.vscode-toggle-quotes",
       "catppuccin.catppuccin-vsc",
@@ -13,6 +12,7 @@
       "mitchdenny.ecdc",
       "ms-kubernetes-tools.vscode-kubernetes-tools",
       "nefrob.vscode-just-syntax",
+      "oxc.oxc-vscode",
       "PKief.material-icon-theme",
       "redhat.vscode-yaml",
       "tudoudou.json5-for-vscode",

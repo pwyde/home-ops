@@ -13,5 +13,5 @@
 # checked if e.g. the "user agent" suggests a bot (e.g. curl).
 
 pass_ip = [
-  '192.168.20.0/24'   # IPv4 private network.
+  '192.168.20.0/24', # IPv4 private network.
 ]
