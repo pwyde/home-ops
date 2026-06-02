@@ -13,8 +13,8 @@
 [![Talos](https://kromgo.wyde.network/badges/talos_version)](https://talos.dev)&nbsp;
 [![Kubernetes](https://kromgo.wyde.network/badges/kubernetes_version)](https://kubernetes.io)&nbsp;
 [![Flux](https://kromgo.wyde.network/badges/flux_version)](https://fluxcd.io)&nbsp;
-[![Pull Requests](https://img.shields.io/github/issues-pr/pwyde/home-ops?label=&logo=github&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/pulls)&nbsp;
-[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovate&logoColor=white&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
+[![Pull Requests](https://img.shields.io/github/issues-pr/pwyde/home-ops?label=&logo=github&style=flat-square&color=blue)](https://github.com/pwyde/home-ops/pulls)&nbsp;
+[![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovate&logoColor=white&style=flat-square&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
 
 </div>
 
