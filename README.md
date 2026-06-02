@@ -10,9 +10,9 @@
 
 <div align="center">
 
-[![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Ftalos_version%3Fformat%3Dshields&style=for-the-badge&logo=talos&logoColor=white&color=blue&label=%20)](https://talos.dev)&nbsp;
-[![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fkubernetes_version%3Fformat%3Dshields&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue&label=%20)](https://kubernetes.io)&nbsp;
-[![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fflux_version%3Fformat%3Dshields&style=for-the-badge&logo=flux&logoColor=white&color=blue&label=%20)](https://fluxcd.io)&nbsp;
+[![Talos](https://kromgo.wyde.network/badges/talos_version)](https://talos.dev)&nbsp;
+[![Kubernetes](https://kromgo.wyde.network/badges/kubernetes_version)](https://kubernetes.io)&nbsp;
+[![Flux](https://kromgo.wyde.network/badges/flux_version)](https://fluxcd.io)&nbsp;
 [![Pull Requests](https://img.shields.io/github/issues-pr/pwyde/home-ops?label=&logo=github&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/pulls)&nbsp;
 [![Renovate](https://img.shields.io/github/actions/workflow/status/pwyde/home-ops/renovate.yaml?branch=main&label=&logo=renovate&logoColor=white&style=for-the-badge&color=blue)](https://github.com/pwyde/home-ops/actions/workflows/renovate.yaml)
 
@@ -20,13 +20,13 @@
 
 <div align="center">
 
-[![Age](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_birth_age%3Fformat%3Dshields&style=flat-square&label=Age)](https://github.com/home-operations/kromgo)&nbsp;
-[![Uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_uptime_age%3Fformat%3Dshields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)&nbsp;
-[![Nodes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_node_count%3Fformat%3Dshields&style=flat-square&label=Nodes)](https://github.com/home-operations/kromgo)&nbsp;
-[![Pods](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_pod_count%3Fformat%3Dshields&style=flat-square&label=Pods)](https://github.com/home-operations/kromgo)&nbsp;
-[![CPU](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_cpu_usage%3Fformat%3Dshields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo)&nbsp;
-[![Memory](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_memory_usage%3Fformat%3Dshields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)&nbsp;
-[![Alerts](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.wyde.network%2Fbadges%2Fcluster_alert_count%3Fformat%3Dshields&style=flat-square&label=Alerts)](https://github.com/home-operations/kromgo)
+[![Age](https://kromgo.wyde.network/badges/cluster_birth_age)](https://github.com/home-operations/kromgo)&nbsp;
+[![Uptime](https://kromgo.wyde.network/badges/cluster_uptime_age)](https://github.com/home-operations/kromgo)&nbsp;
+[![Nodes](https://kromgo.wyde.network/badges/cluster_node_count)](https://github.com/home-operations/kromgo)&nbsp;
+[![Pods](https://kromgo.wyde.network/badges/cluster_pod_count)](https://github.com/home-operations/kromgo)&nbsp;
+[![CPU](https://kromgo.wyde.network/badges/cluster_cpu_usage)](https://github.com/home-operations/kromgo)&nbsp;
+[![Memory](https://kromgo.wyde.network/badges/cluster_memory_usage)](https://github.com/home-operations/kromgo)&nbsp;
+[![Alerts](https://kromgo.wyde.network/badges/cluster_alert_count)](https://github.com/home-operations/kromgo)
 
 </div>
 
