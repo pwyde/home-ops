@@ -62,7 +62,7 @@ spec:
                 memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

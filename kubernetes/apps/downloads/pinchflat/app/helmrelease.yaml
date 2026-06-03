@@ -46,7 +46,7 @@ spec:
               allowPrivilegeEscalation: false
               # Must be writable to update yt-dlp.
               readOnlyRootFilesystem: false
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       securityContext:
         runAsUser: 1000

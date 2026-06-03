@@ -43,7 +43,7 @@ spec:
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities: { drop: ["ALL"] }
       pg18-immich-backup:
         annotations: *annotations
         type: cronjob
