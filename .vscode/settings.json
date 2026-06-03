@@ -125,14 +125,12 @@
     "scripts": "scripts",
     "tools": "tools",
     "volsync": "aws",
-    "volsync-system": "dump",
+    "volsync-system": "dump"
   },
   "redhat.telemetry.enabled": false,
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubernetes/kubeconfig",
-    "vs-kubernetes.knownKubeconfigs": [
-      "./kubernetes/kubeconfig"
-    ]
+    "vs-kubernetes.knownKubeconfigs": ["./kubernetes/kubeconfig"]
   },
   "terminal.integrated.minimumContrastRatio": 1,
   "workbench.colorTheme": "Catppuccin Mocha",

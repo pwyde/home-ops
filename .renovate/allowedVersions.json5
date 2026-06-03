@@ -5,7 +5,7 @@
       description: "Allowed Meilisearch version",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
-      allowedVersions: "<=1.41.0"
+      allowedVersions: "<=1.41.0",
     },
   ],
 }
