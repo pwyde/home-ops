@@ -151,7 +151,7 @@
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[json5]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
