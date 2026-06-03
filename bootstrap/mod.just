@@ -14,6 +14,30 @@ default:
 [doc('Bootstrap a Talos & Kubernetes cluster end-to-end')]
 cluster: nodes k8s (kubeconfig "node") base apps kubeconfig
 
+[confirm('Bootstrap ZFS? [y|N]')]
+[doc('Bootstrap ZFS storage')]
+zfs node:
+    just log info "Creating ZFS storage on node" "{{ node }}"
+    kubectl debug node/{{ node }} \
+        -n kube-system \
+        --image=busybox:1.36 \
+        --profile=sysadmin \
+        -it \
+        -- \
+        chroot /host \
+        zpool create \
+        -m legacy \
+        -o ashift=12 \
+        -O encryption=aes-256-gcm \
+        -O keyformat=raw \
+        -O keylocation=file:///var/etc/zfs/zfs.key \
+        -O compression=zstd \
+        -O atime=off \
+        -O xattr=sa \
+        -O acltype=posixacl \
+        zfspv-pool \
+        /dev/disk/by-partlabel/r-openebs-zpool
+
 [private]
 [script]
 nodes:

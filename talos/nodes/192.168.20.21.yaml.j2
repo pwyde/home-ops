@@ -4,6 +4,11 @@ machine:
   install:
     diskSelector:
       serial: S666NT0Y523232
+  files:
+    - content: op://Kubernetes/talos/ZPOOL_KEY
+      permissions: 0o000
+      path: /var/etc/zfs/zfs.key
+      op: create
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
