@@ -21,7 +21,7 @@ networks:
 
 services:
   traefik:
-    image: docker.io/traefik:v3.7.1
+    image: docker.io/traefik:v3.7.3
     container_name: traefik
     configs:
       - source: traefik-config
