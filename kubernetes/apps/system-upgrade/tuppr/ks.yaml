@@ -25,12 +25,6 @@ spec:
     - name: tuppr
   interval: 1h
   path: ./kubernetes/apps/system-upgrade/tuppr/upgrades
-  postBuild:
-    substitute:
-      # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-      KUBERNETES_VERSION: v1.36.1
-      # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-      TALOS_VERSION: v1.13.2
   prune: true
   sourceRef:
     kind: GitRepository
