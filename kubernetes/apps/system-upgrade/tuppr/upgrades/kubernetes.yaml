@@ -12,7 +12,11 @@ spec:
       kind: ReplicationSource
       expr: |-
         status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
-    - apiVersion: ceph.rook.io/v1
-      kind: CephCluster
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
       expr: |-
-        status.ceph.health in ['HEALTH_OK']
+        status.phase in ['Cluster in healthy state']
+    - apiVersion: dragonflydb.io/v1alpha1
+      kind: Dragonfly
+      expr: |-
+        status.phase in ['Ready']
