@@ -5,6 +5,8 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 controller := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 nodes := `talosctl config info -o yaml | yq -e '.nodes | join (" ")'`
+packages := "age cloudflared-bin flux-bin go-yq gum helm helmfile-bin just just-lsp jq krew kubectl-bin kustomize lefthook-bin minijinja-cli-bin minio-client mise moreutils stern-bin talhelper-bin talosctl usage"
+plugins := "cert-manager cnpg browse-pvc node-shell view-secret"
 
 [private]
 default:
@@ -13,6 +15,14 @@ default:
 [confirm('Bootstrap cluster? [y|N]')]
 [doc('Bootstrap a Talos & Kubernetes cluster end-to-end')]
 cluster: nodes k8s (kubeconfig "node") base apps kubeconfig
+
+[confirm('Bootstrap workstation? [y|N]')]
+[doc('Bootstrap Arch Linux workstation')]
+workstation:
+    just log info "Installing essential packages"
+    paru -Syu --needed --noconfirm --noprogressbar {{ packages }}
+    just log info "Installing essential kubectl plugins"
+    kubectl krew install {{ plugins }}
 
 [confirm('Bootstrap ZFS? [y|N]')]
 [doc('Bootstrap ZFS storage')]
