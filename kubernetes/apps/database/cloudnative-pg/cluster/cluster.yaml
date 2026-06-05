@@ -9,7 +9,7 @@ metadata:
 spec:
   enableSuperuserAccess: true
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie@sha256:1e9b7f86a108b8eb472f52b59fc085aafee4cb3841484727ad67c020a8935a86
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie@sha256:853438f8efd08a9aa39160d49123d3293ba6988be521c57f370b6155d6c70cac
   monitoring:
     enablePodMonitor: true
   plugins:
@@ -77,7 +77,7 @@ metadata:
     cnpg.io/skipEmptyWalArchiveCheck: enabled
 spec:
   enableSuperuserAccess: true
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie@sha256:1e9b7f86a108b8eb472f52b59fc085aafee4cb3841484727ad67c020a8935a86
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie@sha256:853438f8efd08a9aa39160d49123d3293ba6988be521c57f370b6155d6c70cac
   instances: 3
   monitoring:
     enablePodMonitor: true
