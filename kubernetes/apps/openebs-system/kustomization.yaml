@@ -9,3 +9,4 @@ components:
 resources:
   # Flux-Kustomizations
   - ./openebs/ks.yaml
+  - ./zfs-scrubber/ks.yaml
