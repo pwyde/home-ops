@@ -14,7 +14,7 @@
     {
       description: "Barman Cloud Group",
       groupName: "plugin-barman-cloud",
-      matchDatasources: ["docker"],
+      matchDatasources: ["docker", "github-releases"],
       matchPackageNames: ["/plugin-barman-cloud", "/plugin-barman-cloud-sidecar"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
