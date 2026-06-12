@@ -6,11 +6,11 @@ metadata:
   name: cyberchef
 spec:
   interval: 1h
-  path: ./kubernetes/apps/utilities/cyberchef/app
+  path: ./kubernetes/apps/tools/cyberchef/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: utilities
+  targetNamespace: tools
   wait: false

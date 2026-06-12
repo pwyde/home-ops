@@ -3,17 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: atuin
+  name: it-tools
 spec:
-  dependsOn:
-    - name: cloudnative-pg-cluster
-      namespace: database
   interval: 1h
-  path: ./kubernetes/apps/utilities/atuin/app
+  path: ./kubernetes/apps/tools/it-tools/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: utilities
+  targetNamespace: tools
   wait: false
