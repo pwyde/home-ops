@@ -6,9 +6,9 @@ namespace: media
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
   # - ./audiobookshelf/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./navidrome/ks.yaml
