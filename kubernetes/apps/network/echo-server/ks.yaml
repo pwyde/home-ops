@@ -6,7 +6,7 @@ metadata:
   name: &app echo-server
 spec:
   interval: 1h
-  path: ./kubernetes/apps/network/echo-server/app
+  path: ./kubernetes/apps/networking/echo-server/app
   postBuild:
     substitute:
       APP: *app
@@ -15,5 +15,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network
+  targetNamespace: networking
   wait: false

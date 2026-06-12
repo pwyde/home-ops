@@ -76,7 +76,7 @@ spec:
           - "{{ .Release.Name }}.wyde.network"
         parentRefs:
           - name: envoy-internal
-            namespace: network
+            namespace: networking
     service:
       app:
         ports:

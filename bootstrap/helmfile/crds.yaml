@@ -20,16 +20,16 @@ bases:
 
 releases:
   - name: envoy-gateway
-    namespace: network
+    namespace: networking
     inherit:
       - template: default
 
   - name: grafana-operator
-    namespace: observability
+    namespace: monitoring
     inherit:
       - template: default
 
   - name: kube-prometheus-stack
-    namespace: observability
+    namespace: monitoring
     inherit:
       - template: default

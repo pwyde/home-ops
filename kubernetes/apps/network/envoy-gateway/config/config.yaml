@@ -42,7 +42,7 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: envoy
-    namespace: network
+    namespace: networking
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -174,10 +174,10 @@ metadata:
 spec:
   parentRefs:
     - name: envoy-external
-      namespace: network
+      namespace: networking
       sectionName: http
     - name: envoy-internal
-      namespace: network
+      namespace: networking
       sectionName: http
   rules:
     - filters:

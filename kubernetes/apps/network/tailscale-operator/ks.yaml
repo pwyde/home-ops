@@ -6,13 +6,13 @@ metadata:
   name: tailscale-operator
 spec:
   interval: 1h
-  path: ./kubernetes/apps/network/tailscale-operator/app
+  path: ./kubernetes/apps/networking/tailscale-operator/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network
+  targetNamespace: networking
   wait: true
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -24,11 +24,11 @@ spec:
   dependsOn:
     - name: tailscale-operator
   interval: 1h
-  path: ./kubernetes/apps/network/tailscale-operator/connectors
+  path: ./kubernetes/apps/networking/tailscale-operator/connectors
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network
+  targetNamespace: networking
   wait: false

@@ -12,7 +12,7 @@ spec:
     - flux-webhook.wyde.network
   parentRefs:
     - name: envoy-external
-      namespace: network
+      namespace: networking
   rules:
     - backendRefs:
         - name: webhook-receiver

@@ -6,7 +6,7 @@ metadata:
   name: cloudflared
 spec:
   interval: 1h
-  path: ./kubernetes/apps/network/cloudflared/app
+  path: ./kubernetes/apps/networking/cloudflared/app
   postBuild:
     substituteFrom:
       - kind: Secret
@@ -16,5 +16,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: network
+  targetNamespace: networking
   wait: false

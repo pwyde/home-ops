@@ -19,7 +19,7 @@ spec:
           conditions: ["[STATUS] == 200"]
       parentRefs:
         - name: envoy-external
-          namespace: network
+          namespace: networking
       hostnames:
         - "{{ .Release.Name }}.wyde.network"
     monitoring:

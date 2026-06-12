@@ -26,6 +26,6 @@ spec:
           - flux-operator.wyde.network
         parentRefs:
           - name: envoy-internal
-            namespace: network
+            namespace: networking
       networkPolicy:
         create: false

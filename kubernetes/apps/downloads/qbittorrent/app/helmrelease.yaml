@@ -156,7 +156,7 @@ spec:
           - qbit.wyde.network
         parentRefs:
           - name: envoy-internal
-            namespace: network
+            namespace: networking
         rules:
           - backendRefs:
               - identifier: app
