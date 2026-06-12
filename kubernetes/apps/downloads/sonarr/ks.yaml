@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app lidarr
+  name: &app sonarr
 spec:
   components:
     - ../../../../components/volsync
@@ -15,15 +15,15 @@ spec:
     - name: volsync
       namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/media/lidarr/app
+  path: ./kubernetes/apps/downloads/sonarr/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: media
+  targetNamespace: downloads
   wait: false

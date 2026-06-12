@@ -8,5 +8,12 @@ components:
   - ../../components/namespace
 resources: []
   # Flux-Kustomizations
+  # - ./bazarr/ks.yaml
+  # - ./lidarr/ks.yaml
   # - ./pinchflat/ks.yaml
+  # - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./unpackerr/ks.yaml

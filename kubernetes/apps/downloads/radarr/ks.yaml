@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app sonarr
+  name: &app radarr
 spec:
   components:
     - ../../../../components/volsync
@@ -15,7 +15,7 @@ spec:
     - name: volsync
       namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/media/sonarr/app
+  path: ./kubernetes/apps/downloads/radarr/app
   postBuild:
     substitute:
       APP: *app
@@ -25,5 +25,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: media
+  targetNamespace: downloads
   wait: false

@@ -6,7 +6,7 @@
 
 sonarr:
   series:
-    base_url: http://sonarr.media.svc.cluster.local
+    base_url: http://sonarr.downloads.svc.cluster.local
     api_key: !env_var SONARR_API_KEY
 
     # If enabled, custom formats that are remove from the YAML configuration OR that are
@@ -94,7 +94,7 @@ sonarr:
 
 radarr:
   movies:
-    base_url: http://radarr.media.svc.cluster.local
+    base_url: http://radarr.downloads.svc.cluster.local
     api_key: !env_var RADARR_API_KEY
 
     # If enabled, custom formats that are remove from the YAML configuration OR that are
