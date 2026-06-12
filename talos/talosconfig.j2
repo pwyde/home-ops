@@ -1,0 +1,10 @@
+context: home-k8s
+contexts:
+    home-k8s:
+        endpoints:
+            - 192.168.20.21
+        nodes:
+            - 192.168.20.21
+        ca: op://Kubernetes/talos/MACHINE_CA_CRT
+        crt: op://Kubernetes/talos/ADMIN_CRT
+        key: op://Kubernetes/talos/ADMIN_KEY

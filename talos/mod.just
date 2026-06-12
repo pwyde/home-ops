@@ -6,6 +6,19 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 default:
     just -l talos
 
+[doc('Generate talosconfig for the cluster')]
+[script]
+generate-talosconfig:
+    op read op://Kubernetes/talos/MACHINE_CA_CRT | base64 -d > ca.crt
+    op read op://Kubernetes/talos/MACHINE_CA_KEY | base64 -d > ca.key
+    talosctl gen key --name admin
+    talosctl gen csr --key admin.key --ip 127.0.0.1
+    talosctl gen crt --ca ca --csr admin.csr --name admin --hours 87600
+    op item edit --vault Kubernetes talos "ADMIN_CRT[password]=$(cat admin.crt | base64 -w 0)" > /dev/null
+    op item edit --vault Kubernetes talos "ADMIN_KEY[password]=$(cat admin.key | base64 -w 0)" > /dev/null
+    rm ca.crt ca.key admin.crt admin.csr admin.key
+    just template "{{ source_directory() }}/talosconfig.j2" > talosconfig
+
 [confirm('Apply Talos config to ' + node + ' [y|N] ?')]
 [doc('Apply Talos config to a node')]
 apply-node node *args:
@@ -37,7 +50,7 @@ render-config node:
 [confirm('Reset node ' + node + ' [y|N] ?')]
 [doc('Reset a node')]
 reset-node node *args:
-    talosctl -n "{{ node }}" reset --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --system-labels-to-wipe u-local-hostpath --graceful=false {{ args }}
+    talosctl -n "{{ node }}" reset --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --system-labels-to-wipe u-local-hostpath --system-labels-to-wipe r-openebs-zpool --graceful=false {{ args }}
 
 [confirm('Shutdown node ' + node + ' [y|N] ?')]
 [doc('Shutdown a node')]
