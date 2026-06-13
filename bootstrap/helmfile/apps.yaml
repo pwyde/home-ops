@@ -10,11 +10,14 @@
 
 helmDefaults:
   cleanupOnFail: true
+  forceConflicts: true
   wait: true
   waitForJobs: true
 
 bases:
   - default.yaml
+
+defaultInherit: default
 
 releases:
   - name: cilium
