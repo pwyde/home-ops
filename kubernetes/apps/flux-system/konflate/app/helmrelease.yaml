@@ -12,6 +12,10 @@ spec:
   values:
     config:
       repo: github://pwyde/home-ops
+      statusChecks: true
+      prComments: true
+      publicUrl: https://{{ .Release.Name }}.wyde. network
+      mcp: true
     httpRoute:
       enabled: true
       annotations:
