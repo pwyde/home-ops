@@ -18,6 +18,8 @@ helmDefaults:
 bases:
   - default.yaml
 
+defaultInherit: default
+
 releases:
   - name: envoy-gateway
     namespace: networking
