@@ -21,7 +21,7 @@ spec:
         - "{{ .Release.Name }}.wyde.network"
       parentRefs:
         - name: envoy-external
-          namespace: network
+          namespace: networking
     monitoring:
       serviceMonitor:
         enabled: true
