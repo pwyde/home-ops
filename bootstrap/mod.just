@@ -20,9 +20,9 @@ cluster: nodes k8s (kubeconfig "node") base apps kubeconfig
 [doc('Bootstrap Arch Linux workstation')]
 workstation:
     just log info "Installing essential packages"
-    paru -Syu --needed --noconfirm --noprogressbar {{ packages }}
+    paru -Syu --needed --noconfirm --noprogressbar "{{ packages }}"
     just log info "Installing essential kubectl plugins"
-    kubectl krew install {{ plugins }}
+    kubectl krew install "{{ plugins }}"
 
 [confirm('Bootstrap ZFS? [y|N]')]
 [doc('Bootstrap ZFS storage')]
@@ -39,7 +39,7 @@ zfs node:
         -m legacy \
         -o ashift=12 \
         -O encryption=aes-256-gcm \
-        -O keyformat=raw \
+        -O keyformat=hex \
         -O keylocation=file:///var/etc/zfs/zfs.key \
         -O compression=zstd \
         -O atime=off \
