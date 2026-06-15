@@ -6,8 +6,8 @@ namespace: tools
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./atuin/ks.yaml
+  # - ./atuin/ks.yaml
   # - ./cyberchef/ks.yaml
   # - ./it-tools/ks.yaml

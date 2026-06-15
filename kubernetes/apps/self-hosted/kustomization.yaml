@@ -6,12 +6,12 @@ namespace: self-hosted
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources:
+resources: []
   # Flux-Kustomizations
-  - ./dokuwiki/ks.yaml
+  # - ./dokuwiki/ks.yaml
   # - ./karakeep/ks.yaml
   # - ./immich/ks.yaml
   # - ./immich-folder-album-creator/ks.yaml
-  - ./joplin/ks.yaml
-  - ./nextcloud/ks.yaml
-  - ./searxng/ks.yaml
+  # - ./joplin/ks.yaml
+  # - ./nextcloud/ks.yaml
+  # - ./searxng/ks.yaml
