@@ -29,7 +29,7 @@ spec:
         - "{{ .Release.Name }}.wyde.network"
         - status.wyde.network
       parentRefs:
-        - name: envoy-external
+        - name: envoy-internal
           namespace: networking
     monitoring:
       serviceMonitor:
