@@ -63,7 +63,7 @@ This ensures an immutable and reproducible environment, with changes applied aut
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3a1/512.webp" alt="🎡" width="20" height="20"> Cluster
 
-The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on bare-metal [MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc) workstation. Persistent storage is provided by [OpenEBS](https://openebs.io/) with bulk media offloaded to [TrueNAS SCALE](https://www.truenas.com/truenas-scale) NAS over NFS.
+The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on bare-metal [Minisforum MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc) workstation. Persistent storage is provided by [OpenEBS](https://openebs.io/) with bulk media offloaded to [TrueNAS SCALE](https://www.truenas.com/truenas-scale) NAS over NFS.
 
 ### Core Components
 
@@ -158,6 +158,22 @@ While most services are self-hosted, certain critical components rely on cloud s
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="16" height="16"> Hardware
+
+| Device                       | Count | OS Disk    | Data Disk                        | RAM   | OS            | Function             |
+| ---------------------------- | ----- | ---------- | -------------------------------- | ----- | ------------- | -------------------- |
+| Minisforum MS-A2             | 1     | 1.92TB M.2 | 3.84TB U.2, 1.92TB M.2           | 96GB  | Talos         | Kubernetes           |
+| Inter-Tech 4U-4416           | 1     | 2x1TB M.2  | 2x1TB SSD, 4x12TB HDD, 4x8TB HDD | 256GB | TrueNAS SCALE | NFS & Backup Storage |
+| PiKVM V4 Plus                | 1     | -          | -                                | -     | -             | KVM for Kubernetes   |
+| UniFi Cloud Gateway Fiber    | 1     | -          | -                                | -     | UniFi OS      | Firewall & Router    |
+| UniFi Aggregation            | 1     | -          | -                                | -     | UniFi OS      | 10G SFP+ Switch      |
+| UniFi Pro 24 PoE             | 1     | -          | -                                | -     | UniFi OS      | 1GbE PoE+ Switch     |
+| UniFi AC Pro                 | 2     | -          | -                                | -     | UniFi OS      | WiFi 5 Access Point  |
+
+### Minisforum MS-A2 Build
+
+_To be documented..._
+
+### Inter-Tech 4U-4416 Build
 
 _To be documented..._
 
