@@ -34,70 +34,109 @@
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.gif" alt="✏" width="16" height="16"> Overview
 
-This mono repository serves as the single source of truth for my home(lab) infrastructure and Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices. The cluster is semi-automated with tools like [Kubernetes](https://kubernetes.io/), [Flux](https://fluxcd.io/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+This mono repository serves as the single source of truth for my home(lab) infrastructure and single-node Kubernetes cluster, following Infrastructure as Code (IaC) and GitOps best practices.
+
+The cluster is automated with the following tools:
+
+- [Talos Linux](https://github.com/siderolabs/talos) — Immutable, API-driven OS that runs nothing but Kubernetes.
+- [Flux](https://github.com/fluxcd/flux2) — Continuous reconciliation of cluster state against this repository.
+- [Renovate](https://github.com/renovatebot/renovate) — Automated dependency updates across the entire cluster.
+- [GitHub Actions](https://github.com/features/actions) — Validation and automation on every commit.
 
 This ensures an immutable and reproducible environment, with changes applied automatically based on repository state.
 
 ---
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26f5/512.gif" alt="⛵" width="16" height="16"> Kubernetes Architecture
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.webp" alt="📦" width="20" height="20"> Repository Structure
 
-The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on virtual machines running on [Proxmox VE](https://proxmox.com/en/products/proxmox-virtual-environment/overview). Persistent storage is provided by [TrueNAS SCALE](https://www.truenas.com/truenas-scale), ensuring data integrity and availability.
-
-### Core Components
-
-- **[actions-runner-controller](https://github.com/actions/actions-runner-controller):** Self-hosted GitHub runners.
-- **[cert-manager](https://github.com/cert-manager/cert-manager):** Automated SSL certificate management.
-- **[cilium](https://github.com/cilium/cilium):** eBPF-powered networking and security.
-- **[cloudflared](https://github.com/cloudflare/cloudflared):** Secure Cloudflare Tunnel integration.
-- **[democratic-csi](https://github.com/democratic-csi/democratic-csi):** CSI driver for persistent storage.
-- **[external-dns](https://github.com/kubernetes-sigs/external-dns):** Automatic DNS management.
-- **[external-secrets](https://github.com/external-secrets/external-secrets):** Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
-- **[spegel](https://github.com/spegel-org/spegel):** Stateless cluster local OCI registry mirror.
-- **[volsync](https://github.com/backube/volsync):** Backup and restore solution for persistent volume claims.
+```sh
+📁 bootstrap     # One-time cluster bootstrap (helmfile + kustomize)
+📁 docker        # Services running via Docker on NAS
+📁 kubernetes    # Everything Flux reconciles
+├─📁 apps        # Workloads, grouped by namespace
+├─📁 components  # Reusable Kustomize components (alerts, volsync, etc.)
+└─📁 flux        # Flux system configuration
+📁 talos         # Talos machine configs and per-node overrides
+```
 
 ---
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1fa84/512.gif" alt="🪄" width="16" height="16"> GitOps Workflow
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3a1/512.webp" alt="🎡" width="20" height="20"> Cluster
 
-[Flux](https://fluxcd.io/) continuously monitors the repository and ensures the cluster state aligns with the desired configuration defined in the [kubernetes](./kubernetes) directory.
+The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on bare-metal [MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc) workstation. Persistent storage is provided by [OpenEBS](https://openebs.io/) with bulk media offloaded to [TrueNAS SCALE](https://www.truenas.com/truenas-scale) NAS over NFS.
 
-### Flux Deployment Strategy
+### Core Components
 
-Flux operates by recursively scanning the `kubernetes/apps` directory to identify the highest-level `kustomization.yaml` files within each application directory. These kustomizations generally define namespaces and Flux-managed resources (`ks.yaml`). Under these kustomizations, applications are deployed via `HelmRelease` including other resources related to the application.
+- [actions-runner-controller](https://github.com/actions/actions-runner-controller) — Self-hosted GitHub runners for CI/CD workflows.
+- [cert-manager](https://github.com/cert-manager/cert-manager) — Automated SSL certificate management and provisioning.
+- [cilium](https://github.com/cilium/cilium) — High-performance container networking powered by [eBPF](https://ebpf.io).
+- [cloudflared](https://github.com/cloudflare/cloudflared) — Secure tunnel providing Cloudflare-protected access to cluster services.
+- [envoy-gateway](https://github.com/envoyproxy/gateway) — Modern ingress controller for cluster traffic management.
+- [external-dns](https://github.com/kubernetes-sigs/external-dns) — Automated DNS record synchronization for ingress resources.
+- [external-secrets](https://github.com/external-secrets/external-secrets) — Kubernetes secrets management integrated with [1Password Connect](https://github.com/1Password/connect).
+- [openebs](https://github.com/rook/rook) — Persistent container native storage with local [Hostpath](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-hostpath/hostpath-overview) and [ZFS](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-zfs/zfs-overview).
+- [spegel](https://github.com/spegel-org/spegel) — Stateless cluster-local OCI registry mirror for improved performance.
+- [volsync](https://github.com/backube/volsync) — Advanced backup and recovery solution for persistent volume claims.
 
-[Renovate](https://github.com/renovatebot/renovate) automates dependency management across the entire repository. It continuously scans for updates and creates pull requests when new versions are available. Once merged, Flux applies the changes to the cluster, ensuring an up-to-date and secure environment.
+---
 
-### Repository Structure
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1fa84/512.gif" alt="🪄" width="16" height="16"> GitOps
 
-```plaintext
-├─📁 bootstrap         # Resources used during bootstrap process
-├─📁 kubernetes        # Kubernetes cluster directory
-│ ├─ 📁 apps           # Application manifests
-│ ├─ 📁 components     # Reusable kustomize components
-│ └─ 📁 flux           # Flux system configuration
-├─📁 scripts           # Scripts used during bootstrap process
-└─📁 talos             # Talos cluster configuration
-  ├─ 📁 clusterconfig  # Talos node configuration files
-  └─ 📁 patches        # Patches applied to Talos nodes
-```
+[Flux](https://fluxcd.io/) continuously monitors the Kubernetes clusters defined in the [kubernetes](./kubernetes) directory and reconciles their state with the configuration stored in the Git repository.
 
-### Deployment Dependencies
+To deploy applications, Flux recursively scans the `kubernetes/apps` directory and identifies the highest-level `kustomization.yaml` file within each application directory. Each discovered `kustomization.yaml` is then applied together with all resources it references.
 
-Flux ensures applications are deployed in the correct sequence by managing dependencies between them. Typically, a `HelmRelease` depends on another `HelmRelease`, while a `Kustomization` may rely on another `Kustomization`. Occasionally, an application may require both a `HelmRelease` and a `Kustomization` before deployment. The example below illustrates a dependency chain where `cloudnative-pg` must be deployed and operational before `cloudnative-pg-cluster`, which in turn must be healthy before `immich` is deployed.
+In most cases, these top-level `kustomization.yaml` files contain a namespace definition and one or more Flux `Kustomization` resources (`ks.yaml`). These Flux `Kustomizations` manage the deployment of application-specific resources, such as `HelmRelease` objects and any additional Kubernetes manifests required by the application.
+
+[Renovate](https://github.com/renovatebot/renovate) monitors the entire repository for dependency updates. When updates are available, Renovate automatically creates a pull request. Once a pull request is reviewed and merged, Flux reconciles the updated repository state and applies the corresponding changes to the Kubernetes clusters.
+
+### Deployment Workflow
+
+The diagram below provides a high-level overview of how Flux manages application deployments and dependency ordering.
+
+In most scenarios, a `HelmRelease` depends on one or more other `HelmRelease` resources. In other cases, a `Kustomization` depends on one or more other `Kustomization` resources. Less commonly, an application may require a combination of both `HelmRelease` and `Kustomization` dependencies.
+
+Flux evaluates these dependencies and ensures that resources are deployed and upgraded in the correct order. A dependent resource will not be reconciled until all of its declared dependencies have been successfully deployed and are reporting a healthy state.
+
+In the example below, the `victoria-logs-collector` application depends on `victoria-logs`, which in turn depends on `openebs`. As a result, `openebs` must be successfully deployed and healthy before `victoria-logs` is installed or upgraded. Likewise, `victoria-logs` must be healthy before `victoria-logs-collector` can be deployed or updated.
 
 ```mermaid
-graph TD;
-  id1[Kustomization: flux-system] -->|Creates| id2[Kustomization: cluster-apps];
-  id2 -->|Creates| id3[Kustomization: cloudnative-pg];
-  id2 -->|Creates| id4[Kustomization: cloudnative-pg-cluster];
-  id2 -->|Creates| id5[Kustomization: immich];
-  id3 -->|Creates| id6(HelmRelease: cloudnative-pg);
-  id4 -->|Depends on| id3;
-  id4 -->|Creates| id7(Cluster: pg17-immich);
-  id5 -->|Depends on| id4;
-  id5 -->|Creates| id8(HelmRelease: immich);
+graph LR
+    classDef kustom fill:#43A047,stroke:#2E7D32,stroke-width:3px,color:#fff,font-weight:bold,rx:10,ry:10
+    classDef helm fill:#1976D2,stroke:#0D47A1,stroke-width:3px,color:#fff,font-weight:bold,rx:10,ry:10
+
+    A["📦 Kustomization<br/>victoria-logs"]:::kustom
+    B["📦 Kustomization<br/>victoria-logs-collector"]:::kustom
+    C["📦 Kustomization<br/>openebs"]:::kustom
+    D["🎯 HelmRelease<br/>victoria-logs"]:::helm
+    E["🎯 HelmRelease<br/>victoria-logs-collector"]:::helm
+    F["🎯 HelmRelease<br/>openebs"]:::helm
+
+    A -->|Creates| D
+    B -->|Creates| E
+    C -->|Creates| F
+    A -.->|Depends on| C
+    B -.->|Depends on| A
 ```
+
+---
+
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30e/512.webp" alt="🌎" width="20" height="20"> Networking
+
+_To be documented..._
+
+### DNS
+
+The cluster runs two separate [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances, each responsible for managing DNS records in a different environment.
+
+The first instance manages public DNS records and synchronizes them to Cloudflare. The second instance synchronizes private DNS records to a UCG Fiber gateway using the [ExternalDNS UniFi webhook](https://github.com/home-operations/external-dns-unifi-webhook/) provider.
+
+This separation is achieved through the use of two ingress classes:
+
+- `internal` — Used for services that require private DNS records.
+- `external` — Used for services that require public DNS records.
+
+Based on the assigned ingress class, the corresponding ExternalDNS instance automatically discovers the ingress resources and creates or updates DNS records on the appropriate platform. This approach provides clear separation between internal and external services while ensuring that DNS records remain synchronized with the cluster's configuration.
 
 ---
 
@@ -118,64 +157,9 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ---
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26d3_fe0f_200d_1f4a5/512.gif" alt="⛓" width="16" height="16"> Network
-
-### Network Diagram
-
-```mermaid
-graph LR;
-  id1((Internet)) <-->|600Mbps↓ 50Mbps↑| id2[UniFi Cloud Gateway Fiber];
-  id2 <-->|1Gbps↕| id3[UniFi Pro 24 PoE];
-  id3 <-->|10Gbps↕| id4[UniFi Aggregation];
-  id3 <-->|1Gbps↕| id5["UniFi 8 (Gen1)"];
-  id3 <-->|1Gbps↕| id6[2 x UniFi AC Pro];
-  id3 <-->|1Gbps↕| id7(Home devices);
-  id4 <-->|10Gbps↕| id8[Proxmox VE host];
-  id4 <-->|10Gbps↕| id9[5 x Talos VMs];
-  id4 <-->|10Gbps↕| id10[TrueNAS SCALE];
-  id5 <-->|1Gbps↕| id11(IoT devices);
-  id6 <--> id12(WiFi clients);
-```
-
-### Networks & VLANs
-
-| Name       | ID    | Description                             |
-|------------|-------|-----------------------------------------|
-| Default    | `1`   | Default VLAN (abandoned)                |
-| Management | `10`  | Management network                      |
-| Server     | `20`  | VLAN for servers and services           |
-| Home       | `30`  | VLAN for devices and computers          |
-| Kids       | `40`  | VLAN for kids                           |
-| Camera     | `50`  | VLAN for security cameras               |
-| IoT        | `60`  | VLAN for IoT devices                    |
-| Storage    | `100` | VLAN for NFS and iSCSI                  |
-| Guest      | `200` | VLAN for guest devices                  |
-
----
-
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30d/512.gif" alt="🌍" width="16" height="16"> DNS
-
-_To be documented..._
-
----
-
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="16" height="16"> Hardware
 
 _To be documented..._
-
-### Compute
-
-### Storage
-
-### Networking
-
-| Vendor   | Model                     | Count | Function                 |
-|----------|---------------------------|-------|--------------------------|
-| Ubiquiti | UniFi Cloud Gateway Fiber | 1     | Firewall & Router        |
-| Ubiquiti | UniFi Aggregation         | 1     | 10G SFP+ Core Switch     |
-| Ubiquiti | UniFi Pro 24 PoE          | 1     | 1GbE RJ45 PoE Switch     |
-| Ubiquiti | UniFi 8 (Gen1)            | 1     | 1GbE RJ45 Utility Switch |
-| Ubiquiti | UniFi AC Pro              | 2     | WiFi 5 Access Point      |
 
 ---
 
