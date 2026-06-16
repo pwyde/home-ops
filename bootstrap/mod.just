@@ -75,7 +75,7 @@ k8s:
 [script]
 kubeconfig lb="cilium":
     just log info "Running stage..." "stage" "$(basename "$0")"
-    if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name home-k8s {{ justfile_dir() }}; then
+    if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name home-k8s "{{ justfile_dir() }}/kubernetes"; then
         just log fatal "Failed to fetch kubeconfig" "stage" "$(basename "$0")"
     fi
     if [[ "{{ lb }}" != "cilium" ]]; then
