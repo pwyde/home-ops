@@ -41,7 +41,6 @@ spec:
             metadata:
               name: data
             spec:
-              # storageClassName: ceph-block
               storageClassName: openebs-zfspv
               resources:
                 requests:
@@ -142,7 +141,6 @@ spec:
             metadata:
               name: data
             spec:
-              # storageClassName: ceph-block
               storageClassName: openebs-zfspv
               resources:
                 requests:
