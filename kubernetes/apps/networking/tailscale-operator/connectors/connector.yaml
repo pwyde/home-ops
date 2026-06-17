@@ -7,6 +7,7 @@ spec:
   appConnector:
     routes:
       - 192.168.1.1/32
+      - 192.168.10.0/24
       - 192.168.20.0/24
       - 192.168.30.0/24
   hostname: homelab-ingress
