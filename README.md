@@ -171,7 +171,12 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ### Minisforum MS-A2 Build
 
-_To be documented..._
+|                 |                     |
+| --------------- | ------------------- |
+| **CPU**         | AMD Ryzen™ 9 9955HX |
+| **RAM**         | [Crucial 96GB Kit (2x48GB) DDR5-5600 SODIMM CT2K48G56C46S5](https://www.crucial.com/memory/ddr5/CT2K48G56C46S5) |
+| **M.2 Storage** | [Samsung PM9A3 1.92TB M.2 22110 NVMe PCIe 4.0 x4 MZ1L21T9HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/) |
+| **U.2 Storage** | [Samsung PM9A3 3.84TB U.2 NVMe PCIe 4.0 x4 MZQL23T8HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/) |
 
 ### Inter-Tech 4U-4416 Build
 
