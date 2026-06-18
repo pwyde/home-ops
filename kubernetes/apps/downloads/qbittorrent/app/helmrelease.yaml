@@ -56,60 +56,60 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-          gluetun:
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
-            env:
-              # Ports to allow through the default interface. This is needed for Kubernetes sidecars.
-              FIREWALL_INPUT_PORTS: "80,9999"
-              # Ports to allow from the VPN server side.
-              FIREWALL_VPN_INPUT_PORTS: *qbPort
-              # Allow access to K8s subnets.
-              FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
-              # Internal health check server listening address.
-              HEALTH_SERVER_ADDRESS: ":9999"
-              TZ: *tz
-              VPN_SERVICE_PROVIDER: custom
-              VPN_TYPE: wireguard
-              VPN_INTERFACE: wg0
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 9999
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              startup:
-                enabled: true
-                spec:
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 5
-            resources:
-              requests:
-                cpu: 100m
-                memory: 512Mi
-                # Request the /dev/net/tun device that is exposed on the node
-                # using generic-device-plugin. For more information, see:
-                # - https://www.talos.dev/v1.8/introduction/what-is-new/#accessing-devnettun-in-kubernetes-pods
-                # - https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
-                squat.ai/tun: "1"
-              limits:
-                memory: 768Mi
-                squat.ai/tun: "1"
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { add: ["NET_ADMIN"] }
+          # gluetun:
+          #   image:
+          #     repository: ghcr.io/qdm12/gluetun
+          #     tag: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+          #   env:
+          #     # Ports to allow through the default interface. This is needed for Kubernetes sidecars.
+          #     FIREWALL_INPUT_PORTS: "80,9999"
+          #     # Ports to allow from the VPN server side.
+          #     FIREWALL_VPN_INPUT_PORTS: *qbPort
+          #     # Allow access to K8s subnets.
+          #     FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
+          #     # Internal health check server listening address.
+          #     HEALTH_SERVER_ADDRESS: ":9999"
+          #     TZ: *tz
+          #     VPN_SERVICE_PROVIDER: custom
+          #     VPN_TYPE: wireguard
+          #     VPN_INTERFACE: wg0
+          #   envFrom:
+          #     - secretRef:
+          #         name: "{{ .Release.Name }}-secret"
+          #   probes:
+          #     liveness:
+          #       enabled: true
+          #       custom: true
+          #       spec:
+          #         httpGet:
+          #           path: /
+          #           port: 9999
+          #         initialDelaySeconds: 0
+          #         periodSeconds: 10
+          #         timeoutSeconds: 1
+          #         failureThreshold: 3
+          #     startup:
+          #       enabled: true
+          #       spec:
+          #         initialDelaySeconds: 10
+          #         periodSeconds: 10
+          #         timeoutSeconds: 10
+          #         failureThreshold: 5
+          #   resources:
+          #     requests:
+          #       cpu: 100m
+          #       memory: 512Mi
+          #       # Request the /dev/net/tun device that is exposed on the node
+          #       # using generic-device-plugin. For more information, see:
+          #       # - https://www.talos.dev/v1.8/introduction/what-is-new/#accessing-devnettun-in-kubernetes-pods
+          #       # - https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
+          #       squat.ai/tun: "1"
+          #     limits:
+          #       memory: 768Mi
+          #       squat.ai/tun: "1"
+          #   securityContext:
+          #     allowPrivilegeEscalation: false
+          #     capabilities: { add: ["NET_ADMIN"] }
           vuetorrent:
             dependsOn: gluetun
             image:
