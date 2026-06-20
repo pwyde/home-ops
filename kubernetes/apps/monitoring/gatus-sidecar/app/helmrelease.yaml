@@ -35,10 +35,7 @@ spec:
       serviceMonitor:
         enabled: true
     persistence:
-      enabled: true
-      storageClass: openebs-zfspv
-      accessMode: ReadWriteOnce
-      size: 5Gi
+      enabled: false
     resources:
       requests:
         cpu: 100m
