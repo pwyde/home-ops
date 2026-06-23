@@ -1,3 +1,4 @@
+set default-script
 set no-exit-message
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
