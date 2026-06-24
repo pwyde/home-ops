@@ -171,27 +171,23 @@ While most services are self-hosted, certain critical components rely on cloud s
 
 ### Minisforum MS-A2 Build
 
-|                 |                                                                                                                             |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **CPU**         | AMD Ryzen™ 9 9955HX                                                                                                         |
-| **RAM**         | [Crucial 96GB (2x48GB) DDR5-5600 SODIMM CT2K48G56C46S5](https://www.crucial.com/memory/ddr5/CT2K48G56C46S5)                 |
-| **M.2 Storage** | [Samsung PM9A3 1.92TB M.2 22110 NVMe PCIe 4.0 x4 MZ1L21T9HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/) |
-| **U.2 Storage** | [Samsung PM9A3 3.84TB U.2 NVMe PCIe 4.0 x4 MZQL23T8HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/)       |
-| **Case**        | [Minisforum MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc)                                                          |
+- **CPU**: AMD Ryzen™ 9 9955HX
+- **RAM**: [Crucial 96GB (2x48GB) DDR5-5600 SODIMM CT2K48G56C46S5](https://www.crucial.com/memory/ddr5/CT2K48G56C46S5)
+- **M.2 Storage**: [Samsung PM9A3 1.92TB M.2 22110 NVMe PCIe 4.0 x4 MZ1L21T9HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/)
+- **U.2 Storage**: [Samsung PM9A3 3.84TB U.2 NVMe PCIe 4.0 x4 MZQL23T8HCLS](https://semiconductor.samsung.com/ssd/datacenter-ssd/pm9a3/)
+- **Case**: [Minisforum MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc)
 
 ### Inter-Tech 4U-4416 Build
 
-|                        |                                                                                                                                                                |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CPU**                | AMD EPYC™ 7002 (Rome)                                                                                                                                          |
-| **RAM**                | [Samsung 256GB (8x32GB) DDR4-2666 ECC RDIMM M393A4K40CB2-CTD](https://semiconductor.samsung.com/dram/module/rdimm/m393a4k40cb2-ctd/)                           |
-| **Motherboard**        | [Supernicro H12SSL-i](https://www.supermicro.com/en/products/motherboard/H12SSL-i)                                                                             |
-| **M.2 Storage**        | [Samsung 980 PRO 1TB M.2 2280 NVMe PCIe 4.0 x4 MZ-V8P1T0BW](https://www.samsung.com/uk/memory-storage/nvme-ssd/980-pro-pcle-4-0-nvme-m-2-ssd-1tb-mz-v8p1t0bw/) |
-| **SSD Storage**        | [WD Red SA500 NAS 1TB SATA SSD  WDS100T1R0A](https://www.sandisk.com/products/ssd/internal-ssd/wd-red-sata-2-5-ssd?sku=WDS100T1R0A-68A4W0)                     |
-| **HDD Storage**        | [WD Red Pro 12TB SATA 7200 RPM 256MB Cache WD120EFBX](https://www.westerndigital.com/en-ie/products/internal-drives/wd-red-pro-sata-hdd)                       |
-| **HDD Storage**        | [WD Red Plus 8TB SATA 5400 RPM 256MB Cache WD80EFAX](https://www.westerndigital.com/en-ie/products/internal-drives/wd-red-plus-sata-3-5-hdd)                   |
-| **Storage Controller** | [ServeRAID M1215 SAS/SATA Controller](https://lenovopress.com/tips1174-serveraid-m1215)                                                                        |
-| **Case**               | [Inter-Tech 4U-4416](https://www.inter-tech.de/productdetails-142/4U-4416_EN.html)                                                                             |
+- **CPU**: AMD EPYC™ 7002 (Rome)
+- **RAM**: [Samsung 256GB (8x32GB) DDR4-2666 ECC RDIMM M393A4K40CB2-CTD](https://semiconductor.samsung.com/dram/module/rdimm/m393a4k40cb2-ctd/)
+- **Motherboard**: [Supernicro H12SSL-i](https://www.supermicro.com/en/products/motherboard/H12SSL-i)
+- **M.2 Storage**: [Samsung 980 PRO 1TB M.2 2280 NVMe PCIe 4.0 x4 MZ-V8P1T0BW](https://www.samsung.com/uk/memory-storage/nvme-ssd/980-pro-pcle-4-0-nvme-m-2-ssd-1tb-mz-v8p1t0bw/)
+- **SSD Storage**: [WD Red SA500 NAS 1TB SATA SSD  WDS100T1R0A](https://www.sandisk.com/products/ssd/internal-ssd/wd-red-sata-2-5-ssd?sku=WDS100T1R0A-68A4W0)
+- **HDD Storage**: [WD Red Pro 12TB SATA 7200 RPM 256MB Cache WD120EFBX](https://www.westerndigital.com/en-ie/products/internal-drives/wd-red-pro-sata-hdd)
+- **HDD Storage**: [WD Red Plus 8TB SATA 5400 RPM 256MB Cache WD80EFAX](https://www.westerndigital.com/en-ie/products/internal-drives/wd-red-plus-sata-3-5-hdd)
+- **Storage Controller**: [ServeRAID M1215 SAS/SATA Controller](https://lenovopress.com/tips1174-serveraid-m1215)
+- **Case**: [Inter-Tech 4U-4416](https://www.inter-tech.de/productdetails-142/4U-4416_EN.html)
 
 
 ---
