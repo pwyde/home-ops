@@ -189,7 +189,6 @@ While most services are self-hosted, certain critical components rely on cloud s
 - **Storage Controller**: [ServeRAID M1215 SAS/SATA Controller](https://lenovopress.com/tips1174-serveraid-m1215)
 - **Case**: [Inter-Tech 4U-4416](https://www.inter-tech.de/productdetails-142/4U-4416_EN.html)
 
-
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f918/512.gif" alt="🤘" width="16" height="16"> Thanks
