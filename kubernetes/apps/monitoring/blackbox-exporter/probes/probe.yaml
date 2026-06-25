@@ -15,7 +15,6 @@ spec:
         - pikvm.wyde.network
         - pve.wyde.network
         - pve-ipmi.wyde.network
-        - rustfs.wyde.network
         - unifi.wyde.network
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/probe_v1.json
@@ -34,5 +33,4 @@ spec:
         - https://pikvm.wyde.network
         - https://pve.wyde.network:8006
         - https://pve-ipmi.wyde.network
-        - https://rustfs.wyde.network
         - https://unifi.wyde.network
