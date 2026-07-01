@@ -59,7 +59,6 @@ spec:
         secretName: *secret
         usernameKey: NEXTCLOUD_ADMIN_USER
         passwordKey: NEXTCLOUD_ADMIN_PASSWORD
-        # tokenKey: NEXTCLOUD_METRICS_TOKEN
         smtpHostKey: SMTP_HOST
         smtpUsernameKey: SMTP_USERNAME
         smtpPasswordKey: SMTP_PASSWORD
@@ -212,13 +211,6 @@ spec:
                     value: max-age=31536000
     imaginary:
       enabled: true
-    # metrics:
-    #   enabled: false
-    #   https: true
-    #   server: https://nextcloud.wyde.network
-    #   token: ${NEXTCLOUD_METRICS_TOKEN}
-    #   info:
-    #     apps: true
     phpClientHttpsFix:
       enabled: true
       protocol: https
