@@ -1,11 +1,8 @@
+set default-list
 set default-script
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
 set shell := ['bash', '-euo', 'pipefail', '-c']
-
-[private]
-default:
-    just -l talos
 
 [doc('Generate talosconfig for the cluster')]
 [script]
