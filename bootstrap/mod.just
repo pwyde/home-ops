@@ -1,3 +1,4 @@
+set default-list
 set default-script
 set no-exit-message
 set quiet
@@ -8,10 +9,6 @@ controller := `talosctl config info -o yaml | yq -r -e '.endpoints[0]'`
 nodes := `talosctl config info -o yaml | yq -r -e '.nodes | join (" ")'`
 packages := "age cloudflared-bin flux-bin go-yq gum helm helmfile-bin just just-lsp jq krew kubectl-bin kustomize lefthook-bin minijinja-cli-bin minio-client mise moreutils stern-bin talhelper-bin talosctl usage"
 plugins := "cert-manager cnpg browse-pvc node-shell view-secret"
-
-[private]
-default:
-    just -l bootstrap
 
 [confirm('Bootstrap cluster? [y|N]')]
 [doc('Bootstrap a Talos & Kubernetes cluster end-to-end')]
