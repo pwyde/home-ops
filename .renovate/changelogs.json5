@@ -1,0 +1,40 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Changelog for Spegel",
+      matchPackageNames: ["/spegel/"],
+      sourceUrl: "https://github.com/spegel-org/spegel",
+    },
+    {
+      description: "Changelog for Envoy",
+      matchPackageNames: ["/envoy/"],
+      sourceUrl: "https://github.com/envoyproxy/envoy",
+    },
+    {
+      description: "Changelog for Talos",
+      matchDepNames: ["siderolabs/talos"],
+      sourceUrl: "https://github.com/siderolabs/talos",
+    },
+    {
+      description: "Changelog for it-tools",
+      matchPackageNames: ["/it-tools/"],
+      sourceUrl: "https://github.com/sharevb/it-tools",
+    },
+    {
+      description: "Changelog for atuin",
+      matchPackageNames: ["/atuin/"],
+      sourceUrl: "https://github.com/atuinsh/atuin",
+    },
+    {
+      description: "Changelog for navidrome",
+      matchPackageNames: ["/navidrome/"],
+      sourceUrl: "https://github.com/navidrome/navidrome",
+    },
+    {
+      description: "Changelog for rustfs",
+      matchPackageNames: ["docker.io/rustfs/rustfs"],
+      sourceUrl: "https://github.com/rustfs/rustfs",
+    },
+  ],
+}
