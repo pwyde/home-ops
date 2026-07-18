@@ -1,0 +1,20 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      description: "Allowed Meilisearch version",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/getmeili/meilisearch"],
+      allowedVersions: "<=1.41.0",
+    },
+    {
+      description: "Use semver pre-release handling for RustFS image tags",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/rustfs/rustfs"],
+      versioning: "semver",
+      ignoreUnstable: false,
+      respectLatest: false,
+      allowedVersions: "/^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.]+)?$/",
+    },
+  ],
+}
