@@ -6,6 +6,7 @@
     "helpers:pinGitHubActionDigests",
     "github>home-operations/renovate-presets#2.1.0",
     "github>pwyde/home-ops//.renovate/autoMerge.json5",
+    "github>pwyde/home-ops//.renovate/changelogs.json5",
     "github>pwyde/home-ops//.renovate/groups.json5",
     "github>pwyde/home-ops//.renovate/labels.json5",
     "github>pwyde/home-ops//.renovate/overrides.json5",

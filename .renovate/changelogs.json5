@@ -17,22 +17,22 @@
       sourceUrl: "https://github.com/siderolabs/talos",
     },
     {
-      description: "Changelog for it-tools",
+      description: "Changelog for IT-Tools",
       matchPackageNames: ["/it-tools/"],
       sourceUrl: "https://github.com/sharevb/it-tools",
     },
     {
-      description: "Changelog for atuin",
+      description: "Changelog for Atuin",
       matchPackageNames: ["/atuin/"],
       sourceUrl: "https://github.com/atuinsh/atuin",
     },
     {
-      description: "Changelog for navidrome",
+      description: "Changelog for Navidrome",
       matchPackageNames: ["/navidrome/"],
       sourceUrl: "https://github.com/navidrome/navidrome",
     },
     {
-      description: "Changelog for rustfs",
+      description: "Changelog for RustFS",
       matchPackageNames: ["docker.io/rustfs/rustfs"],
       sourceUrl: "https://github.com/rustfs/rustfs",
     },
