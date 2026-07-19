@@ -8,5 +8,5 @@ components:
   - ../../components/namespace
 resources:
   # Flux-Kustomizations
-  - ./snapshot-controller/ks.yaml
+  # - ./snapshot-controller/ks.yaml
   - ./volsync/ks.yaml
