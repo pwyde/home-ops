@@ -10,12 +10,14 @@ spec:
     name: snapshot-controller
   interval: 1h
   values:
-    monitoring:
+    controller:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
       serviceMonitor:
-        enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 64Mi
-      limits:
-        memory: 128Mi
+        create: true
+      webhook:
+        enabled: false
