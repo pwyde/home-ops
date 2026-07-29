@@ -63,7 +63,7 @@ This ensures an immutable and reproducible environment, with changes applied aut
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f3a1/512.webp" alt="🎡" width="20" height="20"> Cluster
 
-The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on bare-metal [Minisforum MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc) workstation. Persistent storage is provided by [OpenEBS](https://openebs.io/) with bulk media offloaded to [TrueNAS SCALE](https://www.truenas.com/truenas-scale) NAS over NFS.
+The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://kubernetes.io/), deployed on bare-metal [Minisforum MS-A2](https://minisforumpc.eu/products/ms-a2-mini-pc) workstation. Persistent storage is provided by [OpenEBS](https://openebs.io/) with bulk media offloaded to [TrueNAS SCALE](https://www.truenas.com/truenas-scale) over NFS.
 
 ### Core Components
 
