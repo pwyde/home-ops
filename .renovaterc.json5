@@ -4,7 +4,7 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    "github>home-operations/renovate-presets#4.0.0",
+    "github>home-operations/renovate-presets#5.0.0",
     "github>pwyde/home-ops//.renovate/autoMerge.json5",
     "github>pwyde/home-ops//.renovate/changelogs.json5",
     "github>pwyde/home-ops//.renovate/groups.json5",
