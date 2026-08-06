@@ -6,6 +6,6 @@ namespace: system-upgrade
 components:
   - ../../components/alerts
   - ../../components/namespace
-resources: []
+resources:
   # Flux-Kustomizations
-  # - ./tuppr/ks.yaml
+  - ./tuppr/ks.yaml
