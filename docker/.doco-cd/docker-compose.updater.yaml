@@ -47,7 +47,7 @@ services:
       - 1pw_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - updater-data:/data
+      - data:/data
 
 volumes:
-  updater-data: {}
+  data: {}
