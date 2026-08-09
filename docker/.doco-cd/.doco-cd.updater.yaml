@@ -1,0 +1,11 @@
+---
+# This target is used by the bootstrap updater instance to deploy the main
+# Doco-CD instance. It deliberately does not deploy the application stacks.
+
+name: doco-cd
+reference: main
+working_dir: ./docker/.doco-cd
+compose_files:
+  - docker-compose.app.yaml
+external_secrets:
+  SECRET_PROVIDER_ACCESS_TOKEN: op://Kubernetes/doco-cd/DOCOCD_OP_SERVICE_ACCOUNT_TOKEN

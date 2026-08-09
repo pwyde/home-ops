@@ -1,12 +1,12 @@
 ---
-# This file is not managed by doco-cd because it can't manage itself.
-# Instead it is deployed through the TrueNAS SCALE UI.
+# Main Doco-CD instance. It is deployed by doco-cd-updater through
+# .doco-cd.updater.yaml; the TrueNAS SCALE UI runs the updater instance.
 
 configs:
   poll-config.yml:
     content: |
       - url: https://github.com/pwyde/home-ops.git
-        reference: refs/heads/main
+        reference: main
         interval: 3600
 
 networks:
@@ -17,10 +17,6 @@ networks:
      config:
        - subnet: 172.16.2.0/24
          gateway: 172.16.2.1
-
-secrets:
-  1pw_token:
-    file: /mnt/hdd-data/Home/patrik/.config/doco-cd/1pw_token
 
 services:
   doco-cd:
@@ -35,9 +31,9 @@ services:
       LOG_LEVEL: info
       POLL_CONFIG_FILE: /poll-config.yml
       SECRET_PROVIDER: 1password
-      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
+      SECRET_PROVIDER_ACCESS_TOKEN: ${SECRET_PROVIDER_ACCESS_TOKEN}
       SECRET_PROVIDER_CACHE_ENABLED: true
-      SECRET_PROVIDER_CACHE_TTL: 2h
+      SECRET_PROVIDER_CACHE_TTL: 6h
       DEPLOY_CONFIG_BASE_DIR: ./docker/truenas/
     healthcheck:
       test:
@@ -55,8 +51,6 @@ services:
       - internal
     security_opt:
       - no-new-privileges
-    secrets:
-      - 1pw_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - data:/data

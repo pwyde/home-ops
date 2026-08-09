@@ -12,3 +12,7 @@ external_secrets:
   GARAGE_WEBUI_ADMIN_PASS: op://Kubernetes/garage/GARAGE_WEBUI_ADMIN_PASS
   RUSTFS_ACCESS_KEY: op://Kubernetes/rustfs/RUSTFS_ACCESS_KEY
   RUSTFS_SECRET_KEY: op://Kubernetes/rustfs/RUSTFS_SECRET_KEY
+force_recreate: false
+reconciliation:
+  enabled: true
+  interval: 3600

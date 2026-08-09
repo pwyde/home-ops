@@ -1,0 +1,53 @@
+---
+# This is the bootstrap Doco-CD instance deployed through the TrueNAS SCALE UI.
+# It polls the repository and deploys the main Doco-CD instance through the
+# `updater` deployment target in .doco-cd.updater.yaml.
+
+configs:
+  poll-config.yml:
+    content: |
+      - url: https://github.com/pwyde/home-ops.git
+        reference: main
+        interval: 3600
+        target: updater
+
+secrets:
+  1pw_token:
+    file: /mnt/hdd-data/Home/patrik/.config/doco-cd/1pw_token
+
+services:
+  app:
+    image: ghcr.io/kimdre/doco-cd:0.106.0
+    container_name: doco-cd-updater
+    configs:
+      - source: poll-config.yml
+        target: /poll-config.yml
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Stockholm
+      DEPLOY_CONFIG_BASE_DIR: ./docker/.doco-cd/
+      HTTP_PORT: 8080
+      LOG_LEVEL: info
+      POLL_CONFIG_FILE: /poll-config.yml
+      SCHEDULER_ENABLED: false
+      SECRET_PROVIDER: 1password
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/1pw_token
+      SECRET_PROVIDER_CACHE_ENABLED: true
+      SECRET_PROVIDER_CACHE_TTL: 6h
+    healthcheck:
+      test:
+        - CMD
+        - /doco-cd
+        - healthcheck
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    secrets:
+      - 1pw_token
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - updater-data:/data
+
+volumes:
+  updater-data: {}
