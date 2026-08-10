@@ -62,7 +62,7 @@ fetch_and_compare() {
   fi
 }
 
-fetch_and_compare "docker-compose.app.yaml"
+fetch_and_compare "docker-compose.updater.yaml"
 
 if [ "$CHANGED" -eq 1 ]; then
   log "Changes detected — restarting TrueNAS SCALE app '$APP_NAME'..."
