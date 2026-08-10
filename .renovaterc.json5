@@ -1,9 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:recommended",
-    "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
     "github>home-operations/renovate-presets#7.0.0",
     "github>home-operations/renovate-presets//apps/cnpg.json5#7.0.0",
     "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#7.0.0",
@@ -14,9 +11,6 @@
     "github>pwyde/home-ops//.renovate/groups.json5",
     "github>pwyde/home-ops//.renovate/labels.json5",
     "github>pwyde/home-ops//.renovate/overrides.json5",
-    ":automergeBranch",
-    ":disableRateLimiting",
-    ":semanticCommits",
     ":timezone(Europe/Stockholm)",
   ],
 }
