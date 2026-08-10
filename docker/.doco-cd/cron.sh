@@ -5,7 +5,7 @@ set -euo pipefail
 
 WORK_DIR="/mnt/ssd-data/Docker/doco-cd"
 BASE_URL="https://raw.githubusercontent.com/pwyde/home-ops/main/docker/.doco-cd"
-APP_NAME="doco-cd"
+APP_NAME="doco-cd-updater"
 LOG_DIR="$WORK_DIR/logs"
 LOG_FILE="$LOG_DIR/$(date '+%Y-%m-%d').log"
 CHANGED=0
