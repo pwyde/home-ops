@@ -59,3 +59,11 @@ spec:
       replacement: *name
 
 ```
+
+## Docker Containers
+
+### Doco-CD on TrueNAS SCALE
+
+Deploy the [`docker/.doco-cd/docker-compose.updater.yaml`](../docker/.doco-cd/docker-compose.updater.yaml) file using the TrueNAS SCALE UI.
+
+The UI-managed application is the bootstrap updater. Do not deploy [`docker-compose.app.yaml`](../docker/.doco-cd/docker-compose.app.yaml) through the UI which is the main Doco-CD instance and is deployed by the updater using `.doco-cd.updater.yaml` in [this](../docker/.doco-cd) directory.
