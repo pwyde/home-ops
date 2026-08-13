@@ -117,6 +117,12 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     persistence:
+      fontconfig:
+        type: emptyDir
+        advancedMounts:
+          karakeep:
+            chrome:
+              - path: /var/cache/fontconfig
       cache:
         type: emptyDir
         advancedMounts:
