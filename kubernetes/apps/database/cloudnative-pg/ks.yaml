@@ -26,10 +26,6 @@ spec:
       namespace: cert-manager
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/barman-cloud
-  postBuild:
-    substitute:
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar
-      SIDECAR_IMAGE_VERSION: v0.14.0
   prune: true
   sourceRef:
     kind: GitRepository
@@ -46,9 +42,19 @@ metadata:
 spec:
   dependsOn:
     - name: cloudnative-pg
-    - name: cloudnative-pg-barman-cloud
     - name: openebs
       namespace: openebs-system
+    - name: external-secrets
+      namespace: external-secrets
+  healthChecks:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      name: pg18-cluster
+      namespace: database
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      name: pg18-immich
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
