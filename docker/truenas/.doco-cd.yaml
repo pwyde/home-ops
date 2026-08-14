@@ -1,4 +1,11 @@
 ---
+name: doco-cd-updater
+reference: main
+working_dir: ./docker/.doco-cd
+compose_files:
+  - docker-compose.updater.yaml
+force_recreate: true
+---
 working_dir: ./docker/truenas
 auto_discovery:
   enabled: true
