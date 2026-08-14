@@ -42,6 +42,7 @@ metadata:
 spec:
   dependsOn:
     - name: cloudnative-pg
+    - name: cloudnative-pg-barman-cloud
     - name: openebs
       namespace: openebs-system
     - name: external-secrets
