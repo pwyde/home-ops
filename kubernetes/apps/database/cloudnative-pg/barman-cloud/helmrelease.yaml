@@ -7,5 +7,5 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: barman-cloud
+    name: cloudnative-pg-barman-cloud
   interval: 1h
