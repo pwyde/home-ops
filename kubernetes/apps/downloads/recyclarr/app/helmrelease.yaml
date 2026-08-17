@@ -14,12 +14,12 @@ spec:
       recyclarr:
         annotations:
           reloader.stakater.com/auto: "true"
-        type: cronjob
-        cronjob:
-          failedJobsHistory: 1
-          schedule: "@daily"
-          successfulJobsHistory: 1
-          timeZone: &tz Europe/Stockholm
+        # type: cronjob
+        # cronjob:
+        #   failedJobsHistory: 1
+        #   schedule: "@daily"
+        #   successfulJobsHistory: 1
+        #   timeZone: &tz Europe/Stockholm
         containers:
           app:
             image:
