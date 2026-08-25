@@ -20,7 +20,7 @@ networks:
 
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.111.0
+    image: ghcr.io/kimdre/doco-cd:0.112.0
     container_name: doco-cd
     configs:
       - source: poll-config.yml
