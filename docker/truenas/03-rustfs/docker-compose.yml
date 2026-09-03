@@ -6,7 +6,7 @@ networks:
 
 services:
   rustfs:
-    image: docker.io/rustfs/rustfs:1.0.0-rc.5
+    image: docker.io/rustfs/rustfs:1.0.0-rc.4
     container_name: rustfs
     hostname: rustfs
     restart: unless-stopped
@@ -34,7 +34,6 @@ services:
       - &consolePort 9001
     volumes:
       - /mnt/ssd-data/RustFS:/data
-      - logs:/logs
     labels:
       traefik.enable: "true"
       # Console
@@ -51,7 +50,3 @@ services:
       traefik.http.routers.rustfs.tls: true
       traefik.http.routers.rustfs.tls.certresolver: letsencrypt
       traefik.http.services.rustfs.loadbalancer.server.port: *s3Port
-
-volumes:
-  logs:
-    name: logs
