@@ -20,6 +20,7 @@ spec:
         serverName: pg18-cluster
   postgresql:
     parameters:
+      archive_timeout: "1min"
       max_connections: "300"
       shared_buffers: 128MB
       work_mem: 64MB
@@ -32,6 +33,7 @@ spec:
     limits:
       # hugepages-2Mi: 2Gi # Requires sysctl set on the host.
       memory: 2Gi
+  smartShutdownTimeout: 30
   storage:
     size: 10Gi
     storageClass: openebs-hostpath
@@ -97,6 +99,7 @@ spec:
         extension_control_path:
           - /usr/share/postgresql/18/
     parameters:
+      archive_timeout: "1min"
       autovacuum_vacuum_scale_factor: "0.1"
       autovacuum_analyze_scale_factor: "0.05"
       autovacuum_vacuum_cost_limit: "1000"
@@ -115,6 +118,7 @@ spec:
       memory: 1Gi
     limits:
       memory: 2Gi
+  smartShutdownTimeout: 30
   storage:
     size: 10Gi
     storageClass: openebs-hostpath
