@@ -31,7 +31,6 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --gateway-name=envoy-external
       - --zone-id-filter=$(CF_ZONE_ID)
-    annotationPrefix: external-dns.alpha.kubernetes.io/
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
     policy: sync
