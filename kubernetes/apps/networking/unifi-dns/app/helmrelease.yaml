@@ -13,6 +13,7 @@ spec:
     fullnameOverride: external-dns-unifi
     domainFilters:
       - wyde.network
+    annotationPrefix: external-dns.alpha.kubernetes.io/
     podAnnotations:
       secret.reloader.stakater.com/reload: &secret unifi-dns-secret
     policy: sync
