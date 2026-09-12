@@ -4,7 +4,6 @@ kind: Service
 metadata:
   name: &dbcluster pg18-cluster
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: postgres.wyde.network
     external-dns.kubernetes.io/hostname: postgres.wyde.network
     gatus.home-operations.com/enabled: "true"
     gatus.home-operations.com/endpoint: |-
@@ -33,7 +32,6 @@ kind: Service
 metadata:
   name: &dbcluster pg18-immich
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: vectordb.wyde.network
     external-dns.kubernetes.io/hostname: vectordb.wyde.network
     gatus.home-operations.com/enabled: "true"
     gatus.home-operations.com/endpoint: |-

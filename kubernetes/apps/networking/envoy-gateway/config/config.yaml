@@ -49,8 +49,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.wyde.network
-    external-dns.kubernetes.io/target: *hostname
+    external-dns.kubernetes.io/target: &hostname external.wyde.network
     gatus.home-operations.com/endpoint: |-
       client:
         dns-resolver: tcp://1.1.1.1:53
@@ -60,7 +59,6 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
       external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.40
   listeners:
@@ -86,7 +84,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.wyde.network
     external-dns.kubernetes.io/target: *hostname
     gatus.home-operations.com/endpoint: |-
       group: internal
@@ -98,7 +95,6 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
       external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.41
   listeners:
@@ -174,7 +170,6 @@ kind: HTTPRoute
 metadata:
   name: https-redirect
   annotations:
-    external-dns.alpha.kubernetes.io/controller: none
     external-dns.kubernetes.io/controller: none
 spec:
   parentRefs:
