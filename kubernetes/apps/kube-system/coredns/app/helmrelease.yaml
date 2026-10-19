@@ -10,13 +10,10 @@ spec:
     name: coredns
   interval: 1h
   values:
-    fullnameOverride: *app
     image:
       repository: mirror.gcr.io/coredns/coredns
     k8sAppLabelOverride: kube-dns
     replicaCount: 2
-    serviceAccount:
-      create: true
     service:
       name: kube-dns
       clusterIP: "10.43.0.10"
