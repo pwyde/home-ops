@@ -1,13 +1,12 @@
 {
   "recommendations": [
+    "blueglassblock.better-json5",
     "Catppuccin.catppuccin-vsc-icons",
     "DavidAnson.vscode-markdownlint",
-    "timonwong.shellcheck"
-    "blueglassblock.better-json5",
     "hverlin.mise-vscode",
-    "irongeek.vscode-env",
     "nefrob.vscode-just-syntax",
     "oxc.oxc-vscode",
     "redhat.vscode-yaml",
+    "timonwong.shellcheck"
   ]
 }
