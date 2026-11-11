@@ -1,140 +1,34 @@
 {
-  "catppuccin.accentColor": "blue",
-  "catppuccin-icons.associations.files": {
-    "*.just": "just",
-    ".renovaterc.json5": "renovate"
-  },
-  "catppuccin-icons.associations.folders": {
-    // top level
-    ".archive": "folder_dist",
-    ".github": "folder_github",
-    ".renovate": "folder_renovate",
-    ".taskfiles": "folder_mocks",
-    ".vscode": "folder_vscode",
-    "bootstrap": "folder_composables",
-    "docs": "folder_docs",
-    "kubernetes": "folder_kubernetes",
-    "talos": "folder_core",
-    "truenas": "folder_server",
-    // .github
-    ".github/workflows": "folder_workflows",
-    // namespaces
-    "actions-runner-system": "folder_github",
-    "ai": "folder_client",
-    "database": "folder_database",
-    "default": "folder_packages",
-    "download": "folder_download",
-    "downloads": "folder_download",
-    "flux-system": "folder_controllers",
-    "games": "folder_app",
-    "kube-system": "folder_kubernetes",
-    "network": "folder_connection",
-    "networking": "folder_connection",
-    "media": "folder_video",
-    "monitor": "folder_security",
-    "monitoring": "folder_security",
-    "observability": "folder_security",
-    "openebs-system": "folder_content",
-    "security": "folder_admin",
-    "self-hosted": "folder_public",
-    "storage": "folder_content",
-    "system": "folder_kubernetes",
-    "system-upgrade": "folder_components",
-    "system-upgrade-controller": "folder_components",
-    "utilities": "folder_utils",
-    // folders
-    "cert-manager": "folder_coverage",
-    "democratic-csi": "folder_content",
-    "external-secrets": "folder_admin",
-    "flux": "folder_controllers",
-    "openebs": "folder_content",
-    "resources": "folder_middleware",
-    "rook-ceph": "folder_content",
-    "scripts": "folder_scripts",
-    "tools": "folder_utils",
-    "volsync": "folder_cloud",
-    "volsync-system": "folder_content"
-  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
   "editor.bracketPairColorization.enabled": true,
-  "editor.fontFamily": "FiraCode Nerd Font Ret",
-  "editor.fontLigatures": true,
+
   "editor.guides.bracketPairs": true,
   "editor.guides.bracketPairsHorizontal": true,
   "editor.guides.highlightActiveBracketPair": true,
+
   "editor.hover.delay": 1500,
   "editor.rulers": [100],
   "editor.semanticHighlighting.enabled": true,
   "editor.stickyScroll.enabled": false,
   "explorer.autoReveal": false,
+
   "files.associations": {
-    "*.json5": "json5",
-    "**/*.yaml.j2": "yaml"
+    "**/*.json5": "json5"
   },
+  "files.autoSave": "afterDelay",
   "files.trimTrailingWhitespace": true,
-  "material-icon-theme.files.associations": {
-    "*.just": "just",
-    "helmfile.yaml": "helm",
-    "kubeconfig": "kubernetes",
-    "talosconfig": "kubernetes"
-  },
-  "material-icon-theme.folders.associations": {
-    // top level
-    ".archive": "archive",
-    ".github": "github",
-    ".taskfiles": "taskfile",
-    ".renovate": "robot",
-    ".vscode": "vscode",
-    "bootstrap": "seeders",
-    "docs": "docs",
-    "kubernetes": "kubernetes",
-    "talos": "core",
-    "truenas": "server",
-    // .github
-    ".github/workflows": "gh-workflows",
-    // namespaces
-    "actions-runner-system": "github",
-    "ai": "robot",
-    "database": "database",
-    "default": "home",
-    "download": "download",
-    "downloads": "download",
-    "flux-system": "pipe",
-    "kube-system": "kubernetes",
-    "network": "connection",
-    "networking": "connection",
-    "media": "video",
-    "monitor": "event",
-    "monitoring": "event",
-    "observability": "event",
-    "openebs-system": "base",
-    "security": "guard",
-    "self-hosted": "home",
-    "storage": "dump",
-    "system": "kubernetes",
-    "system-upgrade": "update",
-    "system-upgrade-controller": "update",
-    "utilities": "utils",
-    // folders
-    "cert-manager": "guard",
-    "democratic-csi": "dump",
-    "external-secrets": "secure",
-    "flux": "pipe",
-    "openebs": "dump",
-    "resources": "resource",
-    "rook-ceph": "dump",
-    "scripts": "scripts",
-    "tools": "tools",
-    "volsync": "aws",
-    "volsync-system": "dump"
-  },
+  "files.insertFinalNewline": true,
+
   "redhat.telemetry.enabled": false,
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./kubernetes/kubeconfig",
     "vs-kubernetes.knownKubeconfigs": ["./kubernetes/kubeconfig"]
   },
+
   "terminal.integrated.minimumContrastRatio": 1,
-  "workbench.colorTheme": "Catppuccin Mocha",
-  "workbench.iconTheme": "catppuccin-mocha",
+
   "yaml.schemaStore.enable": true,
   "yaml.schemas": {
     "kubernetes": "./kubernetes/**/*.yaml"
