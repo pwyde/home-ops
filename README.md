@@ -74,7 +74,7 @@ The cluster operates on [Talos Linux](https://www.talos.dev/), an immutable and 
 - [envoy-gateway](https://github.com/envoyproxy/gateway) — Modern ingress controller for cluster traffic management.
 - [external-dns](https://github.com/kubernetes-sigs/external-dns) — Automated DNS record synchronization for ingress resources.
 - [external-secrets](https://github.com/external-secrets/external-secrets) — Kubernetes secrets management integrated with [1Password Connect](https://github.com/1Password/connect).
-- [openebs](https://github.com/rook/rook) — Persistent container native storage with local [Hostpath](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-hostpath/hostpath-overview) and [ZFS](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-zfs/zfs-overview).
+- [openebs](https://openebs.io/) — Persistent container native storage with local [Hostpath](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-hostpath/hostpath-overview) and [ZFS](https://openebs.io/docs/user-guides/local-storage-user-guide/local-pv-zfs/zfs-overview).
 - [spegel](https://github.com/spegel-org/spegel) — Stateless cluster-local OCI registry mirror for improved performance.
 - [volsync](https://github.com/backube/volsync) — Advanced backup and recovery solution for persistent volume claims.
 
