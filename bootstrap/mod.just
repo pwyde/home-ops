@@ -8,7 +8,7 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 controller := `talosctl config info -o yaml | yq -r -e '.endpoints[0]'`
 nodes := `talosctl config info -o yaml | yq -r -e '.nodes | join (" ")'`
 packages := "cloudflared fluxcd go-yq gum helmfile jq just just-lsp krew kubectl kustomize mise shellcheck stern talosctl usage zizmor"
-aur_packages := "1password-cli lefthook-bin minijinja-cli-bin oxfmt-bin"
+aur_packages := "1password-cli lefthook-bin minijinja-cli-bin"
 plugins := "browse-pvc cert-manager cnpg node-shell view-secret"
 
 [confirm('Bootstrap cluster? [y|N]')]
