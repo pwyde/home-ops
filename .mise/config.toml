@@ -5,3 +5,6 @@ TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 
 [hooks]
 postinstall = "lefthook install"
+
+[tools]
+"github:home-operations/flate" = "latest"
