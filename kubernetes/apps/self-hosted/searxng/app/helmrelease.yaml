@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2026.11.8-3a3dd15bf@sha256:bed9946e14c009da4efdb477545eb48eb8d1d87af25e9738ff8b8584cb89a311
+              tag: 2026.11.15-2d500cb6b@sha256:932f69dca010db9880bddebb2171f05d8e1a25d04a59149ff65409993d680024
             env:
               SEARXNG_BASE_URL: https://search.wyde.network
               SEARXNG_URL: https://search.wyde.network
