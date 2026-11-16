@@ -9,6 +9,7 @@ controller := `talosctl config info -o yaml | yq -r -e '.endpoints[0]'`
 nodes := `talosctl config info -o yaml | yq -r -e '.nodes | join (" ")'`
 packages := "cloudflared fluxcd go-yq gum helmfile jq just just-lsp krew kubectl kustomize mise shellcheck stern talosctl usage zizmor"
 aur_packages := "1password-cli lefthook-bin minijinja-cli-bin"
+mise_tools := "node@lts github:home-operations/flate@latest oxfmt@latest"
 plugins := "browse-pvc cert-manager cnpg node-shell view-secret"
 
 [confirm('Bootstrap cluster? [y|N]')]
@@ -21,6 +22,8 @@ workstation:
     sudo pacman -Syu --needed --noconfirm --noprogressbar {{ packages }}
     just log info "Installing AUR packages"
     paru -S --aur --needed --noconfirm --noprogressbar {{ aur_packages }}
+    just log info "Installing mise tools in the home directory"
+    mise --cd "$HOME" use --global {{ mise_tools }}
     just log info "Installing kubectl plugins"
     kubectl krew update
     kubectl krew install {{ plugins }}
