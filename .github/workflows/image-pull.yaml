@@ -46,7 +46,7 @@ jobs:
         with:
           cache: false
           tool_versions: |
-            github:home-operations/flate
+            github:home-operations/flate latest
 
       - name: Extract Images
         id: extract
