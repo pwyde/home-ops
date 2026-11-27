@@ -14,11 +14,11 @@
     },
     {
       // Karakeep tests Meilisearch at the version in its docker/docker-compose.yml, and a newer
-      // version can break it, so the cap follows that file.
-      description: "Cap Meilisearch at the version that Karakeep tests",
+      // minor version can break it, so the cap allows only the patch releases of that version.
+      description: "Cap Meilisearch at the minor version that Karakeep tests",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
-      allowedVersions: "<=1.55.0",
+      allowedVersions: "<1.56.0",
     },
     {
       // RustFS also publishes -preview and -glibc tags, which the regex excludes.

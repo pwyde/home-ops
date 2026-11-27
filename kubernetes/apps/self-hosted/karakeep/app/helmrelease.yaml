@@ -92,11 +92,12 @@ spec:
             image:
               repository: docker.io/getmeili/meilisearch
               tag: v1.41.0@sha256:860fa4baed04ae1c235de870edab0c8006227546dea1bbb6411fbfc5e27cf1db
-            args:
-              - /bin/meilisearch
-              - --experimental-dumpless-upgrade
             env:
+              # Meilisearch reads MEILI_EXPERIMENTAL_DUMPLESS_UPGRADE before v1.51.0 and
+              # MEILI_UPGRADE_DB later, so both enable the in-place database upgrade.
+              MEILI_EXPERIMENTAL_DUMPLESS_UPGRADE: true
               MEILI_NO_ANALYTICS: true
+              MEILI_UPGRADE_DB: true
             envFrom: *envFrom
             probes:
               liveness:
