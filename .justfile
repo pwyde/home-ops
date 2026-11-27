@@ -7,15 +7,15 @@ set quiet
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
 # Bootstrap Recipes
-[group: 'Bootstrap']
+[group('Bootstrap')]
 mod bootstrap "bootstrap"
 
 # Kube Recipes
-[group: 'Kube']
+[group('Kube')]
 mod kube "kubernetes"
 
 # Talos Recipes
-[group: 'Talos']
+[group('Talos')]
 mod talos "talos"
 
 [private]
