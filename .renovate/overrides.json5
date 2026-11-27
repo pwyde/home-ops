@@ -2,6 +2,17 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      // A PostgreSQL major upgrade replaces the clusters, so the images stay on 18 until then.
+      description: "Keep PostgreSQL images on major version 18",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "docker.io/prodrigestivill/postgres-backup-local",
+        "ghcr.io/cloudnative-pg/postgresql",
+        "ghcr.io/home-operations/postgres-init",
+      ],
+      allowedVersions: "/^18(?:[.-]|$)/",
+    },
+    {
       description: "Allowed Meilisearch version",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
