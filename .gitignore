@@ -14,3 +14,6 @@
 # Kubernetes & Talos
 kubeconfig
 talosconfig
+# mise lock files
+.mise/mise.lock
+.mise/locks/

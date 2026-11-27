@@ -1,0 +1,53 @@
+# Rules for markdownlint, read by markdownlint-cli2 and the editor extension.
+# Rules not listed keep markdownlint's defaults.
+
+# 100 columns, as AGENTS.md sets. Tables are exempt. Stern mode reports every
+# long line that could be wrapped, so only a word that stands alone on its
+# line, such as a long URL or path, may run past 100.
+line-length:
+  line_length: 100
+  tables: false
+  stern: true
+
+heading-style:
+  style: atx
+ul-style:
+  style: dash
+ol-prefix:
+  style: ordered
+hr-style:
+  style: "---"
+code-block-style:
+  style: fenced
+code-fence-style:
+  style: backtick
+table-pipe-style:
+  style: leading_and_trailing
+
+# Emphasis and tables follow what oxfmt writes in the pre-commit hook.
+emphasis-style:
+  style: underscore
+strong-style:
+  style: asterisk
+table-column-style:
+  style: aligned
+
+# Headings end without punctuation, including the "?" that the default allows.
+no-trailing-punctuation:
+  punctuation: ".,;:!?"
+
+# Two trailing spaces only where they make a hard line break.
+no-trailing-spaces:
+  strict: true
+
+# A heading may repeat under different parents, such as the References heading
+# that docs/servarr.md places under each of its sections.
+no-duplicate-heading:
+  siblings_only: true
+
+# The centered logo in README.md, and collapsible sections.
+no-inline-html:
+  allowed_elements: [div, img, details, summary]
+
+# Consecutive GitHub alerts are separate blockquotes.
+no-blanks-blockquote: false
