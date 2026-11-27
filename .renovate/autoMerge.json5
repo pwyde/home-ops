@@ -2,16 +2,16 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Auto-merge trusted OCI digests",
+      description: "Auto-merge digest updates of the trusted home-operations images",
       matchDatasources: ["docker"],
       matchUpdateTypes: ["digest"],
-      matchPackageNames: ["/home-operations/"],
+      matchPackageNames: ["/^ghcr\\.io\\/home-operations\\//"],
       automerge: true,
       automergeType: "pr",
       ignoreTests: false,
     },
     {
-      description: "Auto-merge high-cadence OCI packages weekly",
+      description: "Auto-merge minor and patch updates of fast-moving packages on Monday mornings",
       matchDatasources: ["docker"],
       matchUpdateTypes: ["minor", "patch"],
       matchPackageNames: ["/kube-prometheus-stack/", "ghcr.io/searxng/searxng"],
@@ -21,7 +21,7 @@
       schedule: ["before 6am on Monday"],
     },
     {
-      description: "Auto-merge GitHub Actions",
+      description: "Auto-merge minor, patch and digest updates of GitHub Actions after three days",
       matchManagers: ["github-actions"],
       matchUpdateTypes: ["minor", "patch", "digest"],
       automerge: true,
@@ -30,7 +30,8 @@
       ignoreTests: true,
     },
     {
-      description: "Auto-merge trusted GitHub Actions",
+      // Overrides the three-day wait of the previous rule for actions/* and renovatebot/*.
+      description: "Auto-merge trusted GitHub Actions without the three-day wait",
       matchManagers: ["github-actions"],
       matchPackageNames: ["/^actions\\//", "/^renovatebot\\//"],
       matchUpdateTypes: ["minor", "patch", "digest"],
@@ -40,16 +41,16 @@
       ignoreTests: true,
     },
     {
+      // Dashboard revisions are integers, so every update counts as major.
       description: "Auto-merge Grafana dashboards",
       matchDatasources: ["custom.grafana-dashboards"],
       matchUpdateTypes: ["major"],
-      addLabels: ["renovate/grafana-dashboard"],
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
     },
     {
-      description: "Auto-merge Renovate Presents",
+      description: "Auto-merge minor and patch updates of Renovate presets",
       matchManagers: ["renovate-config"],
       matchUpdateTypes: ["minor", "patch"],
       automerge: true,

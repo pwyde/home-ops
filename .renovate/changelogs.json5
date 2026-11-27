@@ -1,38 +1,39 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate links these release notes when an image or chart does not name its source.
   packageRules: [
     {
-      description: "Changelog for Spegel",
+      description: "Read Spegel release notes from GitHub",
       matchPackageNames: ["/spegel/"],
       sourceUrl: "https://github.com/spegel-org/spegel",
     },
     {
-      description: "Changelog for Envoy",
-      matchPackageNames: ["/envoy/"],
-      sourceUrl: "https://github.com/envoyproxy/envoy",
+      description: "Read Envoy Gateway release notes from GitHub",
+      matchPackageNames: ["mirror.gcr.io/envoyproxy/gateway-helm"],
+      sourceUrl: "https://github.com/envoyproxy/gateway",
     },
     {
-      description: "Changelog for Talos",
+      description: "Read Talos release notes from GitHub",
       matchDepNames: ["siderolabs/talos"],
       sourceUrl: "https://github.com/siderolabs/talos",
     },
     {
-      description: "Changelog for IT-Tools",
+      description: "Read IT-Tools release notes from GitHub",
       matchPackageNames: ["/it-tools/"],
       sourceUrl: "https://github.com/sharevb/it-tools",
     },
     {
-      description: "Changelog for Atuin",
+      description: "Read Atuin release notes from GitHub",
       matchPackageNames: ["/atuin/"],
       sourceUrl: "https://github.com/atuinsh/atuin",
     },
     {
-      description: "Changelog for Navidrome",
+      description: "Read Navidrome release notes from GitHub",
       matchPackageNames: ["/navidrome/"],
       sourceUrl: "https://github.com/navidrome/navidrome",
     },
     {
-      description: "Changelog for RustFS",
+      description: "Read RustFS release notes from GitHub",
       matchPackageNames: ["docker.io/rustfs/rustfs"],
       sourceUrl: "https://github.com/rustfs/rustfs",
     },

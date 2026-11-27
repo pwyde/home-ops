@@ -13,19 +13,21 @@
       allowedVersions: "/^18(?:[.-]|$)/",
     },
     {
-      description: "Allowed Meilisearch version",
+      // Karakeep tests Meilisearch at the version in its docker/docker-compose.yml, and a newer
+      // version can break it, so the cap follows that file.
+      description: "Cap Meilisearch at the version that Karakeep tests",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/getmeili/meilisearch"],
-      allowedVersions: "<=1.41.0",
+      allowedVersions: "<=1.55.0",
     },
     {
-      description: "Use semver pre-release handling for RustFS image tags",
+      // RustFS also publishes -preview and -glibc tags, which the regex excludes.
+      description: "Offer only stable RustFS releases",
       matchDatasources: ["docker"],
       matchPackageNames: ["docker.io/rustfs/rustfs"],
       versioning: "semver",
-      ignoreUnstable: false,
       respectLatest: false,
-      allowedVersions: "/^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.]+)?$/",
+      allowedVersions: "/^\\d+\\.\\d+\\.\\d+$/",
     },
   ],
 }

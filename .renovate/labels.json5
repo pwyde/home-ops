@@ -2,36 +2,60 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      description: "Label major updates",
       matchUpdateTypes: ["major"],
       addLabels: ["type/major"],
     },
     {
+      description: "Label minor updates",
       matchUpdateTypes: ["minor"],
       addLabels: ["type/minor"],
     },
     {
+      description: "Label patch updates",
       matchUpdateTypes: ["patch"],
       addLabels: ["type/patch"],
     },
     {
+      description: "Label digest updates",
       matchUpdateTypes: ["digest"],
       addLabels: ["type/digest"],
     },
     {
+      description: "Label images and other OCI artifacts",
       matchDatasources: ["docker"],
       addLabels: ["renovate/container"],
     },
     {
+      description: "Label Helm charts from Helm repositories",
       matchDatasources: ["helm"],
       addLabels: ["renovate/helm"],
     },
     {
+      // OCI charts come through the docker datasource, so they keep the container label too.
+      description: "Label OCI Helm charts",
+      matchDepTypes: ["HelmChart"],
+      addLabels: ["renovate/helm"],
+    },
+    {
+      description: "Label GitHub Actions",
       matchManagers: ["github-actions"],
       addLabels: ["renovate/github-action"],
     },
     {
+      description: "Label GitHub releases",
       matchDatasources: ["github-releases"],
       addLabels: ["renovate/github-release"],
+    },
+    {
+      description: "Label Grafana dashboards",
+      matchDatasources: ["custom.grafana-dashboards"],
+      addLabels: ["renovate/grafana-dashboard"],
+    },
+    {
+      description: "Label Talos updates",
+      matchDepNames: ["siderolabs/talos"],
+      addLabels: ["renovate/talos"],
     },
   ],
 }
