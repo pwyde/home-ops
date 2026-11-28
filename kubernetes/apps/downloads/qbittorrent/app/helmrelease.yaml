@@ -111,7 +111,7 @@ spec:
           #     allowPrivilegeEscalation: false
           #     capabilities: { add: ["NET_ADMIN"] }
           vuetorrent:
-            # dependsOn: gluetun
+            dependsOn: gluetun
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.8.1@sha256:6eabb33faf08810811756f364a8e2ec9a3a2622363352e469f7bef78cc2294f5
